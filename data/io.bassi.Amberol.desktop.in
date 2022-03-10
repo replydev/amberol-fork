@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Amberol
+GenericName=Sound Player
+Exec=amberol
+Icon=io.bassi.Amberol
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Music;Audio;AudioVideo;
+Keywords=music;sound;player;media;
+StartupNotify=true
+SingleMainWindow=true
+DBusActivatable=true

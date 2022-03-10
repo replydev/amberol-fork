@@ -1,0 +1,4 @@
+data/io.bassi.Amberol.desktop.in
+data/io.bassi.Amberol.appdata.xml.in
+data/io.bassi.Amberol.gschema.xml
+src/window.ui

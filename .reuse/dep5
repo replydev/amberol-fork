@@ -1,0 +1,52 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: amberol
+Upstream-Contact: Emmanuele Bassi
+Source: https://gitlab.gnome.org/ebassi/amberol
+
+Files: .gitignore
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: Cargo.lock
+Copyright: 2022  Emmanuele Bassi
+License: GPL-3.0-or-later
+
+Files: README.md
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: io.bassi.Amberol.json
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: data/io.bassi.Amberol.appdata.xml.in
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: data/io.bassi.Amberol.desktop.in
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: data/io.bassi.Amberol.gschema.xml
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: data/io.bassi.Amberol.service.in
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: *.svg
+Copyright: 2022  Emmanuele Bassi
+License: CC-BY-SA-3.0
+
+Files: po/POTFILES po/LINGUAS
+Copyright: 2022  Emmanuele Bassi
+License: CC0-1.0
+
+Files: src/amberol.gresource.xml
+Copyright: 2022  Emmanuele Bassi
+License: GPL-3.0-or-later
+
+Files: src/gtk/*.ui
+Copyright: 2022  Emmanuele Bassi
+License: GPL-3.0-or-later

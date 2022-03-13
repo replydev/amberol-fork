@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
+  <gresource prefix="/io/bassi/Amberol/icons/scalable/actions/">
+    <file alias="audio-only-symbolic.svg" preprocess="xml-stripblanks">assets/icons/audio-only-symbolic.svg</file>
+  </gresource>
   <gresource prefix="/io/bassi/Amberol">
-    <file alias="window.ui" preprocess="xml-stripblanks">gtk/window.ui</file>
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
+    <file alias="queue-row.ui" preprocess="xml-stripblanks">gtk/queue-row.ui</file>
+    <file alias="style.css">gtk/style.css</file>
+    <file alias="window.ui" preprocess="xml-stripblanks">gtk/window.ui</file>
   </gresource>
 </gresources>

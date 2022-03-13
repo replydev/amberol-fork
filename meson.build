@@ -8,15 +8,44 @@ project('amberol', 'rust',
   default_options: [ 'warning_level=2', ],
 )
 
+dependency('gtk4', version: '>= 4.6.0')
+dependency('libadwaita-1')
+dependency('gstreamer-1.0', version: '>= 1.16')
+dependency('gstreamer-audio-1.0', version: '>= 1.16')
+dependency('gstreamer-player-1.0', version: '>= 1.16')
+dependency('gstreamer-plugins-base-1.0', version: '>= 1.16')
+dependency('gstreamer-plugins-bad-1.0', version: '>= 1.16')
+dependency('gstreamer-bad-audio-1.0', version: '>= 1.16')
+
 i18n = import('i18n')
 gnome = import('gnome')
+fs = import('fs')
+
+cargo = find_program('cargo', required: true)
 
 cargo_sources = files(
   'Cargo.toml',
   'Cargo.lock',
 )
 
-application_id = 'io.bassi.Amberol'
+if get_option('profile') == 'development'
+  profile = '.Devel'
+  if fs.is_dir('.git')
+    vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+    if vcs_tag == ''
+      version_suffix = '-devel'
+    else
+      version_suffix = '-@0@'.format(vcs_tag)
+    endif
+  else
+    version_suffix = '-devel'
+  endif
+else
+  profile = ''
+  version_suffix = ''
+endif
+
+application_id = 'io.bassi.Amberol@0@'.format(profile)
 
 subdir('data')
 subdir('src')
@@ -36,4 +65,19 @@ gnome.post_install(
   glib_compile_schemas: true,
   gtk_update_icon_cache: true,
   update_desktop_database: true,
+)
+
+summary({
+    'prefix': get_option('prefix'),
+    'libdir': get_option('libdir'),
+    'datadir': get_option('datadir'),
+    'bindir': get_option('bindir'),
+  },
+  section: 'Directories',
+)
+
+summary({
+    'Profile': get_option('profile'),
+  },
+  section: 'Build options',
 )

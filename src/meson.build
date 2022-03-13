@@ -11,11 +11,12 @@ gnome.compile_resources('amberol',
 )
 
 conf = configuration_data()
-conf.set_quoted('VERSION', meson.project_version())
+conf.set_quoted('VERSION', '@0@@1@'.format(meson.project_version(), version_suffix))
 conf.set_quoted('GETTEXT_PACKAGE', 'amberol')
 conf.set_quoted('LOCALEDIR', get_option('prefix') / get_option('localedir'))
 conf.set_quoted('PKGDATADIR', pkgdatadir)
 conf.set_quoted('APPLICATION_ID', application_id)
+conf.set_quoted('PROFILE', get_option('profile'))
 
 configure_file(
   input: 'config.rs.in',
@@ -34,7 +35,11 @@ run_command(
 rust_sources = files(
   'application.rs',
   'config.rs',
+  'i18n.rs',
   'main.rs',
+  'player.rs',
+  'queue_row.rs',
+  'song.rs',
   'window.rs',
 )
 

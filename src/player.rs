@@ -344,6 +344,12 @@ impl Default for AudioPlayer {
 
 impl AudioPlayer {
     pub fn queue_song(&self, song: &Song) {
+        let default_song = Song::default();
+        if song.equals(&default_song) {
+            warn!("Invalid song data, skipping...");
+            return;
+        }
+
         self.state.queue().append(song);
         if self.state.queue().n_items() == 1 {
             self.init_current_song();

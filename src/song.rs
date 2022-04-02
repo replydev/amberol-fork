@@ -45,7 +45,13 @@ impl SongData {
         let file = gio::File::for_uri(uri);
         let path = file.path().expect("Unable to find file");
 
-        let tagged_file = lofty::read_from_path(&path, true).expect("Unable to open file");
+        let tagged_file = match lofty::read_from_path(&path, true) {
+            Ok(f) => f,
+            Err(e) => {
+                warn!("Unable to open file {:?}: {}", path, e);
+                return SongData::default();
+            }
+        };
 
         let mut artist = None;
         let mut title = None;
@@ -93,9 +99,9 @@ impl SongData {
 impl Default for SongData {
     fn default() -> Self {
         SongData {
-            artist: None,
-            title: None,
-            album: None,
+            artist: Some("Invalid Artist".to_string()),
+            title: Some("Invalid Title".to_string()),
+            album: Some("Invalid Album".to_string()),
             cover_art: None,
             duration: 0,
             file: gio::File::for_path("/does-not-exist"),

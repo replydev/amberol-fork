@@ -1,8 +1,14 @@
 # SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+desktop_data = configuration_data()
+desktop_data.set('APPLICATION_ID', application_id)
 desktop_file = i18n.merge_file(
-  input: 'io.bassi.Amberol.desktop.in',
+  input: configure_file(
+    input: 'io.bassi.Amberol.desktop.in.in',
+    output: 'io.bassi.Amberol.desktop.in',
+    configuration: desktop_data,
+  ),
   output: '@0@.desktop'.format(application_id),
   type: 'desktop',
   po_dir: '../po',
@@ -19,8 +25,14 @@ if desktop_utils.found()
   )
 endif
 
+appstream_data = configuration_data()
+appstream_data.set('APPLICATION_ID', application_id)
 appstream_file = i18n.merge_file(
-  input: 'io.bassi.Amberol.appdata.xml.in',
+  input: configure_file(
+    input: 'io.bassi.Amberol.appdata.xml.in.in',
+    output: 'io.bassi.Amberol.appdata.xml.in',
+    configuration: appstream_data,
+  ),
   output: '@0@.appdata.xml'.format(application_id),
   po_dir: '../po',
   install: true,

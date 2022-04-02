@@ -1,5 +1,5 @@
-data/io.bassi.Amberol.desktop.in
-data/io.bassi.Amberol.appdata.xml.in
+data/io.bassi.Amberol.desktop.in.in
+data/io.bassi.Amberol.appdata.xml.in.in
 data/io.bassi.Amberol.gschema.xml
 src/gtk/help-overlay.ui
 src/gtk/window.ui

@@ -7,7 +7,7 @@ use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
     config::APPLICATION_ID,
-    i18n::i18n,
+    i18n::{i18n, ni18n_f},
     player::{AudioPlayerWrapper, RepeatMode},
     queue_row::AmberolQueueRow,
     song::Song,
@@ -48,6 +48,8 @@ mod imp {
         pub queue_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub album_image: TemplateChild<gtk::Picture>,
+        #[template_child]
+        pub queue_length_label: TemplateChild<gtk::Label>,
 
         pub player: AudioPlayerWrapper,
     }
@@ -127,6 +129,7 @@ mod imp {
                 queue_revealer: TemplateChild::default(),
                 queue_view: TemplateChild::default(),
                 album_image: TemplateChild::default(),
+                queue_length_label: TemplateChild::default(),
                 player: AudioPlayerWrapper::new(),
             }
         }
@@ -335,6 +338,27 @@ impl AmberolWindow {
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
+                let mut remaining_time = 0;
+                for pos in 0..n_songs {
+                    let song = state.song_at(pos);
+                    if pos >= current {
+                        remaining_time += song.duration();
+                    }
+                }
+
+                let title = format!("<b>{}</b>", &i18n("Playlist"));
+                let remaining_min = (remaining_time / 60) as u32;
+                let remaining_str = &ni18n_f(
+                    // Translators: The first '{}' is the word "Playlist";
+                    // the second '{}' is the number of minutes remaining
+                    // in the playlist
+                    "{} ({} minute remaining)",
+                    "{} ({} minutes remaining)",
+                    remaining_min,
+                    &[&title, &remaining_min.to_string()],
+                );
+
+                win.imp().queue_length_label.set_label(remaining_str);
             }),
         );
 
@@ -348,11 +372,33 @@ impl AmberolWindow {
                 win.action_set_enabled("win.seek-forward", n_songs != 0);
                 win.imp().queue_revealer.set_reveal_child(n_songs > 1);
 
+                let current = state.current_song();
                 if n_songs > 0 {
-                    let current = state.current_song();
                     win.action_set_enabled("win.previous", current != 0);
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
+
+                let mut remaining_time = 0;
+                for pos in 0..n_songs {
+                    let song = state.song_at(pos);
+                    if pos >= current {
+                        remaining_time += song.duration();
+                    }
+                }
+
+                let title = format!("<b>{}</b>", &i18n("Playlist"));
+                let remaining_min = (remaining_time / 60) as u32;
+                let remaining_str = &ni18n_f(
+                    // Translators: The first '{}' is the word "Playlist";
+                    // the second '{}' is the number of minutes remaining
+                    // in the playlist
+                    "{} ({} minute remaining)",
+                    "{} ({} minutes remaining)",
+                    remaining_min,
+                    &[&title, &remaining_min.to_string()],
+                );
+
+                win.imp().queue_length_label.set_label(remaining_str);
             }),
         );
 

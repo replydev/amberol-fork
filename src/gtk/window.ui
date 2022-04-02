@@ -188,16 +188,28 @@
                     <property name="transition-type">slide-down</property>
                     <property name="reveal-child">false</property>
                     <property name="child">
-                      <object class="GtkScrolledWindow">
-                        <property name="hscrollbar-policy">never</property>
-                        <property name="vscrollbar-policy">automatic</property>
-                        <property name="max-content-height">400</property>
-                        <property name="propagate-natural-height">true</property>
-                        <property name="child">
-                          <object class="GtkListView" id="queue_view">
-                            <property name="single-click-activate">true</property>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkLabel" id="queue_length_label">
+                            <property name="xalign">0</property>
+                            <property name="use-markup">true</property>
                           </object>
-                        </property>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="hscrollbar-policy">never</property>
+                            <property name="vscrollbar-policy">automatic</property>
+                            <property name="max-content-height">400</property>
+                            <property name="propagate-natural-height">true</property>
+                            <property name="child">
+                              <object class="GtkListView" id="queue_view">
+                                <property name="single-click-activate">true</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
                       </object>
                     </property>
                   </object>

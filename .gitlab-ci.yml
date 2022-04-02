@@ -1,0 +1,28 @@
+include:
+  - project: 'gnome/citemplates'
+    file: 'flatpak/flatpak-ci-initiative-sdk-extensions.yml'
+    # ref: ''
+
+stages:
+  - check
+  - test
+  - deploy
+
+flatpak:
+  extends: ".flatpak"
+  image: "registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:master"
+  variables:
+    APP_ID: "io.bassi.Amberol.Devel"
+    BUNDLE: "io.bassi.Amberol.Devel.flatpak"
+    FLATPAK_MODULE: "amberol"
+    MANIFEST_PATH: "io.bassi.Amberol.Devel.json"
+    RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
+
+check:
+  image: "registry.gitlab.com/alatiera/rustfmt-oci-image/rustfmt:stable"
+  stage: "check"
+  script:
+    - echo -e "" > src/config.rs
+    - rustc -Vv && cargo -Vv
+    - cargo --version
+    - cargo fmt --all -- --check

@@ -2,11 +2,11 @@
 Name=Amberol
 GenericName=Sound Player
 Exec=amberol
-Icon=io.bassi.Amberol
+Icon=@APPLICATION_ID@
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;Music;Audio;AudioVideo;
 Keywords=music;sound;player;media;
 StartupNotify=true
-SingleMainWindow=true
+X-SingleMainWindow=true
 DBusActivatable=true

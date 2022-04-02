@@ -25,8 +25,14 @@ if desktop_utils.found()
   )
 endif
 
+appstream_data = configuration_data()
+appstream_data.set('APPLICATION_ID', application_id)
 appstream_file = i18n.merge_file(
-  input: 'io.bassi.Amberol.appdata.xml.in',
+  input: configure_file(
+    input: 'io.bassi.Amberol.appdata.xml.in.in',
+    output: 'io.bassi.Amberol.appdata.xml.in',
+    configuration: appstream_data,
+  ),
   output: '@0@.appdata.xml'.format(application_id),
   po_dir: '../po',
   install: true,

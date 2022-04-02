@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>@APPLICATION_ID@</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Amberol</name>
+  <summary>Plays music, and nothing else</summary>
+  <description>
+    <p>
+      Amberol is a music player with no delusions of grandeur. If you just
+      want to play music available on you local system then Amberol is the
+      music player you are looking for.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="source">https://gitlab.gnome.org/ebassi/amberol/-/raw/main/data/screenshots/amberol-1.png</screenshot>
+    <screenshot type="source">https://gitlab.gnome.org/ebassi/amberol/-/raw/main/data/screenshots/amberol-2.png</screenshot>
+  </screenshots>
+  <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
+  <url type="homepage">https://gitlab.gnome.org/ebassi/amberol</url>
+  <url type="bugtracker">https://gitlab.gnome.org/ebassi/amberol/-/issues</url>
+  <developer_name>Emmanuele Bassi</developer_name>
+  <update_contact>ebassi_at_gnome.org</update_contact>
+  <translation type="gettext">amberol</translation>
+  <releases>
+    <release version="0.1.0" type="development" date="2022-04-02"/>
+  </releases>
+  <kudos>
+    <kudo>ModernToolkit</kudo>
+    <kudo>Notifications</kudo>
+  </kudos>
+  <content_rating type="oars-1.1"/>
+  <provides>io.bassi.Amberol.desktop</provides>
+</component>

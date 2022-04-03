@@ -32,6 +32,6 @@ queuerow image:dir(rtl) {
 }
 
 queuerow label.song-title {
-  font-weight: 200;
-  font-size: 125%;
+  font-weight: 700;
+  font-size: 100%;
 }

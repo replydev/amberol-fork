@@ -18,7 +18,7 @@ flatpak:
     MANIFEST_PATH: "io.bassi.Amberol.Devel.json"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
 
-check:
+rust-fmt:
   image: "registry.gitlab.com/alatiera/rustfmt-oci-image/rustfmt:stable"
   stage: "check"
   script:

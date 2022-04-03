@@ -267,6 +267,7 @@ impl AmberolWindow {
                 )
                 .expect("Unable to enumerate");
 
+            let mut songs = Vec::new();
             while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
                 if info.file_type() != gio::FileType::Regular {
                     continue;
@@ -277,9 +278,17 @@ impl AmberolWindow {
                         let child = enumerator.child(&info);
                         debug!("Adding {} to the queue", child.uri());
                         let song = Song::new(child.uri().as_str());
-                        player.queue_song(&song);
+                        songs.push(song);
                     }
                 }
+            }
+
+            // gio::FileEnumerator has no guaranteed order, so we should
+            // rely on the URI being formatted in a way that gives us an
+            // implicit order
+            songs.sort_by(|a, b| a.uri().partial_cmp(&b.uri()).unwrap());
+            for s in songs {
+                player.queue_song(&s);
             }
         }
     }

@@ -19,6 +19,8 @@ button.large {
 picture.album-art {
   min-width: 128px;
   min-height: 128px;
+  box-shadow: 0px 10px 15px -10px rgba(0,0,0,0.75);
+  border-radius: 6px;
 }
 
 queuerow image:dir(ltr) {
@@ -32,6 +34,6 @@ queuerow image:dir(rtl) {
 }
 
 queuerow label.song-title {
-  font-weight: 200;
-  font-size: 125%;
+  font-weight: 700;
+  font-size: 100%;
 }

@@ -18,11 +18,23 @@ flatpak:
     MANIFEST_PATH: "io.bassi.Amberol.Devel.json"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
 
-check:
+rust-fmt:
   image: "registry.gitlab.com/alatiera/rustfmt-oci-image/rustfmt:stable"
   stage: "check"
+  needs: []
   script:
     - echo -e "" > src/config.rs
     - rustc -Vv && cargo -Vv
     - cargo --version
     - cargo fmt --all -- --check
+
+reuse:
+  image: fedora:latest
+  stage: "check"
+  needs: []
+  before_script:
+    - export PATH="$HOME/.local/bin:$PATH"
+    - dnf install -y python3-pip
+  script:
+    - pip install --user reuse
+    - reuse lint

@@ -501,6 +501,13 @@ impl AudioPlayer {
     pub fn skip_previous(&self) {
         let was_playing = self.state.playing();
         let current_pos = self.state.current_song();
+        // If we are more than a backward seek step, then
+        // we rewind to the start of the song instead
+        if self.state.position() >= 10 {
+            let offset = gst::ClockTime::from_seconds(self.state.position() + 1);
+            self.seek(offset, SeekDirection::Backwards);
+            return;
+        }
         if current_pos == 0 {
             debug!("Reached the start of the queue");
             return;

@@ -41,6 +41,7 @@
                     <property name="spacing">24</property>
                     <child>
                       <object class="GtkPicture" id="album_image">
+                        <property name="overflow">hidden</property>
                         <style>
                           <class name="album-art"/>
                         </style>

@@ -128,7 +128,13 @@ mod imp {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
                 vec![
-                    ParamSpecString::new("uri", "", "", None, ParamFlags::READWRITE),
+                    ParamSpecString::new(
+                        "uri",
+                        "",
+                        "",
+                        None,
+                        ParamFlags::READWRITE | ParamFlags::CONSTRUCT_ONLY,
+                    ),
                     ParamSpecString::new("artist", "", "", None, ParamFlags::READABLE),
                     ParamSpecString::new("title", "", "", None, ParamFlags::READABLE),
                     ParamSpecString::new("album", "", "", None, ParamFlags::READABLE),
@@ -141,12 +147,13 @@ mod imp {
         fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "uri" => {
-                    let p = value.get::<&str>().expect("The value needs to be a string");
-                    self.data.replace(SongData::from_uri(p));
-                    _obj.notify("artist");
-                    _obj.notify("title");
-                    _obj.notify("album");
-                    _obj.notify("duration");
+                    if let Ok(p) = value.get::<&str>() {
+                        self.data.replace(SongData::from_uri(p));
+                        _obj.notify("artist");
+                        _obj.notify("title");
+                        _obj.notify("album");
+                        _obj.notify("duration");
+                    }
                 }
                 _ => unimplemented!(),
             }

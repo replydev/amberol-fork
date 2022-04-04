@@ -42,6 +42,7 @@
                     <child>
                       <object class="GtkPicture" id="album_image">
                         <property name="overflow">hidden</property>
+                        <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
                         <style>
                           <class name="album-art"/>
                         </style>

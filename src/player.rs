@@ -273,6 +273,7 @@ impl PlayerState {
                 None => imp.current_cover.replace(None),
             };
         } else {
+            warn!("No cover art found for current song");
             imp.current_cover.replace(None);
         }
         self.notify("current-cover");

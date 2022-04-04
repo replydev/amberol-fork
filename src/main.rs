@@ -3,6 +3,7 @@
 
 mod application;
 mod config;
+mod drag_overlay;
 mod i18n;
 mod player;
 mod queue_row;

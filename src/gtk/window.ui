@@ -6,218 +6,224 @@
     <property name="content">
       <object class="GtkWindowHandle">
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
-            <property name="margin-top">12</property>
-            <property name="margin-bottom">12</property>
-            <child>
-              <object class="GtkHeaderBar">
-                <style>
-                  <class name="flat"/>
-                </style>
-                <child type="title">
-                  <object class="GtkBox">
-                    <property name="visible">false</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox" id="main_box">
+          <object class="DragOverlay" id="drag_overlay">
+            <property name="title" translatable="yes">Drop a song to add it to the queue</property>
+            <property name="child">
+              <object class="GtkBox">
                 <property name="orientation">vertical</property>
-                <property name="valign">start</property>
-                <property name="vexpand">true</property>
                 <property name="spacing">6</property>
-                <style>
-                  <class name="main-box"/>
-                </style>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
                 <child>
-                  <object class="GtkBox">
-                    <property name="orientation">horizontal</property>
-                    <property name="hexpand">true</property>
-                    <property name="spacing">24</property>
-                    <child>
-                      <object class="GtkPicture" id="album_image">
-                        <property name="overflow">hidden</property>
-                        <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
-                        <style>
-                          <class name="album-art"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
+                  <object class="GtkHeaderBar">
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                    <child type="title">
                       <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">6</property>
-                        <property name="valign">center</property>
-                        <child>
-                          <object class="GtkLabel" id="song_title_label">
-                            <property name="xalign">0</property>
-                            <property name="ellipsize">end</property>
-                            <property name="width-chars">15</property>
-                            <style>
-                              <class name="song-title"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="song_artist_label">
-                            <property name="xalign">0</property>
-                            <property name="ellipsize">end</property>
-                            <property name="width-chars">20</property>
-                            <style>
-                              <class name="song-artist"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="song_album_label">
-                            <property name="xalign">0</property>
-                            <property name="ellipsize">end</property>
-                            <property name="width-chars">20</property>
-                            <style>
-                              <class name="song-album"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="song_time_label">
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="song-time"/>
-                            </style>
-                          </object>
-                        </child><!--
-                        <child>
-                          <object class="GtkScale" id="position_scale">
-                          </object>
-                        </child>-->
+                        <property name="visible">false</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkCenterBox">
-                    <property name="margin-top">48</property>
-                    <property name="halign">center</property>
-                    <child type="center">
-                      <object class="GtkBox" id="controls_box">
-                        <property name="spacing">12</property>
-                        <property name="halign">center</property>
-                        <child>
-                          <object class="GtkButton" id="previous_button">
-                            <property name="icon-name">media-skip-backward-symbolic</property>
-                            <property name="action-name">win.previous</property>
-                            <property name="valign">center</property>
-                            <style>
-                              <class name="circular"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="rewind_button">
-                            <property name="icon-name">media-seek-backward-symbolic</property>
-                            <property name="action-name">win.seek-backwards</property>
-                            <property name="valign">center</property>
-                            <style>
-                              <class name="circular"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="play_button">
-                            <property name="icon-name">media-playback-start-symbolic</property>
-                            <property name="action-name">win.play</property>
-                            <property name="valign">center</property>
-                            <style>
-                              <class name="circular"/>
-                              <class name="large"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="forward_button">
-                            <property name="icon-name">media-seek-forward-symbolic</property>
-                            <property name="action-name">win.seek-forward</property>
-                            <property name="valign">center</property>
-                            <style>
-                              <class name="circular"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="next_button">
-                            <property name="icon-name">media-skip-forward-symbolic</property>
-                            <property name="action-name">win.next</property>
-                            <property name="valign">center</property>
-                            <style>
-                              <class name="circular"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="repeat_button">
-                            <property name="icon-name">media-playlist-consecutive-symbolic</property>
-                            <property name="action-name">queue.repeat-mode</property>
-                            <property name="valign">center</property>
-                            <style>
-                              <class name="circular"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child type="end">
-                      <object class="GtkMenuButton" id="menu_button">
-                        <property name="menu-model">primary_menu</property>
-                        <property name="icon-name">open-menu-symbolic</property>
-                        <property name="primary">true</property>
-                        <property name="halign">end</property>
-                        <property name="valign">center</property>
-                        <property name="margin-start">12</property>
-                        <style>
-                          <class name="circular"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkRevealer" id="queue_revealer">
-                    <property name="transition-type">slide-down</property>
-                    <property name="reveal-child">false</property>
-                    <property name="child">
+                  <object class="GtkBox" id="main_box">
+                    <property name="orientation">vertical</property>
+                    <property name="valign">start</property>
+                    <property name="vexpand">true</property>
+                    <property name="spacing">6</property>
+                    <style>
+                      <class name="main-box"/>
+                    </style>
+                    <child>
                       <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">6</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="hexpand">true</property>
+                        <property name="spacing">24</property>
                         <child>
-                          <object class="GtkLabel" id="queue_length_label">
-                            <property name="xalign">0</property>
-                            <property name="use-markup">true</property>
+                          <object class="GtkPicture" id="album_image">
+                            <property name="overflow">hidden</property>
+                            <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
+                            <style>
+                              <class name="album-art"/>
+                              <class name="icon-dropshadow"/>
+                            </style>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkScrolledWindow">
-                            <property name="hscrollbar-policy">never</property>
-                            <property name="vscrollbar-policy">automatic</property>
-                            <property name="max-content-height">400</property>
-                            <property name="propagate-natural-height">true</property>
-                            <property name="child">
-                              <object class="GtkListView" id="queue_view">
-                                <property name="single-click-activate">true</property>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <property name="valign">center</property>
+                            <child>
+                              <object class="GtkLabel" id="song_title_label">
+                                <property name="xalign">0</property>
+                                <property name="ellipsize">end</property>
+                                <property name="width-chars">15</property>
+                                <style>
+                                  <class name="song-title"/>
+                                </style>
                               </object>
-                            </property>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="song_artist_label">
+                                <property name="xalign">0</property>
+                                <property name="ellipsize">end</property>
+                                <property name="width-chars">20</property>
+                                <style>
+                                  <class name="song-artist"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="song_album_label">
+                                <property name="xalign">0</property>
+                                <property name="ellipsize">end</property>
+                                <property name="width-chars">20</property>
+                                <style>
+                                  <class name="song-album"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="song_time_label">
+                                <property name="xalign">0</property>
+                                <style>
+                                  <class name="song-time"/>
+                                </style>
+                              </object>
+                            </child><!--
+                            <child>
+                              <object class="GtkScale" id="position_scale">
+                              </object>
+                            </child>-->
                           </object>
                         </child>
                       </object>
-                    </property>
+                    </child>
+                    <child>
+                      <object class="GtkCenterBox">
+                        <property name="margin-top">48</property>
+                        <property name="halign">center</property>
+                        <child type="center">
+                          <object class="GtkBox" id="controls_box">
+                            <property name="spacing">12</property>
+                            <property name="halign">center</property>
+                            <child>
+                              <object class="GtkButton" id="previous_button">
+                                <property name="icon-name">media-skip-backward-symbolic</property>
+                                <property name="action-name">win.previous</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="rewind_button">
+                                <property name="icon-name">media-seek-backward-symbolic</property>
+                                <property name="action-name">win.seek-backwards</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="play_button">
+                                <property name="icon-name">media-playback-start-symbolic</property>
+                                <property name="action-name">win.play</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                  <class name="large"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="forward_button">
+                                <property name="icon-name">media-seek-forward-symbolic</property>
+                                <property name="action-name">win.seek-forward</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="next_button">
+                                <property name="icon-name">media-skip-forward-symbolic</property>
+                                <property name="action-name">win.next</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="repeat_button">
+                                <property name="icon-name">media-playlist-consecutive-symbolic</property>
+                                <property name="action-name">queue.repeat-mode</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="end">
+                          <object class="GtkMenuButton" id="menu_button">
+                            <property name="menu-model">primary_menu</property>
+                            <property name="icon-name">open-menu-symbolic</property>
+                            <property name="primary">true</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                            <property name="margin-start">12</property>
+                            <style>
+                              <class name="circular"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkRevealer" id="queue_revealer">
+                        <property name="transition-type">slide-down</property>
+                        <property name="reveal-child">false</property>
+                        <property name="child">
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkLabel" id="queue_length_label">
+                                <property name="xalign">0</property>
+                                <property name="use-markup">true</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow">
+                                <property name="hscrollbar-policy">never</property>
+                                <property name="vscrollbar-policy">automatic</property>
+                                <property name="max-content-height">400</property>
+                                <property name="propagate-natural-height">true</property>
+                                <property name="child">
+                                  <object class="GtkListView" id="queue_view">
+                                    <property name="single-click-activate">true</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
-            </child>
+            </property>
           </object>
         </child>
       </object>

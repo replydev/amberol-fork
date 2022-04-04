@@ -37,3 +37,8 @@ queuerow label.song-title {
   font-weight: 700;
   font-size: 100%;
 }
+
+dragoverlay:drop(active) {
+  background-color: alpha(@accent_bg_color, 0.5);
+  color: @accent_fg_color;
+}

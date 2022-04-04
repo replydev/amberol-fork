@@ -3,10 +3,11 @@
 
 use adw::subclass::prelude::*;
 use glib::clone;
-use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
     config::APPLICATION_ID,
+    drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     player::{AudioPlayerWrapper, RepeatMode},
     queue_row::AmberolQueueRow,
@@ -50,6 +51,8 @@ mod imp {
         pub album_image: TemplateChild<gtk::Picture>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub drag_overlay: TemplateChild<DragOverlay>,
 
         pub player: AudioPlayerWrapper,
     }
@@ -130,6 +133,7 @@ mod imp {
                 queue_view: TemplateChild::default(),
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
+                drag_overlay: TemplateChild::default(),
                 player: AudioPlayerWrapper::new(),
             }
         }
@@ -147,6 +151,7 @@ mod imp {
             obj.init_actions();
             obj.bind_state();
             obj.setup_queue();
+            obj.setup_drop_target();
             obj.restore_state();
         }
     }
@@ -310,23 +315,23 @@ impl AmberolWindow {
 
         state
             .bind_property("current-title", &imp.song_title_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-artist", &imp.song_artist_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-album", &imp.song_album_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-time", &imp.song_time_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-cover", &imp.album_image.get(), "paintable")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
     }
 
@@ -343,7 +348,7 @@ impl AmberolWindow {
                     win.action_set_enabled("win.previous", false);
                     win.action_set_enabled("win.next", false);
                 } else {
-                    win.action_set_enabled("win.previous", current != 0);
+                    win.action_set_enabled("win.previous", true);
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
@@ -383,7 +388,7 @@ impl AmberolWindow {
 
                 let current = state.current_song();
                 if n_songs > 0 {
-                    win.action_set_enabled("win.previous", current != 0);
+                    win.action_set_enabled("win.previous", true);
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
@@ -501,5 +506,34 @@ impl AmberolWindow {
                     player.play();
                 }
             }));
+    }
+
+    fn setup_drop_target(&self) {
+        let drop_target = gtk::DropTarget::builder()
+            .name("file-drop-target")
+            .actions(gdk::DragAction::COPY)
+            .formats(&gdk::ContentFormats::for_type(gio::File::static_type()))
+            .build();
+
+        drop_target.connect_drop(
+            clone!(@weak self as win => @default-return false, move |_, value, _, _| {
+                if let Ok(file) = value.get::<gio::File>() {
+                    if !file.query_exists(gio::Cancellable::NONE) {
+                        debug!("Received {} but cannot access it", file.uri());
+                        return false;
+                    }
+                    debug!("Creating Song for {}", file.uri());
+                    let song = Song::new(file.uri().as_str());
+                    if song.equals(&Song::default()) {
+                        return false;
+                    }
+                    win.imp().player.borrow().queue_song(&song);
+                    return true;
+                }
+                false
+            }),
+        );
+
+        self.imp().drag_overlay.set_drop_target(&drop_target);
     }
 }

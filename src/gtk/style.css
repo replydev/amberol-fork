@@ -19,7 +19,7 @@ button.large {
 picture.album-art {
   min-width: 128px;
   min-height: 128px;
-  box-shadow: 0px 10px 15px -10px rgba(0,0,0,0.75);
+  box-shadow: 0px 12px 16px -12px rgba(0,0,0,0.6);
   border-radius: 6px;
 }
 

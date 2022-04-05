@@ -488,6 +488,10 @@ impl AmberolWindow {
                 .property_expression("item")
                 .chain_property::<Song>("title")
                 .bind(&row, "song-title", gtk::Widget::NONE);
+            list_item
+                .property_expression("item")
+                .chain_property::<Song>("playing")
+                .bind(&row, "playing", gtk::Widget::NONE);
         });
         imp.queue_view
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));

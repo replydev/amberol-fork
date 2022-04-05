@@ -15,16 +15,16 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub struct AmberolApplication {}
+    pub struct Application {}
 
     #[glib::object_subclass]
-    impl ObjectSubclass for AmberolApplication {
+    impl ObjectSubclass for Application {
         const NAME: &'static str = "AmberolApplication";
-        type Type = super::AmberolApplication;
+        type Type = super::Application;
         type ParentType = adw::Application;
     }
 
-    impl ObjectImpl for AmberolApplication {
+    impl ObjectImpl for Application {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -41,9 +41,9 @@ mod imp {
         }
     }
 
-    impl ApplicationImpl for AmberolApplication {
+    impl ApplicationImpl for Application {
         fn activate(&self, application: &Self::Type) {
-            debug!("AmberolApplication::activate");
+            debug!("Application::activate");
 
             let window = if let Some(window) = application.active_window() {
                 window
@@ -56,17 +56,17 @@ mod imp {
         }
     }
 
-    impl GtkApplicationImpl for AmberolApplication {}
-    impl AdwApplicationImpl for AmberolApplication {}
+    impl GtkApplicationImpl for Application {}
+    impl AdwApplicationImpl for Application {}
 }
 
 glib::wrapper! {
-    pub struct AmberolApplication(ObjectSubclass<imp::AmberolApplication>)
+    pub struct Application(ObjectSubclass<imp::Application>)
         @extends gio::Application, gtk::Application, adw::Application,
         @implements gio::ActionGroup, gio::ActionMap;
 }
 
-impl AmberolApplication {
+impl Application {
     pub fn new(application_id: &str, flags: &gio::ApplicationFlags) -> Self {
         glib::Object::new(&[
             ("application-id", &application_id),
@@ -75,7 +75,7 @@ impl AmberolApplication {
             // profile, so we need to specify the base path ourselves
             ("resource-base-path", &"/io/bassi/Amberol"),
         ])
-        .expect("Failed to create AmberolApplication")
+        .expect("Failed to create Application")
     }
 
     fn setup_gactions(&self) {

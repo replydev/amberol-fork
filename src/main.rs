@@ -10,7 +10,7 @@ mod queue_row;
 mod song;
 mod window;
 
-use self::{application::AmberolApplication, window::Window};
+use self::{application::Application, window::Window};
 
 #[macro_use]
 extern crate log;
@@ -50,7 +50,7 @@ fn main() {
     gst::init().expect("Failed to initialize gstreamer");
     adw::init();
 
-    let app = AmberolApplication::new(&APPLICATION_ID, &gio::ApplicationFlags::empty());
+    let app = Application::new(&APPLICATION_ID, &gio::ApplicationFlags::empty());
 
     std::process::exit(app.run());
 }

@@ -426,6 +426,15 @@ impl AudioPlayer {
         metadata.artist = Some(vec![current_song.artist()]);
         metadata.title = Some(current_song.title());
         self.mpris_player.set_metadata(metadata);
+
+        for pos in 0..self.state.n_songs() {
+            let s = self.state.song_at(pos);
+            if pos == current_pos {
+                s.set_playing(true);
+            } else {
+                s.set_playing(false);
+            }
+        }
     }
 
     pub fn play(&self) {

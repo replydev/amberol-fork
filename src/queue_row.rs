@@ -11,7 +11,7 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/io/bassi/Amberol/queue-row.ui")]
-    pub struct AmberolQueueRow {
+    pub struct QueueRow {
         // Template widgets
         #[template_child]
         pub playing_image: TemplateChild<gtk::Image>,
@@ -24,9 +24,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for AmberolQueueRow {
+    impl ObjectSubclass for QueueRow {
         const NAME: &'static str = "AmberolQueueRow";
-        type Type = super::AmberolQueueRow;
+        type Type = super::QueueRow;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -50,7 +50,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for AmberolQueueRow {
+    impl ObjectImpl for QueueRow {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
         }
@@ -105,22 +105,22 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for AmberolQueueRow {}
+    impl WidgetImpl for QueueRow {}
 }
 
 glib::wrapper! {
-    pub struct AmberolQueueRow(ObjectSubclass<imp::AmberolQueueRow>)
+    pub struct QueueRow(ObjectSubclass<imp::QueueRow>)
         @extends gtk::Widget,
         @implements gio::ActionGroup, gio::ActionMap;
 }
 
-impl AmberolQueueRow {
+impl QueueRow {
     pub fn new() -> Self {
-        glib::Object::new(&[]).expect("Failed to create AmberolWindow")
+        glib::Object::new(&[]).expect("Failed to create QueueRow")
     }
 
-    fn imp(&self) -> &imp::AmberolQueueRow {
-        imp::AmberolQueueRow::from_instance(self)
+    fn imp(&self) -> &imp::QueueRow {
+        imp::QueueRow::from_instance(self)
     }
 
     pub fn set_song_title(&self, title: String) {

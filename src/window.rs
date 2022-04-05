@@ -10,7 +10,7 @@ use crate::{
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     player::{AudioPlayerWrapper, RepeatMode},
-    queue_row::AmberolQueueRow,
+    queue_row::QueueRow,
     song::Song,
 };
 
@@ -478,7 +478,7 @@ impl Window {
 
         let factory = gtk::SignalListItemFactory::new();
         factory.connect_setup(move |_, list_item| {
-            let row = AmberolQueueRow::new();
+            let row = QueueRow::new();
             list_item.set_child(Some(&row));
 
             list_item

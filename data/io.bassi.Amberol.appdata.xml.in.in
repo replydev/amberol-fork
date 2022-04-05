@@ -13,8 +13,8 @@
     </p>
   </description>
   <screenshots>
-    <screenshot type="source">https://gitlab.gnome.org/ebassi/amberol/-/raw/main/data/screenshots/amberol-1.png</screenshot>
-    <screenshot type="source">https://gitlab.gnome.org/ebassi/amberol/-/raw/main/data/screenshots/amberol-2.png</screenshot>
+    <screenshot type="source">https://www.bassi.io/~ebassi/amberol-1.png</screenshot>
+    <screenshot type="source">https://www.bassi.io/~ebassi/amberol-2.png</screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
   <url type="homepage">https://gitlab.gnome.org/ebassi/amberol</url>
@@ -30,5 +30,5 @@
     <kudo>Notifications</kudo>
   </kudos>
   <content_rating type="oars-1.1"/>
-  <provides>io.bassi.Amberol.desktop</provides>
+  <provides>@APPLICATION_ID@.desktop</provides>
 </component>

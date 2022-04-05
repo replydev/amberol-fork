@@ -31,6 +31,7 @@ dependencies = [
  "log",
  "mpris-player",
  "once_cell",
+ "palette_extract",
  "pretty_env_logger",
  "regex",
 ]
@@ -975,6 +976,12 @@ checksum = "95d6113415f41b268f1195907427519769e40ee6f28cbb053795098a2c16f447"
 dependencies = [
  "paste",
 ]
+
+[[package]]
+name = "palette_extract"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "37152de66c36e76d4637af2a51310ede2c0e42b80357fa517bf1b595b56489a4"
 
 [[package]]
 name = "pango"

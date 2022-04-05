@@ -152,7 +152,8 @@ mod imp {
             obj.bind_state();
             obj.setup_queue();
             obj.setup_drop_target();
-            obj.restore_state();
+            // FIXME: https://gitlab.gnome.org/GNOME/gtk/-/issues/4136
+            // obj.restore_window_state();
         }
     }
 
@@ -183,12 +184,12 @@ impl AmberolWindow {
         imp::AmberolWindow::from_instance(self)
     }
 
-    fn restore_state(&self) {
-        let settings = settings_manager();
-        let width = settings.int("window-width");
-        let height = settings.int("window-height");
-        self.set_default_size(width, height);
-    }
+    // fn restore_window_state(&self) {
+    //     let settings = settings_manager();
+    //     let width = settings.int("window-width");
+    //     let height = settings.int("window-height");
+    //     self.set_default_size(width, height);
+    // }
 
     fn clear_queue(&self) {
         self.imp().player.borrow().queue_clear();

@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
-use glib::{ParamFlags, ParamSpec, ParamSpecString, ParamSpecUInt, Value};
+use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecString, ParamSpecUInt, Value};
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use lofty::Accessor;
 use once_cell::sync::Lazy;
@@ -115,6 +115,7 @@ mod imp {
     #[derive(Debug, Default)]
     pub struct Song {
         pub data: RefCell<SongData>,
+        pub playing: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -139,6 +140,7 @@ mod imp {
                     ParamSpecString::new("title", "", "", None, ParamFlags::READABLE),
                     ParamSpecString::new("album", "", "", None, ParamFlags::READABLE),
                     ParamSpecUInt::new("duration", "", "", 0, u32::MAX, 0, ParamFlags::READABLE),
+                    ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
                 ]
             });
             PROPERTIES.as_ref()
@@ -155,6 +157,10 @@ mod imp {
                         _obj.notify("duration");
                     }
                 }
+                "playing" => {
+                    let p = value.get::<bool>().expect("Value must be a boolean");
+                    self.playing.set(p);
+                }
                 _ => unimplemented!(),
             }
         }
@@ -166,6 +172,7 @@ mod imp {
                 "album" => self.data.borrow().album().to_value(),
                 "duration" => self.data.borrow().duration().to_value(),
                 "uri" => self.data.borrow().uri().to_value(),
+                "playing" => self.playing.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -227,6 +234,17 @@ impl Song {
 
     pub fn duration(&self) -> u64 {
         self.imp().data.borrow().duration()
+    }
+
+    pub fn playing(&self) -> bool {
+        self.imp().playing.get()
+    }
+
+    pub fn set_playing(&self, playing: bool) {
+        let was_playing = self.imp().playing.replace(playing);
+        if was_playing != playing {
+            self.notify("playing");
+        }
     }
 }
 

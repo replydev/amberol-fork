@@ -85,7 +85,11 @@ mod imp {
                     let p = value
                         .get::<bool>()
                         .expect("The value needs to be a boolean");
-                    self.playing_image.set_visible(p);
+                    if p {
+                        self.playing_image.set_opacity(1.0);
+                    } else {
+                        self.playing_image.set_opacity(0.0);
+                    }
                 }
                 _ => unimplemented!(),
             }

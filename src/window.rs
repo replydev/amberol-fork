@@ -19,7 +19,7 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/io/bassi/Amberol/window.ui")]
-    pub struct AmberolWindow {
+    pub struct Window {
         // Template widgets
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -58,16 +58,16 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for AmberolWindow {
+    impl ObjectSubclass for Window {
         const NAME: &'static str = "AmberolWindow";
-        type Type = super::AmberolWindow;
+        type Type = super::Window;
         type ParentType = adw::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
             klass.install_action("win.play", None, move |win, _, _| {
-                debug!("AmberolWindow::win.play()");
+                debug!("Window::win.play()");
                 let player = win.imp().player.borrow();
                 if player.state().playing() {
                     player.pause();
@@ -76,12 +76,12 @@ mod imp {
                 }
             });
             klass.install_action("win.previous", None, move |win, _, _| {
-                debug!("AmberolWindow::win.previous()");
+                debug!("Window::win.previous()");
                 let player = win.imp().player.borrow();
                 player.skip_previous();
             });
             klass.install_action("win.next", None, move |win, _, _| {
-                debug!("AmberolWindow::win.next()");
+                debug!("Window::win.next()");
                 let player = win.imp().player.borrow();
                 player.skip_next();
             });
@@ -94,20 +94,20 @@ mod imp {
                 player.seek_forward();
             });
             klass.install_action("queue.repeat-mode", None, move |win, _, _| {
-                debug!("AmberolWindow::queue.repeat()");
+                debug!("Window::queue.repeat()");
                 let player = win.imp().player.borrow();
                 player.toggle_queue_repeat();
             });
             klass.install_action("queue.add-song", None, move |win, _, _| {
-                debug!("AmberolWindow::win.add-song()");
+                debug!("Window::win.add-song()");
                 win.add_song();
             });
             klass.install_action("queue.add-folder", None, move |win, _, _| {
-                debug!("AmberolWindow::win.add-folder()");
+                debug!("Window::win.add-folder()");
                 win.add_folder();
             });
             klass.install_action("queue.clear", None, move |win, _, _| {
-                debug!("AmberolWindow::queue.clear()");
+                debug!("Window::queue.clear()");
                 win.clear_queue();
             });
         }
@@ -139,7 +139,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for AmberolWindow {
+    impl ObjectImpl for Window {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -157,14 +157,14 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for AmberolWindow {}
-    impl WindowImpl for AmberolWindow {}
-    impl ApplicationWindowImpl for AmberolWindow {}
-    impl AdwApplicationWindowImpl for AmberolWindow {}
+    impl WidgetImpl for Window {}
+    impl WindowImpl for Window {}
+    impl ApplicationWindowImpl for Window {}
+    impl AdwApplicationWindowImpl for Window {}
 }
 
 glib::wrapper! {
-    pub struct AmberolWindow(ObjectSubclass<imp::AmberolWindow>)
+    pub struct Window(ObjectSubclass<imp::Window>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
         @implements gio::ActionGroup, gio::ActionMap;
 }
@@ -175,13 +175,13 @@ fn settings_manager() -> gio::Settings {
     gio::Settings::new(app_id)
 }
 
-impl AmberolWindow {
+impl Window {
     pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
-        glib::Object::new(&[("application", application)]).expect("Failed to create AmberolWindow")
+        glib::Object::new(&[("application", application)]).expect("Failed to create Window")
     }
 
-    fn imp(&self) -> &imp::AmberolWindow {
-        imp::AmberolWindow::from_instance(self)
+    fn imp(&self) -> &imp::Window {
+        imp::Window::from_instance(self)
     }
 
     // fn restore_window_state(&self) {

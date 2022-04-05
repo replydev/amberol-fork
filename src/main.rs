@@ -10,7 +10,7 @@ mod queue_row;
 mod song;
 mod window;
 
-use self::{application::AmberolApplication, window::AmberolWindow};
+use self::{application::AmberolApplication, window::Window};
 
 #[macro_use]
 extern crate log;

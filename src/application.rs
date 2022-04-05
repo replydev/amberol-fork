@@ -8,7 +8,7 @@ use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use crate::{
     config::{APPLICATION_ID, VERSION},
     i18n::i18n,
-    AmberolWindow,
+    Window,
 };
 
 mod imp {
@@ -48,7 +48,7 @@ mod imp {
             let window = if let Some(window) = application.active_window() {
                 window
             } else {
-                let window = AmberolWindow::new(application);
+                let window = Window::new(application);
                 window.upcast()
             };
 

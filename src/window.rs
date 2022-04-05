@@ -12,6 +12,7 @@ use crate::{
     player::{AudioPlayerWrapper, RepeatMode},
     queue_row::QueueRow,
     song::Song,
+    utils,
 };
 
 mod imp {
@@ -169,12 +170,6 @@ glib::wrapper! {
         @implements gio::ActionGroup, gio::ActionMap;
 }
 
-fn settings_manager() -> gio::Settings {
-    // We ship a single schema for both default and development profiles
-    let app_id = APPLICATION_ID.trim_end_matches(".Devel");
-    gio::Settings::new(app_id)
-}
-
 impl Window {
     pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
         glib::Object::new(&[("application", application)]).expect("Failed to create Window")
@@ -185,7 +180,7 @@ impl Window {
     }
 
     // fn restore_window_state(&self) {
-    //     let settings = settings_manager();
+    //     let settings = utils::settings_manager();
     //     let width = settings.int("window-width");
     //     let height = settings.int("window-height");
     //     self.set_default_size(width, height);
@@ -452,7 +447,7 @@ impl Window {
             let width = window.default_size().0;
             let height = window.default_size().1;
 
-            let settings = settings_manager();
+            let settings = utils::settings_manager();
             settings
                 .set_int("window-width", width)
                 .expect("Unable to store window-width");

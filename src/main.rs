@@ -8,6 +8,7 @@ mod i18n;
 mod player;
 mod queue_row;
 mod song;
+mod utils;
 mod window;
 
 use self::{application::Application, window::Window};

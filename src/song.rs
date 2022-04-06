@@ -17,7 +17,6 @@ pub struct SongData {
     artist: Option<String>,
     title: Option<String>,
     album: Option<String>,
-    cover_art: Option<glib::Bytes>,
     cover_texture: Option<gdk::Texture>,
     cover_color: Option<gdk::RGBA>,
     duration: u64,
@@ -39,10 +38,6 @@ impl SongData {
 
     pub fn duration(&self) -> u64 {
         self.duration
-    }
-
-    pub fn cover_art(&self) -> Option<&glib::Bytes> {
-        self.cover_art.as_ref()
     }
 
     pub fn cover_texture(&self) -> Option<&gdk::Texture> {
@@ -102,7 +97,6 @@ impl SongData {
             artist,
             title,
             album,
-            cover_art,
             cover_texture,
             cover_color,
             duration,
@@ -121,7 +115,6 @@ impl Default for SongData {
             artist: Some("Invalid Artist".to_string()),
             title: Some("Invalid Title".to_string()),
             album: Some("Invalid Album".to_string()),
-            cover_art: None,
             cover_texture: None,
             cover_color: None,
             duration: 0,
@@ -251,13 +244,6 @@ impl Song {
         match self.imp().data.borrow().album() {
             Some(album) => return album.to_string(),
             None => return i18n("Unknown album").to_string(),
-        }
-    }
-
-    pub fn cover_art(&self) -> Option<glib::Bytes> {
-        match self.imp().data.borrow().cover_art() {
-            Some(buffer) => Some(buffer.clone()),
-            None => None,
         }
     }
 

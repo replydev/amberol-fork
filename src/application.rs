@@ -97,7 +97,7 @@ impl Application {
         let dialog = gtk::AboutDialog::builder()
             .transient_for(&window)
             .modal(true)
-            .icon_name(APPLICATION_ID)
+            .logo_icon_name(APPLICATION_ID)
             .program_name("Amberol")
             .comments(&i18n("Plays music and nothing else"))
             .version(VERSION)

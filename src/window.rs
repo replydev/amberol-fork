@@ -3,14 +3,16 @@
 
 use adw::subclass::prelude::*;
 use glib::clone;
-use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
     config::APPLICATION_ID,
+    drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     player::{AudioPlayerWrapper, RepeatMode},
-    queue_row::AmberolQueueRow,
+    queue_row::QueueRow,
     song::Song,
+    utils,
 };
 
 mod imp {
@@ -18,7 +20,7 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/io/bassi/Amberol/window.ui")]
-    pub struct AmberolWindow {
+    pub struct Window {
         // Template widgets
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -50,21 +52,23 @@ mod imp {
         pub album_image: TemplateChild<gtk::Picture>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub drag_overlay: TemplateChild<DragOverlay>,
 
         pub player: AudioPlayerWrapper,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for AmberolWindow {
+    impl ObjectSubclass for Window {
         const NAME: &'static str = "AmberolWindow";
-        type Type = super::AmberolWindow;
+        type Type = super::Window;
         type ParentType = adw::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
 
             klass.install_action("win.play", None, move |win, _, _| {
-                debug!("AmberolWindow::win.play()");
+                debug!("Window::win.play()");
                 let player = win.imp().player.borrow();
                 if player.state().playing() {
                     player.pause();
@@ -73,12 +77,12 @@ mod imp {
                 }
             });
             klass.install_action("win.previous", None, move |win, _, _| {
-                debug!("AmberolWindow::win.previous()");
+                debug!("Window::win.previous()");
                 let player = win.imp().player.borrow();
                 player.skip_previous();
             });
             klass.install_action("win.next", None, move |win, _, _| {
-                debug!("AmberolWindow::win.next()");
+                debug!("Window::win.next()");
                 let player = win.imp().player.borrow();
                 player.skip_next();
             });
@@ -91,20 +95,20 @@ mod imp {
                 player.seek_forward();
             });
             klass.install_action("queue.repeat-mode", None, move |win, _, _| {
-                debug!("AmberolWindow::queue.repeat()");
+                debug!("Window::queue.repeat()");
                 let player = win.imp().player.borrow();
                 player.toggle_queue_repeat();
             });
             klass.install_action("queue.add-song", None, move |win, _, _| {
-                debug!("AmberolWindow::win.add-song()");
+                debug!("Window::win.add-song()");
                 win.add_song();
             });
             klass.install_action("queue.add-folder", None, move |win, _, _| {
-                debug!("AmberolWindow::win.add-folder()");
+                debug!("Window::win.add-folder()");
                 win.add_folder();
             });
             klass.install_action("queue.clear", None, move |win, _, _| {
-                debug!("AmberolWindow::queue.clear()");
+                debug!("Window::queue.clear()");
                 win.clear_queue();
             });
         }
@@ -130,12 +134,13 @@ mod imp {
                 queue_view: TemplateChild::default(),
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
+                drag_overlay: TemplateChild::default(),
                 player: AudioPlayerWrapper::new(),
             }
         }
     }
 
-    impl ObjectImpl for AmberolWindow {
+    impl ObjectImpl for Window {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
@@ -147,43 +152,39 @@ mod imp {
             obj.init_actions();
             obj.bind_state();
             obj.setup_queue();
-            obj.restore_state();
+            obj.setup_drop_target();
+            // FIXME: https://gitlab.gnome.org/GNOME/gtk/-/issues/4136
+            // obj.restore_window_state();
         }
     }
 
-    impl WidgetImpl for AmberolWindow {}
-    impl WindowImpl for AmberolWindow {}
-    impl ApplicationWindowImpl for AmberolWindow {}
-    impl AdwApplicationWindowImpl for AmberolWindow {}
+    impl WidgetImpl for Window {}
+    impl WindowImpl for Window {}
+    impl ApplicationWindowImpl for Window {}
+    impl AdwApplicationWindowImpl for Window {}
 }
 
 glib::wrapper! {
-    pub struct AmberolWindow(ObjectSubclass<imp::AmberolWindow>)
+    pub struct Window(ObjectSubclass<imp::Window>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
         @implements gio::ActionGroup, gio::ActionMap;
 }
 
-fn settings_manager() -> gio::Settings {
-    // We ship a single schema for both default and development profiles
-    let app_id = APPLICATION_ID.trim_end_matches(".Devel");
-    gio::Settings::new(app_id)
-}
-
-impl AmberolWindow {
+impl Window {
     pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
-        glib::Object::new(&[("application", application)]).expect("Failed to create AmberolWindow")
+        glib::Object::new(&[("application", application)]).expect("Failed to create Window")
     }
 
-    fn imp(&self) -> &imp::AmberolWindow {
-        imp::AmberolWindow::from_instance(self)
+    fn imp(&self) -> &imp::Window {
+        imp::Window::from_instance(self)
     }
 
-    fn restore_state(&self) {
-        let settings = settings_manager();
-        let width = settings.int("window-width");
-        let height = settings.int("window-height");
-        self.set_default_size(width, height);
-    }
+    // fn restore_window_state(&self) {
+    //     let settings = utils::settings_manager();
+    //     let width = settings.int("window-width");
+    //     let height = settings.int("window-height");
+    //     self.set_default_size(width, height);
+    // }
 
     fn clear_queue(&self) {
         self.imp().player.borrow().queue_clear();
@@ -310,23 +311,23 @@ impl AmberolWindow {
 
         state
             .bind_property("current-title", &imp.song_title_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-artist", &imp.song_artist_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-album", &imp.song_album_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-time", &imp.song_time_label.get(), "label")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
             .bind_property("current-cover", &imp.album_image.get(), "paintable")
-            .flags(glib::BindingFlags::SYNC_CREATE)
+            .flags(glib::BindingFlags::DEFAULT)
             .build();
     }
 
@@ -343,7 +344,7 @@ impl AmberolWindow {
                     win.action_set_enabled("win.previous", false);
                     win.action_set_enabled("win.next", false);
                 } else {
-                    win.action_set_enabled("win.previous", current != 0);
+                    win.action_set_enabled("win.previous", true);
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
@@ -383,7 +384,7 @@ impl AmberolWindow {
 
                 let current = state.current_song();
                 if n_songs > 0 {
-                    win.action_set_enabled("win.previous", current != 0);
+                    win.action_set_enabled("win.previous", true);
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
@@ -446,7 +447,7 @@ impl AmberolWindow {
             let width = window.default_size().0;
             let height = window.default_size().1;
 
-            let settings = settings_manager();
+            let settings = utils::settings_manager();
             settings
                 .set_int("window-width", width)
                 .expect("Unable to store window-width");
@@ -472,7 +473,7 @@ impl AmberolWindow {
 
         let factory = gtk::SignalListItemFactory::new();
         factory.connect_setup(move |_, list_item| {
-            let row = AmberolQueueRow::new();
+            let row = QueueRow::new();
             list_item.set_child(Some(&row));
 
             list_item
@@ -483,6 +484,10 @@ impl AmberolWindow {
                 .property_expression("item")
                 .chain_property::<Song>("title")
                 .bind(&row, "song-title", gtk::Widget::NONE);
+            list_item
+                .property_expression("item")
+                .chain_property::<Song>("playing")
+                .bind(&row, "playing", gtk::Widget::NONE);
         });
         imp.queue_view
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));
@@ -501,5 +506,34 @@ impl AmberolWindow {
                     player.play();
                 }
             }));
+    }
+
+    fn setup_drop_target(&self) {
+        let drop_target = gtk::DropTarget::builder()
+            .name("file-drop-target")
+            .actions(gdk::DragAction::COPY)
+            .formats(&gdk::ContentFormats::for_type(gio::File::static_type()))
+            .build();
+
+        drop_target.connect_drop(
+            clone!(@weak self as win => @default-return false, move |_, value, _, _| {
+                if let Ok(file) = value.get::<gio::File>() {
+                    if !file.query_exists(gio::Cancellable::NONE) {
+                        debug!("Received {} but cannot access it", file.uri());
+                        return false;
+                    }
+                    debug!("Creating Song for {}", file.uri());
+                    let song = Song::new(file.uri().as_str());
+                    if song.equals(&Song::default()) {
+                        return false;
+                    }
+                    win.imp().player.borrow().queue_song(&song);
+                    return true;
+                }
+                false
+            }),
+        );
+
+        self.imp().drag_overlay.set_drop_target(&drop_target);
     }
 }

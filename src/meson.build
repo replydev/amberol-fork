@@ -40,6 +40,7 @@ rust_sources = files(
   'player.rs',
   'queue_row.rs',
   'song.rs',
+  'utils.rs',
   'window.rs',
 )
 

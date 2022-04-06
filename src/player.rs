@@ -17,7 +17,7 @@ use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*};
 use mpris_player::{Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
 use once_cell::sync::Lazy;
 
-use crate::{config::APPLICATION_ID, song::Song};
+use crate::{config::APPLICATION_ID, song::Song, utils::format_time};
 
 #[derive(Clone, Copy, Debug, glib::Enum)]
 #[enum_type(name = "AmberolRepeatMode")]
@@ -134,18 +134,6 @@ mod imp {
             }
         }
     }
-}
-
-fn format_time(seconds: u64, total: u64) -> String {
-    let min = seconds / 60;
-    let total_min = total / 60;
-    format!(
-        "{}:{:02} / {}:{:02}",
-        min,
-        seconds % 60,
-        total_min,
-        total % 60
-    )
 }
 
 // PlayerState is a GObject that we can use to bind to
@@ -273,6 +261,7 @@ impl PlayerState {
                 None => imp.current_cover.replace(None),
             };
         } else {
+            warn!("No cover art found for current song");
             imp.current_cover.replace(None);
         }
         self.notify("current-cover");
@@ -425,6 +414,15 @@ impl AudioPlayer {
         metadata.artist = Some(vec![current_song.artist()]);
         metadata.title = Some(current_song.title());
         self.mpris_player.set_metadata(metadata);
+
+        for pos in 0..self.state.n_songs() {
+            let s = self.state.song_at(pos);
+            if pos == current_pos {
+                s.set_playing(true);
+            } else {
+                s.set_playing(false);
+            }
+        }
     }
 
     pub fn play(&self) {

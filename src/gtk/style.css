@@ -19,7 +19,7 @@ button.large {
 picture.album-art {
   min-width: 128px;
   min-height: 128px;
-  box-shadow: 0px 10px 15px -10px rgba(0,0,0,0.75);
+  box-shadow: 0px 12px 16px -12px rgba(0,0,0,0.6);
   border-radius: 6px;
 }
 
@@ -36,4 +36,9 @@ queuerow image:dir(rtl) {
 queuerow label.song-title {
   font-weight: 700;
   font-size: 100%;
+}
+
+dragoverlay:drop(active) {
+  background-color: alpha(@accent_bg_color, 0.5);
+  color: @accent_fg_color;
 }

@@ -3,9 +3,8 @@
 
 #![allow(dead_code)]
 
-use gtk::{gdk, gio, glib};
-use image::load_from_memory;
-use palette_extract::{get_palette_with_options, MaxColors, PixelEncoding, PixelFilter, Quality};
+use color_thief::{get_palette, ColorFormat};
+use gtk::{gdk, gio, glib, prelude::*};
 
 use crate::config::APPLICATION_ID;
 
@@ -42,15 +41,13 @@ pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk::Texture> {
     texture
 }
 
-pub fn load_dominant_color(buffer: &glib::Bytes) -> Option<gdk::RGBA> {
-    if let Ok(image) = load_from_memory(buffer) {
-        let colors: Vec<gdk::RGBA> = get_palette_with_options(
-            image.as_bytes(),
-            PixelEncoding::Rgb,
-            Quality::new(1),
-            MaxColors::new(2),
-            PixelFilter::White,
-        )
+pub fn load_dominant_color(texture: &gdk::Texture) -> Option<gdk::RGBA> {
+    let mut buf: Vec<u8> = Vec::new();
+    buf.resize(texture.height() as usize * texture.width() as usize * 4, 0);
+    texture.download(&mut buf, 4 * texture.width() as usize);
+
+    let colors: Vec<gdk::RGBA> = get_palette(&buf, ColorFormat::Rgba, 5, 6)
+        .unwrap()
         .iter()
         .map(|c| {
             gdk::RGBA::new(
@@ -61,11 +58,5 @@ pub fn load_dominant_color(buffer: &glib::Bytes) -> Option<gdk::RGBA> {
             )
         })
         .collect();
-
-        debug!("Dominant colors: {:?}", colors);
-
-        return Some(colors[0].clone());
-    }
-
-    None
+    Some(colors[0].clone())
 }

@@ -85,10 +85,13 @@ impl SongData {
         };
 
         let mut cover_texture = None;
-        let mut cover_color = None;
         if let Some(ref cover_art) = cover_art {
             cover_texture = utils::load_cover_texture(&cover_art);
-            cover_color = utils::load_dominant_color(&cover_art);
+        }
+
+        let mut cover_color = None;
+        if let Some(ref texture) = cover_texture {
+            cover_color = utils::load_dominant_color(&texture);
         }
 
         let duration = tagged_file.properties().duration().as_secs();

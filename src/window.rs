@@ -298,10 +298,13 @@ impl Window {
         for pos in 0..files.n_items() {
             let file = files.item(pos).unwrap().downcast::<gio::File>().unwrap();
             debug!("Adding {} to the queue", file.uri());
-
-            let song = Song::new(file.uri().as_str());
-            self.imp().player.borrow().queue_song(&song);
+            self.add_file_to_queue(&file);
         }
+    }
+
+    pub fn add_file_to_queue(&self, file: &gio::File) {
+        let song = Song::new(file.uri().as_str());
+        self.imp().player.borrow().queue_song(&song);
     }
 
     fn bind_state(&self) {

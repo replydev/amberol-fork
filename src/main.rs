@@ -51,7 +51,7 @@ fn main() {
     gst::init().expect("Failed to initialize gstreamer");
     adw::init();
 
-    let app = Application::new(&APPLICATION_ID, &gio::ApplicationFlags::empty());
+    let app = Application::new(&APPLICATION_ID, &gio::ApplicationFlags::HANDLES_OPEN);
 
     std::process::exit(app.run());
 }

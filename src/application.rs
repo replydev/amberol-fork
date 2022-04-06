@@ -54,6 +54,26 @@ mod imp {
 
             window.present();
         }
+
+        fn open(&self, application: &Self::Type, files: &[gio::File], _hint: &str) {
+            debug!("Application::open");
+
+            let window = if let Some(window) = application.active_window() {
+                window
+            } else {
+                let window = Window::new(application);
+                window.upcast()
+            };
+
+            for f in files {
+                window
+                    .downcast_ref::<Window>()
+                    .unwrap()
+                    .add_file_to_queue(&f);
+            }
+
+            window.present();
+        }
     }
 
     impl GtkApplicationImpl for Application {}

@@ -365,27 +365,7 @@ impl Window {
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
-                let mut remaining_time = 0;
-                for pos in 0..n_songs {
-                    let song = state.song_at(pos);
-                    if pos >= current {
-                        remaining_time += song.duration();
-                    }
-                }
-
-                let title = format!("<b>{}</b>", &i18n("Playlist"));
-                let remaining_min = (remaining_time / 60) as u32;
-                let remaining_str = &ni18n_f(
-                    // Translators: The first '{}' is the word "Playlist";
-                    // the second '{}' is the number of minutes remaining
-                    // in the playlist
-                    "{} ({} minute remaining)",
-                    "{} ({} minutes remaining)",
-                    remaining_min,
-                    &[&title, &remaining_min.to_string()],
-                );
-
-                win.imp().queue_length_label.set_label(remaining_str);
+                win.update_playlist_time();
             }),
         );
 
@@ -404,27 +384,7 @@ impl Window {
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
-                let mut remaining_time = 0;
-                for pos in 0..n_songs {
-                    let song = state.song_at(pos);
-                    if pos >= current {
-                        remaining_time += song.duration();
-                    }
-                }
-
-                let title = format!("<b>{}</b>", &i18n("Playlist"));
-                let remaining_min = (remaining_time / 60) as u32;
-                let remaining_str = &ni18n_f(
-                    // Translators: The first '{}' is the word "Playlist";
-                    // the second '{}' is the number of minutes remaining
-                    // in the playlist
-                    "{} ({} minute remaining)",
-                    "{} ({} minutes remaining)",
-                    remaining_min,
-                    &[&title, &remaining_min.to_string()],
-                );
-
-                win.imp().queue_length_label.set_label(remaining_str);
+                win.update_playlist_time();
             }),
         );
 
@@ -551,5 +511,34 @@ impl Window {
         );
 
         self.imp().drag_overlay.set_drop_target(&drop_target);
+    }
+
+    fn update_playlist_time(&self) {
+        let player = self.imp().player.borrow();
+        let state = player.state();
+        let n_songs = state.n_songs();
+        let current = state.current_song();
+
+        let mut remaining_time = 0;
+        for pos in 0..n_songs {
+            let song = state.song_at(pos);
+            if pos >= current {
+                remaining_time += song.duration();
+            }
+        }
+
+        let title = format!("<b>{}</b>", &i18n("Playlist"));
+        let remaining_min = (remaining_time / 60) as u32;
+        let remaining_str = &ni18n_f(
+            // Translators: The first '{}' is the word "Playlist";
+            // the second '{}' is the number of minutes remaining
+            // in the playlist
+            "{} ({} minute remaining)",
+            "{} ({} minutes remaining)",
+            remaining_min,
+            &[&title, &remaining_min.to_string()],
+        );
+
+        self.imp().queue_length_label.set_label(remaining_str);
     }
 }

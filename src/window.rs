@@ -278,7 +278,7 @@ impl Window {
                 )
                 .expect("Unable to enumerate");
 
-            let mut songs = Vec::new();
+            let mut files = Vec::new();
             while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
                 if info.file_type() != gio::FileType::Regular {
                     continue;
@@ -288,16 +288,23 @@ impl Window {
                     if gio::content_type_is_a(&content_type, "audio/*") {
                         let child = enumerator.child(&info);
                         debug!("Adding {} to the queue", child.uri());
-                        let song = Song::new(child.uri().as_str());
-                        songs.push(song);
+                        files.push(child.clone());
                     }
                 }
             }
 
             // gio::FileEnumerator has no guaranteed order, so we should
-            // rely on the URI being formatted in a way that gives us an
-            // implicit order
-            songs.sort_by(|a, b| a.uri().partial_cmp(&b.uri()).unwrap());
+            // rely on the basename being formatted in a way that gives us an
+            // implicit order; if anything, this will queue songs in the same
+            // order in which they appear in the directory when browsing its
+            // contents
+            files.sort_by(|a, b| {
+                a.basename()
+                    .unwrap()
+                    .partial_cmp(&b.basename().unwrap())
+                    .unwrap()
+            });
+            let songs: Vec<Song> = files.iter().map(|f| Song::new(f.uri().as_str())).collect();
             for s in songs {
                 player.queue_song(&s);
             }

@@ -42,3 +42,11 @@ dragoverlay:drop(active) {
   background-color: alpha(@accent_bg_color, 0.5);
   color: @accent_fg_color;
 }
+
+window.main-window {
+  background-color: @background_color;
+  color: @foreground_color;
+  transition-property: background-color, color;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
+}

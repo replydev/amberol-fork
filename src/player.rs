@@ -248,22 +248,9 @@ impl PlayerState {
         self.notify("current-time");
     }
 
-    fn set_current_cover(&self, buffer: Option<glib::Bytes>) {
+    fn set_current_cover(&self, cover: Option<gdk::Texture>) {
         let imp = self.imp();
-        if let Some(buffer) = buffer {
-            let texture = match gdk::Texture::from_bytes(&buffer) {
-                Ok(t) => Some(t),
-                Err(_) => None,
-            };
-
-            match texture {
-                Some(image) => imp.current_cover.replace(Some(image)),
-                None => imp.current_cover.replace(None),
-            };
-        } else {
-            warn!("No cover art found for current song");
-            imp.current_cover.replace(None);
-        }
+        imp.current_cover.replace(cover);
         self.notify("current-cover");
     }
 
@@ -401,7 +388,7 @@ impl AudioPlayer {
         {
             self.state.set_song(Some(current_song.clone()));
             self.state.set_position(0);
-            self.state.set_current_cover(current_song.cover_art());
+            self.state.set_current_cover(current_song.cover_texture());
 
             self.gst_player.set_uri(Some(&current_song.uri()));
         }

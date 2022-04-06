@@ -3,12 +3,14 @@
 
 use std::cell::{Cell, RefCell};
 
-use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecString, ParamSpecUInt, Value};
-use gtk::{gio, glib, prelude::*, subclass::prelude::*};
+use glib::{
+    ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, ParamSpecUInt, Value,
+};
+use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*};
 use lofty::Accessor;
 use once_cell::sync::Lazy;
 
-use crate::i18n::i18n;
+use crate::{i18n::i18n, utils};
 
 #[derive(Debug, Clone)]
 pub struct SongData {
@@ -16,6 +18,8 @@ pub struct SongData {
     title: Option<String>,
     album: Option<String>,
     cover_art: Option<glib::Bytes>,
+    cover_texture: Option<gdk::Texture>,
+    cover_color: Option<gdk::RGBA>,
     duration: u64,
     file: gio::File,
 }
@@ -41,6 +45,14 @@ impl SongData {
         self.cover_art.as_ref()
     }
 
+    pub fn cover_texture(&self) -> Option<&gdk::Texture> {
+        self.cover_texture.as_ref()
+    }
+
+    pub fn cover_color(&self) -> Option<&gdk::RGBA> {
+        self.cover_color.as_ref()
+    }
+
     pub fn from_uri(uri: &str) -> Self {
         let file = gio::File::for_uri(uri);
         let path = file.path().expect("Unable to find file");
@@ -62,22 +74,27 @@ impl SongData {
             title = tag.title().map(|s| s.to_string());
             album = tag.album().map(|s| s.to_string());
             for picture in tag.pictures() {
-                match picture.mime_type() {
-                    lofty::MimeType::Png => {
-                        cover_art = Some(glib::Bytes::from(picture.data()));
-                    }
-                    lofty::MimeType::Jpeg => {
-                        cover_art = Some(glib::Bytes::from(picture.data()));
-                    }
-                    lofty::MimeType::Tiff => {
-                        cover_art = Some(glib::Bytes::from(picture.data()));
-                    }
-                    _ => cover_art = None,
+                cover_art = match picture.mime_type() {
+                    lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
+                    lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
+                    lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
+                    _ => None,
+                };
+                // Stop at the first cover we find
+                if cover_art.is_some() {
+                    break;
                 }
             }
         } else {
             warn!("Unable to load tags for {}", uri);
         };
+
+        let mut cover_texture = None;
+        let mut cover_color = None;
+        if let Some(ref cover_art) = cover_art {
+            cover_texture = utils::load_cover_texture(&cover_art);
+            cover_color = utils::load_dominant_color(&cover_art);
+        }
 
         let duration = tagged_file.properties().duration().as_secs();
 
@@ -86,6 +103,8 @@ impl SongData {
             title,
             album,
             cover_art,
+            cover_texture,
+            cover_color,
             duration,
             file,
         }
@@ -103,6 +122,8 @@ impl Default for SongData {
             title: Some("Invalid Title".to_string()),
             album: Some("Invalid Album".to_string()),
             cover_art: None,
+            cover_texture: None,
+            cover_color: None,
             duration: 0,
             file: gio::File::for_path("/does-not-exist"),
         }
@@ -140,6 +161,13 @@ mod imp {
                     ParamSpecString::new("title", "", "", None, ParamFlags::READABLE),
                     ParamSpecString::new("album", "", "", None, ParamFlags::READABLE),
                     ParamSpecUInt::new("duration", "", "", 0, u32::MAX, 0, ParamFlags::READABLE),
+                    ParamSpecObject::new(
+                        "cover",
+                        "",
+                        "",
+                        gdk::Texture::static_type(),
+                        ParamFlags::READABLE,
+                    ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
                 ]
             });
@@ -172,6 +200,7 @@ mod imp {
                 "album" => self.data.borrow().album().to_value(),
                 "duration" => self.data.borrow().duration().to_value(),
                 "uri" => self.data.borrow().uri().to_value(),
+                "cover" => self.data.borrow().cover_texture().to_value(),
                 "playing" => self.playing.get().to_value(),
                 _ => unimplemented!(),
             }
@@ -228,6 +257,20 @@ impl Song {
     pub fn cover_art(&self) -> Option<glib::Bytes> {
         match self.imp().data.borrow().cover_art() {
             Some(buffer) => Some(buffer.clone()),
+            None => None,
+        }
+    }
+
+    pub fn cover_texture(&self) -> Option<gdk::Texture> {
+        match self.imp().data.borrow().cover_texture() {
+            Some(texture) => Some(texture.clone()),
+            None => None,
+        }
+    }
+
+    pub fn cover_color(&self) -> Option<gdk::RGBA> {
+        match self.imp().data.borrow().cover_color() {
+            Some(color) => Some(color.clone()),
             None => None,
         }
     }

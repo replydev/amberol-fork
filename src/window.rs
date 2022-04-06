@@ -373,8 +373,10 @@ impl Window {
 
                 win.update_playlist_time();
 
-                let song = state.song_at(current);
-                win.update_style(&song);
+                if n_songs > 0 {
+                    let song = state.song_at(current);
+                    win.update_style(&song);
+                }
             }),
         );
 
@@ -394,6 +396,11 @@ impl Window {
                 }
 
                 win.update_playlist_time();
+
+                if n_songs > 0 {
+                    let song = state.song_at(current);
+                    win.update_style(&song);
+                }
             }),
         );
 

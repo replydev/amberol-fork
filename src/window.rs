@@ -23,6 +23,8 @@ mod imp {
     pub struct Window {
         // Template widgets
         #[template_child]
+        pub playlist_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub rewind_button: TemplateChild<gtk::Button>,
@@ -111,6 +113,10 @@ mod imp {
                 debug!("Window::queue.clear()");
                 win.clear_queue();
             });
+            klass.install_action("queue.show", None, move |win, _, _| {
+                debug!("Window::queue.show()");
+                win.toggle_queue();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -119,6 +125,7 @@ mod imp {
 
         fn new() -> Self {
             Self {
+                playlist_button: TemplateChild::default(),
                 previous_button: TemplateChild::default(),
                 rewind_button: TemplateChild::default(),
                 play_button: TemplateChild::default(),
@@ -188,6 +195,13 @@ impl Window {
 
     fn clear_queue(&self) {
         self.imp().player.borrow().queue_clear();
+    }
+
+    fn toggle_queue(&self) {
+        let visible = self.imp().queue_revealer.reveals_child();
+        self.imp().queue_revealer.set_reveal_child(!visible);
+        let width = self.default_size().0;
+        self.set_default_size(width, -1);
     }
 
     fn add_song(&self) {
@@ -383,7 +397,6 @@ impl Window {
                 win.action_set_enabled("win.pause", n_songs != 0);
                 win.action_set_enabled("win.seek-backwards", n_songs != 0);
                 win.action_set_enabled("win.seek-forward", n_songs != 0);
-                win.imp().queue_revealer.set_reveal_child(n_songs > 1);
 
                 let current = state.current_song();
                 if n_songs > 0 {

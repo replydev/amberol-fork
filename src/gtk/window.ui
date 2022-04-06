@@ -112,6 +112,16 @@
                             <property name="spacing">12</property>
                             <property name="halign">center</property>
                             <child>
+                              <object class="GtkButton" id="playlist_button">
+                                <property name="icon-name">view-list-bullet-symbolic</property>
+                                <property name="action-name">queue.show</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
                               <object class="GtkButton" id="previous_button">
                                 <property name="icon-name">media-skip-backward-symbolic</property>
                                 <property name="action-name">win.previous</property>

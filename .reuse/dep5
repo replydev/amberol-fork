@@ -47,6 +47,14 @@ Files: data/screenshots/*.png
 Copyright: 2022  Emmanuele Bassi
 License: CC0-1.0
 
+Files: data/icons/hicolor/scalable/apps/io.bassi.Amberol.*
+Copyright: 2022  Jakub Steiner
+License: CC-BY-SA-3.0
+
+Files: data/icons/hicolor/symbolic/apps/io.bassi.Amberol.*
+Copyright: 2022  Jakub Steiner
+License: CC-BY-SA-3.0
+
 Files: *.svg
 Copyright: 2022  Emmanuele Bassi
 License: CC-BY-SA-3.0

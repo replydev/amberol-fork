@@ -116,9 +116,13 @@
                                 <property name="icon-name">view-list-bullet-symbolic</property>
                                 <property name="action-name">queue.show</property>
                                 <property name="valign">center</property>
+                                <property name="tooltip-text" translatable="yes">Show the playlist</property>
                                 <style>
                                   <class name="circular"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Show playlist</property>
+                                </accessibility>
                               </object>
                             </child>
                             <child>
@@ -129,6 +133,9 @@
                                 <style>
                                   <class name="circular"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Skip backwards</property>
+                                </accessibility>
                               </object>
                             </child>
                             <child>
@@ -139,6 +146,9 @@
                                 <style>
                                   <class name="circular"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Seek backwards</property>
+                                </accessibility>
                               </object>
                             </child>
                             <child>
@@ -150,6 +160,9 @@
                                   <class name="circular"/>
                                   <class name="large"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Toggle play</property>
+                                </accessibility>
                               </object>
                             </child>
                             <child>
@@ -160,6 +173,9 @@
                                 <style>
                                   <class name="circular"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Seek forward</property>
+                                </accessibility>
                               </object>
                             </child>
                             <child>
@@ -170,6 +186,9 @@
                                 <style>
                                   <class name="circular"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Skip forward</property>
+                                </accessibility>
                               </object>
                             </child>
                             <child>
@@ -180,6 +199,9 @@
                                 <style>
                                   <class name="circular"/>
                                 </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Repeat</property>
+                                </accessibility>
                               </object>
                             </child>
                           </object>
@@ -195,6 +217,9 @@
                             <style>
                               <class name="circular"/>
                             </style>
+                            <accessibility>
+                              <property name="label" translatable="yes">Menu</property>
+                            </accessibility>
                           </object>
                         </child>
                       </object>

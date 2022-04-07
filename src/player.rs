@@ -457,6 +457,14 @@ impl AudioPlayer {
         }
     }
 
+    pub fn toggle_play_pause(&self) {
+        if self.state.playing() {
+            self.pause();
+        } else {
+            self.play();
+        }
+    }
+
     pub fn stop(&self) {
         if self.state.playing() {
             debug!("Stopped");

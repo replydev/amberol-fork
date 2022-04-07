@@ -72,11 +72,7 @@ mod imp {
             klass.install_action("win.play", None, move |win, _, _| {
                 debug!("Window::win.play()");
                 let player = win.imp().player.borrow();
-                if player.state().playing() {
-                    player.pause();
-                } else {
-                    player.play();
-                }
+                player.toggle_play_pause();
             });
             klass.install_action("win.previous", None, move |win, _, _| {
                 debug!("Window::win.previous()");
@@ -435,6 +431,7 @@ impl Window {
         });
     }
 
+    // The initial state of the playback actions
     fn init_actions(&self) {
         self.action_set_enabled("win.play", false);
         self.action_set_enabled("win.pause", false);

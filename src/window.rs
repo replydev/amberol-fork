@@ -23,6 +23,8 @@ mod imp {
     pub struct Window {
         // Template widgets
         #[template_child]
+        pub playlist_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub rewind_button: TemplateChild<gtk::Button>,
@@ -70,11 +72,7 @@ mod imp {
             klass.install_action("win.play", None, move |win, _, _| {
                 debug!("Window::win.play()");
                 let player = win.imp().player.borrow();
-                if player.state().playing() {
-                    player.pause();
-                } else {
-                    player.play();
-                }
+                player.toggle_play_pause();
             });
             klass.install_action("win.previous", None, move |win, _, _| {
                 debug!("Window::win.previous()");
@@ -111,6 +109,10 @@ mod imp {
                 debug!("Window::queue.clear()");
                 win.clear_queue();
             });
+            klass.install_action("queue.show", None, move |win, _, _| {
+                debug!("Window::queue.show()");
+                win.toggle_queue();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -119,6 +121,7 @@ mod imp {
 
         fn new() -> Self {
             Self {
+                playlist_button: TemplateChild::default(),
                 previous_button: TemplateChild::default(),
                 rewind_button: TemplateChild::default(),
                 play_button: TemplateChild::default(),
@@ -188,6 +191,13 @@ impl Window {
 
     fn clear_queue(&self) {
         self.imp().player.borrow().queue_clear();
+    }
+
+    fn toggle_queue(&self) {
+        let visible = self.imp().queue_revealer.reveals_child();
+        self.imp().queue_revealer.set_reveal_child(!visible);
+        let width = self.default_size().0;
+        self.set_default_size(width, -1);
     }
 
     fn add_song(&self) {
@@ -268,7 +278,7 @@ impl Window {
                 )
                 .expect("Unable to enumerate");
 
-            let mut songs = Vec::new();
+            let mut files = Vec::new();
             while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
                 if info.file_type() != gio::FileType::Regular {
                     continue;
@@ -278,16 +288,23 @@ impl Window {
                     if gio::content_type_is_a(&content_type, "audio/*") {
                         let child = enumerator.child(&info);
                         debug!("Adding {} to the queue", child.uri());
-                        let song = Song::new(child.uri().as_str());
-                        songs.push(song);
+                        files.push(child.clone());
                     }
                 }
             }
 
             // gio::FileEnumerator has no guaranteed order, so we should
-            // rely on the URI being formatted in a way that gives us an
-            // implicit order
-            songs.sort_by(|a, b| a.uri().partial_cmp(&b.uri()).unwrap());
+            // rely on the basename being formatted in a way that gives us an
+            // implicit order; if anything, this will queue songs in the same
+            // order in which they appear in the directory when browsing its
+            // contents
+            files.sort_by(|a, b| {
+                a.basename()
+                    .unwrap()
+                    .partial_cmp(&b.basename().unwrap())
+                    .unwrap()
+            });
+            let songs: Vec<Song> = files.iter().map(|f| Song::new(f.uri().as_str())).collect();
             for s in songs {
                 player.queue_song(&s);
             }
@@ -298,10 +315,13 @@ impl Window {
         for pos in 0..files.n_items() {
             let file = files.item(pos).unwrap().downcast::<gio::File>().unwrap();
             debug!("Adding {} to the queue", file.uri());
-
-            let song = Song::new(file.uri().as_str());
-            self.imp().player.borrow().queue_song(&song);
+            self.add_file_to_queue(&file);
         }
+    }
+
+    pub fn add_file_to_queue(&self, file: &gio::File) {
+        let song = Song::new(file.uri().as_str());
+        self.imp().player.borrow().queue_song(&song);
     }
 
     fn bind_state(&self) {
@@ -348,27 +368,7 @@ impl Window {
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
-                let mut remaining_time = 0;
-                for pos in 0..n_songs {
-                    let song = state.song_at(pos);
-                    if pos >= current {
-                        remaining_time += song.duration();
-                    }
-                }
-
-                let title = format!("<b>{}</b>", &i18n("Playlist"));
-                let remaining_min = (remaining_time / 60) as u32;
-                let remaining_str = &ni18n_f(
-                    // Translators: The first '{}' is the word "Playlist";
-                    // the second '{}' is the number of minutes remaining
-                    // in the playlist
-                    "{} ({} minute remaining)",
-                    "{} ({} minutes remaining)",
-                    remaining_min,
-                    &[&title, &remaining_min.to_string()],
-                );
-
-                win.imp().queue_length_label.set_label(remaining_str);
+                win.update_playlist_time();
             }),
         );
 
@@ -380,7 +380,6 @@ impl Window {
                 win.action_set_enabled("win.pause", n_songs != 0);
                 win.action_set_enabled("win.seek-backwards", n_songs != 0);
                 win.action_set_enabled("win.seek-forward", n_songs != 0);
-                win.imp().queue_revealer.set_reveal_child(n_songs > 1);
 
                 let current = state.current_song();
                 if n_songs > 0 {
@@ -388,27 +387,7 @@ impl Window {
                     win.action_set_enabled("win.next", current < n_songs - 1);
                 }
 
-                let mut remaining_time = 0;
-                for pos in 0..n_songs {
-                    let song = state.song_at(pos);
-                    if pos >= current {
-                        remaining_time += song.duration();
-                    }
-                }
-
-                let title = format!("<b>{}</b>", &i18n("Playlist"));
-                let remaining_min = (remaining_time / 60) as u32;
-                let remaining_str = &ni18n_f(
-                    // Translators: The first '{}' is the word "Playlist";
-                    // the second '{}' is the number of minutes remaining
-                    // in the playlist
-                    "{} ({} minute remaining)",
-                    "{} ({} minutes remaining)",
-                    remaining_min,
-                    &[&title, &remaining_min.to_string()],
-                );
-
-                win.imp().queue_length_label.set_label(remaining_str);
+                win.update_playlist_time();
             }),
         );
 
@@ -459,6 +438,7 @@ impl Window {
         });
     }
 
+    // The initial state of the playback actions
     fn init_actions(&self) {
         self.action_set_enabled("win.play", false);
         self.action_set_enabled("win.pause", false);
@@ -535,5 +515,34 @@ impl Window {
         );
 
         self.imp().drag_overlay.set_drop_target(&drop_target);
+    }
+
+    fn update_playlist_time(&self) {
+        let player = self.imp().player.borrow();
+        let state = player.state();
+        let n_songs = state.n_songs();
+        let current = state.current_song();
+
+        let mut remaining_time = 0;
+        for pos in 0..n_songs {
+            let song = state.song_at(pos);
+            if pos >= current {
+                remaining_time += song.duration();
+            }
+        }
+
+        let title = format!("<b>{}</b>", &i18n("Playlist"));
+        let remaining_min = (remaining_time / 60) as u32;
+        let remaining_str = &ni18n_f(
+            // Translators: The first '{}' is the word "Playlist";
+            // the second '{}' is the number of minutes remaining
+            // in the playlist
+            "{} ({} minute remaining)",
+            "{} ({} minutes remaining)",
+            remaining_min,
+            &[&title, &remaining_min.to_string()],
+        );
+
+        self.imp().queue_length_label.set_label(remaining_str);
     }
 }

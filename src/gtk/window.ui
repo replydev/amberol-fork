@@ -244,9 +244,11 @@
                                 <property name="vscrollbar-policy">automatic</property>
                                 <property name="max-content-height">400</property>
                                 <property name="propagate-natural-height">true</property>
+                                <property name="hexpand">true</property>
                                 <property name="child">
                                   <object class="GtkListView" id="queue_view">
                                     <property name="single-click-activate">true</property>
+                                    <property name="hexpand">true</property>
                                   </object>
                                 </property>
                               </object>

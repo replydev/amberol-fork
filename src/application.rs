@@ -87,10 +87,10 @@ glib::wrapper! {
 }
 
 impl Application {
-    pub fn new(application_id: &str, flags: &gio::ApplicationFlags) -> Self {
+    pub fn new() -> Self {
         glib::Object::new(&[
-            ("application-id", &application_id),
-            ("flags", flags),
+            ("application-id", &APPLICATION_ID),
+            ("flags", &gio::ApplicationFlags::HANDLES_OPEN),
             // We don't change the resource path depending on the
             // profile, so we need to specify the base path ourselves
             ("resource-base-path", &"/io/bassi/Amberol"),

@@ -19,14 +19,9 @@ picture.album-art {
   border-radius: 6px;
 }
 
-queuerow image:dir(ltr) {
-  padding-left: 6px;
-  padding-right: 12px;
-}
-
-queuerow image:dir(rtl) {
-  padding-left: 12px;
-  padding-right: 6px;
+queuerow {
+  padding: 6px;
+  border-spacing: 21px;
 }
 
 queuerow label.song-title {

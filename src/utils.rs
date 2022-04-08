@@ -47,15 +47,17 @@ pub fn load_palette(texture: &gdk::Texture) -> Option<Vec<gdk::RGBA>> {
     texture.download(&mut buf, 4 * texture.width() as usize);
 
     if let Ok(palette) = get_palette(&buf, ColorFormat::Rgba, 5, 4) {
-        let colors: Vec<gdk::RGBA> = palette.iter().map(|c| {
-            gdk::RGBA::new(
-                c.r as f32 / 255.0,
-                c.g as f32 / 255.0,
-                c.b as f32 / 255.0,
-                1.0,
-            )
-        })
-        .collect();
+        let colors: Vec<gdk::RGBA> = palette
+            .iter()
+            .map(|c| {
+                gdk::RGBA::new(
+                    c.r as f32 / 255.0,
+                    c.g as f32 / 255.0,
+                    c.b as f32 / 255.0,
+                    1.0,
+                )
+            })
+            .collect();
 
         return Some(colors);
     }

@@ -15,7 +15,7 @@ Files: Cargo.lock
 Copyright: 2022  Emmanuele Bassi
 License: GPL-3.0-or-later
 
-Files: README.md CONTRIBUTING.md
+Files: README.md CONTRIBUTING.md CHANGES.md
 Copyright: 2022  Emmanuele Bassi
 License: CC0-1.0
 

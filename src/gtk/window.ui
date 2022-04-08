@@ -249,6 +249,9 @@
                                   <object class="GtkListView" id="queue_view">
                                     <property name="single-click-activate">true</property>
                                     <property name="hexpand">true</property>
+                                    <style>
+                                      <class name="card"/>
+                                    </style>
                                   </object>
                                 </property>
                               </object>

@@ -48,3 +48,8 @@ window.main-window {
   transition-duration: 250ms;
   transition-timing-function: ease;
 }
+
+.main-window button:focus,
+.main-window row:focus {
+  outline-color: alpha(currentColor, .25);
+}

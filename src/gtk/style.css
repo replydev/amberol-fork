@@ -12,10 +12,6 @@ button.large {
   font-weight: 600;
 }
 
-.song-time {
-  font-feature-settings: "tnum" 1;
-}
-
 picture.album-art {
   min-width: 128px;
   min-height: 128px;

@@ -87,7 +87,7 @@
                               <object class="GtkLabel" id="song_time_label">
                                 <property name="xalign">0</property>
                                 <style>
-                                  <class name="song-time"/>
+                                  <class name="numeric"/>
                                 </style>
                               </object>
                             </child><!--

@@ -41,15 +41,13 @@ pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk::Texture> {
     texture
 }
 
-pub fn load_dominant_color(texture: &gdk::Texture) -> Option<gdk::RGBA> {
+pub fn load_palette(texture: &gdk::Texture) -> Option<Vec<gdk::RGBA>> {
     let mut buf: Vec<u8> = Vec::new();
     buf.resize(texture.height() as usize * texture.width() as usize * 4, 0);
     texture.download(&mut buf, 4 * texture.width() as usize);
 
-    let colors: Vec<gdk::RGBA> = get_palette(&buf, ColorFormat::Rgba, 5, 6)
-        .unwrap()
-        .iter()
-        .map(|c| {
+    if let Ok(palette) = get_palette(&buf, ColorFormat::Rgba, 5, 6) {
+        let colors: Vec<gdk::RGBA> = palette.iter().map(|c| {
             gdk::RGBA::new(
                 c.r as f32 / 255.0,
                 c.g as f32 / 255.0,
@@ -58,5 +56,17 @@ pub fn load_dominant_color(texture: &gdk::Texture) -> Option<gdk::RGBA> {
             )
         })
         .collect();
-    Some(colors[0].clone())
+
+        return Some(colors);
+    }
+
+    None
+}
+
+pub fn load_dominant_color(texture: &gdk::Texture) -> Option<gdk::RGBA> {
+    if let Some(palette) = load_palette(texture) {
+        return Some(palette[0]);
+    }
+
+    None
 }

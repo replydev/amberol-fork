@@ -48,6 +48,14 @@ impl SongData {
         self.cover_color.as_ref()
     }
 
+    pub fn cover_palette(&self) -> Option<Vec<gdk::RGBA>> {
+        if let Some(ref texture) = self.cover_texture {
+            return utils::load_palette(texture);
+        }
+
+        None
+    }
+
     pub fn from_uri(uri: &str) -> Self {
         let file = gio::File::for_uri(uri);
         let path = file.path().expect("Unable to find file");
@@ -262,6 +270,10 @@ impl Song {
             Some(color) => Some(color.clone()),
             None => None,
         }
+    }
+
+    pub fn cover_palette(&self) -> Option<Vec<gdk::RGBA>> {
+        self.imp().data.borrow().cover_palette()
     }
 
     pub fn duration(&self) -> u64 {

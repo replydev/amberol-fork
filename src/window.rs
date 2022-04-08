@@ -199,8 +199,6 @@ impl Window {
     fn toggle_queue(&self) {
         let visible = self.imp().queue_revealer.reveals_child();
         self.imp().queue_revealer.set_reveal_child(!visible);
-        let width = self.default_size().0;
-        self.set_default_size(width, -1);
     }
 
     fn add_song(&self) {
@@ -431,6 +429,14 @@ impl Window {
                         imp.repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
                     },
                 };
+            }),
+        );
+
+        self.imp().queue_revealer.connect_notify_local(
+            Some("child-revealed"),
+            clone!(@weak self as win => move |_, _| {
+                let width = win.default_size().0;
+                win.set_default_size(width, -1);
             }),
         );
 

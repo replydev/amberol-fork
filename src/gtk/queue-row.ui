@@ -12,7 +12,6 @@
       <object class="GtkBox" id="queue_box">
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
-        <property name="hexpand">true</property>
         <child>
           <object class="GtkLabel" id="song_title_label">
             <property name="xalign">0</property>

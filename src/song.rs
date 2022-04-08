@@ -18,7 +18,7 @@ pub struct SongData {
     title: Option<String>,
     album: Option<String>,
     cover_texture: Option<gdk::Texture>,
-    cover_color: Option<gdk::RGBA>,
+    cover_palette: Option<Vec<gdk::RGBA>>,
     duration: u64,
     file: gio::File,
 }
@@ -44,16 +44,8 @@ impl SongData {
         self.cover_texture.as_ref()
     }
 
-    pub fn cover_color(&self) -> Option<&gdk::RGBA> {
-        self.cover_color.as_ref()
-    }
-
-    pub fn cover_palette(&self) -> Option<Vec<gdk::RGBA>> {
-        if let Some(ref texture) = self.cover_texture {
-            return utils::load_palette(texture);
-        }
-
-        None
+    pub fn cover_palette(&self) -> Option<&Vec<gdk::RGBA>> {
+        self.cover_palette.as_ref()
     }
 
     pub fn from_uri(uri: &str) -> Self {
@@ -97,9 +89,9 @@ impl SongData {
             cover_texture = utils::load_cover_texture(&cover_art);
         }
 
-        let mut cover_color = None;
+        let mut cover_palette = None;
         if let Some(ref texture) = cover_texture {
-            cover_color = utils::load_dominant_color(&texture);
+            cover_palette = utils::load_palette(&texture);
         }
 
         let duration = tagged_file.properties().duration().as_secs();
@@ -109,7 +101,7 @@ impl SongData {
             title,
             album,
             cover_texture,
-            cover_color,
+            cover_palette,
             duration,
             file,
         }
@@ -127,7 +119,7 @@ impl Default for SongData {
             title: Some("Invalid Title".to_string()),
             album: Some("Invalid Album".to_string()),
             cover_texture: None,
-            cover_color: None,
+            cover_palette: None,
             duration: 0,
             file: gio::File::for_path("/does-not-exist"),
         }
@@ -266,14 +258,17 @@ impl Song {
     }
 
     pub fn cover_color(&self) -> Option<gdk::RGBA> {
-        match self.imp().data.borrow().cover_color() {
-            Some(color) => Some(color.clone()),
+        match self.imp().data.borrow().cover_palette() {
+            Some(palette) => Some(palette[0].clone()),
             None => None,
         }
     }
 
     pub fn cover_palette(&self) -> Option<Vec<gdk::RGBA>> {
-        self.imp().data.borrow().cover_palette()
+        match self.imp().data.borrow().cover_palette() {
+            Some(palette) => Some(palette.clone()),
+            None => None,
+        }
     }
 
     pub fn duration(&self) -> u64 {

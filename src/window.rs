@@ -569,23 +569,33 @@ impl Window {
     fn update_style(&self, song: &Song) {
         let imp = self.imp();
 
-        if let Some(bg_color) = song.cover_color() {
+        if let Some(bg_colors) = song.cover_palette() {
             let fg_color;
-            if utils::is_color_dark(&bg_color) {
+            // The color chosen depends on the linear gradient we use in the
+            // style, so remember to change this when changing the main-window
+            // CSS class
+            if utils::is_color_dark(&bg_colors[1]) {
                 fg_color = gdk::RGBA::parse("#ffffff").unwrap();
             } else {
                 fg_color = gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap();
             }
 
             let mut css = String::new();
-            css.push_str(&format!(
-                "@define-color background_color {};",
-                bg_color.to_string()
-            ));
+
+            let n_colors = bg_colors.len();
+            for i in 0..n_colors {
+                css.push_str(&format!(
+                    "@define-color background_color_{} {};",
+                    i.to_string(),
+                    bg_colors[i].to_string()
+                ));
+            }
+
             css.push_str(&format!(
                 "@define-color foreground_color {};",
                 fg_color.to_string()
             ));
+
             imp.provider.load_from_data(css.as_bytes());
             if !self.has_css_class("main-window") {
                 self.add_css_class("main-window");

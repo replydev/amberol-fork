@@ -232,6 +232,7 @@
                               <object class="GtkLabel" id="queue_length_label">
                                 <property name="xalign">0</property>
                                 <property name="use-markup">true</property>
+                                <property name="margin-start">6</property>
                               </object>
                             </child>
                             <child>
@@ -245,6 +246,9 @@
                                   <object class="GtkListView" id="queue_view">
                                     <property name="single-click-activate">true</property>
                                     <property name="hexpand">true</property>
+                                    <style>
+                                      <class name="navigation-sidebar"/>
+                                    </style>
                                   </object>
                                 </property>
                               </object>

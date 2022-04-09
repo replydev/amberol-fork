@@ -1,8 +1,8 @@
 data/io.bassi.Amberol.desktop.in.in
 data/io.bassi.Amberol.appdata.xml.in.in
 data/io.bassi.Amberol.gschema.xml
+src/audio/song.rs
 src/gtk/help-overlay.ui
 src/gtk/window.ui
 src/application.rs
-src/song.rs
 src/window.rs

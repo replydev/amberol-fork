@@ -17,7 +17,7 @@ use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*};
 use mpris_player::{Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
 use once_cell::sync::Lazy;
 
-use crate::{config::APPLICATION_ID, song::Song, utils::format_time};
+use crate::{audio::Song, config::APPLICATION_ID, utils::format_time};
 
 #[derive(Clone, Copy, Debug, glib::Enum)]
 #[enum_type(name = "AmberolRepeatMode")]

@@ -34,12 +34,12 @@ run_command(
 
 rust_sources = files(
   'application.rs',
+  'audio/song.rs',
   'config.rs',
   'i18n.rs',
   'main.rs',
   'player.rs',
   'queue_row.rs',
-  'song.rs',
   'utils.rs',
   'window.rs',
 )

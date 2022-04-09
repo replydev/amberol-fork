@@ -6,12 +6,12 @@ use glib::clone;
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
+    audio::Song,
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     player::{AudioPlayerWrapper, RepeatMode},
     queue_row::QueueRow,
-    song::Song,
     utils,
 };
 

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod application;
+mod audio;
 mod config;
 mod drag_overlay;
 mod i18n;
 mod player;
 mod queue_row;
-mod song;
 mod utils;
 mod window;
 

@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Tweak the behaviour of the window when toggling the playlist
+- Improve the style of the window [Alexander Mikhaylenko, !7]
+  - Deal with margins and padding
+  - Style the playlist list view
+  - Style the drag overlay
+
 ### Fixed
 
 ### Removed

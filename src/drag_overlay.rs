@@ -97,6 +97,7 @@ mod imp {
             self.revealer.set_reveal_child(false);
 
             self.status.set_icon_name(Some("document-send-symbolic"));
+            self.status.add_css_class("drag-overlay-status-page");
 
             self.revealer.set_child(Some(&self.status));
         }

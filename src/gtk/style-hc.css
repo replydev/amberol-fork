@@ -1,0 +1,4 @@
+.main-window button:focus,
+.main-window row:focus {
+  outline-color: alpha(currentColor, .5);
+}

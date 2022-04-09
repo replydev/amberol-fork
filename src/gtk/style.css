@@ -3,17 +3,13 @@ button.large {
   min-height: 48px;
 }
 
-.main_box {
-  padding: 24px;
+.main-box {
+  padding: 12px;
 }
 
 .song-title {
   font-size: 300%;
   font-weight: 600;
-}
-
-.song-time {
-  font-feature-settings: "tnum" 1;
 }
 
 picture.album-art {
@@ -23,14 +19,9 @@ picture.album-art {
   border-radius: 6px;
 }
 
-queuerow image:dir(ltr) {
-  padding-left: 6px;
-  padding-right: 12px;
-}
-
-queuerow image:dir(rtl) {
-  padding-left: 12px;
-  padding-right: 6px;
+queuerow {
+  padding: 6px;
+  border-spacing: 21px;
 }
 
 queuerow label.song-title {
@@ -38,7 +29,11 @@ queuerow label.song-title {
   font-size: 100%;
 }
 
-dragoverlay:drop(active) {
+dragoverlay {
+  box-shadow: none;
+}
+
+.drag-overlay-status-page {
   background-color: alpha(@accent_bg_color, 0.5);
   color: @accent_fg_color;
 }
@@ -52,4 +47,9 @@ window.main-window {
   transition-property: background, color;
   transition-duration: 250ms;
   transition-timing-function: ease;
+}
+
+.main-window button:focus,
+.main-window row:focus {
+  outline-color: alpha(currentColor, .25);
 }

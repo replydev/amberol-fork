@@ -6,9 +6,11 @@ Amberol
 A small and simple sound and music player that is well integrated with GNOME.
 
 Amberol aspires to be as small, unintrusive, and simple as possible. It does
-not manage your music collection; let you manage playlists, smart or otherwise;
-it does not let you edit the metadata for your songs; it does not show you
-lyrics for your songs, or the Wikipedia page for your bands.
+not manage your music collection; it does not let you manage playlists, smart
+or otherwise; it does not let you edit the metadata for your songs; it does
+not show you lyrics for your songs, or the Wikipedia page for your bands.
+
+Amberol plays music, and nothing else.
 
 ![Screenshot 1](./data/screenshots/amberol-1.png)
 ![Screesnhot 2](./data/screenshots/amberol-2.png)

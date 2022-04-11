@@ -1,6 +1,8 @@
 Amberol
 =======
 
+![Application icon](./data/icons/hicolor/scalable/apps/io.bassi.Amberol.svg)
+
 A small and simple sound and music player that is well integrated with GNOME.
 
 Amberol aspires to be as small, unintrusive, and simple as possible. It does
@@ -8,10 +10,22 @@ not manage your music collection; let you manage playlists, smart or otherwise;
 it does not let you edit the metadata for your songs; it does not show you
 lyrics for your songs, or the Wikipedia page for your bands.
 
+![Screenshot 1](./data/screenshots/amberol-1.png)
+![Screesnhot 2](./data/screenshots/amberol-2.png)
+
 Flatpak builds
 --------------
 
-The recommended way of installing Amberol is through Flatpak.
+The recommended way of installing Amberol is through Flatpak. If you don't have
+Flatpak installed, you can get it from [the Flatpak website](https://flatpak.org/setup).
+
+You can install stable builds of Amberol from [Flathub](https://flathub.org)
+by using this command:
+
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install flathub io.bassi.Amberol
+
+<a href="https://flathub.org/apps/details/io.bassi.Amberol"><img src="https://flathub.org/assets/badges/flathub-badge-en.png" width="200"/></a>
 
 Contributing
 ------------

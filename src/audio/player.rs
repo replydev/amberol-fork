@@ -174,6 +174,18 @@ impl AudioPlayer {
         }
     }
 
+    pub fn play(&self) {
+        if !self.state.playing() {
+            self.set_playback_state(PlaybackState::Playing);
+        }
+    }
+
+    pub fn pause(&self) {
+        if self.state.playing() {
+            self.set_playback_state(PlaybackState::Paused);
+        }
+    }
+
     pub fn stop(&self) {
         self.set_playback_state(PlaybackState::Stopped);
     }

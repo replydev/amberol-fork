@@ -6,13 +6,14 @@ mod audio;
 mod config;
 mod drag_overlay;
 mod i18n;
-mod player;
 mod queue_row;
 mod utils;
 mod window;
 
 use self::{application::Application, window::Window};
 
+#[macro_use]
+extern crate gtk_macros;
 #[macro_use]
 extern crate log;
 

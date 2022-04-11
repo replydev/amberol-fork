@@ -24,6 +24,7 @@
   <update_contact>ebassi_at_gnome.org</update_contact>
   <translation type="gettext">amberol</translation>
   <releases>
+    <release version="0.2.1" type="development" date="2022-04-11"/>
     <release version="0.2.0" type="development" date="2022-04-11"/>
     <release version="0.1.0" type="development" date="2022-04-02"/>
   </releases>

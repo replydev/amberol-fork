@@ -12,6 +12,16 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.2.1] - 2022-04-11
+
+### Changed
+
+- Style tweaks [Jakub Steiner, !9]
+
+### Fixed
+
+- Handle songs with unset fields without panicking
+
 ## [0.2.0] - 2022-04-11
 
 ### Added

@@ -157,8 +157,7 @@ mod imp {
             obj.setup_playlist();
             obj.setup_drop_target();
             obj.setup_provider();
-            // FIXME: https://gitlab.gnome.org/GNOME/gtk/-/issues/4136
-            // obj.restore_window_state();
+            obj.restore_window_state();
         }
     }
 
@@ -183,12 +182,14 @@ impl Window {
         imp::Window::from_instance(self)
     }
 
-    // fn restore_window_state(&self) {
-    //     let settings = utils::settings_manager();
-    //     let width = settings.int("window-width");
-    //     let height = settings.int("window-height");
-    //     self.set_default_size(width, height);
-    // }
+    fn restore_window_state(&self) {
+        // FIXME: https://gitlab.gnome.org/GNOME/gtk/-/issues/4136
+        // let settings = utils::settings_manager();
+        // let width = settings.int("window-width");
+        // let height = settings.int("window-height");
+        // self.set_default_size(width, height);
+        self.set_default_size(-1, -1);
+    }
 
     fn clear_queue(&self) {
         let player = &self.imp().player;
@@ -405,6 +406,10 @@ impl Window {
                 }
 
                 win.update_playlist_time();
+
+                if queue.n_songs() > 1 {
+                    win.imp().queue_revealer.set_reveal_child(true);
+                }
             }),
         );
         queue.connect_notify_local(

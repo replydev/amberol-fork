@@ -538,6 +538,7 @@ impl Window {
         imp.queue_view
             .connect_activate(clone!(@weak self as win => move |_, pos| {
                 win.imp().player.skip_to(pos);
+                win.imp().player.play();
             }));
     }
 

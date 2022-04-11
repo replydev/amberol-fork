@@ -36,6 +36,7 @@ rust_sources = files(
   'application.rs',
   'audio/controller.rs',
   'audio/gst_backend.rs',
+  'audio/inhibit_controller.rs',
   'audio/mod.rs',
   'audio/mpris_controller.rs',
   'audio/player.rs',

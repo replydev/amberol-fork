@@ -6,7 +6,9 @@ use std::{cell::RefCell, rc::Rc};
 use glib::{clone, Receiver};
 use gtk::{gio, glib, prelude::*};
 
-use crate::audio::{Controller, GstBackend, MprisController, PlayerState, Queue, Song};
+use crate::audio::{
+    Controller, GstBackend, InhibitController, MprisController, PlayerState, Queue, Song,
+};
 
 #[derive(Clone, Debug)]
 pub enum PlaybackAction {
@@ -72,6 +74,9 @@ impl AudioPlayer {
 
         let mpris_controller = MprisController::new(sender.clone());
         controllers.push(Box::new(mpris_controller));
+
+        let inhibit_controller = InhibitController::new();
+        controllers.push(Box::new(inhibit_controller));
 
         let backend = GstBackend::new(sender);
 

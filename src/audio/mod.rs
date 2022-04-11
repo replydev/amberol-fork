@@ -40,7 +40,9 @@
 mod controller;
 pub use controller::Controller;
 
+mod inhibit_controller;
 mod mpris_controller;
+pub use inhibit_controller::InhibitController;
 pub use mpris_controller::MprisController;
 
 mod gst_backend;

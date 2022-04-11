@@ -88,7 +88,7 @@ impl MprisController {
 
         self.mpris
             .connect_raise(clone!(@strong self.sender as sender => move || {
-                send!(sender, PlaybackAction::Present);
+                send!(sender, PlaybackAction::Raise);
             }));
     }
 

@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::rc::Rc;
+use std::{cell::RefCell, rc::Rc};
 
 use adw::subclass::prelude::*;
-use glib::clone;
+use glib::{clone, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
@@ -15,6 +15,10 @@ use crate::{
     queue_row::QueueRow,
     utils,
 };
+
+pub enum WindowAction {
+    Present,
+}
 
 mod imp {
     use super::*;
@@ -60,6 +64,7 @@ mod imp {
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
+        pub receiver: RefCell<Option<Receiver<WindowAction>>>,
     }
 
     #[glib::object_subclass]
@@ -118,6 +123,9 @@ mod imp {
         }
 
         fn new() -> Self {
+            let (sender, r) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+            let receiver = RefCell::new(Some(r));
+
             Self {
                 playlist_button: TemplateChild::default(),
                 previous_button: TemplateChild::default(),
@@ -136,8 +144,9 @@ mod imp {
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
-                player: AudioPlayer::new(),
+                player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
+                receiver: receiver,
             }
         }
     }
@@ -150,6 +159,7 @@ mod imp {
                 obj.add_css_class("devel");
             }
 
+            obj.setup_channel();
             obj.set_initial_state();
             obj.bind_state();
             obj.bind_queue();
@@ -180,6 +190,23 @@ impl Window {
 
     fn imp(&self) -> &imp::Window {
         imp::Window::from_instance(self)
+    }
+
+    fn setup_channel(&self) {
+        let receiver = self.imp().receiver.borrow_mut().take().unwrap();
+        receiver.attach(
+            None,
+            clone!(@strong self as this => move |action| this.process_action(action)),
+        );
+    }
+
+    fn process_action(&self, action: WindowAction) -> glib::Continue {
+        match action {
+            WindowAction::Present => self.present(),
+            // _ => debug!("Received action {:?}", action),
+        }
+
+        glib::Continue(true)
     }
 
     fn restore_window_state(&self) {

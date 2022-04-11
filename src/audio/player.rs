@@ -3,11 +3,12 @@
 
 use std::{cell::RefCell, rc::Rc};
 
-use glib::{clone, Receiver};
-use gtk::{gio, glib, prelude::*};
+use glib::{clone, Receiver, Sender};
+use gtk::glib;
 
-use crate::audio::{
-    Controller, GstBackend, InhibitController, MprisController, PlayerState, Queue, Song,
+use crate::{
+    audio::{Controller, GstBackend, InhibitController, MprisController, PlayerState, Queue, Song},
+    window::WindowAction,
 };
 
 #[derive(Clone, Debug)]
@@ -21,7 +22,7 @@ pub enum PlaybackAction {
     UpdatePosition(u64),
     PlayNext,
 
-    Present,
+    Raise,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -58,6 +59,7 @@ pub enum SeekDirection {
 }
 
 pub struct AudioPlayer {
+    window_sender: Sender<WindowAction>,
     receiver: RefCell<Option<Receiver<PlaybackAction>>>,
     backend: GstBackend,
     controllers: Vec<Box<dyn Controller>>,
@@ -66,7 +68,7 @@ pub struct AudioPlayer {
 }
 
 impl AudioPlayer {
-    pub fn new() -> Rc<Self> {
+    pub fn new(window_sender: Sender<WindowAction>) -> Rc<Self> {
         let (sender, r) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
         let receiver = RefCell::new(Some(r));
 
@@ -84,6 +86,7 @@ impl AudioPlayer {
         let state = PlayerState::default();
 
         let res = Rc::new(Self {
+            window_sender,
             receiver,
             backend,
             controllers,
@@ -113,7 +116,7 @@ impl AudioPlayer {
             PlaybackAction::SkipNext => self.skip_next(),
             PlaybackAction::UpdatePosition(pos) => self.update_position(pos),
             PlaybackAction::PlayNext => self.play_next(),
-            PlaybackAction::Present => self.present(),
+            PlaybackAction::Raise => self.present(),
             // _ => debug!("Received action {:?}", action),
         }
 
@@ -346,18 +349,6 @@ impl AudioPlayer {
     }
 
     fn present(&self) {
-        // FIXME: This is a layering violation; we should move this
-        // action to the window, and create a channel between Window
-        // and AudioPlayer
-        let app = gio::Application::default()
-            .expect("Failed to retrieve application singleton")
-            .downcast::<gtk::Application>()
-            .unwrap();
-        let win = app
-            .active_window()
-            .unwrap()
-            .downcast::<gtk::Window>()
-            .unwrap();
-        win.present();
+        send!(self.window_sender, WindowAction::Present);
     }
 }

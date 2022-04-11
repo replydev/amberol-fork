@@ -189,14 +189,14 @@ mod imp {
             }
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
             match pspec.name() {
-                "artist" => self.data.borrow().artist().to_value(),
-                "title" => self.data.borrow().title().to_value(),
-                "album" => self.data.borrow().album().to_value(),
-                "duration" => self.data.borrow().duration().to_value(),
-                "uri" => self.data.borrow().uri().to_value(),
-                "cover" => self.data.borrow().cover_texture().to_value(),
+                "artist" => obj.artist().to_value(),
+                "title" => obj.title().to_value(),
+                "album" => obj.album().to_value(),
+                "duration" => obj.duration().to_value(),
+                "uri" => obj.uri().to_value(),
+                "cover" => obj.cover_texture().to_value(),
                 "playing" => self.playing.get().to_value(),
                 _ => unimplemented!(),
             }

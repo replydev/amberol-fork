@@ -185,6 +185,10 @@ impl AudioPlayer {
                 return;
             }
 
+            if self.queue.is_first_song() {
+                return;
+            }
+
             debug!("Marking '{}' as not playing", current_song.uri());
             current_song.set_playing(false);
         }

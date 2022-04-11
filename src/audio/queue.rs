@@ -188,6 +188,14 @@ impl Queue {
         }
     }
 
+    pub fn is_first_song(&self) -> bool {
+        if let Some(current_pos) = self.imp().current_pos.get() {
+            return current_pos == 0;
+        }
+
+        false
+    }
+
     pub fn is_last_song(&self) -> bool {
         if let Some(current_pos) = self.imp().current_pos.get() {
             return current_pos == self.imp().store.n_items() - 1;

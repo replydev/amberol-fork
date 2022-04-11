@@ -7,8 +7,8 @@
   <gresource prefix="/io/bassi/Amberol">
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
     <file alias="queue-row.ui" preprocess="xml-stripblanks">gtk/queue-row.ui</file>
-    <file alias="style.css">gtk/style.css</file>
     <file alias="style-hc.css">gtk/style-hc.css</file>
+    <file alias="style.css">gtk/style.css</file>
     <file alias="window.ui" preprocess="xml-stripblanks">gtk/window.ui</file>
   </gresource>
 </gresources>

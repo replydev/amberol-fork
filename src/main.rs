@@ -48,9 +48,7 @@ fn main() {
     glib::set_application_name("Amberol");
     glib::set_program_name(Some("amberol"));
 
-    gtk::init().expect("Failed to initialize gtk");
     gst::init().expect("Failed to initialize gstreamer");
-    adw::init();
 
     let app = Application::new();
     std::process::exit(app.run());

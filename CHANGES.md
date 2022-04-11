@@ -8,15 +8,23 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+### Fixed
+
+### Removed
+
+## [0.2.0] - 2022-04-11
+
+### Added
+
+- Inhibit system suspend when playing
+
+### Changed
+
 - Tweak the behaviour of the window when toggling the playlist
 - Improve the style of the window [Alexander Mikhaylenko, !7]
   - Deal with margins and padding
   - Style the playlist list view
   - Style the drag overlay
-
-### Fixed
-
-### Removed
 
 ## [0.1.0] - 2022-04-08
 

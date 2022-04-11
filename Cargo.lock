@@ -22,7 +22,6 @@ name = "amberol"
 version = "0.1.0"
 dependencies = [
  "color-thief",
- "fragile",
  "gettext-rs",
  "gstreamer",
  "gstreamer-player",
@@ -203,12 +202,6 @@ dependencies = [
  "libc",
  "miniz_oxide",
 ]
-
-[[package]]
-name = "fragile"
-version = "1.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e9d758e60b45e8d749c89c1b389ad8aee550f86aa12e2b9298b546dda7a82ab1"
 
 [[package]]
 name = "futures-channel"

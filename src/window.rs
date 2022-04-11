@@ -558,11 +558,10 @@ impl Window {
                     }
                     debug!("Creating Song for {}", file.uri());
                     let song = Song::new(file.uri().as_str());
-                    if song.equals(&Song::default()) {
+                    if !song.equals(&Song::default()) {
                         win.imp().player.queue().add_song(&song);
-                        return false;
+                        return true;
                     }
-                    return true;
                 }
                 false
             }),

@@ -41,12 +41,24 @@ pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk::Texture> {
     texture
 }
 
+// The format of memory textures depends on the endianness of the
+// system: ARGB on big endian, and BGRA on little.
+#[cfg(target_endian = "big")]
+fn color_format() -> ColorFormat {
+    ColorFormat::Argb
+}
+
+#[cfg(target_endian = "little")]
+fn color_format() -> ColorFormat {
+    ColorFormat::Bgra
+}
+
 pub fn load_palette(texture: &gdk::Texture) -> Option<Vec<gdk::RGBA>> {
     let mut buf: Vec<u8> = Vec::new();
     buf.resize(texture.height() as usize * texture.width() as usize * 4, 0);
     texture.download(&mut buf, 4 * texture.width() as usize);
 
-    if let Ok(palette) = get_palette(&buf, ColorFormat::Rgba, 5, 4) {
+    if let Ok(palette) = get_palette(&buf, color_format(), 5, 4) {
         let colors: Vec<gdk::RGBA> = palette
             .iter()
             .map(|c| {

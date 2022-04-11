@@ -220,6 +220,7 @@ impl Window {
 
     fn clear_queue(&self) {
         let player = &self.imp().player;
+        player.stop();
         player.state().set_current_song(None);
         player.queue().clear();
     }

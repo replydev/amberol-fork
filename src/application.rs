@@ -99,17 +99,21 @@ impl Application {
     }
 
     fn setup_gactions(&self) {
-        let quit_action = gio::SimpleAction::new("quit", None);
-        quit_action.connect_activate(clone!(@weak self as app => move |_, _| {
-            app.quit();
-        }));
-        self.add_action(&quit_action);
+        action!(
+            self,
+            "quit",
+            clone!(@weak self as app => move |_, _| {
+                app.quit();
+            })
+        );
 
-        let about_action = gio::SimpleAction::new("about", None);
-        about_action.connect_activate(clone!(@weak self as app => move |_, _| {
-            app.show_about();
-        }));
-        self.add_action(&about_action);
+        action!(
+            self,
+            "about",
+            clone!(@weak self as app => move |_, _| {
+                app.show_about();
+            })
+        );
     }
 
     fn show_about(&self) {

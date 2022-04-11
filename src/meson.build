@@ -34,12 +34,20 @@ run_command(
 
 rust_sources = files(
   'application.rs',
+  'audio/controller.rs',
+  'audio/gst_backend.rs',
+  'audio/inhibit_controller.rs',
+  'audio/mod.rs',
+  'audio/mpris_controller.rs',
+  'audio/player.rs',
+  'audio/queue.rs',
+  'audio/song.rs',
+  'audio/state.rs',
   'config.rs',
+  'drag_overlay.rs',
   'i18n.rs',
   'main.rs',
-  'player.rs',
   'queue_row.rs',
-  'song.rs',
   'utils.rs',
   'window.rs',
 )

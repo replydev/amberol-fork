@@ -42,10 +42,6 @@ mod imp {
     }
 
     impl ObjectImpl for QueueRow {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
-        }
-
         fn dispose(&self, _obj: &Self::Type) {
             self.playing_image.unparent();
             self.queue_box.unparent();

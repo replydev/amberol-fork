@@ -191,10 +191,6 @@ impl Window {
         glib::Object::new(&[("application", application)]).expect("Failed to create Window")
     }
 
-    fn imp(&self) -> &imp::Window {
-        imp::Window::from_instance(self)
-    }
-
     fn setup_channel(&self) {
         let receiver = self.imp().receiver.borrow_mut().take().unwrap();
         receiver.attach(

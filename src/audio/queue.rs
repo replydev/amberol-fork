@@ -24,7 +24,6 @@ mod imp {
     impl ObjectSubclass for Queue {
         const NAME: &'static str = "AmberolQueue";
         type Type = super::Queue;
-        type ParentType = glib::Object;
 
         fn new() -> Self {
             Self {
@@ -83,10 +82,6 @@ impl Default for Queue {
 }
 
 impl Queue {
-    fn imp(&self) -> &imp::Queue {
-        imp::Queue::from_instance(self)
-    }
-
     pub fn n_songs(&self) -> u32 {
         self.imp().store.n_items()
     }

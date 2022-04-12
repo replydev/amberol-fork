@@ -26,7 +26,6 @@ mod imp {
     impl ObjectSubclass for PlayerState {
         const NAME: &'static str = "AmberolPlayerState";
         type Type = super::PlayerState;
-        type ParentType = glib::Object;
 
         fn new() -> Self {
             Self {
@@ -87,10 +86,6 @@ glib::wrapper! {
 }
 
 impl PlayerState {
-    fn imp(&self) -> &imp::PlayerState {
-        imp::PlayerState::from_instance(self)
-    }
-
     pub fn title(&self) -> Option<String> {
         if let Some(song) = &*self.imp().current_song.borrow() {
             return Some(song.title());

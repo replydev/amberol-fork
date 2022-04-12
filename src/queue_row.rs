@@ -39,22 +39,9 @@ mod imp {
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
         }
-
-        fn new() -> Self {
-            Self {
-                playing_image: TemplateChild::default(),
-                queue_box: TemplateChild::default(),
-                song_title_label: TemplateChild::default(),
-                song_artist_label: TemplateChild::default(),
-            }
-        }
     }
 
     impl ObjectImpl for QueueRow {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
-        }
-
         fn dispose(&self, _obj: &Self::Type) {
             self.playing_image.unparent();
             self.queue_box.unparent();
@@ -117,10 +104,6 @@ glib::wrapper! {
 impl QueueRow {
     pub fn new() -> Self {
         glib::Object::new(&[]).expect("Failed to create QueueRow")
-    }
-
-    fn imp(&self) -> &imp::QueueRow {
-        imp::QueueRow::from_instance(self)
     }
 
     pub fn set_song_title(&self, title: String) {

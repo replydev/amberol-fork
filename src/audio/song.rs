@@ -139,7 +139,6 @@ mod imp {
     impl ObjectSubclass for Song {
         const NAME: &'static str = "AmberolSong";
         type Type = super::Song;
-        type ParentType = glib::Object;
     }
 
     impl ObjectImpl for Song {
@@ -219,10 +218,6 @@ impl Song {
 
     pub fn equals(&self, other: &Self) -> bool {
         self.uri() == other.uri()
-    }
-
-    fn imp(&self) -> &imp::Song {
-        imp::Song::from_instance(self)
     }
 
     pub fn uri(&self) -> String {

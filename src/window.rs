@@ -56,6 +56,8 @@ mod imp {
         #[template_child]
         pub queue_view: TemplateChild<gtk::ListView>,
         #[template_child]
+        pub cover_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub album_image: TemplateChild<gtk::Picture>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
@@ -141,6 +143,7 @@ mod imp {
                 song_time_label: TemplateChild::default(),
                 queue_revealer: TemplateChild::default(),
                 queue_view: TemplateChild::default(),
+                cover_stack: TemplateChild::default(),
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
@@ -374,11 +377,14 @@ impl Window {
         state.connect_notify_local(
             Some("position"),
             clone!(@weak self as win => move |state, _| {
-                let position = state.position();
-                let duration = state.duration();
-
-                let time = utils::format_time(position, duration);
-                win.imp().song_time_label.set_label(&time);
+                if state.current_song().is_some() {
+                    let position = state.position();
+                    let duration = state.duration();
+                    let time = utils::format_time(position, duration);
+                    win.imp().song_time_label.set_label(&time);
+                } else {
+                    win.imp().song_time_label.set_label("");
+                }
             }),
         );
         // Update the playlist time
@@ -387,8 +393,12 @@ impl Window {
             clone!(@weak self as win => move |state, _| {
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
+                    debug!("Updating style for {:?}", current);
+                    win.imp().cover_stack.set_visible_child_name("cover-image");
                     win.update_style(&current);
                 } else {
+                    debug!("Reset album art");
+                    win.imp().cover_stack.set_visible_child_name("no-image");
                     win.remove_css_class("main-window");
                 }
             }),

@@ -146,7 +146,7 @@ mod imp {
                 drag_overlay: TemplateChild::default(),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
-                receiver: receiver,
+                receiver,
             }
         }
     }
@@ -611,30 +611,29 @@ impl Window {
         let imp = self.imp();
 
         if let Some(bg_colors) = song.cover_palette() {
-            let fg_color;
             // The color chosen depends on the linear gradient we use in the
             // style, so remember to change this when changing the main-window
             // CSS class
-            if utils::is_color_dark(&bg_colors[1]) {
-                fg_color = gdk::RGBA::parse("#ffffff").unwrap();
+            let fg_color = if utils::is_color_dark(&bg_colors[1]) {
+                gdk::RGBA::parse("#ffffff").unwrap()
             } else {
-                fg_color = gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap();
-            }
+                gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap()
+            };
 
             let mut css = String::new();
 
             let n_colors = bg_colors.len();
-            for i in 0..n_colors {
+            for (i, color) in bg_colors.iter().enumerate().take(n_colors) {
                 css.push_str(&format!(
                     "@define-color background_color_{} {};",
-                    i.to_string(),
-                    bg_colors[i].to_string()
+                    i,
+                    color
                 ));
             }
 
             css.push_str(&format!(
                 "@define-color foreground_color {};",
-                fg_color.to_string()
+                fg_color
             ));
 
             imp.provider.load_from_data(css.as_bytes());

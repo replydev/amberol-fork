@@ -69,7 +69,7 @@ mod imp {
                 window
                     .downcast_ref::<Window>()
                     .unwrap()
-                    .add_file_to_queue(&f);
+                    .add_file_to_queue(f);
             }
 
             window.present();

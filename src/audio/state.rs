@@ -133,10 +133,7 @@ impl PlayerState {
 
     pub fn playing(&self) -> bool {
         let playback_state = self.imp().playback_state.get();
-        match playback_state {
-            PlaybackState::Playing => true,
-            _ => false,
-        }
+        matches!(playback_state, PlaybackState::Playing)
     }
 
     pub fn set_playback_state(&self, playback_state: &PlaybackState) -> bool {
@@ -150,10 +147,7 @@ impl PlayerState {
     }
 
     pub fn current_song(&self) -> Option<Song> {
-        match &*self.imp().current_song.borrow() {
-            Some(s) => Some(s.clone()),
-            None => None,
-        }
+        (*self.imp().current_song.borrow()).as_ref().cloned()
     }
 
     pub fn set_current_song(&self, song: Option<Song>) {

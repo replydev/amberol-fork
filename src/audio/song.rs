@@ -25,15 +25,15 @@ pub struct SongData {
 
 impl SongData {
     pub fn artist(&self) -> Option<&str> {
-        self.artist.as_ref().map(|s| s.as_str())
+        self.artist.as_deref()
     }
 
     pub fn title(&self) -> Option<&str> {
-        self.title.as_ref().map(|s| s.as_str())
+        self.title.as_deref()
     }
 
     pub fn album(&self) -> Option<&str> {
-        self.album.as_ref().map(|s| s.as_str())
+        self.album.as_deref()
     }
 
     pub fn duration(&self) -> u64 {
@@ -86,12 +86,12 @@ impl SongData {
 
         let mut cover_texture = None;
         if let Some(ref cover_art) = cover_art {
-            cover_texture = utils::load_cover_texture(&cover_art);
+            cover_texture = utils::load_cover_texture(cover_art);
         }
 
         let mut cover_palette = None;
         if let Some(ref texture) = cover_texture {
-            cover_palette = utils::load_palette(&texture);
+            cover_palette = utils::load_palette(texture);
         }
 
         let duration = tagged_file.properties().duration().as_secs();
@@ -231,44 +231,35 @@ impl Song {
 
     pub fn artist(&self) -> String {
         match self.imp().data.borrow().artist() {
-            Some(artist) => return artist.to_string(),
-            None => return i18n("Unknown artist").to_string(),
+            Some(artist) => artist.to_string(),
+            None => i18n("Unknown artist"),
         }
     }
 
     pub fn title(&self) -> String {
         match self.imp().data.borrow().title() {
-            Some(title) => return title.to_string(),
-            None => return i18n("Unknown title").to_string(),
+            Some(title) => title.to_string(),
+            None => i18n("Unknown title"),
         }
     }
 
     pub fn album(&self) -> String {
         match self.imp().data.borrow().album() {
-            Some(album) => return album.to_string(),
-            None => return i18n("Unknown album").to_string(),
+            Some(album) => album.to_string(),
+            None => i18n("Unknown album")
         }
     }
 
     pub fn cover_texture(&self) -> Option<gdk::Texture> {
-        match self.imp().data.borrow().cover_texture() {
-            Some(texture) => Some(texture.clone()),
-            None => None,
-        }
+        self.imp().data.borrow().cover_texture().cloned()
     }
 
     pub fn cover_color(&self) -> Option<gdk::RGBA> {
-        match self.imp().data.borrow().cover_palette() {
-            Some(palette) => Some(palette[0].clone()),
-            None => None,
-        }
+        self.imp().data.borrow().cover_palette().map(|p| p[0])
     }
 
     pub fn cover_palette(&self) -> Option<Vec<gdk::RGBA>> {
-        match self.imp().data.borrow().cover_palette() {
-            Some(palette) => Some(palette.clone()),
-            None => None,
-        }
+        self.imp().data.borrow().cover_palette().cloned()
     }
 
     pub fn duration(&self) -> u64 {

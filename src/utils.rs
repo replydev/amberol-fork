@@ -33,12 +33,10 @@ pub fn is_color_dark(color: &gdk::RGBA) -> bool {
 }
 
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk::Texture> {
-    let texture = match gdk::Texture::from_bytes(buffer) {
+    match gdk::Texture::from_bytes(buffer) {
         Ok(t) => Some(t),
         Err(_) => None,
-    };
-
-    texture
+    }
 }
 
 // The format of memory textures depends on the endianness of the

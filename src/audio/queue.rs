@@ -128,7 +128,7 @@ impl Queue {
     pub fn skip_song(&self, pos: u32) -> Option<Song> {
         self.imp().current_pos.replace(Some(pos));
         self.notify("current");
-        return self.song_at(pos);
+        self.song_at(pos)
     }
 
     pub fn previous_song(&self) -> Option<Song> {
@@ -165,15 +165,15 @@ impl Queue {
             if let Some(next) = next {
                 self.imp().current_pos.replace(Some(next));
                 self.notify("current");
-                return self.song_at(next);
+                self.song_at(next)
             } else {
-                return None;
+                None
             }
         } else {
             // Return the first song
             self.imp().current_pos.replace(Some(0));
             self.notify("current");
-            return self.song_at(0);
+            self.song_at(0)
         }
     }
 

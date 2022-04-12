@@ -124,8 +124,9 @@ impl AudioPlayer {
     }
 
     fn set_playback_state(&self, state: PlaybackState) {
-        let current_song = self.state.current_song();
-        if current_song.is_none() {
+        if let Some(current_song) = self.state.current_song() {
+            debug!("Current song: {}", current_song.uri());
+        } else {
             debug!("Getting the first song");
             if let Some(next_song) = self.queue.next_song() {
                 debug!("Next song: {}", next_song.uri());
@@ -144,9 +145,6 @@ impl AudioPlayer {
                 self.backend.set_song_uri(None);
                 return;
             }
-        } else {
-            let current_song = current_song.unwrap();
-            debug!("Current song: {}", current_song.uri());
         }
 
         self.state.set_playback_state(&state);

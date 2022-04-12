@@ -116,8 +116,10 @@ impl Queue {
     }
 
     pub fn add_song(&self, song: &Song) {
-        self.imp().store.append(song);
-        self.notify("n-songs");
+        if !song.equals(&Song::default()) {
+            self.imp().store.append(song);
+            self.notify("n-songs");
+        }
     }
 
     pub fn clear(&self) {

@@ -152,12 +152,14 @@ impl PlayerState {
 
     pub fn set_current_song(&self, song: Option<Song>) {
         self.imp().current_song.replace(song);
+        self.imp().position.replace(0);
         self.notify("song");
         self.notify("title");
         self.notify("artist");
         self.notify("album");
         self.notify("duration");
         self.notify("cover");
+        self.notify("position");
     }
 
     pub fn position(&self) -> u64 {

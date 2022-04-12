@@ -624,17 +624,10 @@ impl Window {
 
             let n_colors = bg_colors.len();
             for (i, color) in bg_colors.iter().enumerate().take(n_colors) {
-                css.push_str(&format!(
-                    "@define-color background_color_{} {};",
-                    i,
-                    color
-                ));
+                css.push_str(&format!("@define-color background_color_{} {};", i, color));
             }
 
-            css.push_str(&format!(
-                "@define-color foreground_color {};",
-                fg_color
-            ));
+            css.push_str(&format!("@define-color foreground_color {};", fg_color));
 
             imp.provider.load_from_data(css.as_bytes());
             if !self.has_css_class("main-window") {

@@ -246,7 +246,7 @@ impl Song {
     pub fn album(&self) -> String {
         match self.imp().data.borrow().album() {
             Some(album) => album.to_string(),
-            None => i18n("Unknown album")
+            None => i18n("Unknown album"),
         }
     }
 

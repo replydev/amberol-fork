@@ -127,7 +127,7 @@ impl AudioPlayer {
         if let Some(current_song) = self.state.current_song() {
             debug!("Current song: {}", current_song.uri());
         } else {
-            debug!("Getting the first song");
+            debug!("Getting the next song");
             if let Some(next_song) = self.queue.next_song() {
                 debug!("Next song: {}", next_song.uri());
 
@@ -141,9 +141,26 @@ impl AudioPlayer {
 
                 self.backend.set_song_uri(Some(&next_song.uri()));
                 self.state.set_current_song(Some(next_song));
+                self.state.set_playback_state(&state);
+
+                for c in &self.controllers {
+                    c.set_playback_state(&state);
+                }
+
+                match state {
+                    PlaybackState::Playing => self.backend.play(),
+                    PlaybackState::Paused => self.backend.pause(),
+                    PlaybackState::Stopped => self.backend.stop(),
+                }
             } else {
+                debug!("No songs left");
                 self.backend.set_song_uri(None);
-                return;
+                self.state.set_current_song(None);
+                self.state.set_playback_state(&PlaybackState::Stopped);
+
+                for c in &self.controllers {
+                    c.set_playback_state(&PlaybackState::Stopped);
+                }
             }
         }
 

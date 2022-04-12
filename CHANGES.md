@@ -8,7 +8,17 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Miscellaneous cleanups [Christopher Davis, !10]
+- Use idiomatic Rust as suggested by Clippy
+- Improve handling the end of playlist state
+- Skip songs that cannot be queried for metadata
+
 ### Fixed
+
+- Stop playback when clearing the playlist
+- Immediately play the song selected from the playlist
+- Use the appropriate color format for the texture data [#7]
+- Use the proper fallback asset for albums with no cover
 
 ### Removed
 

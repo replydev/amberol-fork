@@ -39,15 +39,6 @@ mod imp {
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
             obj.init_template();
         }
-
-        fn new() -> Self {
-            Self {
-                playing_image: TemplateChild::default(),
-                queue_box: TemplateChild::default(),
-                song_title_label: TemplateChild::default(),
-                song_artist_label: TemplateChild::default(),
-            }
-        }
     }
 
     impl ObjectImpl for QueueRow {

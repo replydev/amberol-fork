@@ -221,10 +221,6 @@ impl Song {
         self.uri() == other.uri()
     }
 
-    fn imp(&self) -> &imp::Song {
-        imp::Song::from_instance(self)
-    }
-
     pub fn uri(&self) -> String {
         self.imp().data.borrow().uri()
     }

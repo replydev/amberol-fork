@@ -106,10 +106,6 @@ impl QueueRow {
         glib::Object::new(&[]).expect("Failed to create QueueRow")
     }
 
-    fn imp(&self) -> &imp::QueueRow {
-        imp::QueueRow::from_instance(self)
-    }
-
     pub fn set_song_title(&self, title: String) {
         let imp = self.imp();
         imp.song_title_label.set_label(&title);

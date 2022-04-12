@@ -139,7 +139,6 @@ mod imp {
     impl ObjectSubclass for Song {
         const NAME: &'static str = "AmberolSong";
         type Type = super::Song;
-        type ParentType = glib::Object;
     }
 
     impl ObjectImpl for Song {

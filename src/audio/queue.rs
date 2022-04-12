@@ -24,7 +24,6 @@ mod imp {
     impl ObjectSubclass for Queue {
         const NAME: &'static str = "AmberolQueue";
         type Type = super::Queue;
-        type ParentType = glib::Object;
 
         fn new() -> Self {
             Self {

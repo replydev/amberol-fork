@@ -26,7 +26,6 @@ mod imp {
     impl ObjectSubclass for PlayerState {
         const NAME: &'static str = "AmberolPlayerState";
         type Type = super::PlayerState;
-        type ParentType = glib::Object;
 
         fn new() -> Self {
             Self {

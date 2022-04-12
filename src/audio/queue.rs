@@ -167,6 +167,8 @@ impl Queue {
                 self.notify("current");
                 self.song_at(next)
             } else {
+                self.imp().current_pos.replace(None);
+                self.notify("current");
                 None
             }
         } else {

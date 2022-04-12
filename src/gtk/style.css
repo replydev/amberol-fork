@@ -42,10 +42,10 @@ dragoverlay {
 }
 
 window.main-window {
-  background: linear-gradient(127deg, alpha(@background_color_1, 0.65), @background_color_1 66%),
-              linear-gradient(217deg, alpha(@background_color_4, 0.65), @background_color_4 66%),
+  background: linear-gradient(127deg, alpha(@background_color_1, 0.75), @background_color_1 66%),
+              linear-gradient(217deg, alpha(@background_color_4, 0.75), @background_color_4 66%),
               /* background_color_2 is used to determine foreground_color */
-              linear-gradient(336deg, alpha(@background_color_2, 0.65), @background_color_2 66%);
+              linear-gradient(336deg, alpha(@background_color_2, 0.75), @background_color_2 66%);
   color: @foreground_color;
   transition-property: background, color;
   transition-duration: 250ms;

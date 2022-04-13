@@ -130,6 +130,10 @@ impl ShuffleListModel {
         self.notify("model");
     }
 
+    pub fn shuffled(&self) -> bool {
+        self.imp().shuffle.borrow().is_some()
+    }
+
     pub fn reshuffle(&self) {
         if let Some(ref model) = *self.imp().model.borrow() {
             let mut positions: Vec<u32> = (0..model.n_items()).collect();

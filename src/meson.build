@@ -41,6 +41,7 @@ rust_sources = files(
   'audio/mpris_controller.rs',
   'audio/player.rs',
   'audio/queue.rs',
+  'audio/shuffle.rs',
   'audio/song.rs',
   'audio/state.rs',
   'config.rs',

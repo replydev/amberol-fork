@@ -654,4 +654,12 @@ impl Window {
             self.remove_css_class("main-window");
         }
     }
+
+    pub fn open_file(&self, file: &gio::File) {
+        self.add_file_to_queue(file);
+        let queue = self.imp().player.queue();
+        if queue.n_songs() == 1 {
+            self.imp().player.play();
+        }
+    }
 }

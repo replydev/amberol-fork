@@ -66,10 +66,7 @@ mod imp {
             };
 
             for f in files {
-                window
-                    .downcast_ref::<Window>()
-                    .unwrap()
-                    .add_file_to_queue(f);
+                window.downcast_ref::<Window>().unwrap().open_file(f);
             }
 
             window.present();

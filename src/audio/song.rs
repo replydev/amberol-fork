@@ -169,15 +169,16 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+        fn set_property(&self, obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "uri" => {
                     if let Ok(p) = value.get::<&str>() {
                         self.data.replace(SongData::from_uri(p));
-                        _obj.notify("artist");
-                        _obj.notify("title");
-                        _obj.notify("album");
-                        _obj.notify("duration");
+                        obj.notify("artist");
+                        obj.notify("title");
+                        obj.notify("album");
+                        obj.notify("duration");
+                        obj.notify("cover");
                     }
                 }
                 "playing" => {

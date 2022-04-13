@@ -49,7 +49,7 @@
                                     <property name="overflow">hidden</property>
                                     <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
                                     <style>
-                                      <class name="cover"/>
+                                      <class name="no-cover"/>
                                       <class name="icon-dropshadow"/>
                                     </style>
                                   </object>

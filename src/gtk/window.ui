@@ -144,6 +144,16 @@
                               </object>
                             </child>
                             <child>
+                              <object class="GtkToggleButton" id="shuffle_button">
+                                <property name="icon-name">media-playlist-shuffle-symbolic</property>
+                                <property name="valign">center</property>
+                                <property name="tooltip-text" translatable="yes">Shuffle the playlist</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
                               <object class="GtkButton" id="previous_button">
                                 <property name="icon-name">media-skip-backward-symbolic</property>
                                 <property name="action-name">win.previous</property>

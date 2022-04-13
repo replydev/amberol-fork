@@ -31,6 +31,8 @@ mod imp {
         #[template_child]
         pub playlist_button: TemplateChild<gtk::Button>,
         #[template_child]
+        pub shuffle_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub rewind_button: TemplateChild<gtk::Button>,
@@ -131,6 +133,7 @@ mod imp {
 
             Self {
                 playlist_button: TemplateChild::default(),
+                shuffle_button: TemplateChild::default(),
                 previous_button: TemplateChild::default(),
                 rewind_button: TemplateChild::default(),
                 play_button: TemplateChild::default(),
@@ -482,6 +485,13 @@ impl Window {
             clone!(@weak self as win => move |_, _| {
                 let width = win.default_size().0;
                 win.set_default_size(width, -1);
+            }),
+        );
+
+        self.imp().shuffle_button.connect_toggled(
+            clone!(@weak self as win => move |toggle_button| {
+                let queue = win.imp().player.queue();
+                queue.set_shuffle(toggle_button.is_active());
             }),
         );
 

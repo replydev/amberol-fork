@@ -10,6 +10,7 @@ use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use crate::{
     audio::{AudioPlayer, RepeatMode, Song},
     config::APPLICATION_ID,
+    cover_picture::CoverPicture,
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     queue_row::QueueRow,
@@ -58,7 +59,7 @@ mod imp {
         #[template_child]
         pub cover_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub album_image: TemplateChild<gtk::Picture>,
+        pub album_image: TemplateChild<CoverPicture>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -417,7 +418,7 @@ impl Window {
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
-            .bind_property("cover", &imp.album_image.get(), "paintable")
+            .bind_property("cover", &imp.album_image.get(), "cover")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
     }

@@ -49,7 +49,7 @@
                                     <property name="overflow">hidden</property>
                                     <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
                                     <style>
-                                      <class name="album-art"/>
+                                      <class name="cover"/>
                                       <class name="icon-dropshadow"/>
                                     </style>
                                   </object>
@@ -60,10 +60,8 @@
                               <object class="GtkStackPage">
                                 <property name="name">cover-image</property>
                                 <property name="child">
-                                  <object class="GtkPicture" id="album_image">
-                                    <property name="overflow">hidden</property>
+                                  <object class="AmberolCoverPicture" id="album_image">
                                     <style>
-                                      <class name="album-art"/>
                                       <class name="icon-dropshadow"/>
                                     </style>
                                   </object>

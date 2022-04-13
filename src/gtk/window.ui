@@ -122,10 +122,11 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCenterBox">
+                      <object class="GtkBox">
                         <property name="margin-top">48</property>
                         <property name="halign">center</property>
-                        <child type="center">
+                        <property name="hexpand">true</property>
+                        <child>
                           <object class="GtkBox" id="controls_box">
                             <property name="spacing">12</property>
                             <property name="halign">center</property>

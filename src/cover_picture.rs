@@ -90,10 +90,9 @@ mod imp {
                 let width = _widget.width() as f64;
                 let height = _widget.height() as f64;
                 let ratio = cover.intrinsic_aspect_ratio();
-                let picture_ratio = width / height;
                 let w;
                 let h;
-                if ratio > picture_ratio {
+                if ratio > 1.0 {
                     w = width;
                     h = height / ratio;
                 } else {

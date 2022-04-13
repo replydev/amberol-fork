@@ -5,7 +5,7 @@ use std::cell::Cell;
 
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 
-use crate::audio::{RepeatMode, Song};
+use crate::audio::{RepeatMode, ShuffleListModel, Song};
 
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecEnum, ParamSpecObject, ParamSpecUInt, Value};
@@ -15,6 +15,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub struct Queue {
+        pub model: ShuffleListModel,
         pub store: gio::ListStore,
         pub repeat_mode: Cell<RepeatMode>,
         pub current_pos: Cell<Option<u32>>,
@@ -26,8 +27,12 @@ mod imp {
         type Type = super::Queue;
 
         fn new() -> Self {
+            let store = gio::ListStore::new(Song::static_type());
+            let model = ShuffleListModel::new(Some(&store));
+
             Self {
-                store: gio::ListStore::new(Song::static_type()),
+                store,
+                model,
                 repeat_mode: Cell::new(RepeatMode::default()),
                 current_pos: Cell::new(None),
             }
@@ -83,15 +88,15 @@ impl Default for Queue {
 
 impl Queue {
     pub fn n_songs(&self) -> u32 {
-        self.imp().store.n_items()
+        self.imp().model.n_items()
     }
 
-    pub fn model(&self) -> &gio::ListStore {
-        self.imp().store.as_ref()
+    pub fn model(&self) -> &gio::ListModel {
+        self.imp().model.as_ref()
     }
 
     pub fn song_at(&self, pos: u32) -> Option<Song> {
-        if let Some(song) = self.imp().store.item(pos) {
+        if let Some(song) = self.imp().model.item(pos) {
             return Some(song.downcast::<Song>().unwrap());
         }
 
@@ -112,6 +117,7 @@ impl Queue {
 
     pub fn add_song(&self, song: &Song) {
         if !song.equals(&Song::default()) {
+            // Add song to the backing store
             self.imp().store.append(song);
             self.notify("n-songs");
         }
@@ -142,7 +148,7 @@ impl Queue {
     }
 
     pub fn next_song(&self) -> Option<Song> {
-        let store = &self.imp().store;
+        let store = &self.imp().model;
 
         let n_songs = store.n_items();
         if n_songs == 0 {
@@ -197,9 +203,17 @@ impl Queue {
 
     pub fn is_last_song(&self) -> bool {
         if let Some(current_pos) = self.imp().current_pos.get() {
-            return current_pos == self.imp().store.n_items() - 1;
+            return current_pos == self.imp().model.n_items() - 1;
         }
 
         false
+    }
+
+    pub fn set_shuffle(&self, _shuffle: bool) {
+        if _shuffle {
+            self.imp().model.reshuffle();
+        } else {
+            self.imp().model.unshuffle();
+        }
     }
 }

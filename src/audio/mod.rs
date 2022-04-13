@@ -50,10 +50,12 @@ pub use gst_backend::GstBackend;
 
 mod player;
 mod queue;
+mod shuffle;
 mod song;
 mod state;
 
 pub use player::{AudioPlayer, PlaybackAction, PlaybackState, RepeatMode, SeekDirection};
 pub use queue::Queue;
+pub use shuffle::ShuffleListModel;
 pub use song::Song;
 pub use state::PlayerState;

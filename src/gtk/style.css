@@ -13,7 +13,7 @@ button.large {
   font-weight: 800;
 }
 
-picture.album-art {
+picture.cover {
   min-width: 128px;
   min-height: 128px;
   box-shadow: 0px 1px 4px rgba(0,0,0,0.5),

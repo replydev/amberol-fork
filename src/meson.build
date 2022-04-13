@@ -44,6 +44,7 @@ rust_sources = files(
   'audio/song.rs',
   'audio/state.rs',
   'config.rs',
+  'cover_picture.rs',
   'drag_overlay.rs',
   'i18n.rs',
   'main.rs',

@@ -4,6 +4,7 @@
 mod application;
 mod audio;
 mod config;
+mod cover_picture;
 mod drag_overlay;
 mod i18n;
 mod queue_row;

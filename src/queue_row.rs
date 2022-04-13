@@ -101,9 +101,15 @@ glib::wrapper! {
         @implements gio::ActionGroup, gio::ActionMap;
 }
 
+impl Default for QueueRow {
+    fn default() -> Self {
+        glib::Object::new(&[]).expect("Failed to create QueueRow")
+    }
+}
+
 impl QueueRow {
     pub fn new() -> Self {
-        glib::Object::new(&[]).expect("Failed to create QueueRow")
+        Self::default()
     }
 
     pub fn set_song_title(&self, title: String) {

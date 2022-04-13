@@ -517,7 +517,7 @@ impl Window {
 
         let factory = gtk::SignalListItemFactory::new();
         factory.connect_setup(move |_, list_item| {
-            let row = QueueRow::new();
+            let row = QueueRow::default();
             list_item.set_child(Some(&row));
 
             list_item

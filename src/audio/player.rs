@@ -20,7 +20,6 @@ pub enum PlaybackAction {
     SkipNext,
 
     UpdatePosition(u64),
-    VolumeChanged(f64),
     PlayNext,
 
     Raise,
@@ -116,7 +115,6 @@ impl AudioPlayer {
             PlaybackAction::SkipPrevious => self.skip_previous(),
             PlaybackAction::SkipNext => self.skip_next(),
             PlaybackAction::UpdatePosition(pos) => self.update_position(pos),
-            PlaybackAction::VolumeChanged(vol) => self.update_volume(vol),
             PlaybackAction::PlayNext => self.play_next(),
             PlaybackAction::Raise => self.present(),
             // _ => debug!("Received action {:?}", action),
@@ -365,15 +363,6 @@ impl AudioPlayer {
 
     fn update_position(&self, position: u64) {
         self.state.set_position(position);
-    }
-
-    fn update_volume(&self, volume: f64) {
-        debug!("Updating volume to: {}", &volume);
-        self.state.set_volume(volume);
-    }
-
-    pub fn set_volume(&self, volume: f64) {
-        self.backend.set_volume(volume);
     }
 
     pub fn toggle_repeat_mode(&self) {

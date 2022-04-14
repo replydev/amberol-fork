@@ -30,10 +30,6 @@ version = "0.6"
 package = "gstreamer"
 version = "0.18"
 
-[dependencies.gst-audio]
-package = "gstreamer-audio"
-version = "0.18"
-
 [dependencies.gst-player]
 package = "gstreamer-player"
 version = "0.18"

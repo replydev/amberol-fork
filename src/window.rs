@@ -15,7 +15,6 @@ use crate::{
     i18n::{i18n, ni18n_f},
     queue_row::QueueRow,
     utils,
-    volume_control::VolumeControl,
 };
 
 pub enum WindowAction {
@@ -67,8 +66,6 @@ mod imp {
         pub queue_length_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub drag_overlay: TemplateChild<DragOverlay>,
-        #[template_child]
-        pub volume_control: TemplateChild<VolumeControl>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -154,7 +151,6 @@ mod imp {
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
-                volume_control: TemplateChild::default(),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
                 receiver,
@@ -437,10 +433,6 @@ impl Window {
             .bind_property("cover", &imp.album_image.get(), "cover")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
-        state
-            .bind_property("volume", &imp.volume_control.get(), "volume")
-            .flags(glib::BindingFlags::DEFAULT)
-            .build();
     }
 
     // Bind the Queue to the UI
@@ -513,13 +505,6 @@ impl Window {
             clone!(@weak self as win => move |toggle_button| {
                 let queue = win.imp().player.queue();
                 queue.set_shuffle(toggle_button.is_active());
-            }),
-        );
-
-        self.imp().volume_control.connect_notify_local(
-            Some("volume"),
-            clone!(@weak self as win => move |control, _| {
-                win.imp().player.set_volume(control.volume());
             }),
         );
 

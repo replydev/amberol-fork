@@ -29,6 +29,12 @@ by using this command:
 
 <a href="https://flathub.org/apps/details/io.bassi.Amberol"><img src="https://flathub.org/assets/badges/flathub-badge-en.png" width="200"/></a>
 
+Getting in touch
+----------------
+
+If you have questions about Amberol, you can join the [`#amberol:gnome.org`](https://matrix.to/#/#amberol:gnome.org)
+channel on Matrix, or use the [GNOME Discourse instance](https://discourse.gnome.org/c/applications/7).
+
 Contributing
 ------------
 

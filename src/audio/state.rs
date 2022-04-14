@@ -9,7 +9,8 @@ use crate::audio::{PlaybackState, Song};
 
 mod imp {
     use glib::{
-        ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, ParamSpecUInt64,
+        ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecDouble, ParamSpecObject, ParamSpecString,
+        ParamSpecUInt64,
     };
     use once_cell::sync::Lazy;
 
@@ -20,6 +21,7 @@ mod imp {
         pub playback_state: Cell<PlaybackState>,
         pub position: Cell<u64>,
         pub current_song: RefCell<Option<Song>>,
+        pub volume: Cell<f64>,
     }
 
     #[glib::object_subclass]
@@ -32,6 +34,7 @@ mod imp {
                 playback_state: Cell::new(PlaybackState::Stopped),
                 position: Cell::new(0),
                 current_song: RefCell::new(None),
+                volume: Cell::new(1.0),
             }
         }
     }
@@ -54,6 +57,7 @@ mod imp {
                         gdk::Texture::static_type(),
                         ParamFlags::READABLE,
                     ),
+                    ParamSpecDouble::new("volume", "", "", 0.0, 1.0, 1.0, ParamFlags::READABLE),
                 ]
             });
             PROPERTIES.as_ref()
@@ -64,6 +68,7 @@ mod imp {
                 "playing" => obj.playing().to_value(),
                 "position" => obj.position().to_value(),
                 "song" => self.current_song.borrow().to_value(),
+                "volume" => obj.volume().to_value(),
 
                 // These are proxies for Song properties
                 "title" => obj.title().to_value(),
@@ -164,6 +169,22 @@ impl PlayerState {
     pub fn set_position(&self, position: u64) {
         self.imp().position.replace(position);
         self.notify("position");
+    }
+
+    pub fn volume(&self) -> f64 {
+        self.imp().volume.get()
+    }
+
+    pub fn set_volume(&self, volume: f64) {
+        let old_volume = self.imp().volume.replace(volume);
+        // We only care about two digits of precision, to avoid
+        // notification cycles when we update the volume with a
+        // similar value coming from the volume control
+        let old_rounded = format!("{:.2}", old_volume);
+        let new_rounded = format!("{:.2}", volume);
+        if old_rounded != new_rounded {
+            self.notify("volume");
+        }
     }
 }
 

@@ -48,6 +48,17 @@ impl GstBackend {
                 }
             }),
         );
+
+        self.gst_player.connect_volume_changed(
+            clone!(@strong self.sender as sender => move |player| {
+                let volume = gst_audio::StreamVolume::convert_volume(
+                    gst_audio::StreamVolumeFormat::Linear,
+                    gst_audio::StreamVolumeFormat::Cubic,
+                    player.volume(),
+                );
+                send!(sender, PlaybackAction::VolumeChanged(volume));
+            }),
+        );
     }
 
     pub fn set_song_uri(&self, uri: Option<&str>) {
@@ -93,5 +104,15 @@ impl GstBackend {
 
     pub fn stop(&self) {
         self.gst_player.stop();
+    }
+
+    pub fn set_volume(&self, volume: f64) {
+        let linear_volume = gst_audio::StreamVolume::convert_volume(
+            gst_audio::StreamVolumeFormat::Cubic,
+            gst_audio::StreamVolumeFormat::Linear,
+            volume,
+        );
+        debug!("Setting volume to: {}", &linear_volume);
+        self.gst_player.set_volume(linear_volume);
     }
 }

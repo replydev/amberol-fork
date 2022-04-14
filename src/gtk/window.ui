@@ -201,6 +201,11 @@
                           </object>
                         </child>
                         <child>
+                          <object class="AmberolVolumeControl" id="volume_control">
+                            <property name="hexpand">true</property>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkCenterBox" id="queue_controls_box">
                             <child type="start">
                               <object class="GtkBox">

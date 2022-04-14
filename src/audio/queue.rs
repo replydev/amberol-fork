@@ -128,6 +128,21 @@ impl Queue {
         }
     }
 
+    pub fn add_songs(&self, songs: &[impl IsA<glib::Object>]) {
+        let was_shuffled = self.imp().model.shuffled();
+        self.imp().model.unshuffle();
+
+        self.imp()
+            .store
+            .splice(self.imp().model.n_items(), 0, songs);
+
+        if was_shuffled {
+            self.imp().model.reshuffle();
+        }
+
+        self.notify("n-songs");
+    }
+
     pub fn clear(&self) {
         self.imp().store.remove_all();
         self.notify("n-songs");

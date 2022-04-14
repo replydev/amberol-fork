@@ -9,7 +9,6 @@ mod drag_overlay;
 mod i18n;
 mod queue_row;
 mod utils;
-mod volume_control;
 mod window;
 
 use self::{application::Application, window::Window};

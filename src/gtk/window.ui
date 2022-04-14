@@ -123,15 +123,37 @@
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="orientation">vertical</property>
+                        <property name="margin-top">48</property>
                         <property name="halign">center</property>
-                        <property name="margin-top">36</property>
-                        <property name="margin-bottom">36</property>
-                        <property name="spacing">12</property>
+                        <property name="hexpand">true</property>
                         <child>
                           <object class="GtkBox" id="controls_box">
                             <property name="spacing">12</property>
                             <property name="halign">center</property>
+                            <child>
+                              <object class="GtkButton" id="playlist_button">
+                                <property name="icon-name">view-list-bullet-symbolic</property>
+                                <property name="action-name">queue.show</property>
+                                <property name="valign">center</property>
+                                <property name="tooltip-text" translatable="yes">Show the playlist</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Show playlist</property>
+                                </accessibility>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkToggleButton" id="shuffle_button">
+                                <property name="icon-name">media-playlist-shuffle-symbolic</property>
+                                <property name="valign">center</property>
+                                <property name="tooltip-text" translatable="yes">Shuffle the playlist</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                              </object>
+                            </child>
                             <child>
                               <object class="GtkButton" id="previous_button">
                                 <property name="icon-name">media-skip-backward-symbolic</property>
@@ -198,79 +220,35 @@
                                 </accessibility>
                               </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="AmberolVolumeControl" id="volume_control">
-                            <property name="hexpand">true</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkCenterBox" id="queue_controls_box">
-                            <child type="start">
-                              <object class="GtkBox">
-                                <property name="halign">start</property>
-                                <property name="spacing">12</property>
-                                <child>
-                                  <object class="GtkButton" id="playlist_button">
-                                    <property name="icon-name">view-list-bullet-symbolic</property>
-                                    <property name="action-name">queue.show</property>
-                                    <property name="valign">center</property>
-                                    <property name="tooltip-text" translatable="yes">Show the playlist</property>
-                                    <style>
-                                      <class name="circular"/>
-                                    </style>
-                                    <accessibility>
-                                      <property name="label" translatable="yes">Show playlist</property>
-                                    </accessibility>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkToggleButton" id="shuffle_button">
-                                    <property name="icon-name">media-playlist-shuffle-symbolic</property>
-                                    <property name="valign">center</property>
-                                    <property name="tooltip-text" translatable="yes">Shuffle the playlist</property>
-                                    <style>
-                                      <class name="circular"/>
-                                    </style>
-                                  </object>
-                                </child>
+                            <child>
+                              <object class="GtkButton" id="repeat_button">
+                                <property name="icon-name">media-playlist-consecutive-symbolic</property>
+                                <property name="action-name">queue.repeat-mode</property>
+                                <property name="valign">center</property>
+                                <style>
+                                  <class name="circular"/>
+                                </style>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Repeat</property>
+                                </accessibility>
                               </object>
                             </child>
-                            <child type="end">
-                              <object class="GtkBox">
-                                <property name="halign">end</property>
-                                <property name="spacing">12</property>
-                                <child>
-                                  <object class="GtkButton" id="repeat_button">
-                                    <property name="icon-name">media-playlist-consecutive-symbolic</property>
-                                    <property name="action-name">queue.repeat-mode</property>
-                                    <property name="valign">center</property>
-                                    <style>
-                                      <class name="circular"/>
-                                    </style>
-                                    <accessibility>
-                                      <property name="label" translatable="yes">Repeat</property>
-                                    </accessibility>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuButton" id="menu_button">
-                                    <property name="menu-model">primary_menu</property>
-                                    <property name="icon-name">open-menu-symbolic</property>
-                                    <property name="primary">true</property>
-                                    <property name="halign">end</property>
-                                    <property name="valign">center</property>
-                                    <style>
-                                      <class name="circular"/>
-                                    </style>
-                                    <accessibility>
-                                      <property name="label" translatable="yes">Menu</property>
-                                    </accessibility>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
+                          </object>
+                        </child>
+                        <child type="end">
+                          <object class="GtkMenuButton" id="menu_button">
+                            <property name="menu-model">primary_menu</property>
+                            <property name="icon-name">open-menu-symbolic</property>
+                            <property name="primary">true</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                            <property name="margin-start">12</property>
+                            <style>
+                              <class name="circular"/>
+                            </style>
+                            <accessibility>
+                              <property name="label" translatable="yes">Menu</property>
+                            </accessibility>
                           </object>
                         </child>
                       </object>

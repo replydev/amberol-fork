@@ -335,10 +335,23 @@ impl Window {
                     .partial_cmp(&b.basename().unwrap())
                     .unwrap()
             });
-            let songs: Vec<Song> = files.iter().map(|f| Song::new(f.uri().as_str())).collect();
+            let songs: Vec<Song> = files
+                .iter()
+                .map(|f| Song::new(f.uri().as_str()))
+                .filter(|s| !s.equals(&Song::default()))
+                .collect();
+
             let queue = self.imp().player.queue();
-            for s in songs {
-                queue.add_song(&s);
+            let n_songs = queue.n_songs();
+
+            if songs.len() > 0 {
+                queue.add_songs(&songs);
+
+                // If we just imported a bunch of songs, let's
+                // select the first song
+                if n_songs == 0 {
+                    self.imp().player.skip_next();
+                }
             }
         }
     }

@@ -13,9 +13,9 @@ use crate::{
     cover_picture::CoverPicture,
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
+    playback_control::PlaybackControl,
     queue_row::QueueRow,
     utils,
-    volume_control::VolumeControl,
 };
 
 pub enum WindowAction {
@@ -29,24 +29,6 @@ mod imp {
     #[template(resource = "/io/bassi/Amberol/window.ui")]
     pub struct Window {
         // Template widgets
-        #[template_child]
-        pub playlist_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub shuffle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub previous_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub rewind_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub play_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub forward_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub next_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub repeat_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub song_title_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -68,7 +50,7 @@ mod imp {
         #[template_child]
         pub drag_overlay: TemplateChild<DragOverlay>,
         #[template_child]
-        pub volume_control: TemplateChild<VolumeControl>,
+        pub playback_control: TemplateChild<PlaybackControl>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -135,15 +117,6 @@ mod imp {
             let receiver = RefCell::new(Some(r));
 
             Self {
-                playlist_button: TemplateChild::default(),
-                shuffle_button: TemplateChild::default(),
-                previous_button: TemplateChild::default(),
-                rewind_button: TemplateChild::default(),
-                play_button: TemplateChild::default(),
-                forward_button: TemplateChild::default(),
-                next_button: TemplateChild::default(),
-                repeat_button: TemplateChild::default(),
-                menu_button: TemplateChild::default(),
                 song_title_label: TemplateChild::default(),
                 song_artist_label: TemplateChild::default(),
                 song_album_label: TemplateChild::default(),
@@ -154,7 +127,7 @@ mod imp {
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
-                volume_control: TemplateChild::default(),
+                playback_control: TemplateChild::default(),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
                 receiver,
@@ -383,10 +356,11 @@ impl Window {
         state.connect_notify_local(
             Some("playing"),
             clone!(@weak self as win => move |state, _| {
+                let play_button = win.imp().playback_control.play_button();
                 if state.playing() {
-                    win.imp().play_button.set_icon_name("media-playback-pause-symbolic");
+                    play_button.set_icon_name("media-playback-pause-symbolic");
                 } else {
-                    win.imp().play_button.set_icon_name("media-playback-start-symbolic");
+                    play_button.set_icon_name("media-playback-start-symbolic");
                 }
             }),
         );
@@ -438,7 +412,11 @@ impl Window {
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
-            .bind_property("volume", &imp.volume_control.get(), "volume")
+            .bind_property(
+                "volume",
+                &imp.playback_control.get().volume_control(),
+                "volume",
+            )
             .flags(glib::BindingFlags::DEFAULT)
             .build();
     }
@@ -475,15 +453,16 @@ impl Window {
             Some("repeat-mode"),
             clone!(@weak self as win => move |queue, _| {
                 let imp = win.imp();
+                let repeat_button = imp.playback_control.repeat_button();
                 match queue.repeat_mode() {
                     RepeatMode::Consecutive => {
-                        imp.repeat_button.set_icon_name("media-playlist-consecutive-symbolic");
+                        repeat_button.set_icon_name("media-playlist-consecutive-symbolic");
                     },
                     RepeatMode::RepeatAll => {
-                        imp.repeat_button.set_icon_name("media-playlist-repeat-symbolic");
+                        repeat_button.set_icon_name("media-playlist-repeat-symbolic");
                     },
                     RepeatMode::RepeatOne => {
-                        imp.repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
+                        repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
                     },
                 }
             }),
@@ -509,14 +488,14 @@ impl Window {
             }),
         );
 
-        self.imp().shuffle_button.connect_toggled(
-            clone!(@weak self as win => move |toggle_button| {
-                let queue = win.imp().player.queue();
-                queue.set_shuffle(toggle_button.is_active());
-            }),
-        );
+        let shuffle_button = self.imp().playback_control.shuffle_button();
+        shuffle_button.connect_toggled(clone!(@weak self as win => move |toggle_button| {
+            let queue = win.imp().player.queue();
+            queue.set_shuffle(toggle_button.is_active());
+        }));
 
-        self.imp().volume_control.connect_notify_local(
+        let volume_control = self.imp().playback_control.volume_control();
+        volume_control.connect_notify_local(
             Some("volume"),
             clone!(@weak self as win => move |control, _| {
                 win.imp().player.set_volume(control.volume());

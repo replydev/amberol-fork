@@ -7,6 +7,7 @@ mod config;
 mod cover_picture;
 mod drag_overlay;
 mod i18n;
+mod playback_control;
 mod queue_row;
 mod utils;
 mod volume_control;

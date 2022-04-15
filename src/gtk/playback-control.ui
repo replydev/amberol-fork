@@ -6,7 +6,7 @@
 
     <object class="GtkBox" id="center_box">
       <property name="orientation">vertical</property>
-      <property name="spacing">12</property>
+      <property name="spacing">6</property>
       <child>
         <object class="GtkBox" id="controls_box">
           <property name="spacing">12</property>

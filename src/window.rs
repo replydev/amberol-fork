@@ -102,8 +102,8 @@ mod imp {
                 debug!("Window::queue.clear()");
                 win.clear_queue();
             });
-            klass.install_action("queue.show", None, move |win, _, _| {
-                debug!("Window::queue.show()");
+            klass.install_action("queue.toggle", None, move |win, _, _| {
+                debug!("Window::queue.toggle()");
                 win.toggle_queue();
             });
         }
@@ -203,6 +203,7 @@ impl Window {
         player.stop();
         player.state().set_current_song(None);
         player.queue().clear();
+        self.imp().queue_revealer.set_reveal_child(false);
     }
 
     fn toggle_queue(&self) {
@@ -431,6 +432,7 @@ impl Window {
                 if queue.n_songs() == 0 {
                     win.set_initial_state();
                 } else {
+                    win.action_set_enabled("queue.toggle", queue.n_songs() > 1);
                     win.action_set_enabled("win.play", true);
                     win.action_set_enabled("win.seek-backwards", true);
                     win.action_set_enabled("win.seek-forward", true);
@@ -527,6 +529,7 @@ impl Window {
         self.action_set_enabled("win.next", false);
         self.action_set_enabled("win.seek-backwards", false);
         self.action_set_enabled("win.seek-forward", false);
+        self.action_set_enabled("queue.toggle", false);
     }
 
     fn setup_playlist(&self) {

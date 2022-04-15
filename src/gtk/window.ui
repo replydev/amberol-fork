@@ -35,6 +35,8 @@
                     <style>
                       <class name="main-box"/>
                     </style>
+
+                    <!-- Song details -->
                     <child>
                       <object class="GtkBox">
                         <property name="orientation">vertical</property>
@@ -125,6 +127,7 @@
                       </object>
                     </child>
 
+                    <!-- Playback and queue controls -->
                     <child>
                       <object class="AmberolPlaybackControl" id="playback_control">
                         <property name="halign">center</property>
@@ -133,6 +136,7 @@
                       </object>
                     </child>
 
+                    <!-- Playlist view -->
                     <child>
                       <object class="GtkRevealer" id="queue_revealer">
                         <property name="transition-type">slide-down</property>
@@ -169,6 +173,7 @@
                         </property>
                       </object>
                     </child>
+
                   </object>
                 </child>
               </object>

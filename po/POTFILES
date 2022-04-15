@@ -4,6 +4,7 @@ data/io.bassi.Amberol.gschema.xml
 src/audio/inhibit_controller.rs
 src/audio/song.rs
 src/gtk/help-overlay.ui
+src/gtk/playback-control.ui
 src/gtk/window.ui
 src/application.rs
 src/window.rs

@@ -49,8 +49,10 @@ rust_sources = files(
   'drag_overlay.rs',
   'i18n.rs',
   'main.rs',
+  'playback_control.rs',
   'queue_row.rs',
   'utils.rs',
+  'volume_control.rs',
   'window.rs',
 )
 

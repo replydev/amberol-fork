@@ -13,6 +13,7 @@ use crate::{
     cover_picture::CoverPicture,
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
+    playback_control::PlaybackControl,
     queue_row::QueueRow,
     utils,
 };
@@ -28,24 +29,6 @@ mod imp {
     #[template(resource = "/io/bassi/Amberol/window.ui")]
     pub struct Window {
         // Template widgets
-        #[template_child]
-        pub playlist_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub shuffle_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub previous_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub rewind_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub play_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub forward_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub next_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub repeat_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub song_title_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -66,6 +49,8 @@ mod imp {
         pub queue_length_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub drag_overlay: TemplateChild<DragOverlay>,
+        #[template_child]
+        pub playback_control: TemplateChild<PlaybackControl>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -117,8 +102,8 @@ mod imp {
                 debug!("Window::queue.clear()");
                 win.clear_queue();
             });
-            klass.install_action("queue.show", None, move |win, _, _| {
-                debug!("Window::queue.show()");
+            klass.install_action("queue.toggle", None, move |win, _, _| {
+                debug!("Window::queue.toggle()");
                 win.toggle_queue();
             });
         }
@@ -132,15 +117,6 @@ mod imp {
             let receiver = RefCell::new(Some(r));
 
             Self {
-                playlist_button: TemplateChild::default(),
-                shuffle_button: TemplateChild::default(),
-                previous_button: TemplateChild::default(),
-                rewind_button: TemplateChild::default(),
-                play_button: TemplateChild::default(),
-                forward_button: TemplateChild::default(),
-                next_button: TemplateChild::default(),
-                repeat_button: TemplateChild::default(),
-                menu_button: TemplateChild::default(),
                 song_title_label: TemplateChild::default(),
                 song_artist_label: TemplateChild::default(),
                 song_album_label: TemplateChild::default(),
@@ -151,6 +127,7 @@ mod imp {
                 album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
+                playback_control: TemplateChild::default(),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
                 receiver,
@@ -218,7 +195,7 @@ impl Window {
         // let width = settings.int("window-width");
         // let height = settings.int("window-height");
         // self.set_default_size(width, height);
-        self.set_default_size(-1, -1);
+        self.set_default_size(400, -1);
     }
 
     fn clear_queue(&self) {
@@ -226,6 +203,7 @@ impl Window {
         player.stop();
         player.state().set_current_song(None);
         player.queue().clear();
+        self.imp().queue_revealer.set_reveal_child(false);
     }
 
     fn toggle_queue(&self) {
@@ -379,10 +357,11 @@ impl Window {
         state.connect_notify_local(
             Some("playing"),
             clone!(@weak self as win => move |state, _| {
+                let play_button = win.imp().playback_control.play_button();
                 if state.playing() {
-                    win.imp().play_button.set_icon_name("media-playback-pause-symbolic");
+                    play_button.set_icon_name("media-playback-pause-symbolic");
                 } else {
-                    win.imp().play_button.set_icon_name("media-playback-start-symbolic");
+                    play_button.set_icon_name("media-playback-start-symbolic");
                 }
             }),
         );
@@ -433,6 +412,14 @@ impl Window {
             .bind_property("cover", &imp.album_image.get(), "cover")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
+        state
+            .bind_property(
+                "volume",
+                &imp.playback_control.get().volume_control(),
+                "volume",
+            )
+            .flags(glib::BindingFlags::DEFAULT)
+            .build();
     }
 
     // Bind the Queue to the UI
@@ -445,6 +432,7 @@ impl Window {
                 if queue.n_songs() == 0 {
                     win.set_initial_state();
                 } else {
+                    win.action_set_enabled("queue.toggle", queue.n_songs() > 1);
                     win.action_set_enabled("win.play", true);
                     win.action_set_enabled("win.seek-backwards", true);
                     win.action_set_enabled("win.seek-forward", true);
@@ -467,15 +455,16 @@ impl Window {
             Some("repeat-mode"),
             clone!(@weak self as win => move |queue, _| {
                 let imp = win.imp();
+                let repeat_button = imp.playback_control.repeat_button();
                 match queue.repeat_mode() {
                     RepeatMode::Consecutive => {
-                        imp.repeat_button.set_icon_name("media-playlist-consecutive-symbolic");
+                        repeat_button.set_icon_name("media-playlist-consecutive-symbolic");
                     },
                     RepeatMode::RepeatAll => {
-                        imp.repeat_button.set_icon_name("media-playlist-repeat-symbolic");
+                        repeat_button.set_icon_name("media-playlist-repeat-symbolic");
                     },
                     RepeatMode::RepeatOne => {
-                        imp.repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
+                        repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
                     },
                 }
             }),
@@ -501,10 +490,17 @@ impl Window {
             }),
         );
 
-        self.imp().shuffle_button.connect_toggled(
-            clone!(@weak self as win => move |toggle_button| {
-                let queue = win.imp().player.queue();
-                queue.set_shuffle(toggle_button.is_active());
+        let shuffle_button = self.imp().playback_control.shuffle_button();
+        shuffle_button.connect_toggled(clone!(@weak self as win => move |toggle_button| {
+            let queue = win.imp().player.queue();
+            queue.set_shuffle(toggle_button.is_active());
+        }));
+
+        let volume_control = self.imp().playback_control.volume_control();
+        volume_control.connect_notify_local(
+            Some("volume"),
+            clone!(@weak self as win => move |control, _| {
+                win.imp().player.set_volume(control.volume());
             }),
         );
 
@@ -533,6 +529,7 @@ impl Window {
         self.action_set_enabled("win.next", false);
         self.action_set_enabled("win.seek-backwards", false);
         self.action_set_enabled("win.seek-forward", false);
+        self.action_set_enabled("queue.toggle", false);
     }
 
     fn setup_playlist(&self) {
@@ -576,23 +573,50 @@ impl Window {
         let drop_target = gtk::DropTarget::builder()
             .name("file-drop-target")
             .actions(gdk::DragAction::COPY)
-            .formats(&gdk::ContentFormats::for_type(gio::File::static_type()))
+            .formats(&gdk::ContentFormats::for_type(gdk::FileList::static_type()))
             .build();
 
         drop_target.connect_drop(
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
-                if let Ok(file) = value.get::<gio::File>() {
-                    if !file.query_exists(gio::Cancellable::NONE) {
-                        debug!("Received {} but cannot access it", file.uri());
-                        return false;
+                if let Ok(file_list) = value.get::<gdk::FileList>() {
+                    let mut files = Vec::new();
+
+                    for f in file_list.files() {
+                        if let Ok(info) = f.query_info("standard::*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
+                            if info.file_type() != gio::FileType::Regular {
+                                continue;
+                            }
+
+                            if let Some(content_type) = info.content_type() {
+                                if gio::content_type_is_a(&content_type, "audio/*") {
+                                    debug!("Adding {} to the queue", f.uri());
+                                    files.push(f.clone());
+                                }
+                            }
+                        }
                     }
-                    debug!("Creating Song for {}", file.uri());
-                    let song = Song::new(file.uri().as_str());
-                    if !song.equals(&Song::default()) {
-                        win.imp().player.queue().add_song(&song);
-                        return true;
+
+                    let songs: Vec<Song> = files
+                        .iter()
+                        .map(|f| Song::new(f.uri().as_str()))
+                        .filter(|s| !s.equals(&Song::default()))
+                        .collect();
+
+                    let queue = win.imp().player.queue();
+                    let n_songs = queue.n_songs();
+
+                    if songs.len() > 0 {
+                        queue.add_songs(&songs);
+
+                        // If we just imported a bunch of songs, let's
+                        // select the first song
+                        if n_songs == 0 {
+                            win.imp().player.skip_next();
+                            return true;
+                        }
                     }
                 }
+
                 false
             }),
         );

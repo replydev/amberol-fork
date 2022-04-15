@@ -3,6 +3,8 @@
   <requires lib="gtk" version="4.0"/>
   <template class="AmberolWindow" parent="AdwApplicationWindow">
     <property name="handle-menubar-accel">true</property>
+    <property name="default-width">400</property>
+    <property name="resizable">false</property>
     <property name="content">
       <object class="GtkWindowHandle">
         <child>
@@ -33,39 +35,46 @@
                     <style>
                       <class name="main-box"/>
                     </style>
+
+                    <!-- Song details -->
                     <child>
                       <object class="GtkBox">
-                        <property name="orientation">horizontal</property>
-                        <property name="hexpand">true</property>
-                        <property name="spacing">24</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">12</property>
                         <child>
-                          <object class="GtkStack" id="cover_stack">
-                            <property name="transition-type">crossfade</property>
+                          <object class="GtkBox">
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
                             <child>
-                              <object class="GtkStackPage">
-                                <property name="name">no-image</property>
-                                <property name="child">
-                                  <object class="GtkPicture">
-                                    <property name="overflow">hidden</property>
-                                    <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
-                                    <style>
-                                      <class name="no-cover"/>
-                                      <class name="icon-dropshadow"/>
-                                    </style>
+                              <object class="GtkStack" id="cover_stack">
+                                <property name="transition-type">crossfade</property>
+                                <child>
+                                  <object class="GtkStackPage">
+                                    <property name="name">no-image</property>
+                                    <property name="child">
+                                      <object class="GtkPicture">
+                                        <property name="overflow">hidden</property>
+                                        <property name="file">resource:///io/bassi/Amberol/icons/scalable/actions/music-note-single-symbolic.svg</property>
+                                        <style>
+                                          <class name="no-cover"/>
+                                          <class name="icon-dropshadow"/>
+                                        </style>
+                                      </object>
+                                    </property>
                                   </object>
-                                </property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="name">cover-image</property>
-                                <property name="child">
-                                  <object class="AmberolCoverPicture" id="album_image">
-                                    <style>
-                                      <class name="icon-dropshadow"/>
-                                    </style>
+                                </child>
+                                <child>
+                                  <object class="GtkStackPage">
+                                    <property name="name">cover-image</property>
+                                    <property name="child">
+                                      <object class="AmberolCoverPicture" id="album_image">
+                                        <style>
+                                          <class name="icon-dropshadow"/>
+                                        </style>
+                                      </object>
+                                    </property>
                                   </object>
-                                </property>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -77,7 +86,7 @@
                             <property name="valign">center</property>
                             <child>
                               <object class="GtkLabel" id="song_title_label">
-                                <property name="xalign">0</property>
+                                <property name="xalign">0.5</property>
                                 <property name="ellipsize">end</property>
                                 <property name="width-chars">15</property>
                                 <style>
@@ -87,7 +96,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="song_artist_label">
-                                <property name="xalign">0</property>
+                                <property name="xalign">0.5</property>
                                 <property name="ellipsize">end</property>
                                 <property name="width-chars">20</property>
                                 <style>
@@ -97,7 +106,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="song_album_label">
-                                <property name="xalign">0</property>
+                                <property name="xalign">0.5</property>
                                 <property name="ellipsize">end</property>
                                 <property name="width-chars">20</property>
                                 <style>
@@ -107,152 +116,27 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="song_time_label">
-                                <property name="xalign">0</property>
+                                <property name="xalign">0.5</property>
                                 <style>
                                   <class name="numeric"/>
                                 </style>
                               </object>
-                            </child><!--
-                            <child>
-                              <object class="GtkScale" id="position_scale">
-                              </object>
-                            </child>-->
+                            </child>
                           </object>
                         </child>
                       </object>
                     </child>
+
+                    <!-- Playback and queue controls -->
                     <child>
-                      <object class="GtkBox">
-                        <property name="margin-top">48</property>
+                      <object class="AmberolPlaybackControl" id="playback_control">
                         <property name="halign">center</property>
-                        <property name="hexpand">true</property>
-                        <child>
-                          <object class="GtkBox" id="controls_box">
-                            <property name="spacing">12</property>
-                            <property name="halign">center</property>
-                            <child>
-                              <object class="GtkButton" id="playlist_button">
-                                <property name="icon-name">view-list-bullet-symbolic</property>
-                                <property name="action-name">queue.show</property>
-                                <property name="valign">center</property>
-                                <property name="tooltip-text" translatable="yes">Show the playlist</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Show playlist</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkToggleButton" id="shuffle_button">
-                                <property name="icon-name">media-playlist-shuffle-symbolic</property>
-                                <property name="valign">center</property>
-                                <property name="tooltip-text" translatable="yes">Shuffle the playlist</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="previous_button">
-                                <property name="icon-name">media-skip-backward-symbolic</property>
-                                <property name="action-name">win.previous</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Skip backwards</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="rewind_button">
-                                <property name="icon-name">media-seek-backward-symbolic</property>
-                                <property name="action-name">win.seek-backwards</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Seek backwards</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="play_button">
-                                <property name="icon-name">media-playback-start-symbolic</property>
-                                <property name="action-name">win.play</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="circular"/>
-                                  <class name="large"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Toggle play</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="forward_button">
-                                <property name="icon-name">media-seek-forward-symbolic</property>
-                                <property name="action-name">win.seek-forward</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Seek forward</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="next_button">
-                                <property name="icon-name">media-skip-forward-symbolic</property>
-                                <property name="action-name">win.next</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Skip forward</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="repeat_button">
-                                <property name="icon-name">media-playlist-consecutive-symbolic</property>
-                                <property name="action-name">queue.repeat-mode</property>
-                                <property name="valign">center</property>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Repeat</property>
-                                </accessibility>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child type="end">
-                          <object class="GtkMenuButton" id="menu_button">
-                            <property name="menu-model">primary_menu</property>
-                            <property name="icon-name">open-menu-symbolic</property>
-                            <property name="primary">true</property>
-                            <property name="halign">end</property>
-                            <property name="valign">center</property>
-                            <property name="margin-start">12</property>
-                            <style>
-                              <class name="circular"/>
-                            </style>
-                            <accessibility>
-                              <property name="label" translatable="yes">Menu</property>
-                            </accessibility>
-                          </object>
-                        </child>
+                        <property name="margin-top">36</property>
+                        <property name="margin-bottom">36</property>
                       </object>
                     </child>
+
+                    <!-- Playlist view -->
                     <child>
                       <object class="GtkRevealer" id="queue_revealer">
                         <property name="transition-type">slide-down</property>
@@ -274,7 +158,6 @@
                                 <property name="vscrollbar-policy">automatic</property>
                                 <property name="max-content-height">400</property>
                                 <property name="propagate-natural-height">true</property>
-                                <property name="hexpand">true</property>
                                 <property name="child">
                                   <object class="GtkListView" id="queue_view">
                                     <property name="single-click-activate">true</property>
@@ -290,6 +173,7 @@
                         </property>
                       </object>
                     </child>
+
                   </object>
                 </child>
               </object>
@@ -299,31 +183,4 @@
       </object>
     </property>
   </template>
-
-  <menu id="primary_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Add _Song</attribute>
-        <attribute name="action">queue.add-song</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Add _Folder</attribute>
-        <attribute name="action">queue.add-folder</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Clear</attribute>
-        <attribute name="action">queue.clear</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
-        <attribute name="action">win.show-help-overlay</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_About Amberol</attribute>
-        <attribute name="action">app.about</attribute>
-      </item>
-    </section>
-  </menu>
 </interface>

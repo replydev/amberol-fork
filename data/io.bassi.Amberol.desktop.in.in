@@ -11,4 +11,4 @@ Keywords=music;sound;player;media;
 StartupNotify=true
 X-SingleMainWindow=true
 DBusActivatable=true
-MimeType=audio/x-mpegurl;application/x-ogg;application/ogg;application/x-flac;audio/x-flac;audio/x-mp3;audio/x-mpeg;audio/mpeg;
+MimeType=audio/x-mpegurl;application/x-ogg;application/ogg;application/x-flac;audio/x-flac;audio/x-mp3;audio/x-mpeg;audio/mpeg;audio/x-vorbis+ogg;

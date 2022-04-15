@@ -15,7 +15,6 @@
   <screenshots>
     <screenshot type="source">https://www.bassi.io/~ebassi/amberol-1.png</screenshot>
     <screenshot type="source">https://www.bassi.io/~ebassi/amberol-2.png</screenshot>
-    <screenshot type="source">https://www.bassi.io/~ebassi/amberol-3.png</screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
   <url type="homepage">https://gitlab.gnome.org/ebassi/amberol</url>
@@ -25,6 +24,7 @@
   <update_contact>ebassi_at_gnome.org</update_contact>
   <translation type="gettext">amberol</translation>
   <releases>
+    <release version="0.3.0" type="development" date="2022-04-15"/>
     <release version="0.2.1" type="development" date="2022-04-11"/>
     <release version="0.2.0" type="development" date="2022-04-11"/>
     <release version="0.1.0" type="development" date="2022-04-02"/>

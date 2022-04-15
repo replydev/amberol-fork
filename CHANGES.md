@@ -8,10 +8,27 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+### Fixed
+
+### Removed
+
+## [0.3.0] - 2022-04-15
+
+### Added
+
+- Allow shuffling the contents of the playlist
+- Support dropping multiple files
+- Volume control
+- Allow Amberol to be set as the default application for Music in
+  the GNOME Settings
+
+### Changed
+
 - Miscellaneous cleanups [Christopher Davis, !10]
 - Use idiomatic Rust as suggested by Clippy
 - Improve handling the end of playlist state
 - Skip songs that cannot be queried for metadata
+- Switch to a portrait layout
 
 ### Fixed
 
@@ -19,8 +36,7 @@ All notable changes to this project will be documented in this file.
 - Immediately play the song selected from the playlist
 - Use the appropriate color format for the texture data [#7]
 - Use the proper fallback asset for albums with no cover
-
-### Removed
+- Start playing when opening a file [#8]
 
 ## [0.2.1] - 2022-04-11
 

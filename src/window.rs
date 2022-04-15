@@ -573,23 +573,50 @@ impl Window {
         let drop_target = gtk::DropTarget::builder()
             .name("file-drop-target")
             .actions(gdk::DragAction::COPY)
-            .formats(&gdk::ContentFormats::for_type(gio::File::static_type()))
+            .formats(&gdk::ContentFormats::for_type(gdk::FileList::static_type()))
             .build();
 
         drop_target.connect_drop(
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
-                if let Ok(file) = value.get::<gio::File>() {
-                    if !file.query_exists(gio::Cancellable::NONE) {
-                        debug!("Received {} but cannot access it", file.uri());
-                        return false;
+                if let Ok(file_list) = value.get::<gdk::FileList>() {
+                    let mut files = Vec::new();
+
+                    for f in file_list.files() {
+                        if let Ok(info) = f.query_info("standard::*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
+                            if info.file_type() != gio::FileType::Regular {
+                                continue;
+                            }
+
+                            if let Some(content_type) = info.content_type() {
+                                if gio::content_type_is_a(&content_type, "audio/*") {
+                                    debug!("Adding {} to the queue", f.uri());
+                                    files.push(f.clone());
+                                }
+                            }
+                        }
                     }
-                    debug!("Creating Song for {}", file.uri());
-                    let song = Song::new(file.uri().as_str());
-                    if !song.equals(&Song::default()) {
-                        win.imp().player.queue().add_song(&song);
-                        return true;
+
+                    let songs: Vec<Song> = files
+                        .iter()
+                        .map(|f| Song::new(f.uri().as_str()))
+                        .filter(|s| !s.equals(&Song::default()))
+                        .collect();
+
+                    let queue = win.imp().player.queue();
+                    let n_songs = queue.n_songs();
+
+                    if songs.len() > 0 {
+                        queue.add_songs(&songs);
+
+                        // If we just imported a bunch of songs, let's
+                        // select the first song
+                        if n_songs == 0 {
+                            win.imp().player.skip_next();
+                            return true;
+                        }
                     }
                 }
+
                 false
             }),
         );

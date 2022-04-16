@@ -433,6 +433,8 @@ impl Window {
                     win.set_initial_state();
                 } else {
                     win.action_set_enabled("queue.toggle", queue.n_songs() > 1);
+                    win.imp().playback_control.get().shuffle_button().set_sensitive(queue.n_songs() > 1);
+
                     win.action_set_enabled("win.play", true);
                     win.action_set_enabled("win.seek-backwards", true);
                     win.action_set_enabled("win.seek-forward", true);
@@ -530,6 +532,13 @@ impl Window {
         self.action_set_enabled("win.seek-backwards", false);
         self.action_set_enabled("win.seek-forward", false);
         self.action_set_enabled("queue.toggle", false);
+
+        // Not an action, so we need direct access to the widget
+        self.imp()
+            .playback_control
+            .get()
+            .shuffle_button()
+            .set_sensitive(false);
     }
 
     fn setup_playlist(&self) {

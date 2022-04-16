@@ -434,7 +434,7 @@ impl Window {
         queue.connect_notify_local(
             Some("n-songs"),
             clone!(@weak self as win => move |queue, _| {
-                if queue.n_songs() == 0 {
+                if queue.is_empty() {
                     win.set_initial_state();
                 } else {
                     win.action_set_enabled("queue.toggle", queue.n_songs() > 1);

@@ -91,6 +91,10 @@ impl Queue {
         self.imp().model.n_items()
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.imp().model.n_items() == 0
+    }
+
     pub fn model(&self) -> &gio::ListModel {
         self.imp().model.as_ref()
     }

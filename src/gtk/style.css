@@ -71,7 +71,7 @@ window.main-window {
 
 .main-window popover arrow,
 .main-window popover contents {
-  background-color: @background_color_1;
+  background-color: shade(@background_color_1, 1.2);
   color: @foreground_color;
 }
 

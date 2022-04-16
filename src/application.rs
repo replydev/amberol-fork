@@ -83,8 +83,8 @@ glib::wrapper! {
         @implements gio::ActionGroup, gio::ActionMap;
 }
 
-impl Application {
-    pub fn new() -> Self {
+impl Default for Application {
+    fn default() -> Self {
         glib::Object::new(&[
             ("application-id", &APPLICATION_ID),
             ("flags", &gio::ApplicationFlags::HANDLES_OPEN),
@@ -93,6 +93,12 @@ impl Application {
             ("resource-base-path", &"/io/bassi/Amberol"),
         ])
         .expect("Failed to create Application")
+    }
+}
+
+impl Application {
+    pub fn new() -> Self {
+        Self::default()
     }
 
     fn setup_gactions(&self) {

@@ -277,60 +277,7 @@ impl Window {
     fn add_folders_to_queue(&self, folders: &gio::ListModel) {
         for pos in 0..folders.n_items() {
             let folder = folders.item(pos).unwrap().downcast::<gio::File>().unwrap();
-            debug!("Adding the contents of {} to the queue", folder.uri());
-
-            let mut enumerator = folder
-                .enumerate_children(
-                    "standard::*",
-                    gio::FileQueryInfoFlags::NONE,
-                    None::<&gio::Cancellable>,
-                )
-                .expect("Unable to enumerate");
-
-            let mut files = Vec::new();
-            while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
-                if info.file_type() != gio::FileType::Regular {
-                    continue;
-                }
-
-                if let Some(content_type) = info.content_type() {
-                    if gio::content_type_is_a(&content_type, "audio/*") {
-                        let child = enumerator.child(&info);
-                        debug!("Adding {} to the queue", child.uri());
-                        files.push(child.clone());
-                    }
-                }
-            }
-
-            // gio::FileEnumerator has no guaranteed order, so we should
-            // rely on the basename being formatted in a way that gives us an
-            // implicit order; if anything, this will queue songs in the same
-            // order in which they appear in the directory when browsing its
-            // contents
-            files.sort_by(|a, b| {
-                a.basename()
-                    .unwrap()
-                    .partial_cmp(&b.basename().unwrap())
-                    .unwrap()
-            });
-            let songs: Vec<Song> = files
-                .iter()
-                .map(|f| Song::new(f.uri().as_str()))
-                .filter(|s| !s.equals(&Song::default()))
-                .collect();
-
-            let queue = self.imp().player.queue();
-            let n_songs = queue.n_songs();
-
-            if songs.len() > 0 {
-                queue.add_songs(&songs);
-
-                // If we just imported a bunch of songs, let's
-                // select the first song
-                if n_songs == 0 {
-                    self.imp().player.skip_next();
-                }
-            }
+            self.add_folder_to_queue(&folder);
         }
     }
 
@@ -346,6 +293,64 @@ impl Window {
         let queue = self.imp().player.queue();
         let song = Song::new(&file.uri());
         queue.add_song(&song);
+    }
+
+    pub fn add_folder_to_queue(&self, folder: &gio::File) {
+        debug!("Adding the contents of {} to the queue", folder.uri());
+
+        let mut enumerator = folder
+            .enumerate_children(
+                "standard::*",
+                gio::FileQueryInfoFlags::NONE,
+                None::<&gio::Cancellable>,
+            )
+            .expect("Unable to enumerate");
+
+        let mut files = Vec::new();
+        while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
+            if info.file_type() != gio::FileType::Regular {
+                continue;
+            }
+
+            if let Some(content_type) = info.content_type() {
+                if gio::content_type_is_a(&content_type, "audio/*") {
+                    let child = enumerator.child(&info);
+                    debug!("Adding {} to the queue", child.uri());
+                    files.push(child.clone());
+                }
+            }
+        }
+
+        // gio::FileEnumerator has no guaranteed order, so we should
+        // rely on the basename being formatted in a way that gives us an
+        // implicit order; if anything, this will queue songs in the same
+        // order in which they appear in the directory when browsing its
+        // contents
+        files.sort_by(|a, b| {
+            a.basename()
+                .unwrap()
+                .partial_cmp(&b.basename().unwrap())
+                .unwrap()
+        });
+
+        let songs: Vec<Song> = files
+            .iter()
+            .map(|f| Song::new(f.uri().as_str()))
+            .filter(|s| !s.equals(&Song::default()))
+            .collect();
+
+        let queue = self.imp().player.queue();
+        let n_songs = queue.n_songs();
+
+        if songs.len() > 0 {
+            queue.add_songs(&songs);
+
+            // If we just imported a bunch of songs, let's
+            // select the first song
+            if n_songs == 0 {
+                self.imp().player.skip_next();
+            }
+        }
     }
 
     // Bind the PlayerState to the UI
@@ -588,42 +593,19 @@ impl Window {
         drop_target.connect_drop(
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
-                    let mut files = Vec::new();
-
                     for f in file_list.files() {
                         if let Ok(info) = f.query_info("standard::*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
-                            if info.file_type() != gio::FileType::Regular {
-                                continue;
-                            }
-
-                            if let Some(content_type) = info.content_type() {
-                                if gio::content_type_is_a(&content_type, "audio/*") {
-                                    debug!("Adding {} to the queue", f.uri());
-                                    files.push(f.clone());
-                                }
+                            if info.file_type() == gio::FileType::Regular {
+                                win.add_file_to_queue(&f);
+                            } else if info.file_type() == gio::FileType::Directory {
+                                win.add_folder_to_queue(&f);
+                            } else {
+                                warn!("Unsupported file type {:?} for file '{}'", info.file_type(), f.uri());
                             }
                         }
                     }
 
-                    let songs: Vec<Song> = files
-                        .iter()
-                        .map(|f| Song::new(f.uri().as_str()))
-                        .filter(|s| !s.equals(&Song::default()))
-                        .collect();
-
-                    let queue = win.imp().player.queue();
-                    let n_songs = queue.n_songs();
-
-                    if songs.len() > 0 {
-                        queue.add_songs(&songs);
-
-                        // If we just imported a bunch of songs, let's
-                        // select the first song
-                        if n_songs == 0 {
-                            win.imp().player.skip_next();
-                            return true;
-                        }
-                    }
+                    return true;
                 }
 
                 false

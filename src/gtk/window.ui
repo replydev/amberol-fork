@@ -84,6 +84,8 @@
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <property name="valign">center</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
                             <child>
                               <object class="GtkLabel" id="song_title_label">
                                 <property name="xalign">0.5</property>

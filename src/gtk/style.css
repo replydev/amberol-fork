@@ -62,6 +62,12 @@ window.main-window {
   transition-timing-function: ease;
 }
 
+.main-window popover arrow,
+.main-window popover contents {
+  background-color: @background_color_1;
+  color: @foreground_color;
+}
+
 .main-window button:focus,
 .main-window row:focus {
   outline-color: alpha(currentColor, .25);

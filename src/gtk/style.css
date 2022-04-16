@@ -39,7 +39,11 @@ queuerow {
 
 queuerow label.song-title {
   font-weight: 700;
-  font-size: 100%;
+  font-size: 85%;
+}
+
+queuerow label.song-artist {
+  font-size: 85%;
 }
 
 dragoverlay {

@@ -388,6 +388,7 @@ impl Window {
         state.connect_notify_local(
             Some("song"),
             clone!(@weak self as win => move |state, _| {
+                win.scroll_playlist_to_song();
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
                     debug!("Updating style for {:?}", current);
@@ -642,6 +643,17 @@ impl Window {
             self.imp().queue_length_label.set_label(remaining_str);
         } else {
             self.imp().queue_length_label.set_label(&title);
+        }
+    }
+
+    fn scroll_playlist_to_song(&self) {
+        let queue_view = self.imp().queue_view.get();
+        if let Some(current_idx) = self.imp().player.queue().current_song_index() {
+            debug!("Scrolling playlist to {}", current_idx);
+            queue_view
+                .upcast_ref::<gtk::Widget>()
+                .activate_action("list.scroll-to-item", Some(&current_idx.to_variant()))
+                .expect("Failed to activate action");
         }
     }
 

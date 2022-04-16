@@ -83,7 +83,9 @@ mod imp {
         fn item(&self, _list_model: &Self::Type, position: u32) -> Option<glib::Object> {
             if let Some(ref model) = *self.model.borrow() {
                 if let Some(ref shuffle) = *self.shuffle.borrow() {
-                    return model.item(*shuffle.get(position as usize).unwrap());
+                    if let Some(shuffled_pos) = shuffle.get(position as usize) {
+                        return model.item(*shuffled_pos);
+                    }
                 } else {
                     return model.item(position);
                 }

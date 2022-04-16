@@ -39,14 +39,14 @@ appstream_file = i18n.merge_file(
   install_dir: get_option('datadir') / 'appdata',
 )
 
-appstream_util = find_program('appstream-util', required: false)
-if appstream_util.found()
-  test('Validate appstream file',
-    appstream_util,
-    args: ['validate', appstream_file],
-    suite: ['lint'],
-  )
-endif
+#appstream_util = find_program('appstream-util', required: false)
+#if appstream_util.found()
+#  test('Validate appstream file',
+#    appstream_util,
+#    args: ['validate', appstream_file],
+#    suite: ['lint'],
+#  )
+#endif
 
 install_data('io.bassi.Amberol.gschema.xml',
   install_dir: get_option('datadir') / 'glib-2.0/schemas',

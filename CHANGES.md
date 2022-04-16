@@ -8,7 +8,15 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Add folders via drag and drop [#17]
+- Allow shuffling only when the playlist contains more than one song [#15]
+- Style the popover using a similar background as the main window [#12]
+- Small style tweaks for the recoloring
+- Reduce the height of the full window to fit in 768p displays [#16]
+
 ### Fixed
+
+- Fix an assertion failure when reaching the end of a shuffled playlist
 
 ### Removed
 

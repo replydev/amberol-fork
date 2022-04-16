@@ -342,7 +342,7 @@ impl Window {
         let queue = self.imp().player.queue();
         let n_songs = queue.n_songs();
 
-        if songs.len() > 0 {
+        if !songs.is_empty() {
             queue.add_songs(&songs);
 
             // If we just imported a bunch of songs, let's

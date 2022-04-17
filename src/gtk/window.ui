@@ -32,12 +32,15 @@
                         <property name="name">initial-view</property>
                         <property name="child">
                           <object class="AdwStatusPage" id="status_page">
+                            <property name="margin-start">30</property>
+                            <property name="margin-end">30</property>
                             <property name="title">Amberol</property>
-                            <property name="description" translatable="yes">Select a folder or drag files on the application to add songs to the playlist</property>
+                            <property name="description" translatable="yes">Select a folder or drag files from your file manager to the application window to add songs to the playlist</property>
                             <property name="child">
                               <object class="GtkButton">
                                 <property name="label" translatable="yes">Choose a folder</property>
                                 <property name="action-name">queue.add-folder</property>
+                                <property name="halign">center</property>
                                 <style>
                                   <class name="suggested-action"/>
                                   <class name="pill"/>

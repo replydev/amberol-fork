@@ -386,6 +386,19 @@ impl Window {
                 }
             }),
         );
+        // Update the cover, if any is available
+        state.connect_notify_local(
+            Some("cover"),
+            clone!(@weak self as win => move |state, _| {
+                let song_details = win.imp().song_details.get();
+                if let Some(cover) = state.cover() {
+                    song_details.album_image().set_cover(Some(&cover));
+                    song_details.show_cover_image(true);
+                } else {
+                    song_details.show_cover_image(false);
+                }
+            }),
+        );
         // Bind the song properties to the UI
         state
             .bind_property("title", &imp.song_details.get().title_label(), "label")
@@ -397,10 +410,6 @@ impl Window {
             .build();
         state
             .bind_property("album", &imp.song_details.get().album_label(), "label")
-            .flags(glib::BindingFlags::DEFAULT)
-            .build();
-        state
-            .bind_property("cover", &imp.song_details.get().album_image(), "cover")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state

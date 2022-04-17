@@ -30,17 +30,21 @@ mod imp {
     pub struct Window {
         // Template widgets
         #[template_child]
+        pub drag_overlay: TemplateChild<DragOverlay>,
+        #[template_child]
+        pub main_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
         pub song_details: TemplateChild<SongDetails>,
+        #[template_child]
+        pub playback_control: TemplateChild<PlaybackControl>,
         #[template_child]
         pub queue_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
         pub queue_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub drag_overlay: TemplateChild<DragOverlay>,
-        #[template_child]
-        pub playback_control: TemplateChild<PlaybackControl>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -113,6 +117,8 @@ mod imp {
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
                 playback_control: TemplateChild::default(),
+                main_stack: TemplateChild::default(),
+                status_page: TemplateChild::default(),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
                 receiver,
@@ -432,6 +438,8 @@ impl Window {
                 if queue.is_empty() {
                     win.set_initial_state();
                 } else {
+                    win.imp().main_stack.get().set_visible_child_name("main-view");
+
                     win.action_set_enabled("queue.toggle", queue.n_songs() > 1);
                     win.imp().playback_control.get().shuffle_button().set_sensitive(queue.n_songs() > 1);
 
@@ -539,6 +547,11 @@ impl Window {
             .get()
             .shuffle_button()
             .set_sensitive(false);
+
+        // Manually update the icon on the initial empty state
+        // to avoid generating the UI definition file at build
+        // time
+        self.imp().status_page.set_icon_name(Some(&APPLICATION_ID));
     }
 
     fn setup_playlist(&self) {

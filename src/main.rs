@@ -9,6 +9,7 @@ mod drag_overlay;
 mod i18n;
 mod playback_control;
 mod queue_row;
+mod song_details;
 mod utils;
 mod volume_control;
 mod window;

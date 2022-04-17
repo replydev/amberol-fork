@@ -51,6 +51,7 @@ rust_sources = files(
   'main.rs',
   'playback_control.rs',
   'queue_row.rs',
+  'song_details.rs',
   'utils.rs',
   'volume_control.rs',
   'window.rs',

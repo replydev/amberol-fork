@@ -94,7 +94,8 @@ impl SongData {
             cover_palette = utils::load_palette(texture);
         }
 
-        let duration = tagged_file.properties().duration().as_secs();
+        let properties = lofty::AudioFile::properties(&tagged_file);
+        let duration = properties.duration().as_secs();
 
         SongData {
             artist,

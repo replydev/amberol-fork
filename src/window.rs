@@ -10,11 +10,11 @@ use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use crate::{
     audio::{AudioPlayer, RepeatMode, Song},
     config::APPLICATION_ID,
-    cover_picture::CoverPicture,
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     playback_control::PlaybackControl,
     queue_row::QueueRow,
+    song_details::SongDetails,
     utils,
 };
 
@@ -30,21 +30,11 @@ mod imp {
     pub struct Window {
         // Template widgets
         #[template_child]
-        pub song_title_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub song_artist_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub song_album_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub song_time_label: TemplateChild<gtk::Label>,
+        pub song_details: TemplateChild<SongDetails>,
         #[template_child]
         pub queue_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
         pub queue_view: TemplateChild<gtk::ListView>,
-        #[template_child]
-        pub cover_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub album_image: TemplateChild<CoverPicture>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -117,14 +107,9 @@ mod imp {
             let receiver = RefCell::new(Some(r));
 
             Self {
-                song_title_label: TemplateChild::default(),
-                song_artist_label: TemplateChild::default(),
-                song_album_label: TemplateChild::default(),
-                song_time_label: TemplateChild::default(),
+                song_details: TemplateChild::default(),
                 queue_revealer: TemplateChild::default(),
                 queue_view: TemplateChild::default(),
-                cover_stack: TemplateChild::default(),
-                album_image: TemplateChild::default(),
                 queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
                 playback_control: TemplateChild::default(),
@@ -378,9 +363,9 @@ impl Window {
                     let position = state.position();
                     let duration = state.duration();
                     let time = utils::format_time(position, duration);
-                    win.imp().song_time_label.set_label(&time);
+                    win.imp().song_details.time_label().set_label(&time);
                 } else {
-                    win.imp().song_time_label.set_label("");
+                    win.imp().song_details.time_label().set_label("");
                 }
             }),
         );
@@ -392,30 +377,30 @@ impl Window {
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
                     debug!("Updating style for {:?}", current);
-                    win.imp().cover_stack.set_visible_child_name("cover-image");
+                    win.imp().song_details.get().show_cover_image(true);
                     win.update_style(&current);
                 } else {
                     debug!("Reset album art");
-                    win.imp().cover_stack.set_visible_child_name("no-image");
+                    win.imp().song_details.get().show_cover_image(false);
                     win.remove_css_class("main-window");
                 }
             }),
         );
         // Bind the song properties to the UI
         state
-            .bind_property("title", &imp.song_title_label.get(), "label")
+            .bind_property("title", &imp.song_details.get().title_label(), "label")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
-            .bind_property("artist", &imp.song_artist_label.get(), "label")
+            .bind_property("artist", &imp.song_details.get().artist_label(), "label")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
-            .bind_property("album", &imp.song_album_label.get(), "label")
+            .bind_property("album", &imp.song_details.get().album_label(), "label")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state
-            .bind_property("cover", &imp.album_image.get(), "cover")
+            .bind_property("cover", &imp.song_details.get().album_image(), "cover")
             .flags(glib::BindingFlags::DEFAULT)
             .build();
         state

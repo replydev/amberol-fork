@@ -15,13 +15,11 @@ pub fn settings_manager() -> gio::Settings {
 }
 
 pub fn format_time(seconds: u64, total: u64) -> String {
-    let min = seconds / 60;
-    let total_min = total / 60;
     format!(
         "{}:{:02} / {}:{:02}",
-        min,
+        (seconds - (seconds % 60)) / 60,
         seconds % 60,
-        total_min,
+        (total - (total % 60)) / 60,
         total % 60
     )
 }

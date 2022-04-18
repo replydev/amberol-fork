@@ -586,8 +586,11 @@ impl Window {
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
         imp.queue_view
             .connect_activate(clone!(@weak self as win => move |_, pos| {
-                win.imp().player.skip_to(pos);
-                win.imp().player.play();
+                let queue = win.imp().player.queue();
+                if queue.current_song_index() != Some(pos) {
+                    win.imp().player.skip_to(pos);
+                    win.imp().player.play();
+                }
             }));
     }
 

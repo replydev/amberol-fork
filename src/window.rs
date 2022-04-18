@@ -282,8 +282,14 @@ impl Window {
 
     pub fn add_file_to_queue(&self, file: &gio::File) {
         let queue = self.imp().player.queue();
+        let n_songs = queue.n_songs();
+
         let song = Song::new(&file.uri());
         queue.add_song(&song);
+
+        if n_songs == 0 {
+            self.imp().player.skip_next();
+        }
     }
 
     pub fn add_folder_to_queue(&self, folder: &gio::File) {

@@ -23,6 +23,7 @@
                         <property name="pixel-size">64</property>
                         <style>
                           <class name="card"/>
+                          <class name="dim-label"/>
                           <class name="icon-dropshadow"/>
                         </style>
                       </object>

@@ -19,6 +19,7 @@
                             <property name="icon-name">folder-music-symbolic</property>
                             <property name="pixel-size">24</property>
                             <style>
+                              <class name="dim-label"/>
                               <class name="card"/>
                             </style>
                           </object>

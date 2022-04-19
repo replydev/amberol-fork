@@ -9,7 +9,7 @@ button.large {
   margin-right: 24px;
 }
 
-.song-title {
+songdetails label.song-title {
   /* match title-1 */
   font-size: 15pt;
   font-weight: 800;

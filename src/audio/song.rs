@@ -1,7 +1,10 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::cell::{Cell, RefCell};
+use std::{
+    cell::{Cell, RefCell},
+    time::Instant,
+};
 
 use glib::{
     ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, ParamSpecUInt, Value,
@@ -55,6 +58,8 @@ impl SongData {
     }
 
     pub fn from_uri(uri: &str) -> Self {
+        let now = Instant::now();
+
         let file = gio::File::for_uri(uri);
         let path = file.path().expect("Unable to find file");
 
@@ -165,6 +170,8 @@ impl SongData {
 
         let properties = lofty::AudioFile::properties(&tagged_file);
         let duration = properties.duration().as_secs();
+
+        debug!("Song loading time: {} ms", now.elapsed().as_millis());
 
         SongData {
             artist,

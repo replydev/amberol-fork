@@ -22,6 +22,7 @@ name = "amberol"
 version = "0.1.0"
 dependencies = [
  "color-thief",
+ "gdk-pixbuf",
  "gettext-rs",
  "gstreamer",
  "gstreamer-audio",

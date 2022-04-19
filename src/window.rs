@@ -368,11 +368,9 @@ impl Window {
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
                     debug!("Updating style for {:?}", current);
-                    win.imp().song_details.get().show_cover_image(true);
                     win.update_style(&current);
                 } else {
                     debug!("Reset album art");
-                    win.imp().song_details.get().show_cover_image(false);
                     win.remove_css_class("main-window");
                 }
             }),
@@ -386,6 +384,7 @@ impl Window {
                     song_details.album_image().set_cover(Some(&cover));
                     song_details.show_cover_image(true);
                 } else {
+                    song_details.album_image().set_cover(None);
                     song_details.show_cover_image(false);
                 }
             }),

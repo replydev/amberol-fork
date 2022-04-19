@@ -22,7 +22,7 @@
                         <property name="icon-name">folder-music-symbolic</property>
                         <property name="pixel-size">64</property>
                         <style>
-                          <class name="no-cover"/>
+                          <class name="card"/>
                           <class name="icon-dropshadow"/>
                         </style>
                       </object>

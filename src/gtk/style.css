@@ -30,15 +30,6 @@ picture.cover {
   background: linear-gradient(to bottom, @background_color_1, @background_color_2);
 }
 
-songdetails image.no-cover {
-  min-width: 128px;
-  min-height: 128px;
-  box-shadow: 0px 1px 4px rgba(0,0,0,0.5),
-              0px 2px 8px rgba(0,0,0,0.3);
-  border-radius: 6px;
-  margin: 6px;
-}
-
 queuerow .currently-playing {
   padding-left: 6px;
   font-weight: 700;

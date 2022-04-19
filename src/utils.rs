@@ -4,7 +4,7 @@
 use color_thief::{get_palette, ColorFormat};
 use gtk::{gdk, gio, glib, prelude::*};
 
-use crate::{audio::Song, config::APPLICATION_ID};
+use crate::config::APPLICATION_ID;
 
 pub fn settings_manager() -> gio::Settings {
     // We ship a single schema for both default and development profiles

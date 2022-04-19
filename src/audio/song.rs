@@ -121,9 +121,31 @@ impl SongData {
             glib::mkdir_with_parents(&cache, 0755);
 
             cache.push(format!("{}.png", res));
-            match pixbuf.savev(&cache, "png", &[("tEXt::Software", "amberol")]) {
-                Err(e) => warn!("Unable to cache cover data: {}", e),
-                _ => debug!("Cached cover data: {:?}", &cache),
+            let file = gio::File::for_path(&cache);
+            match file.create(gio::FileCreateFlags::NONE, gio::Cancellable::NONE) {
+                Ok(stream) => {
+                    debug!("Creating cover data cache at {:?}", &cache);
+                    pixbuf.save_to_streamv_async(
+                        &stream,
+                        "png",
+                        &[("tEXt::Software", "amberol")],
+                        gio::Cancellable::NONE,
+                        move |res| {
+                            match res {
+                                Err(e) => warn!("Unable to cache cover data: {}", e),
+                                _ => debug!("Cached cover data: {:?}", &cache),
+                            };
+                        },
+                    );
+                }
+                Err(e) => {
+                    if let Some(file_error) = e.kind::<glib::FileError>() {
+                        match file_error {
+                            glib::FileError::Exist => {}
+                            _ => warn!("Unable to create file: {}", e),
+                        };
+                    }
+                }
             };
 
             Some(res)

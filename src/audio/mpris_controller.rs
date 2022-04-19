@@ -95,6 +95,21 @@ impl MprisController {
             metadata.artist = Some(vec![song.artist()]);
             metadata.title = Some(song.title());
             metadata.album = Some(song.album());
+
+            // MPRIS should really support passing a bytes buffer for
+            // the cover art, instead of requiring this ridiculous
+            // charade
+            if let Some(uuid) = song.uuid() {
+                let mut cache = glib::user_cache_dir();
+                cache.push("amberol");
+                cache.push("covers");
+                cache.push(format!("{}.png", uuid));
+
+                if let Ok(uri) = glib::filename_to_uri(&cache, None) {
+                    metadata.art_url = Some(uri.as_str().to_string());
+                }
+            }
+
             self.song.replace(Some(song));
         }
 

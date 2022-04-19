@@ -9,6 +9,7 @@ use glib::{
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*};
 use lofty::Accessor;
 use once_cell::sync::Lazy;
+use sha2::{Digest, Sha256};
 
 use crate::{i18n::i18n, utils};
 
@@ -19,6 +20,7 @@ pub struct SongData {
     album: Option<String>,
     cover_texture: Option<gdk::Texture>,
     cover_palette: Option<Vec<gdk::RGBA>>,
+    uuid: Option<String>,
     duration: u64,
     file: gio::File,
 }
@@ -34,6 +36,10 @@ impl SongData {
 
     pub fn album(&self) -> Option<&str> {
         self.album.as_deref()
+    }
+
+    pub fn uuid(&self) -> Option<&str> {
+        self.uuid.as_deref()
     }
 
     pub fn duration(&self) -> u64 {
@@ -91,6 +97,40 @@ impl SongData {
             None
         };
 
+        let uuid = if let Some(ref pixbuf) = cover_pixbuf {
+            let mut hasher = Sha256::new();
+
+            if let Some(ref artist) = artist {
+                hasher.update(&artist);
+            }
+            if let Some(ref title) = title {
+                hasher.update(&title);
+            }
+            if let Some(ref album) = album {
+                hasher.update(&album);
+            }
+
+            let res = format!("{:x}", hasher.finalize());
+
+            // This is not great; the only reason why we have to do this
+            // is because MPRIS is a bad specification, and requires us
+            // to save the cover art in order to pass a URL to it.
+            let mut cache = glib::user_cache_dir();
+            cache.push("amberol");
+            cache.push("covers");
+            glib::mkdir_with_parents(&cache, 0755);
+
+            cache.push(format!("{}.png", res));
+            match pixbuf.savev(&cache, "png", &[("tEXt::Software", "amberol")]) {
+                Err(e) => warn!("Unable to cache cover data: {}", e),
+                _ => debug!("Cached cover data: {:?}", &cache),
+            };
+
+            Some(res)
+        } else {
+            None
+        };
+
         // The texture we draw on screen
         let cover_texture = if let Some(ref pixbuf) = cover_pixbuf {
             Some(gdk::Texture::for_pixbuf(pixbuf))
@@ -114,6 +154,7 @@ impl SongData {
             album,
             cover_texture,
             cover_palette,
+            uuid,
             duration,
             file,
         }
@@ -132,6 +173,7 @@ impl Default for SongData {
             album: Some("Invalid Album".to_string()),
             cover_texture: None,
             cover_palette: None,
+            uuid: None,
             duration: 0,
             file: gio::File::for_path("/does-not-exist"),
         }
@@ -282,6 +324,13 @@ impl Song {
         let was_playing = self.imp().playing.replace(playing);
         if was_playing != playing {
             self.notify("playing");
+        }
+    }
+
+    pub fn uuid(&self) -> Option<String> {
+        match self.imp().data.borrow().uuid() {
+            Some(s) => Some(s.to_string()),
+            None => None,
         }
     }
 }

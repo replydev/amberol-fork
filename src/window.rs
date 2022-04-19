@@ -546,7 +546,7 @@ impl Window {
         // Manually update the icon on the initial empty state
         // to avoid generating the UI definition file at build
         // time
-        self.imp().status_page.set_icon_name(Some(&APPLICATION_ID));
+        self.imp().status_page.set_icon_name(Some(APPLICATION_ID));
     }
 
     fn setup_playlist(&self) {

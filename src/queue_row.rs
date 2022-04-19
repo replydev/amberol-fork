@@ -109,10 +109,7 @@ mod imp {
                 "song-cover" => self.song_cover_image.cover().to_value(),
                 "playing" => {
                     let visible_child = self.row_stack.visible_child_name().unwrap();
-                    let v = match visible_child.as_str() {
-                        "currently-playing" => true,
-                        _ => false,
-                    };
+                    let v = matches!(visible_child.as_str(), "currently-playing");
                     v.to_value()
                 }
                 _ => unimplemented!(),

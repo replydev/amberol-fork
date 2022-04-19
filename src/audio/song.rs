@@ -118,7 +118,7 @@ impl SongData {
             let mut cache = glib::user_cache_dir();
             cache.push("amberol");
             cache.push("covers");
-            glib::mkdir_with_parents(&cache, 0755);
+            glib::mkdir_with_parents(&cache, 0o755);
 
             cache.push(format!("{}.png", res));
             let file = gio::File::for_path(&cache);
@@ -154,11 +154,7 @@ impl SongData {
         };
 
         // The texture we draw on screen
-        let cover_texture = if let Some(ref pixbuf) = cover_pixbuf {
-            Some(gdk::Texture::for_pixbuf(pixbuf))
-        } else {
-            None
-        };
+        let cover_texture = cover_pixbuf.as_ref().map(gdk::Texture::for_pixbuf);
 
         // The color palette we use for styling the UI
         let cover_palette = if let Some(ref pixbuf) = cover_pixbuf {
@@ -350,10 +346,7 @@ impl Song {
     }
 
     pub fn uuid(&self) -> Option<String> {
-        match self.imp().data.borrow().uuid() {
-            Some(s) => Some(s.to_string()),
-            None => None,
-        }
+        self.imp().data.borrow().uuid().map(|s| s.to_string())
     }
 }
 

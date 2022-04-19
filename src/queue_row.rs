@@ -18,6 +18,8 @@ mod imp {
         #[template_child]
         pub row_stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub song_cover_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub song_cover_image: TemplateChild<CoverPicture>,
         #[template_child]
         pub song_title_label: TemplateChild<gtk::Label>,
@@ -78,7 +80,13 @@ mod imp {
                 }
                 "song-cover" => {
                     let p = value.get::<gdk::Texture>().ok();
-                    self.song_cover_image.set_cover(p.as_ref());
+                    if let Some(texture) = p {
+                        self.song_cover_image.set_cover(Some(&texture));
+                        self.song_cover_stack.set_visible_child_name("cover");
+                    } else {
+                        self.song_cover_image.set_cover(None);
+                        self.song_cover_stack.set_visible_child_name("no-cover");
+                    }
                 }
                 "playing" => {
                     let p = value

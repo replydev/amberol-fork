@@ -10,8 +10,31 @@
             <property name="child">
               <object class="GtkBox">
                 <child>
-                  <object class="AmberolCoverPicture" id="song_cover_image">
-                    <property name="cover-size">1</property>
+                  <object class="GtkStack" id="song_cover_stack">
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">no-cover</property>
+                        <property name="child">
+                          <object class="GtkImage">
+                            <property name="icon-name">folder-music-symbolic</property>
+                            <property name="pixel-size">24</property>
+                            <style>
+                              <class name="card"/>
+                            </style>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkStackPage">
+                        <property name="name">cover</property>
+                        <property name="child">
+                          <object class="AmberolCoverPicture" id="song_cover_image">
+                            <property name="cover-size">1</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>

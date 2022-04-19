@@ -84,15 +84,26 @@ impl SongData {
             warn!("Unable to load tags for {}", uri);
         };
 
-        let mut cover_texture = None;
-        if let Some(ref cover_art) = cover_art {
-            cover_texture = utils::load_cover_texture(cover_art);
-        }
+        // The pixel buffer for the cover art
+        let cover_pixbuf = if let Some(ref cover_art) = cover_art {
+            utils::load_cover_texture(cover_art)
+        } else {
+            None
+        };
 
-        let mut cover_palette = None;
-        if let Some(ref texture) = cover_texture {
-            cover_palette = utils::load_palette(texture);
-        }
+        // The texture we draw on screen
+        let cover_texture = if let Some(ref pixbuf) = cover_pixbuf {
+            Some(gdk::Texture::for_pixbuf(pixbuf))
+        } else {
+            None
+        };
+
+        // The color palette we use for styling the UI
+        let cover_palette = if let Some(ref pixbuf) = cover_pixbuf {
+            utils::load_palette(pixbuf)
+        } else {
+            None
+        };
 
         let properties = lofty::AudioFile::properties(&tagged_file);
         let duration = properties.duration().as_secs();

@@ -30,31 +30,30 @@ pub fn is_color_dark(color: &gdk::RGBA) -> bool {
     lum < 0.5
 }
 
-pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk::Texture> {
-    match gdk::Texture::from_bytes(buffer) {
-        Ok(t) => Some(t),
+pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
+    let stream = gio::MemoryInputStream::from_bytes(buffer);
+    match gdk_pixbuf::Pixbuf::from_stream_at_scale(&stream, 256, 256, true, gio::Cancellable::NONE)
+    {
+        Ok(pixbuf) => Some(pixbuf),
         Err(_) => None,
     }
 }
 
-// The format of memory textures depends on the endianness of the
-// system: ARGB on big endian, and BGRA on little.
-#[cfg(target_endian = "big")]
-fn color_format() -> ColorFormat {
-    ColorFormat::Argb
+fn color_format(has_alpha: bool) -> ColorFormat {
+    if has_alpha {
+        ColorFormat::Rgba
+    } else {
+        ColorFormat::Rgb
+    }
 }
 
-#[cfg(target_endian = "little")]
-fn color_format() -> ColorFormat {
-    ColorFormat::Bgra
-}
-
-pub fn load_palette(texture: &gdk::Texture) -> Option<Vec<gdk::RGBA>> {
-    let mut buf: Vec<u8> = Vec::new();
-    buf.resize(texture.height() as usize * texture.width() as usize * 4, 0);
-    texture.download(&mut buf, 4 * texture.width() as usize);
-
-    if let Ok(palette) = get_palette(&buf, color_format(), 5, 4) {
+pub fn load_palette(pixbuf: &gdk_pixbuf::Pixbuf) -> Option<Vec<gdk::RGBA>> {
+    if let Ok(palette) = get_palette(
+        pixbuf.pixel_bytes().unwrap().as_ref(),
+        color_format(pixbuf.has_alpha()),
+        5,
+        4,
+    ) {
         let colors: Vec<gdk::RGBA> = palette
             .iter()
             .map(|c| {
@@ -68,14 +67,6 @@ pub fn load_palette(texture: &gdk::Texture) -> Option<Vec<gdk::RGBA>> {
             .collect();
 
         return Some(colors);
-    }
-
-    None
-}
-
-pub fn load_dominant_color(texture: &gdk::Texture) -> Option<gdk::RGBA> {
-    if let Some(palette) = load_palette(texture) {
-        return Some(palette[0]);
     }
 
     None

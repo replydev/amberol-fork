@@ -307,7 +307,7 @@ impl Window {
     pub fn add_folder_to_queue(&self, folder: &gio::File) {
         debug!("Adding the contents of {} to the queue", folder.uri());
 
-        let mut files = utils::load_files_from_folder(folder, false).into_iter();
+        let mut files = utils::load_files_from_folder(folder, true).into_iter();
         glib::idle_add_local(clone!(@strong self as win => move || {
             let queue = win.imp().player.queue();
 

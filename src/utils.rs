@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#![allow(dead_code)]
-
 use color_thief::{get_palette, ColorFormat};
 use gtk::{gdk, gio, glib, prelude::*};
 
@@ -32,6 +30,10 @@ pub fn is_color_dark(color: &gdk::RGBA) -> bool {
 
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
+
+    // We use 256x256 to account for HiDPI; better to scale down when
+    // rendering on displays with a scaling factor of 1 than having to
+    // scale up on displays with a scaling factor of 2.
     match gdk_pixbuf::Pixbuf::from_stream_at_scale(&stream, 256, 256, true, gio::Cancellable::NONE)
     {
         Ok(pixbuf) => Some(pixbuf),
@@ -124,16 +126,4 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     });
 
     files
-}
-
-pub fn load_songs_from_folder(folder: &gio::File) -> Vec<Song> {
-    let files = load_files_from_folder(folder, false);
-
-    let songs: Vec<Song> = files
-        .iter()
-        .map(|f| Song::new(f.uri().as_str()))
-        .filter(|s| !s.equals(&Song::default()))
-        .collect();
-
-    songs
 }

@@ -147,6 +147,31 @@ impl Queue {
         self.notify("n-songs");
     }
 
+    pub fn remove_song(&self, song: &Song) {
+        let was_shuffled = self.imp().model.shuffled();
+        let n_songs = self.n_songs();
+        for pos in 0..n_songs {
+            let s = self
+                .imp()
+                .store
+                .item(pos)
+                .unwrap()
+                .downcast::<Song>()
+                .unwrap();
+            if s.equals(&song) {
+                self.imp().store.remove(pos);
+                break;
+            }
+        }
+
+        if n_songs != self.n_songs() {
+            if was_shuffled {
+                self.imp().model.reshuffle();
+            }
+            self.notify("n-songs");
+        }
+    }
+
     pub fn clear(&self) {
         self.imp().store.remove_all();
         self.notify("n-songs");

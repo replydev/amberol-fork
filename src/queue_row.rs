@@ -1,12 +1,16 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::cell::RefCell;
+
 use adw::subclass::prelude::*;
-use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value};
+use glib::{
+    clone, ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value,
+};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use once_cell::sync::Lazy;
 
-use crate::cover_picture::CoverPicture;
+use crate::{audio::Song, cover_picture::CoverPicture, window::Window};
 
 mod imp {
     use super::*;
@@ -25,6 +29,10 @@ mod imp {
         pub song_title_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub song_artist_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub remove_button: TemplateChild<gtk::Button>,
+
+        pub song: RefCell<Option<Song>>,
     }
 
     #[glib::object_subclass]
@@ -50,9 +58,23 @@ mod imp {
             self.row_stack.unparent();
         }
 
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            obj.init_controllers();
+            obj.init_widgets();
+        }
+
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
                 vec![
+                    ParamSpecObject::new(
+                        "song",
+                        "",
+                        "",
+                        Song::static_type(),
+                        ParamFlags::READWRITE,
+                    ),
                     ParamSpecString::new("song-artist", "", "", None, ParamFlags::READWRITE),
                     ParamSpecString::new("song-title", "", "", None, ParamFlags::READWRITE),
                     ParamSpecObject::new(
@@ -70,6 +92,10 @@ mod imp {
 
         fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
+                "song" => {
+                    let song = value.get::<Option<Song>>().unwrap();
+                    self.song.replace(song);
+                }
                 "song-artist" => {
                     let p = value.get::<&str>().expect("The value needs to be a string");
                     self.song_artist_label.set_label(p);
@@ -104,6 +130,7 @@ mod imp {
 
         fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
             match pspec.name() {
+                "song" => self.song.borrow().to_value(),
                 "song-artist" => self.song_artist_label.label().to_value(),
                 "song-title" => self.song_title_label.label().to_value(),
                 "song-cover" => self.song_cover_image.cover().to_value(),
@@ -137,6 +164,34 @@ impl QueueRow {
         Self::default()
     }
 
+    fn init_controllers(&self) {
+        let controller = gtk::EventControllerMotion::new();
+        controller.set_name("queuerow motion");
+        controller.connect_contains_pointer_notify(clone!(@strong self as this => move |c| {
+            this.imp().remove_button.set_visible(c.contains_pointer());
+        }));
+        self.add_controller(&controller);
+    }
+
+    fn init_widgets(&self) {
+        self.imp()
+            .remove_button
+            .connect_clicked(clone!(@strong self as this => move |_| {
+                let app = gio::Application::default()
+                    .expect("Failed to retrieve application singleton")
+                    .downcast::<gtk::Application>()
+                    .unwrap();
+                let win = app
+                    .active_window()
+                    .unwrap()
+                    .downcast::<Window>()
+                    .unwrap();
+                if let Some(song) = this.song() {
+                    win.remove_song(&song);
+                }
+            }));
+    }
+
     pub fn set_song_title(&self, title: String) {
         let imp = self.imp();
         imp.song_title_label.set_label(&title);
@@ -154,5 +209,9 @@ impl QueueRow {
         } else {
             imp.row_stack.set_visible_child_name("song-details");
         }
+    }
+
+    pub fn song(&self) -> Option<Song> {
+        self.imp().song.borrow().clone()
     }
 }

@@ -558,6 +558,11 @@ impl Window {
             list_item.set_child(Some(&row));
 
             list_item
+                .bind_property("item", &row, "song")
+                .flags(glib::BindingFlags::DEFAULT)
+                .build();
+
+            list_item
                 .property_expression("item")
                 .chain_property::<Song>("artist")
                 .bind(&row, "song-artist", gtk::Widget::NONE);
@@ -710,5 +715,10 @@ impl Window {
         if queue.n_songs() == 1 {
             self.imp().player.play();
         }
+    }
+
+    pub fn remove_song(&self, song: &Song) {
+        let queue = self.imp().player.queue();
+        queue.remove_song(song);
     }
 }

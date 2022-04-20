@@ -5,12 +5,20 @@ button.large {
 
 .main-box {
   padding: 6px;
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
-.song-title {
+songdetails {
+  padding-bottom: 24px;
+}
+
+songdetails label.song-title {
   /* match title-1 */
   font-size: 15pt;
   font-weight: 800;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 picture.cover {
@@ -26,16 +34,12 @@ picture.cover {
   background: linear-gradient(to bottom, @background_color_1, @background_color_2);
 }
 
-songdetails image.no-cover {
-  min-width: 128px;
-  min-height: 128px;
-  box-shadow: 0px 1px 4px rgba(0,0,0,0.5),
-              0px 2px 8px rgba(0,0,0,0.3);
-  border-radius: 6px;
-  margin: 6px;
+queuerow .currently-playing {
+  padding-left: 6px;
+  font-weight: 700;
 }
 
-queuerow {
+queuerow box.song-details {
   padding: 6px;
   border-spacing: 21px;
 }
@@ -47,6 +51,14 @@ queuerow label.song-title {
 
 queuerow label.song-artist {
   font-size: 85%;
+}
+
+queuerow picture.cover {
+  min-width: 48px;
+  min-height: 48px;
+  box-shadow: initial;
+  border-radius: 2px;
+  margin: 0px;
 }
 
 dragoverlay {
@@ -71,6 +83,19 @@ window.main-window {
   transition-property: background, color;
   transition-duration: 250ms;
   transition-timing-function: ease;
+}
+
+:not(.main-window) .playlist-background {
+  background-color: @window_bg_color;
+  color: @window_fg_color;
+}
+
+.main-window .playlist-background {
+  background: linear-gradient(127deg, alpha(@background_color_1, 0.70), @background_color_1 70.1%),
+              linear-gradient(217deg, alpha(@background_color_3, 0.70), @background_color_3 70.1%),
+              /* background_color_2 is used to determine foreground_color */
+              linear-gradient(336deg, alpha(@background_color_2, 0.70), @background_color_2 70.1%);
+  color: @foreground_color;
 }
 
 .main-window popover arrow,

@@ -6,7 +6,7 @@ use std::cell::Cell;
 use gtk::{gio, prelude::*};
 
 use crate::{
-    audio::{Controller, PlaybackState},
+    audio::{Controller, PlaybackState, Song},
     i18n::i18n,
 };
 
@@ -54,7 +54,5 @@ impl Controller for InhibitController {
         }
     }
 
-    fn set_song_artist(&self, _artist: &str) {}
-    fn set_song_title(&self, _title: &str) {}
-    fn set_song_album(&self, _title: &str) {}
+    fn set_song(&self, _song: &Song) {}
 }

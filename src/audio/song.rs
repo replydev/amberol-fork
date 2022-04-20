@@ -1,7 +1,10 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::cell::{Cell, RefCell};
+use std::{
+    cell::{Cell, RefCell},
+    time::Instant,
+};
 
 use glib::{
     ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, ParamSpecUInt, Value,
@@ -9,6 +12,7 @@ use glib::{
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*};
 use lofty::Accessor;
 use once_cell::sync::Lazy;
+use sha2::{Digest, Sha256};
 
 use crate::{i18n::i18n, utils};
 
@@ -19,6 +23,7 @@ pub struct SongData {
     album: Option<String>,
     cover_texture: Option<gdk::Texture>,
     cover_palette: Option<Vec<gdk::RGBA>>,
+    uuid: Option<String>,
     duration: u64,
     file: gio::File,
 }
@@ -36,6 +41,10 @@ impl SongData {
         self.album.as_deref()
     }
 
+    pub fn uuid(&self) -> Option<&str> {
+        self.uuid.as_deref()
+    }
+
     pub fn duration(&self) -> u64 {
         self.duration
     }
@@ -49,6 +58,8 @@ impl SongData {
     }
 
     pub fn from_uri(uri: &str) -> Self {
+        let now = Instant::now();
+
         let file = gio::File::for_uri(uri);
         let path = file.path().expect("Unable to find file");
 
@@ -84,18 +95,83 @@ impl SongData {
             warn!("Unable to load tags for {}", uri);
         };
 
-        let mut cover_texture = None;
-        if let Some(ref cover_art) = cover_art {
-            cover_texture = utils::load_cover_texture(cover_art);
-        }
+        // The pixel buffer for the cover art
+        let cover_pixbuf = if let Some(ref cover_art) = cover_art {
+            utils::load_cover_texture(cover_art)
+        } else {
+            None
+        };
 
-        let mut cover_palette = None;
-        if let Some(ref texture) = cover_texture {
-            cover_palette = utils::load_palette(texture);
-        }
+        let uuid = if let Some(ref pixbuf) = cover_pixbuf {
+            let mut hasher = Sha256::new();
+
+            if let Some(ref artist) = artist {
+                hasher.update(&artist);
+            }
+            if let Some(ref title) = title {
+                hasher.update(&title);
+            }
+            if let Some(ref album) = album {
+                hasher.update(&album);
+            }
+
+            let res = format!("{:x}", hasher.finalize());
+
+            // This is not great; the only reason why we have to do this
+            // is because MPRIS is a bad specification, and requires us
+            // to save the cover art in order to pass a URL to it.
+            let mut cache = glib::user_cache_dir();
+            cache.push("amberol");
+            cache.push("covers");
+            glib::mkdir_with_parents(&cache, 0o755);
+
+            cache.push(format!("{}.png", res));
+            let file = gio::File::for_path(&cache);
+            match file.create(gio::FileCreateFlags::NONE, gio::Cancellable::NONE) {
+                Ok(stream) => {
+                    debug!("Creating cover data cache at {:?}", &cache);
+                    pixbuf.save_to_streamv_async(
+                        &stream,
+                        "png",
+                        &[("tEXt::Software", "amberol")],
+                        gio::Cancellable::NONE,
+                        move |res| {
+                            match res {
+                                Err(e) => warn!("Unable to cache cover data: {}", e),
+                                _ => debug!("Cached cover data: {:?}", &cache),
+                            };
+                        },
+                    );
+                }
+                Err(e) => {
+                    if let Some(file_error) = e.kind::<glib::FileError>() {
+                        match file_error {
+                            glib::FileError::Exist => {}
+                            _ => warn!("Unable to create file: {}", e),
+                        };
+                    }
+                }
+            };
+
+            Some(res)
+        } else {
+            None
+        };
+
+        // The texture we draw on screen
+        let cover_texture = cover_pixbuf.as_ref().map(gdk::Texture::for_pixbuf);
+
+        // The color palette we use for styling the UI
+        let cover_palette = if let Some(ref pixbuf) = cover_pixbuf {
+            utils::load_palette(pixbuf)
+        } else {
+            None
+        };
 
         let properties = lofty::AudioFile::properties(&tagged_file);
         let duration = properties.duration().as_secs();
+
+        debug!("Song loading time: {} ms", now.elapsed().as_millis());
 
         SongData {
             artist,
@@ -103,6 +179,7 @@ impl SongData {
             album,
             cover_texture,
             cover_palette,
+            uuid,
             duration,
             file,
         }
@@ -121,6 +198,7 @@ impl Default for SongData {
             album: Some("Invalid Album".to_string()),
             cover_texture: None,
             cover_palette: None,
+            uuid: None,
             duration: 0,
             file: gio::File::for_path("/does-not-exist"),
         }
@@ -272,6 +350,10 @@ impl Song {
         if was_playing != playing {
             self.notify("playing");
         }
+    }
+
+    pub fn uuid(&self) -> Option<String> {
+        self.imp().data.borrow().uuid().map(|s| s.to_string())
     }
 }
 

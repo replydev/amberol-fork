@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::{cell::Cell, sync::Arc};
+use std::{cell::RefCell, sync::Arc};
 
 use glib::{clone, Sender};
 use gtk::glib;
 use mpris_player::{Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
 
 use crate::{
-    audio::{Controller, PlaybackAction, PlaybackState},
+    audio::{Controller, PlaybackAction, PlaybackState, Song},
     config::APPLICATION_ID,
 };
 
@@ -16,9 +16,7 @@ pub struct MprisController {
     sender: Sender<PlaybackAction>,
     mpris: Arc<MprisPlayer>,
 
-    song_title: Cell<Option<String>>,
-    song_artist: Cell<Option<String>>,
-    song_album: Cell<Option<String>>,
+    song: RefCell<Option<Song>>,
 }
 
 impl MprisController {
@@ -40,9 +38,7 @@ impl MprisController {
         let res = Self {
             sender,
             mpris,
-            song_title: Cell::new(None),
-            song_artist: Cell::new(None),
-            song_album: Cell::new(None),
+            song: RefCell::new(None),
         };
 
         res.setup_signals();
@@ -95,25 +91,27 @@ impl MprisController {
     fn update_metadata(&self) {
         let mut metadata = Metadata::new();
 
-        let artist = self.song_artist.take();
-        let title = self.song_title.take();
-        let album = self.song_album.take();
+        if let Some(song) = self.song.take() {
+            metadata.artist = Some(vec![song.artist()]);
+            metadata.title = Some(song.title());
+            metadata.album = Some(song.album());
 
-        if let Some(artist) = artist.clone() {
-            metadata.artist = Some(vec![artist]);
+            // MPRIS should really support passing a bytes buffer for
+            // the cover art, instead of requiring this ridiculous
+            // charade
+            if let Some(uuid) = song.uuid() {
+                let mut cache = glib::user_cache_dir();
+                cache.push("amberol");
+                cache.push("covers");
+                cache.push(format!("{}.png", uuid));
+
+                if let Ok(uri) = glib::filename_to_uri(&cache, None) {
+                    metadata.art_url = Some(uri.as_str().to_string());
+                }
+            }
+
+            self.song.replace(Some(song));
         }
-
-        if let Some(title) = title.clone() {
-            metadata.title = Some(title);
-        }
-
-        if let Some(album) = album.clone() {
-            metadata.album = Some(album);
-        }
-
-        self.song_artist.set(artist);
-        self.song_title.set(title);
-        self.song_album.set(album);
 
         self.mpris.set_metadata(metadata);
     }
@@ -129,18 +127,8 @@ impl Controller for MprisController {
         };
     }
 
-    fn set_song_artist(&self, artist: &str) {
-        self.song_artist.set(Some(artist.to_string()));
-        self.update_metadata();
-    }
-
-    fn set_song_title(&self, title: &str) {
-        self.song_title.set(Some(title.to_string()));
-        self.update_metadata();
-    }
-
-    fn set_song_album(&self, album: &str) {
-        self.song_album.set(Some(album.to_string()));
+    fn set_song(&self, song: &Song) {
+        self.song.replace(Some(song.clone()));
         self.update_metadata();
     }
 }

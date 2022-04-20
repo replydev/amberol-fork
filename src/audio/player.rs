@@ -134,9 +134,7 @@ impl AudioPlayer {
                 debug!("Next song: {}", next_song.uri());
 
                 for c in &self.controllers {
-                    c.set_song_artist(&next_song.artist());
-                    c.set_song_title(&next_song.title());
-                    c.set_song_album(&next_song.album());
+                    c.set_song(&next_song);
                 }
 
                 next_song.set_playing(true);
@@ -234,9 +232,7 @@ impl AudioPlayer {
             }
 
             for c in &self.controllers {
-                c.set_song_artist(&prev_song.artist());
-                c.set_song_title(&prev_song.title());
-                c.set_song_album(&prev_song.album());
+                c.set_song(&prev_song);
             }
 
             self.backend.set_song_uri(Some(&prev_song.uri()));
@@ -267,9 +263,7 @@ impl AudioPlayer {
             }
 
             for c in &self.controllers {
-                c.set_song_artist(&next_song.artist());
-                c.set_song_title(&next_song.title());
-                c.set_song_album(&next_song.album());
+                c.set_song(&next_song);
             }
 
             self.backend.set_song_uri(Some(&next_song.uri()));
@@ -302,9 +296,7 @@ impl AudioPlayer {
             }
 
             for c in &self.controllers {
-                c.set_song_artist(&song.artist());
-                c.set_song_title(&song.title());
-                c.set_song_album(&song.album());
+                c.set_song(&song);
             }
 
             self.backend.set_song_uri(Some(&song.uri()));

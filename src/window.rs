@@ -32,6 +32,8 @@ mod imp {
         #[template_child]
         pub drag_overlay: TemplateChild<DragOverlay>,
         #[template_child]
+        pub back_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub status_page: TemplateChild<adw::StatusPage>,
@@ -40,11 +42,13 @@ mod imp {
         #[template_child]
         pub playback_control: TemplateChild<PlaybackControl>,
         #[template_child]
-        pub queue_revealer: TemplateChild<gtk::Revealer>,
+        pub queue_revealer: TemplateChild<adw::Flap>,
         #[template_child]
         pub queue_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub queue_length_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub playlist_box: TemplateChild<gtk::Box>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -119,6 +123,8 @@ mod imp {
                 playback_control: TemplateChild::default(),
                 main_stack: TemplateChild::default(),
                 status_page: TemplateChild::default(),
+                back_button: TemplateChild::default(),
+                playlist_box: TemplateChild::default(),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
                 receiver,
@@ -186,7 +192,7 @@ impl Window {
         // let width = settings.int("window-width");
         // let height = settings.int("window-height");
         // self.set_default_size(width, height);
-        self.set_default_size(400, -1);
+        self.set_default_size(600, -1);
     }
 
     fn clear_queue(&self) {
@@ -194,12 +200,18 @@ impl Window {
         player.stop();
         player.state().set_current_song(None);
         player.queue().clear();
-        self.imp().queue_revealer.set_reveal_child(false);
+        self.imp().queue_revealer.set_reveal_flap(false);
     }
 
     fn toggle_queue(&self) {
-        let visible = self.imp().queue_revealer.reveals_child();
-        self.imp().queue_revealer.set_reveal_child(!visible);
+        let visible = !self.imp().queue_revealer.reveals_flap();
+        let folded = self.imp().queue_revealer.is_folded();
+        self.imp().queue_revealer.set_reveal_flap(visible);
+        if visible && folded {
+            self.imp().back_button.set_visible(true);
+        } else {
+            self.imp().back_button.set_visible(false);
+        }
     }
 
     fn add_song(&self) {
@@ -295,59 +307,26 @@ impl Window {
     pub fn add_folder_to_queue(&self, folder: &gio::File) {
         debug!("Adding the contents of {} to the queue", folder.uri());
 
-        let mut enumerator = folder
-            .enumerate_children(
-                "standard::*",
-                gio::FileQueryInfoFlags::NONE,
-                None::<&gio::Cancellable>,
-            )
-            .expect("Unable to enumerate");
+        let mut files = utils::load_files_from_folder(folder, true).into_iter();
+        glib::idle_add_local(clone!(@strong self as win => move || {
+            let queue = win.imp().player.queue();
 
-        let mut files = Vec::new();
-        while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
-            if info.file_type() != gio::FileType::Regular {
-                continue;
-            }
-
-            if let Some(content_type) = info.content_type() {
-                if gio::content_type_is_a(&content_type, "audio/*") {
-                    let child = enumerator.child(&info);
-                    debug!("Adding {} to the queue", child.uri());
-                    files.push(child.clone());
-                }
-            }
-        }
-
-        // gio::FileEnumerator has no guaranteed order, so we should
-        // rely on the basename being formatted in a way that gives us an
-        // implicit order; if anything, this will queue songs in the same
-        // order in which they appear in the directory when browsing its
-        // contents
-        files.sort_by(|a, b| {
-            a.basename()
-                .unwrap()
-                .partial_cmp(&b.basename().unwrap())
-                .unwrap()
-        });
-
-        let songs: Vec<Song> = files
-            .iter()
-            .map(|f| Song::new(f.uri().as_str()))
-            .filter(|s| !s.equals(&Song::default()))
-            .collect();
-
-        let queue = self.imp().player.queue();
-        let n_songs = queue.n_songs();
-
-        if !songs.is_empty() {
-            queue.add_songs(&songs);
-
-            // If we just imported a bunch of songs, let's
-            // select the first song
-            if n_songs == 0 {
-                self.imp().player.skip_next();
-            }
-        }
+            files.next()
+                .map(|f| {
+                    let s = Song::new(f.uri().as_str());
+                    if !s.equals(&Song::default()) {
+                        let was_empty = queue.is_empty();
+                        queue.add_song(&s);
+                        if was_empty {
+                            win.imp().player.skip_to(0);
+                        }
+                    }
+                })
+                .map(|_| glib::Continue(true))
+                .unwrap_or_else(|| {
+                    glib::Continue(false)
+                })
+        }));
     }
 
     // Bind the PlayerState to the UI
@@ -389,11 +368,9 @@ impl Window {
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
                     debug!("Updating style for {:?}", current);
-                    win.imp().song_details.get().show_cover_image(true);
                     win.update_style(&current);
                 } else {
                     debug!("Reset album art");
-                    win.imp().song_details.get().show_cover_image(false);
                     win.remove_css_class("main-window");
                 }
             }),
@@ -407,6 +384,7 @@ impl Window {
                     song_details.album_image().set_cover(Some(&cover));
                     song_details.show_cover_image(true);
                 } else {
+                    song_details.album_image().set_cover(None);
                     song_details.show_cover_image(false);
                 }
             }),
@@ -461,10 +439,6 @@ impl Window {
                 }
 
                 win.update_playlist_time();
-
-                if queue.n_songs() > 1 {
-                    win.imp().queue_revealer.set_reveal_child(true);
-                }
             }),
         );
         queue.connect_notify_local(
@@ -499,10 +473,25 @@ impl Window {
 
     fn connect_signals(&self) {
         self.imp().queue_revealer.connect_notify_local(
-            Some("child-revealed"),
-            clone!(@weak self as win => move |_, _| {
-                let width = win.default_size().0;
-                win.set_default_size(width, -1);
+            Some("folded"),
+            clone!(@weak self as win => move |flap, _| {
+                if flap.is_folded() {
+                    win.imp().back_button.set_visible(flap.reveals_flap());
+                }
+            }),
+        );
+
+        self.imp().queue_revealer.connect_notify_local(
+            Some("reveal-flap"),
+            clone!(@weak self as win => move |flap, _| {
+                let folded = flap.is_folded();
+                if folded {
+                    if flap.reveals_flap() {
+                        win.imp().playlist_box.add_css_class("playlist-background");
+                    } else {
+                        win.imp().playlist_box.remove_css_class("playlist-background");
+                    }
+                }
             }),
         );
 
@@ -557,7 +546,7 @@ impl Window {
         // Manually update the icon on the initial empty state
         // to avoid generating the UI definition file at build
         // time
-        self.imp().status_page.set_icon_name(Some(&APPLICATION_ID));
+        self.imp().status_page.set_icon_name(Some(APPLICATION_ID));
     }
 
     fn setup_playlist(&self) {
@@ -578,6 +567,10 @@ impl Window {
                 .bind(&row, "song-title", gtk::Widget::NONE);
             list_item
                 .property_expression("item")
+                .chain_property::<Song>("cover")
+                .bind(&row, "song-cover", gtk::Widget::NONE);
+            list_item
+                .property_expression("item")
                 .chain_property::<Song>("playing")
                 .bind(&row, "playing", gtk::Widget::NONE);
         });
@@ -592,8 +585,11 @@ impl Window {
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
         imp.queue_view
             .connect_activate(clone!(@weak self as win => move |_, pos| {
-                win.imp().player.skip_to(pos);
-                win.imp().player.play();
+                let queue = win.imp().player.queue();
+                if queue.current_song_index() != Some(pos) {
+                    win.imp().player.skip_to(pos);
+                    win.imp().player.play();
+                }
             }));
     }
 

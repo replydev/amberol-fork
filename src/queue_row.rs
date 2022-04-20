@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::subclass::prelude::*;
-use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecString, Value};
-use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value};
+use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use once_cell::sync::Lazy;
+
+use crate::cover_picture::CoverPicture;
 
 mod imp {
     use super::*;
@@ -14,9 +16,11 @@ mod imp {
     pub struct QueueRow {
         // Template widgets
         #[template_child]
-        pub playing_image: TemplateChild<gtk::Image>,
+        pub row_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub queue_box: TemplateChild<gtk::Box>,
+        pub song_cover_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub song_cover_image: TemplateChild<CoverPicture>,
         #[template_child]
         pub song_title_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -43,8 +47,7 @@ mod imp {
 
     impl ObjectImpl for QueueRow {
         fn dispose(&self, _obj: &Self::Type) {
-            self.playing_image.unparent();
-            self.queue_box.unparent();
+            self.row_stack.unparent();
         }
 
         fn properties() -> &'static [ParamSpec] {
@@ -52,6 +55,13 @@ mod imp {
                 vec![
                     ParamSpecString::new("song-artist", "", "", None, ParamFlags::READWRITE),
                     ParamSpecString::new("song-title", "", "", None, ParamFlags::READWRITE),
+                    ParamSpecObject::new(
+                        "song-cover",
+                        "",
+                        "",
+                        gdk::Texture::static_type(),
+                        ParamFlags::READWRITE,
+                    ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
                 ]
             });
@@ -68,14 +78,24 @@ mod imp {
                     let p = value.get::<&str>().expect("The value needs to be a string");
                     self.song_title_label.set_label(p);
                 }
+                "song-cover" => {
+                    let p = value.get::<gdk::Texture>().ok();
+                    if let Some(texture) = p {
+                        self.song_cover_image.set_cover(Some(&texture));
+                        self.song_cover_stack.set_visible_child_name("cover");
+                    } else {
+                        self.song_cover_image.set_cover(None);
+                        self.song_cover_stack.set_visible_child_name("no-cover");
+                    }
+                }
                 "playing" => {
                     let p = value
                         .get::<bool>()
                         .expect("The value needs to be a boolean");
                     if p {
-                        self.playing_image.set_opacity(1.0);
+                        self.row_stack.set_visible_child_name("currently-playing");
                     } else {
-                        self.playing_image.set_opacity(0.0);
+                        self.row_stack.set_visible_child_name("song-details");
                     }
                 }
                 _ => unimplemented!(),
@@ -86,7 +106,12 @@ mod imp {
             match pspec.name() {
                 "song-artist" => self.song_artist_label.label().to_value(),
                 "song-title" => self.song_title_label.label().to_value(),
-                "playing" => self.playing_image.is_visible().to_value(),
+                "song-cover" => self.song_cover_image.cover().to_value(),
+                "playing" => {
+                    let visible_child = self.row_stack.visible_child_name().unwrap();
+                    let v = matches!(visible_child.as_str(), "currently-playing");
+                    v.to_value()
+                }
                 _ => unimplemented!(),
             }
         }
@@ -125,9 +150,9 @@ impl QueueRow {
     pub fn set_playing(&self, playing: bool) {
         let imp = self.imp();
         if playing {
-            imp.playing_image.set_opacity(1.0);
+            imp.row_stack.set_visible_child_name("currently-playing");
         } else {
-            imp.playing_image.set_opacity(0.0);
+            imp.row_stack.set_visible_child_name("song-details");
         }
     }
 }

@@ -558,6 +558,11 @@ impl Window {
             list_item.set_child(Some(&row));
 
             list_item
+                .bind_property("item", &row, "song")
+                .flags(glib::BindingFlags::DEFAULT)
+                .build();
+
+            list_item
                 .property_expression("item")
                 .chain_property::<Song>("artist")
                 .bind(&row, "song-artist", gtk::Widget::NONE);

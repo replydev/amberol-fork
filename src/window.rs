@@ -711,4 +711,9 @@ impl Window {
             self.imp().player.play();
         }
     }
+
+    pub fn remove_song(&self, song: &Song) {
+        let queue = self.imp().player.queue();
+        queue.remove_song(song);
+    }
 }

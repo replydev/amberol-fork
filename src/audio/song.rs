@@ -105,6 +105,13 @@ impl SongData {
         let uuid = if let Some(ref pixbuf) = cover_pixbuf {
             let mut hasher = Sha256::new();
 
+            // Compute the checksum using the data we have
+            // at load time; at worst, we are going to use
+            // the basename of the file, in case the song
+            // is missing all metadata
+            if let Some(basename) = file.basename() {
+                hasher.update(basename.to_str().unwrap());
+            }
             if let Some(ref artist) = artist {
                 hasher.update(&artist);
             }

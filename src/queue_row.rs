@@ -4,15 +4,15 @@
 use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
-use glib::{
-    clone, ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value,
-};
+use glib::clone;
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
-use once_cell::sync::Lazy;
 
 use crate::{audio::Song, cover_picture::CoverPicture, window::Window};
 
 mod imp {
+    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value};
+    use once_cell::sync::Lazy;
+
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]

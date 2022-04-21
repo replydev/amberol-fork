@@ -1,7 +1,10 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::{cell::RefCell, rc::Rc};
+use std::{
+    cell::{Cell, RefCell},
+    rc::Rc,
+};
 
 use adw::subclass::prelude::*;
 use glib::{clone, Receiver};
@@ -23,6 +26,9 @@ pub enum WindowAction {
 }
 
 mod imp {
+    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};
+    use once_cell::sync::Lazy;
+
     use super::*;
 
     #[derive(CompositeTemplate)]
@@ -53,6 +59,9 @@ mod imp {
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
         pub receiver: RefCell<Option<Receiver<WindowAction>>>,
+
+        pub playlist_shuffled: Cell<bool>,
+        pub playlist_visible: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -125,6 +134,8 @@ mod imp {
                 status_page: TemplateChild::default(),
                 back_button: TemplateChild::default(),
                 playlist_box: TemplateChild::default(),
+                playlist_shuffled: Cell::new(false),
+                playlist_visible: Cell::new(false),
                 player: AudioPlayer::new(sender),
                 provider: gtk::CssProvider::new(),
                 receiver,
@@ -149,6 +160,38 @@ mod imp {
             obj.setup_drop_target();
             obj.setup_provider();
             obj.restore_window_state();
+        }
+
+        fn properties() -> &'static [ParamSpec] {
+            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
+                vec![
+                    ParamSpecBoolean::new(
+                        "playlist-shuffled",
+                        "",
+                        "",
+                        false,
+                        ParamFlags::READWRITE,
+                    ),
+                    ParamSpecBoolean::new("playlist-visible", "", "", false, ParamFlags::READWRITE),
+                ]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(&self, obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+            match pspec.name() {
+                "playlist-shuffled" => obj.set_playlist_shuffled(value.get::<bool>().unwrap()),
+                "playlist-visible" => obj.set_playlist_visible(value.get::<bool>().unwrap()),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
+            match pspec.name() {
+                "playlist-shuffled" => obj.playlist_shuffled().to_value(),
+                "playlist-visible" => obj.playlist_visible().to_value(),
+                _ => unimplemented!(),
+            }
         }
     }
 
@@ -204,13 +247,39 @@ impl Window {
     }
 
     fn toggle_queue(&self) {
-        let visible = !self.imp().queue_revealer.reveals_flap();
+        let visible = !self.playlist_visible();
+        self.set_playlist_visible(visible);
+
+        // We only show the "back" button to toggle the playlist
+        // flap when the flap is folded
         let folded = self.imp().queue_revealer.is_folded();
-        self.imp().queue_revealer.set_reveal_flap(visible);
         if visible && folded {
             self.imp().back_button.set_visible(true);
         } else {
             self.imp().back_button.set_visible(false);
+        }
+    }
+
+    fn playlist_visible(&self) -> bool {
+        self.imp().playlist_visible.get()
+    }
+
+    fn set_playlist_visible(&self, visible: bool) {
+        if visible != self.imp().playlist_visible.replace(visible) {
+            self.imp().queue_revealer.set_reveal_flap(visible);
+            self.notify("playlist-visible");
+        }
+    }
+
+    fn playlist_shuffled(&self) -> bool {
+        self.imp().playlist_shuffled.get()
+    }
+
+    fn set_playlist_shuffled(&self, shuffled: bool) {
+        if shuffled != self.imp().playlist_shuffled.replace(shuffled) {
+            let queue = self.imp().player.queue();
+            queue.set_shuffle(shuffled);
+            self.notify("playlist-shuffled");
         }
     }
 
@@ -497,8 +566,7 @@ impl Window {
 
         let shuffle_button = self.imp().playback_control.shuffle_button();
         shuffle_button.connect_toggled(clone!(@weak self as win => move |toggle_button| {
-            let queue = win.imp().player.queue();
-            queue.set_shuffle(toggle_button.is_active());
+            win.set_playlist_shuffled(toggle_button.is_active());
         }));
 
         let volume_control = self.imp().playback_control.volume_control();

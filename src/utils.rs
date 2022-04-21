@@ -78,7 +78,7 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     let mut enumerator = folder
         .enumerate_children(
             "standard::*",
-            gio::FileQueryInfoFlags::NONE,
+            gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
             None::<&gio::Cancellable>,
         )
         .expect("Unable to enumerate");

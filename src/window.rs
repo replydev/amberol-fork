@@ -546,6 +546,9 @@ impl Window {
             clone!(@weak self as win => move |flap, _| {
                 if flap.is_folded() {
                     win.imp().back_button.set_visible(flap.reveals_flap());
+                } else {
+                    win.imp().back_button.set_visible(false);
+                    win.imp().playlist_box.remove_css_class("playlist-background");
                 }
             }),
         );

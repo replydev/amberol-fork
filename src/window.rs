@@ -277,9 +277,20 @@ impl Window {
     }
 
     fn set_playlist_shuffled(&self, shuffled: bool) {
-        if shuffled != self.imp().playlist_shuffled.replace(shuffled) {
-            let queue = self.imp().player.queue();
+        let imp = self.imp();
+
+        if shuffled != imp.playlist_shuffled.replace(shuffled) {
+            let queue = imp.player.queue();
+            let state = imp.player.state();
+
+            let reset_song = queue.is_first_song() && !state.playing();
+
             queue.set_shuffle(shuffled);
+
+            if reset_song {
+                imp.player.skip_to(0);
+            }
+
             self.notify("playlist-shuffled");
         }
     }

@@ -460,11 +460,15 @@ impl Window {
             } else if info.file_type() == gio::FileType::Directory {
                 let now = Instant::now();
                 let mut files = utils::load_files_from_folder(file, true).into_iter();
+                let mut songs = Vec::new();
                 let n_files = files.len();
                 glib::idle_add_local(clone!(@strong self as win => move || {
                     files.next()
                         .map(|f| {
-                            win.add_file_to_queue(&f, false);
+                            let s = Song::new(f.uri().as_str());
+                            if !s.equals(&Song::default()) {
+                                songs.push(s);
+                        }
                         })
                         .map(|_| glib::Continue(true))
                         .unwrap_or_else(|| {
@@ -478,6 +482,8 @@ impl Window {
                             //     &[&n_files.to_string()],
                             // );
                             // win.add_toast(msg);
+                            let queue =  win.imp().player.queue();
+                            queue.add_songs(&songs);
                             glib::Continue(false)
                         })
                 }));

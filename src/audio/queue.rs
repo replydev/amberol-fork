@@ -158,7 +158,7 @@ impl Queue {
                 .unwrap()
                 .downcast::<Song>()
                 .unwrap();
-            if s.equals(&song) {
+            if s.equals(song) {
                 self.imp().store.remove(pos);
                 break;
             }

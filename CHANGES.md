@@ -12,6 +12,13 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.4.1] - 2022-04-22
+
+### Fixed
+
+- Don't skip songs without a cover art [#46]
+- Clean up unnecessary overrides [Bilal Elmoussaoui, !32]
+
 ## [0.4.0] - 2022-04-22
 
 ### Added

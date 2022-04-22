@@ -90,6 +90,10 @@ impl GstBackend {
         }
     }
 
+    pub fn seek_position(&self, position: u64) {
+        self.gst_player.seek(gst::ClockTime::from_seconds(position));
+    }
+
     pub fn seek_start(&self) {
         self.gst_player.seek(gst::ClockTime::from_seconds(0));
     }

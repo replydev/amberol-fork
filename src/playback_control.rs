@@ -4,7 +4,7 @@
 use adw::subclass::prelude::*;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
-use crate::volume_control::VolumeControl;
+use crate::{volume_control::VolumeControl, waveform_view::WaveformView};
 
 mod imp {
     use super::*;
@@ -19,6 +19,9 @@ mod imp {
         pub center_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub end_box: TemplateChild<gtk::Box>,
+
+        #[template_child]
+        pub waveform_view: TemplateChild<WaveformView>,
 
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -105,5 +108,9 @@ impl PlaybackControl {
 
     pub fn volume_control(&self) -> VolumeControl {
         self.imp().volume_control.get()
+    }
+
+    pub fn waveform_view(&self) -> WaveformView {
+        self.imp().waveform_view.get()
     }
 }

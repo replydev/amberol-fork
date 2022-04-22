@@ -12,6 +12,7 @@ mod queue_row;
 mod song_details;
 mod utils;
 mod volume_control;
+mod waveform_view;
 mod window;
 
 use self::{application::Application, window::Window};
@@ -40,6 +41,7 @@ fn main() {
     textdomain(GETTEXT_PACKAGE).expect("Unable to switch to the text domain");
 
     debug!("Setting up pulseaudio environment");
+    env::set_var("PULSE_PROP_media.role", "music");
     env::set_var("PULSE_PROP_application.icon_name", &APPLICATION_ID);
     env::set_var("PULSE_PROP_application.metadata().name", "Amberol");
 

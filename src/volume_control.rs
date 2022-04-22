@@ -117,7 +117,14 @@ impl VolumeControl {
         self.imp().volume_scale.set_adjustment(&adj);
         adj.connect_notify_local(
             Some("value"),
-            clone!(@strong self as this => move |_, _| {
+            clone!(@strong self as this => move |adj, _| {
+                let value = adj.value();
+                if value == adj.lower() {
+                    this.imp().volume_low_image.set_icon_name(Some("audio-volume-muted-symbolic"));
+                } else {
+                    this.imp().volume_low_image.set_icon_name(Some("audio-volume-low-symbolic"));
+                }
+
                 this.notify("volume");
             }),
         );

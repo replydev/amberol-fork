@@ -1,3 +1,5 @@
+@define-color dimmed_color alpha(currentColor, .55);
+
 button.large {
   min-width: 48px;
   min-height: 48px;
@@ -32,6 +34,10 @@ picture.cover {
 
 .main-window picture.cover {
   background: linear-gradient(to bottom, @background_color_1, @background_color_2);
+}
+
+waveformview {
+  padding-bottom: 6px;
 }
 
 queuerow .currently-playing {

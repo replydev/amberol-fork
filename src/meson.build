@@ -44,6 +44,7 @@ rust_sources = files(
   'audio/shuffle.rs',
   'audio/song.rs',
   'audio/state.rs',
+  'audio/waveform_generator.rs',
   'config.rs',
   'cover_picture.rs',
   'drag_overlay.rs',
@@ -54,6 +55,7 @@ rust_sources = files(
   'song_details.rs',
   'utils.rs',
   'volume_control.rs',
+  'waveform_view.rs',
   'window.rs',
 )
 

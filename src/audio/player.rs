@@ -255,7 +255,7 @@ impl AudioPlayer {
         }
 
         if let Some(next_song) = self.queue.next_song() {
-            debug!("Playing next: {}", next_song.uri());
+            debug!("Playing next (skip-next): {}", next_song.uri());
 
             let was_playing = self.state.playing();
             if was_playing {
@@ -284,12 +284,16 @@ impl AudioPlayer {
     }
 
     pub fn skip_to(&self, pos: u32) {
+        if Some(pos) == self.queue.current_song_index() {
+            return;
+        }
+
         if let Some(current_song) = self.state.current_song() {
             current_song.set_playing(false);
         }
 
         if let Some(song) = self.queue.skip_song(pos) {
-            debug!("Playing next: {}", song.uri());
+            debug!("Playing next (skip-to): {}", song.uri());
             let was_playing = self.state.playing();
             if was_playing {
                 self.set_playback_state(PlaybackState::Paused);
@@ -341,6 +345,12 @@ impl AudioPlayer {
 
     pub fn seek_forward(&self) {
         self.seek(10, SeekDirection::Forward);
+    }
+
+    pub fn seek_position(&self, position: f64) {
+        let duration = self.state.duration() as f64;
+        let pos = (duration * position).clamp(0.0, duration);
+        self.backend.seek_position(pos as u64);
     }
 
     pub fn queue(&self) -> &Queue {

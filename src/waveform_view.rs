@@ -168,38 +168,26 @@ mod imp {
                 // Set up the Cairo node
                 let cr = snapshot.append_cairo(&graphene::Rect::new(0.0, 0.0, w as f32, h as f32));
 
-                // Draw the cursor
                 cr.set_line_cap(cairo::LineCap::Round);
-
-                cr.set_line_width(2.0);
-                cr.set_source_rgba(
-                    cursor_color.red().into(),
-                    cursor_color.green().into(),
-                    cursor_color.blue().into(),
-                    cursor_color.alpha().into(),
-                );
-
-                let cursor_pos = self.position.get() * w as f64;
-                cr.move_to(cursor_pos, center_y - h as f64);
-                cr.line_to(cursor_pos, center_y + h as f64);
-                cr.stroke().expect("cursor stroke");
-
-                // Draw the available peaks
                 cr.set_line_width(1.0);
-
-                let spacing = 2.0;
-                let mut offset = spacing;
 
                 // If we have more samples than pixels, then we chunk the
                 // samples and we average each chunk
-                let chunk_size;
-                if peaks.len() > w as usize {
-                    chunk_size = f64::ceil(peaks.len() as f64 / (w as f64 / 2.0));
+                let spacing;
+                let chunk_per_pixel;
+                if peaks.len() < w as usize {
+                    chunk_per_pixel = 1;
+                    spacing = 2.0 * (w as f64 / peaks.len() as f64);
                 } else {
-                    chunk_size = 1.0;
+                    let effective_width = (w as f64 - 4.0) / 2.0;
+                    chunk_per_pixel = (peaks.len() as f64 / effective_width).round() as usize;
+                    spacing = 2.0;
                 }
 
-                for chunk in peaks.chunks(chunk_size as usize) {
+                let mut offset = spacing;
+                let cursor_pos = self.position.get() * w as f64 + spacing;
+
+                for chunk in peaks.chunks(chunk_per_pixel) {
                     // Average each chunk
                     let mut peak_avg = PeakPair::new(0.0, 0.0);
                     for p in 0..chunk.len() {
@@ -213,11 +201,18 @@ mod imp {
 
                     // Scale by half: left goes in the upper half of the
                     // available space, and right goes in the lower half
-                    let left = peak_avg.left / 2.0;
-                    let right = peak_avg.right / 2.0;
+                    let left = peak_avg.left / 3.0;
+                    let right = peak_avg.right / 3.0;
 
                     // Dim the part that we have just played
-                    if offset >= cursor_pos {
+                    if (offset - cursor_pos).abs() < spacing {
+                        cr.set_source_rgba(
+                            cursor_color.red().into(),
+                            cursor_color.green().into(),
+                            cursor_color.blue().into(),
+                            cursor_color.alpha().into(),
+                        );
+                    } else if offset > cursor_pos {
                         cr.set_source_rgba(
                             color.red().into(),
                             color.green().into(),
@@ -233,13 +228,9 @@ mod imp {
                         );
                     }
 
-                    cr.move_to(offset, center_y + left * h as f64);
-                    cr.line_to(offset, center_y);
-                    cr.stroke().expect("left stroke");
-
-                    cr.move_to(offset, center_y - right * h as f64);
-                    cr.line_to(offset, center_y);
-                    cr.stroke().expect("right stroke");
+                    cr.move_to(offset + 0.5, center_y + left * h as f64);
+                    cr.line_to(offset + 0.5, center_y - right * h as f64);
+                    cr.stroke().expect("stroke");
 
                     offset += spacing as f64;
                 }
@@ -306,6 +297,7 @@ impl WaveformView {
     pub fn set_peaks(&self, peaks: Option<Vec<(f64, f64)>>) {
         if let Some(peaks) = peaks {
             let peak_pairs = self.normalize_peaks(peaks);
+            debug!("Peaks: {}", peak_pairs.len());
             self.imp().peaks.replace(Some(peak_pairs));
         } else {
             self.imp().peaks.replace(None);

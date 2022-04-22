@@ -304,7 +304,7 @@ impl Song {
     }
 
     pub fn equals(&self, other: &Self) -> bool {
-        self.uuid() == other.uuid()
+        self.uri() == other.uri()
     }
 
     pub fn uri(&self) -> String {

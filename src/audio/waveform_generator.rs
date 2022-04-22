@@ -100,7 +100,7 @@ impl WaveformGenerator {
         let peaks: Vec<(f64, f64)> = Vec::new();
         self.imp().peaks.replace(Some(peaks));
 
-        let pipeline_str = "uridecodebin name=uridecodebin ! audioconvert ! audio/x-raw,channels=2 ! level name=level ! fakesink name=faked";
+        let pipeline_str = "uridecodebin name=uridecodebin ! audioconvert ! audio/x-raw,channels=2 ! level name=level interval=250000000 ! fakesink name=faked";
         let pipeline = match gst::parse_launch(&pipeline_str) {
             Ok(pipeline) => pipeline,
             Err(err) => {

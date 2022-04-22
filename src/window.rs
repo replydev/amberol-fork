@@ -7,7 +7,7 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
-use glib::{clone, Receiver};
+use glib::{clone, closure_local, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
@@ -19,6 +19,7 @@ use crate::{
     queue_row::QueueRow,
     song_details::SongDetails,
     utils,
+    waveform_view::WaveformView,
 };
 
 pub enum WindowAction {
@@ -602,6 +603,16 @@ impl Window {
             Some("volume"),
             clone!(@weak self as win => move |control, _| {
                 win.imp().player.set_volume(control.volume());
+            }),
+        );
+
+        let waveform_view = self.imp().playback_control.waveform_view();
+        waveform_view.connect_closure(
+            "position-changed",
+            false,
+            closure_local!(@strong self as this => move |_view: WaveformView, position: f64| {
+                debug!("New position: {}", position);
+                this.imp().player.seek_position(position);
             }),
         );
 

@@ -8,17 +8,38 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Add folders via drag and drop [#17]
+### Fixed
+
+### Removed
+
+## [0.4.0] - 2022-04-22
+
+### Added
+
+- Add waveform display and quick navigation
+- Allow queueing folders recursively
+- Add initial status page at startup [#27]
+- Add remove button to the playlist [#40]
+- Show cover art in the playlist
+
+### Changed
+
+- Allow adding folders via drag and drop [#17]
 - Allow shuffling only when the playlist contains more than one song [#15]
 - Style the popover using a similar background as the main window [#12]
 - Small style tweaks for the recoloring
 - Reduce the height of the full window to fit in 768p displays [#16]
+- Make the layout more mobile friendly [#28]
+- Ship our own icon assets
 
 ### Fixed
 
 - Fix an assertion failure when reaching the end of a shuffled playlist
-
-### Removed
+- Scroll playlist to the current song [#29]
+- Update dependency on lofty for m4a support [#22]
+- Add divider above scrolling playlist [#26]
+- Fix styling of the missing cover fallback image [#36]
+- Set the album art metadata for MPRIS [#13]
 
 ## [0.3.0] - 2022-04-15
 

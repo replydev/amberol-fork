@@ -22,10 +22,10 @@
   </description>
   <screenshots>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol-1.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.4/amberol-1.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol-2.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.4/amberol-2.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
@@ -48,6 +48,19 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.4.0" date="2022-04-22">
+      <description>
+        <p>The first beta release for Amberol! Isn't this exciting?</p>
+        <ul>
+          <li>Show an initial page when launching Amberol</li>
+          <li>Make the layout more mobile friendly without impacting desktop users</li>
+          <li>Allow removing songs from the playlist</li>
+          <li>Add initial (experimental) support for recursive loading of music folders</li>
+          <li>Show the cover art for music tracks in the playlist</li>
+          <li>Show the current position inside the song</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.0" type="development" date="2022-04-15"/>
     <release version="0.2.1" type="development" date="2022-04-11"/>
     <release version="0.2.0" type="development" date="2022-04-11"/>

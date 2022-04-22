@@ -12,8 +12,8 @@ not show you lyrics for your songs, or the Wikipedia page for your bands.
 
 Amberol plays music, and nothing else.
 
-![Screenshot 1](./data/screenshots/amberol-1.png)
-![Screesnhot 2](./data/screenshots/amberol-2.png)
+![Screenshot 1](./data/screenshots/amberol-2.png)
+![Screesnhot 2](./data/screenshots/amberol-3.png)
 
 Flatpak builds
 --------------

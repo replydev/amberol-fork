@@ -36,6 +36,10 @@ picture.cover {
   background: linear-gradient(to bottom, @background_color_1, @background_color_2);
 }
 
+waveformview {
+  padding-bottom: 6px;
+}
+
 queuerow .currently-playing {
   padding-left: 6px;
   font-weight: 700;

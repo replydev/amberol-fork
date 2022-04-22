@@ -24,7 +24,6 @@ mod imp {
         pub uri: RefCell<Option<String>>,
         pub peaks: RefCell<Option<Vec<(f64, f64)>>>,
         pub pipeline: RefCell<Option<gst::Element>>,
-        pub bus: RefCell<Option<gst::Bus>>,
         pub receiver: RefCell<Option<Receiver<PeaksAction>>>,
     }
 
@@ -37,7 +36,6 @@ mod imp {
             Self {
                 peaks: RefCell::new(None),
                 pipeline: RefCell::new(None),
-                bus: RefCell::new(None),
                 receiver: RefCell::new(None),
                 uri: RefCell::new(None),
             }
@@ -64,10 +62,6 @@ mod imp {
                 "has-peaks" => obj.peaks().is_some().to_value(),
                 _ => unimplemented!(),
             }
-        }
-
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
         }
     }
 }
@@ -203,6 +197,5 @@ impl WaveformGenerator {
 
         // Keep a reference on the pipeline so we can run it until completion
         self.imp().pipeline.replace(Some(pipeline));
-        self.imp().bus.replace(Some(bus));
     }
 }

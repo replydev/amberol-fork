@@ -95,15 +95,10 @@ impl SongData {
             warn!("Unable to load tags for {}", uri);
         };
 
-        // The pixel buffer for the cover art
-        let cover_pixbuf = if let Some(ref cover_art) = cover_art {
-            utils::load_cover_texture(cover_art)
-        } else {
-            None
-        };
-
-        let uuid = if let Some(ref pixbuf) = cover_pixbuf {
+        let uuid = if let Some(basename) = file.basename() {
             let mut hasher = Sha256::new();
+
+            hasher.update(basename.to_str().unwrap());
 
             // Compute the checksum using the data we have
             // at load time; at worst, we are going to use
@@ -122,48 +117,59 @@ impl SongData {
                 hasher.update(&album);
             }
 
-            let res = format!("{:x}", hasher.finalize());
-
-            // This is not great; the only reason why we have to do this
-            // is because MPRIS is a bad specification, and requires us
-            // to save the cover art in order to pass a URL to it.
-            let mut cache = glib::user_cache_dir();
-            cache.push("amberol");
-            cache.push("covers");
-            glib::mkdir_with_parents(&cache, 0o755);
-
-            cache.push(format!("{}.png", res));
-            let file = gio::File::for_path(&cache);
-            match file.create(gio::FileCreateFlags::NONE, gio::Cancellable::NONE) {
-                Ok(stream) => {
-                    debug!("Creating cover data cache at {:?}", &cache);
-                    pixbuf.save_to_streamv_async(
-                        &stream,
-                        "png",
-                        &[("tEXt::Software", "amberol")],
-                        gio::Cancellable::NONE,
-                        move |res| {
-                            match res {
-                                Err(e) => warn!("Unable to cache cover data: {}", e),
-                                _ => debug!("Cached cover data: {:?}", &cache),
-                            };
-                        },
-                    );
-                }
-                Err(e) => {
-                    if let Some(file_error) = e.kind::<glib::FileError>() {
-                        match file_error {
-                            glib::FileError::Exist => {}
-                            _ => warn!("Unable to create file: {}", e),
-                        };
-                    }
-                }
-            };
-
-            Some(res)
+            Some(format!("{:x}", hasher.finalize()))
         } else {
             None
         };
+
+        // The pixel buffer for the cover art
+        let cover_pixbuf = if let Some(ref cover_art) = cover_art {
+            utils::load_cover_texture(cover_art)
+        } else {
+            None
+        };
+
+        if let Some(ref pixbuf) = cover_pixbuf {
+            if let Some(ref uuid) = uuid {
+                // This is not great; the only reason why we have to do this
+                // is because MPRIS is a bad specification, and requires us
+                // to save the cover art in order to pass a URL to it.
+                let mut cache = glib::user_cache_dir();
+                cache.push("amberol");
+                cache.push("covers");
+                glib::mkdir_with_parents(&cache, 0o755);
+
+                cache.push(format!("{}.png", uuid));
+                let file = gio::File::for_path(&cache);
+                match file.create(gio::FileCreateFlags::NONE, gio::Cancellable::NONE) {
+                    Ok(stream) => {
+                        debug!("Creating cover data cache at {:?}", &cache);
+                        pixbuf.save_to_streamv_async(
+                            &stream,
+                            "png",
+                            &[("tEXt::Software", "amberol")],
+                            gio::Cancellable::NONE,
+                            move |res| {
+                                match res {
+                                    Err(e) => warn!("Unable to cache cover data: {}", e),
+                                    _ => debug!("Cached cover data: {:?}", &cache),
+                                };
+                            },
+                        );
+                    }
+                    Err(e) => {
+                        if let Some(file_error) = e.kind::<glib::FileError>() {
+                            match file_error {
+                                glib::FileError::Exist => (),
+                                _ => warn!("Unable to create file: {}", e),
+                            };
+                        }
+                    }
+                };
+            } else {
+                warn!("No UUID available")
+            }
+        }
 
         // The texture we draw on screen
         let cover_texture = cover_pixbuf.as_ref().map(gdk::Texture::for_pixbuf);
@@ -304,7 +310,11 @@ impl Song {
     }
 
     pub fn equals(&self, other: &Self) -> bool {
-        self.uri() == other.uri()
+        if self.uuid().is_some() && other.uuid().is_some() {
+            self.uuid() == other.uuid()
+        } else {
+            self.uri() == other.uri()
+        }
     }
 
     pub fn uri(&self) -> String {

@@ -43,7 +43,7 @@ mod imp {
     pub struct WaveformView {
         pub position: Cell<f64>,
         // left and right channel peaks, normalised between 0 and 1
-        pub peaks: RefCell<Option<Vec<(f64, f64)>>>,
+        pub peaks: RefCell<Option<Vec<PeakPair>>>,
     }
 
     #[glib::object_subclass]
@@ -149,6 +149,7 @@ mod imp {
 
                 // Draw the cursor
                 cr.set_line_cap(cairo::LineCap::Round);
+
                 cr.set_line_width(2.0);
                 cr.set_source_rgba(
                     cursor_color.red().into(),
@@ -168,19 +169,33 @@ mod imp {
                 let spacing = 2.0;
                 let mut offset = spacing;
 
-                let chunk_size = f64::ceil(peaks.len() as f64 / (w as f64 / 2.0));
+                // If we have more samples than pixels, then we chunk the
+                // samples and we average each chunk
+                let chunk_size;
+                if peaks.len() > w as usize {
+                    chunk_size = f64::ceil(peaks.len() as f64 / (w as f64 / 2.0));
+                } else {
+                    chunk_size = 1.0;
+                }
+
                 for chunk in peaks.chunks(chunk_size as usize) {
                     // Average each chunk
                     let mut peak_avg = PeakPair::new(0.0, 0.0);
                     for p in 0..chunk.len() {
-                        peak_avg.left += chunk[p].0;
-                        peak_avg.right += chunk[p].1;
+                        peak_avg.left += chunk[p].left;
+                        peak_avg.right += chunk[p].right;
                     }
-
                     peak_avg /= chunk.len() as f64;
+
+                    cr.set_line_cap(cairo::LineCap::Round);
+                    cr.set_line_width(1.0);
+
+                    // Scale by half: left goes in the upper half of the
+                    // available space, and right goes in the lower half
                     let left = peak_avg.left / 2.0;
                     let right = peak_avg.right / 2.0;
 
+                    // Dim the part that we have just played
                     if offset >= cursor_pos {
                         cr.set_source_rgba(
                             color.red().into(),
@@ -228,8 +243,34 @@ impl WaveformView {
         Self::default()
     }
 
+    fn normalize_peaks(&self, peaks: Vec<(f64, f64)>) -> Vec<PeakPair> {
+        let left_channel: Vec<f64> = peaks.iter().map(|p| p.0).collect();
+        let right_channel: Vec<f64> = peaks.iter().map(|p| p.1).collect();
+
+        let max_left: f64 = left_channel
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max);
+        let max_right: f64 = right_channel
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max);
+
+        let normalized: Vec<PeakPair> = peaks
+            .iter()
+            .map(|p| PeakPair::new(p.0 / max_left, p.1 / max_right))
+            .collect();
+
+        normalized
+    }
+
     pub fn set_peaks(&self, peaks: Option<Vec<(f64, f64)>>) {
-        self.imp().peaks.replace(peaks.clone());
+        if let Some(peaks) = peaks {
+            let peak_pairs = self.normalize_peaks(peaks);
+            self.imp().peaks.replace(Some(peak_pairs));
+        } else {
+            self.imp().peaks.replace(None);
+        }
         self.queue_draw();
     }
 

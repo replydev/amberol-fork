@@ -56,15 +56,6 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.set_css_name("waveformview");
         }
-
-        fn instance_init(_obj: &glib::subclass::InitializingObject<Self>) {}
-
-        fn new() -> Self {
-            Self {
-                position: Cell::new(0.0),
-                peaks: RefCell::new(None),
-            }
-        }
     }
 
     impl ObjectImpl for WaveformView {

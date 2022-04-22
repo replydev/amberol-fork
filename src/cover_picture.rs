@@ -33,7 +33,7 @@ mod imp {
 
     use super::*;
 
-    #[derive(Debug)]
+    #[derive(Debug, Default)]
     pub struct CoverPicture {
         pub cover: RefCell<Option<gdk::Texture>>,
         pub cover_size: Cell<CoverSize>,
@@ -47,15 +47,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.set_css_name("picture");
-        }
-
-        fn instance_init(_obj: &glib::subclass::InitializingObject<Self>) {}
-
-        fn new() -> Self {
-            Self {
-                cover: RefCell::new(None),
-                cover_size: Cell::new(CoverSize::default()),
-            }
         }
     }
 

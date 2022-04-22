@@ -13,7 +13,7 @@ mod imp {
 
     use super::*;
 
-    #[derive(Debug)]
+    #[derive(Debug, Default)]
     pub struct ShuffleListModel {
         pub model: RefCell<Option<gio::ListModel>>,
         pub shuffle: RefCell<Option<Vec<u32>>>,
@@ -24,13 +24,6 @@ mod imp {
         const NAME: &'static str = "ShuffleListModel";
         type Type = super::ShuffleListModel;
         type Interfaces = (gio::ListModel,);
-
-        fn new() -> Self {
-            Self {
-                model: RefCell::new(None),
-                shuffle: RefCell::new(None),
-            }
-        }
     }
 
     impl ObjectImpl for ShuffleListModel {

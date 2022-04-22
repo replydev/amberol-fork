@@ -48,6 +48,11 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.4.1" date="2022-04-22">
+      <description>
+        <p>A brown paper bag release fixing an embarrassing bug.</p>
+      </description>
+    </release>
     <release version="0.4.0" date="2022-04-22">
       <description>
         <p>The first beta release for Amberol! Isn't this exciting?</p>

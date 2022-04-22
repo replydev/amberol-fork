@@ -12,6 +12,7 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
+use glib::clone;
 use gtk::{cairo, glib, graphene, prelude::*, subclass::prelude::*};
 
 #[derive(Debug, PartialEq)]
@@ -34,7 +35,7 @@ impl DivAssign<f64> for PeakPair {
 }
 
 mod imp {
-    use glib::{ParamFlags, ParamSpec, ParamSpecDouble, Value};
+    use glib::{subclass::Signal, ParamFlags, ParamSpec, ParamSpecDouble, Value};
     use once_cell::sync::Lazy;
 
     use super::*;
@@ -95,6 +96,26 @@ mod imp {
                 "position" => self.position.get().to_value(),
                 _ => unimplemented!(),
             }
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder(
+                    "position-changed",
+                    // The position
+                    &[f64::static_type().into()],
+                    <()>::static_type().into(),
+                )
+                .build()]
+            });
+
+            SIGNALS.as_ref()
+        }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            obj.setup_gesture();
         }
     }
 
@@ -241,6 +262,24 @@ impl Default for WaveformView {
 impl WaveformView {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    fn setup_gesture(&self) {
+        let gesture = gtk::GestureClick::new();
+        gesture.set_name("waveform-click");
+        gesture.set_button(0);
+        gesture.connect_pressed(
+            clone!(@strong self as this => move |gesture, n_press, x, _| {
+                if n_press == 1 {
+                    gesture.set_state(gtk::EventSequenceState::Claimed);
+                    let width = this.width();
+                    let position = x as f64 / width as f64;
+                    debug!("Button press at {} (width: {}, position: {})", x, width, position);
+                    this.emit_by_name::<()>("position-changed", &[&position]);
+                }
+            }),
+        );
+        self.add_controller(&gesture);
     }
 
     fn normalize_peaks(&self, peaks: Vec<(f64, f64)>) -> Vec<PeakPair> {

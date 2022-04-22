@@ -347,6 +347,12 @@ impl AudioPlayer {
         self.seek(10, SeekDirection::Forward);
     }
 
+    pub fn seek_position(&self, position: f64) {
+        let duration = self.state.duration() as f64;
+        let pos = (duration * position).clamp(0.0, duration);
+        self.backend.seek_position(pos as u64);
+    }
+
     pub fn queue(&self) -> &Queue {
         &self.queue
     }

@@ -11,7 +11,7 @@ use glib::{clone, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{
-    audio::{AudioPlayer, RepeatMode, Song},
+    audio::{AudioPlayer, RepeatMode, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
@@ -59,6 +59,7 @@ mod imp {
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
         pub receiver: RefCell<Option<Receiver<WindowAction>>>,
+        pub waveform: WaveformGenerator,
 
         pub playlist_shuffled: Cell<bool>,
         pub playlist_visible: Cell<bool>,
@@ -138,6 +139,7 @@ mod imp {
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(false),
                 player: AudioPlayer::new(sender),
+                waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
                 receiver,
             }
@@ -153,6 +155,7 @@ mod imp {
             }
 
             obj.setup_channel();
+            obj.setup_waveform();
             obj.set_initial_state();
             obj.bind_state();
             obj.bind_queue();
@@ -228,6 +231,16 @@ impl Window {
         }
 
         glib::Continue(true)
+    }
+
+    fn setup_waveform(&self) {
+        self.imp().waveform.connect_notify_local(
+            Some("has-peaks"),
+            clone!(@strong self as win => move |gen, _| {
+                let peaks = gen.peaks();
+                win.imp().playback_control.waveform_view().set_peaks(peaks);
+            }),
+        );
     }
 
     fn restore_window_state(&self) {
@@ -375,13 +388,13 @@ impl Window {
 
     pub fn add_file_to_queue(&self, file: &gio::File) {
         let queue = self.imp().player.queue();
-        let n_songs = queue.n_songs();
+        let was_empty = queue.is_empty();
 
         let song = Song::new(&file.uri());
         queue.add_song(&song);
 
-        if n_songs == 0 {
-            self.imp().player.skip_next();
+        if was_empty {
+            self.imp().player.skip_to(0);
         }
     }
 
@@ -436,6 +449,8 @@ impl Window {
                     let duration = state.duration();
                     let time = utils::format_time(position, duration);
                     win.imp().song_details.time_label().set_label(&time);
+                    let pos = position as f64 / duration as f64;
+                    win.imp().playback_control.waveform_view().set_position(pos);
                 } else {
                     win.imp().song_details.time_label().set_label("");
                 }
@@ -448,9 +463,12 @@ impl Window {
                 win.scroll_playlist_to_song();
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
-                    debug!("Updating style for {:?}", current);
+                    debug!("Updating waveform for {:?}", &current);
+                    win.update_waveform(Some(&current));
+                    debug!("Updating style for {:?}", &current);
                     win.update_style(&current);
                 } else {
+                    win.update_waveform(None);
                     debug!("Reset album art");
                     win.remove_css_class("main-window");
                 }
@@ -779,6 +797,18 @@ impl Window {
             }
         } else {
             self.remove_css_class("main-window");
+        }
+    }
+
+    fn update_waveform(&self, song: Option<&Song>) {
+        let imp = self.imp();
+
+        if let Some(song) = song {
+            imp.waveform.set_uri(Some(song.uri()));
+            imp.waveform.generate_peaks();
+        } else {
+            imp.waveform.set_uri(None);
+            imp.playback_control.waveform_view().set_peaks(None);
         }
     }
 

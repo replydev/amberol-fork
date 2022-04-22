@@ -12,6 +12,7 @@ mod queue_row;
 mod song_details;
 mod utils;
 mod volume_control;
+mod waveform_view;
 mod window;
 
 use self::{application::Application, window::Window};

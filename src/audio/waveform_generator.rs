@@ -19,7 +19,7 @@ mod imp {
 
     use super::*;
 
-    #[derive(Debug)]
+    #[derive(Debug, Default)]
     pub struct WaveformGenerator {
         pub uri: RefCell<Option<String>>,
         pub peaks: RefCell<Option<Vec<(f64, f64)>>>,
@@ -31,15 +31,6 @@ mod imp {
     impl ObjectSubclass for WaveformGenerator {
         const NAME: &'static str = "WaveformGenerator";
         type Type = super::WaveformGenerator;
-
-        fn new() -> Self {
-            Self {
-                peaks: RefCell::new(None),
-                pipeline: RefCell::new(None),
-                receiver: RefCell::new(None),
-                uri: RefCell::new(None),
-            }
-        }
     }
 
     impl ObjectImpl for WaveformGenerator {

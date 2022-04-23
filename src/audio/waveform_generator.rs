@@ -81,9 +81,18 @@ impl WaveformGenerator {
     }
 
     pub fn generate_peaks(&self) {
+        if let Some(ref pipeline) = *self.imp().pipeline.borrow() {
+            // Stop any running pipeline, and ensure that we have nothing to
+            // report
+            self.imp().peaks.replace(None);
+            pipeline.send_event(gst::event::Eos::new());
+            pipeline.set_state(gst::State::Null).expect("Stopping existing pipeline");
+        }
+
         // Reset the peaks vector
         let peaks: Vec<(f64, f64)> = Vec::new();
         self.imp().peaks.replace(Some(peaks));
+
 
         let pipeline_str = "uridecodebin name=uridecodebin ! audioconvert ! audio/x-raw,channels=2 ! level name=level interval=250000000 ! fakesink name=faked";
         let pipeline = match gst::parse_launch(&pipeline_str) {
@@ -127,6 +136,7 @@ impl WaveformGenerator {
                     }
                     PeaksAction::Eos => {
                         // We're done
+                        this.imp().pipeline.replace(None);
                         this.notify("has-peaks");
                         return glib::Continue(false);
                     }
@@ -158,7 +168,7 @@ impl WaveformGenerator {
                 }
                 MessageView::Error(err) => {
                     warn!("Pipeline error: {:?}", err);
-                    pipeline.set_state(gst::State::Ready).expect("Unable to set 'null' state");
+                    pipeline.set_state(gst::State::Null).expect("Unable to set 'null' state");
                     send!(sender, PeaksAction::Eos);
                     return glib::Continue(false);
                 }

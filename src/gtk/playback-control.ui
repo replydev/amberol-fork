@@ -97,7 +97,7 @@
               <property name="halign">start</property>
               <property name="spacing">12</property>
               <child>
-                <object class="GtkButton" id="playlist_button">
+                <object class="GtkToggleButton" id="playlist_button">
                   <property name="icon-name">view-list-bullet-symbolic</property>
                   <property name="action-name">queue.toggle</property>
                   <property name="valign">center</property>

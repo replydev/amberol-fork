@@ -111,10 +111,7 @@ mod imp {
                 debug!("Window::queue.clear()");
                 win.clear_queue();
             });
-            klass.install_action("queue.toggle", None, move |win, _, _| {
-                debug!("Window::queue.toggle()");
-                win.toggle_queue();
-            });
+            klass.install_property_action("queue.toggle", "playlist-visible");
             klass.install_property_action("queue.shuffle", "playlist-shuffled");
         }
 
@@ -138,7 +135,7 @@ mod imp {
                 back_button: TemplateChild::default(),
                 playlist_box: TemplateChild::default(),
                 playlist_shuffled: Cell::new(false),
-                playlist_visible: Cell::new(false),
+                playlist_visible: Cell::new(true),
                 player: AudioPlayer::new(sender),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
@@ -575,8 +572,10 @@ impl Window {
         self.imp().queue_revealer.connect_notify_local(
             Some("folded"),
             clone!(@weak self as win => move |flap, _| {
+                win.set_playlist_visible(flap.reveals_flap());
                 if flap.is_folded() {
-                    win.imp().back_button.set_visible(flap.reveals_flap());
+                    win.imp().back_button.set_visible(win.playlist_visible());
+                    win.imp().playlist_box.add_css_class("playlist-background");
                 } else {
                     win.imp().back_button.set_visible(false);
                     win.imp().playlist_box.remove_css_class("playlist-background");
@@ -587,13 +586,13 @@ impl Window {
         self.imp().queue_revealer.connect_notify_local(
             Some("reveal-flap"),
             clone!(@weak self as win => move |flap, _| {
-                let folded = flap.is_folded();
-                if folded {
-                    if flap.reveals_flap() {
-                        win.imp().playlist_box.add_css_class("playlist-background");
-                    } else {
-                        win.imp().playlist_box.remove_css_class("playlist-background");
-                    }
+                win.set_playlist_visible(flap.reveals_flap());
+                if flap.is_folded() {
+                    win.imp().back_button.set_visible(win.playlist_visible());
+                    win.imp().playlist_box.add_css_class("playlist-background");
+                } else {
+                    win.imp().back_button.set_visible(false);
+                    win.imp().playlist_box.remove_css_class("playlist-background");
                 }
             }),
         );

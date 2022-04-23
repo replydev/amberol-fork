@@ -64,6 +64,7 @@
                         <property name="child">
                           <object class="AdwFlap" id="queue_revealer">
                             <property name="flap-position">end</property>
+                            <property name="reveal-flap">true</property>
 
                             <child type="content">
                               <object class="GtkBox" id="main_box">

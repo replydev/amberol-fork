@@ -86,13 +86,14 @@ impl WaveformGenerator {
             // report
             self.imp().peaks.replace(None);
             pipeline.send_event(gst::event::Eos::new());
-            pipeline.set_state(gst::State::Null).expect("Stopping existing pipeline");
+            pipeline
+                .set_state(gst::State::Null)
+                .expect("Stopping existing pipeline");
         }
 
         // Reset the peaks vector
         let peaks: Vec<(f64, f64)> = Vec::new();
         self.imp().peaks.replace(Some(peaks));
-
 
         let pipeline_str = "uridecodebin name=uridecodebin ! audioconvert ! audio/x-raw,channels=2 ! level name=level interval=250000000 ! fakesink name=faked";
         let pipeline = match gst::parse_launch(&pipeline_str) {

@@ -253,6 +253,7 @@ impl Window {
     fn clear_queue(&self) {
         self.set_playlist_visible(false);
         self.set_playlist_shuffled(false);
+        self.update_waveform(None);
 
         let player = &self.imp().player;
         let queue = player.queue();

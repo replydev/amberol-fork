@@ -713,8 +713,6 @@ impl Window {
     }
 
     fn update_playlist_time(&self) {
-        let title = format!("<b>{}</b>", &i18n("Playlist"));
-
         let queue = self.imp().player.queue();
         let n_songs = queue.n_songs();
         if let Some(current) = queue.current_song_index() {
@@ -731,14 +729,15 @@ impl Window {
                 // Translators: The first '{}' is the word "Playlist";
                 // the second '{}' is the number of minutes remaining
                 // in the playlist
-                "{} ({} minute remaining)",
-                "{} ({} minutes remaining)",
+                "{} minute remaining",
+                "{} minutes remaining",
                 remaining_min,
-                &[&title, &remaining_min.to_string()],
+                &[&remaining_min.to_string()],
             );
             self.imp().queue_length_label.set_label(remaining_str);
+            self.imp().queue_length_label.show();
         } else {
-            self.imp().queue_length_label.set_label(&title);
+            self.imp().queue_length_label.hide();
         }
     }
 

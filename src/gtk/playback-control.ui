@@ -17,6 +17,7 @@
         <object class="GtkBox" id="controls_box">
           <property name="spacing">24</property>
           <property name="halign">center</property>
+          <property name="hexpand">true</property>
           <child>
             <object class="GtkButton" id="previous_button">
               <property name="icon-name">media-skip-backward-symbolic</property>

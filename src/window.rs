@@ -258,20 +258,6 @@ impl Window {
         self.imp().queue_revealer.set_reveal_flap(false);
     }
 
-    fn toggle_queue(&self) {
-        let visible = !self.playlist_visible();
-        self.set_playlist_visible(visible);
-
-        // We only show the "back" button to toggle the playlist
-        // flap when the flap is folded
-        let folded = self.imp().queue_revealer.is_folded();
-        if visible && folded {
-            self.imp().back_button.set_visible(true);
-        } else {
-            self.imp().back_button.set_visible(false);
-        }
-    }
-
     fn playlist_visible(&self) -> bool {
         self.imp().playlist_visible.get()
     }

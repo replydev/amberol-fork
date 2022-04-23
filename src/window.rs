@@ -251,11 +251,17 @@ impl Window {
     }
 
     fn clear_queue(&self) {
+        self.set_playlist_visible(false);
+        self.set_playlist_shuffled(false);
+
         let player = &self.imp().player;
+        let queue = player.queue();
+        let state = player.state();
+
         player.stop();
-        player.state().set_current_song(None);
-        player.queue().clear();
-        self.imp().queue_revealer.set_reveal_flap(false);
+
+        state.set_current_song(None);
+        queue.clear();
     }
 
     fn playlist_visible(&self) -> bool {

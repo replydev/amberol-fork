@@ -43,6 +43,7 @@ mod imp {
     #[derive(Debug, Default)]
     pub struct WaveformView {
         pub position: Cell<f64>,
+        pub hover_position: Cell<Option<f64>>,
         // left and right channel peaks, normalised between 0 and 1
         pub peaks: RefCell<Option<Vec<PeakPair>>>,
     }
@@ -122,7 +123,7 @@ mod imp {
             _for_size: i32,
         ) -> (i32, i32, i32, i32) {
             match orientation {
-                gtk::Orientation::Horizontal => (0, 0, -1, -1),
+                gtk::Orientation::Horizontal => (256, 256, -1, -1),
                 gtk::Orientation::Vertical => (48, 48, -1, -1),
                 _ => (0, 0, -1, -1),
             }
@@ -156,11 +157,15 @@ mod imp {
                     style_context.color()
                 };
 
+                let bar_size = 2.0;
+                let space_size = 2.0;
+                let block_size = bar_size + space_size;
+
                 // Set up the Cairo node
                 let cr = snapshot.append_cairo(&graphene::Rect::new(0.0, 0.0, w as f32, h as f32));
 
                 cr.set_line_cap(cairo::LineCap::Round);
-                cr.set_line_width(1.0);
+                cr.set_line_width(bar_size);
 
                 // If we have more samples than pixels, then we chunk the
                 // samples and we average each chunk
@@ -168,15 +173,40 @@ mod imp {
                 let chunk_per_pixel;
                 if peaks.len() < w as usize {
                     chunk_per_pixel = 1;
-                    spacing = 2.0 * (w as f64 / peaks.len() as f64);
+                    spacing = block_size * (w as f64 / peaks.len() as f64);
                 } else {
-                    let effective_width = (w as f64 - 4.0) / 2.0;
+                    let effective_width = (w as f64 - (2.0 * space_size)) / block_size;
                     chunk_per_pixel = (peaks.len() as f64 / effective_width).round() as usize;
-                    spacing = 2.0;
+                    spacing = block_size;
                 }
 
                 let mut offset = spacing;
-                let cursor_pos = self.position.get() * w as f64 + spacing;
+
+                // We have two cursors:
+                //
+                // 1. the state position, updated by the player
+                // 2. the hover position, updated by the motion controller
+                //
+                // The hover position may be behind the state position, if we are
+                // scrubbing backwards; or after the state position, if we are
+                // scrubbing forward.
+                //
+                // The area between the state position and the hover position is
+                // meant to be shown as a dimmed cursor color; the area between
+                // the start of the waveform and the state position is meant to be
+                // shown as a full cursor color; and the area between the hover
+                // position and the end of the waveform is meant to be shown as a
+                // current foreground color.
+                let position = self.position.get();
+                let mut cursor_pos: [f64; 2] =
+                    [position * w as f64 + spacing, position * w as f64 + spacing];
+                if let Some(hover) = self.hover_position.get() {
+                    if hover >= position {
+                        cursor_pos[1] = hover * w as f64 + spacing;
+                    } else {
+                        cursor_pos[0] = hover * w as f64 + spacing;
+                    }
+                }
 
                 for chunk in peaks.chunks(chunk_per_pixel) {
                     // Average each chunk
@@ -187,40 +217,36 @@ mod imp {
                     }
                     peak_avg /= chunk.len() as f64;
 
-                    cr.set_line_cap(cairo::LineCap::Round);
-                    cr.set_line_width(1.0);
-
                     // Scale by half: left goes in the upper half of the
                     // available space, and right goes in the lower half
-                    let left = peak_avg.left / 3.0;
-                    let right = peak_avg.right / 3.0;
+                    let left = peak_avg.left / 2.0;
+                    let right = peak_avg.right / 2.0;
 
-                    // Dim the part that we have just played
-                    if (offset - cursor_pos).abs() < spacing {
+                    if offset < (cursor_pos[0] - spacing) {
                         cr.set_source_rgba(
                             cursor_color.red().into(),
                             cursor_color.green().into(),
                             cursor_color.blue().into(),
                             cursor_color.alpha().into(),
                         );
-                    } else if offset > cursor_pos {
+                    } else if offset < (cursor_pos[1] - spacing) {
+                        cr.set_source_rgba(
+                            cursor_color.red().into(),
+                            cursor_color.green().into(),
+                            cursor_color.blue().into(),
+                            dimmed_color.alpha().into(),
+                        );
+                    } else {
                         cr.set_source_rgba(
                             color.red().into(),
                             color.green().into(),
                             color.blue().into(),
                             color.alpha().into(),
                         );
-                    } else {
-                        cr.set_source_rgba(
-                            dimmed_color.red().into(),
-                            dimmed_color.green().into(),
-                            dimmed_color.blue().into(),
-                            dimmed_color.alpha().into(),
-                        );
                     }
 
-                    cr.move_to(offset + 0.5, center_y + left * h as f64);
-                    cr.line_to(offset + 0.5, center_y - right * h as f64);
+                    cr.move_to(offset, center_y + left * h as f64);
+                    cr.line_to(offset, center_y - right * h as f64);
                     cr.stroke().expect("stroke");
 
                     offset += spacing as f64;
@@ -247,10 +273,10 @@ impl WaveformView {
     }
 
     fn setup_gesture(&self) {
-        let gesture = gtk::GestureClick::new();
-        gesture.set_name("waveform-click");
-        gesture.set_button(0);
-        gesture.connect_pressed(
+        let click_gesture = gtk::GestureClick::new();
+        click_gesture.set_name("waveform-click");
+        click_gesture.set_button(0);
+        click_gesture.connect_pressed(
             clone!(@strong self as this => move |gesture, n_press, x, _| {
                 if n_press == 1 {
                     gesture.set_state(gtk::EventSequenceState::Claimed);
@@ -261,7 +287,21 @@ impl WaveformView {
                 }
             }),
         );
-        self.add_controller(&gesture);
+        self.add_controller(&click_gesture);
+
+        let motion_gesture = gtk::EventControllerMotion::new();
+        motion_gesture.set_name("waveform-motion");
+        motion_gesture.connect_motion(clone!(@strong self as this => move |_, x, _| {
+            let width = this.width() as f64;
+            let position = x as f64 / width;
+            this.imp().hover_position.replace(Some(position));
+            this.queue_draw();
+        }));
+        motion_gesture.connect_leave(clone!(@strong self as this => move |_| {
+            this.imp().hover_position.replace(None);
+            this.queue_draw();
+        }));
+        self.add_controller(&motion_gesture);
     }
 
     fn normalize_peaks(&self, peaks: Vec<(f64, f64)>) -> Vec<PeakPair> {

@@ -92,13 +92,22 @@ as it knows how to download and build all the dependencies necessary.
 
 ### Getting started
 
-You should start by forking the Amberol repository from the GitLab web UI, and
-cloning from your fork:
+You should start by forking the Amberol repository from the GitLab web UI;
+then you can select *Clone Repository* from GNOME Builder and use your
+fork's URL as the repository URL.
+
+GNOME Builder will find all the dependencies and download them for you.
+
+----
+
+If you want to use another development environment, you will need to clone
+the repository manually:
 
 ```sh
 $ git clone git@gitlab.gnome.org:yourusername/amberol.git
 $ cd amberol
 ```
+
 To compile the Git version of GTK on your system, you will need to
 configure your build using Meson:
 
@@ -107,15 +116,33 @@ $ meson setup _builddir .
 $ meson compile -C _builddir
 ```
 
-Typically, you should work on your own branch:
+Meson will search for all the required dependencies during the setup
+step, and will run Cargo in the compile step.
+
+You can run Amberol uninstalled by using the Meson devenv command:
+
+```sh
+$ meson devenv -C _builddir
+$ ./src/amberol
+$ exit
+```
+
+----
+
+You can now switch to a new branch to work on Amberol:
 
 ```sh
 $ git switch -C your-branch
 ```
 
 Once you've finished working on the bug fix or feature, push the branch
-to the Git repository and open a new merge request, to let the Amberol
+to your Git repository and open a new merge request, to let the Amberol
 maintainers review your contribution.
+
+Remember that the Amberol is maintained by volunteers, so it might take a
+little while to get reviews or feedback. Don't be discouraged, and feel
+free to join the `#amberol:gnome.org` channel on Matrix for any issue you
+may find.
 
 ### Coding style
 

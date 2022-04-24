@@ -605,6 +605,7 @@ impl Window {
             closure_local!(@strong self as this => move |_view: WaveformView, position: f64| {
                 debug!("New position: {}", position);
                 this.imp().player.seek_position(position);
+                this.imp().player.play();
             }),
         );
 

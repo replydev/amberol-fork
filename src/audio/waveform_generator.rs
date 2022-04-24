@@ -3,15 +3,9 @@
 
 use std::cell::RefCell;
 
-use glib::{clone, Receiver};
+use glib::clone;
 use gst::prelude::*;
 use gtk::{glib, subclass::prelude::*};
-
-#[derive(Debug)]
-pub enum PeaksAction {
-    Peak(f64, f64),
-    Eos,
-}
 
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};
@@ -24,7 +18,6 @@ mod imp {
         pub uri: RefCell<Option<String>>,
         pub peaks: RefCell<Option<Vec<(f64, f64)>>>,
         pub pipeline: RefCell<Option<gst::Element>>,
-        pub receiver: RefCell<Option<Receiver<PeaksAction>>>,
     }
 
     #[glib::object_subclass]
@@ -123,54 +116,25 @@ impl WaveformGenerator {
             .bus()
             .expect("Pipeline without bus. Shouldn't happen!");
 
-        let (sender, receiver) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
-        self.imp().receiver.replace(Some(receiver));
-
-        self.imp().receiver.borrow_mut().take().unwrap().attach(
-            None,
-            clone!(@strong self as this => move |action| {
-                match action {
-                    PeaksAction::Peak(p1, p2) => {
-                        if let Some(ref mut peaks) = *this.imp().peaks.borrow_mut() {
-                            peaks.push((p1, p2));
-                        }
-                    }
-                    PeaksAction::Eos => {
-                        // We're done
-                        this.imp().pipeline.replace(None);
-                        this.notify("has-peaks");
-                        return glib::Continue(false);
-                    }
-                }
-
-                glib::Continue(true)
-            }),
-        );
-
-        // Use a weak reference in the closure
-        let pipeline_weak = pipeline.downgrade();
-
         debug!("Adding bus watch");
-        bus.add_watch(clone!(@strong sender => move |_, msg| {
+        bus.add_watch_local(clone!(@weak self as this, @weak pipeline => @default-return glib::Continue(false), move |_, msg| {
             use gst::MessageView;
-
-            // If the pipeline was dropped, we drop the watch as well
-            let pipeline = match pipeline_weak.upgrade() {
-                Some(pipeline) => pipeline,
-                None => return glib::Continue(false),
-            };
 
             match msg.view() {
                 MessageView::Eos(..) => {
                     debug!("End of waveform stream");
                     pipeline.set_state(gst::State::Null).expect("Unable to set 'null' state");
-                    send!(sender, PeaksAction::Eos);
+                    // We're done
+                    this.imp().pipeline.replace(None);
+                    this.notify("has-peaks");
                     return glib::Continue(false);
                 }
                 MessageView::Error(err) => {
                     warn!("Pipeline error: {:?}", err);
                     pipeline.set_state(gst::State::Null).expect("Unable to set 'null' state");
-                    send!(sender, PeaksAction::Eos);
+                    // We're done
+                    this.imp().pipeline.replace(None);
+                    this.notify("has-peaks");
                     return glib::Continue(false);
                 }
                 MessageView::Element(element) => {
@@ -182,7 +146,9 @@ impl WaveformGenerator {
                             // Normalize peaks between 0 and 1
                             let peak1 = f64::powf(10.0, v1 / 20.0);
                             let peak2 = f64::powf(10.0, v2 / 20.0);
-                            send!(sender, PeaksAction::Peak(peak1, peak2));
+                            if let Some(ref mut peaks) = *this.imp().peaks.borrow_mut() {
+                                peaks.push((peak1, peak2));
+                            }
                         }
                     }
                 }

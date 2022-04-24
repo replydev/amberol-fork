@@ -15,7 +15,7 @@
       </child>
       <child>
         <object class="GtkBox" id="controls_box">
-          <property name="spacing">12</property>
+          <property name="spacing">24</property>
           <property name="halign">center</property>
           <child>
             <object class="GtkButton" id="previous_button">
@@ -31,19 +31,6 @@
             </object>
           </child>
           <child>
-            <object class="GtkButton" id="rewind_button">
-              <property name="icon-name">media-seek-backward-symbolic</property>
-              <property name="action-name">win.seek-backwards</property>
-              <property name="valign">center</property>
-              <style>
-                <class name="circular"/>
-              </style>
-              <accessibility>
-                <property name="label" translatable="yes">Seek backwards</property>
-              </accessibility>
-            </object>
-          </child>
-          <child>
             <object class="GtkButton" id="play_button">
               <property name="icon-name">media-playback-start-symbolic</property>
               <property name="action-name">win.play</property>
@@ -54,19 +41,6 @@
               </style>
               <accessibility>
                 <property name="label" translatable="yes">Toggle play</property>
-              </accessibility>
-            </object>
-          </child>
-          <child>
-            <object class="GtkButton" id="forward_button">
-              <property name="icon-name">media-seek-forward-symbolic</property>
-              <property name="action-name">win.seek-forward</property>
-              <property name="valign">center</property>
-              <style>
-                <class name="circular"/>
-              </style>
-              <accessibility>
-                <property name="label" translatable="yes">Seek forward</property>
               </accessibility>
             </object>
           </child>
@@ -96,6 +70,7 @@
             <object class="GtkBox" id="start_box">
               <property name="halign">start</property>
               <property name="spacing">12</property>
+              <property name="margin-end">18</property>
               <child>
                 <object class="GtkToggleButton" id="playlist_button">
                   <property name="icon-name">view-list-bullet-symbolic</property>
@@ -127,6 +102,7 @@
             <object class="GtkBox" id="end_box">
               <property name="halign">end</property>
               <property name="spacing">12</property>
+              <property name="margin-start">18</property>
               <child>
                 <object class="GtkButton" id="repeat_button">
                   <property name="icon-name">media-playlist-consecutive-symbolic</property>

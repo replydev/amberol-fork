@@ -87,14 +87,6 @@ mod imp {
                 debug!("Window::win.next()");
                 win.imp().player.skip_next();
             });
-            klass.install_action("win.seek-backwards", None, move |win, _, _| {
-                debug!("Window::win.seek-backwards()");
-                win.imp().player.seek_backwards();
-            });
-            klass.install_action("win.seek-forward", None, move |win, _, _| {
-                debug!("Window::win.seek-forward()");
-                win.imp().player.seek_forward();
-            });
             klass.install_action("queue.repeat-mode", None, move |win, _, _| {
                 debug!("Window::queue.repeat()");
                 win.imp().player.toggle_repeat_mode();
@@ -518,8 +510,6 @@ impl Window {
                     win.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
 
                     win.action_set_enabled("win.play", true);
-                    win.action_set_enabled("win.seek-backwards", true);
-                    win.action_set_enabled("win.seek-forward", true);
                     win.action_set_enabled("win.previous", true);
                     win.action_set_enabled("win.next", queue.n_songs() > 1);
                 }
@@ -629,11 +619,8 @@ impl Window {
     // The initial state of the playback actions
     fn set_initial_state(&self) {
         self.action_set_enabled("win.play", false);
-        self.action_set_enabled("win.pause", false);
         self.action_set_enabled("win.previous", false);
         self.action_set_enabled("win.next", false);
-        self.action_set_enabled("win.seek-backwards", false);
-        self.action_set_enabled("win.seek-forward", false);
 
         self.action_set_enabled("queue.toggle", false);
         self.action_set_enabled("queue.shuffle", false);

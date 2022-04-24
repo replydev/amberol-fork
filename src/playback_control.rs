@@ -26,11 +26,7 @@ mod imp {
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub rewind_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub play_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub forward_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub next_button: TemplateChild<gtk::Button>,
 
@@ -100,10 +96,6 @@ impl PlaybackControl {
 
     pub fn repeat_button(&self) -> gtk::Button {
         self.imp().repeat_button.get()
-    }
-
-    pub fn shuffle_button(&self) -> gtk::ToggleButton {
-        self.imp().shuffle_button.get()
     }
 
     pub fn volume_control(&self) -> VolumeControl {

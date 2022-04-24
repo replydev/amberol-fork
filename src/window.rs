@@ -794,12 +794,12 @@ impl Window {
     fn update_waveform(&self, song: Option<&Song>) {
         let imp = self.imp();
 
+        imp.playback_control.waveform_view().set_peaks(None);
         if let Some(song) = song {
             imp.waveform.set_uri(Some(song.uri()));
             imp.waveform.generate_peaks();
         } else {
             imp.waveform.set_uri(None);
-            imp.playback_control.waveform_view().set_peaks(None);
         }
     }
 

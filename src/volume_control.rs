@@ -44,6 +44,7 @@ mod imp {
             self.parent_constructed(obj);
 
             obj.setup_adjustment();
+            obj.setup_controller();
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -128,6 +129,22 @@ impl VolumeControl {
                 this.notify("volume");
             }),
         );
+    }
+
+    fn setup_controller(&self) {
+        let controller = gtk::EventControllerScroll::builder()
+            .name("volume-scroll")
+            .flags(gtk::EventControllerScrollFlags::VERTICAL)
+            .build();
+        controller.connect_scroll(clone!(@strong self as this => move |_, _, dy| {
+            debug!("Scroll delta: {}", dy);
+            let adj = this.imp().volume_scale.adjustment();
+            let delta = dy * adj.step_increment();
+            let d = (adj.value() - delta).clamp(adj.lower(), adj.upper());
+            adj.set_value(d);
+            gtk::Inhibit(true)
+        }));
+        self.imp().volume_scale.add_controller(&controller);
     }
 
     pub fn volume(&self) -> f64 {

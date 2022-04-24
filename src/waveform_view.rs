@@ -13,7 +13,7 @@ use std::{
 
 use adw::subclass::prelude::*;
 use glib::clone;
-use gtk::{cairo, glib, graphene, prelude::*, subclass::prelude::*};
+use gtk::{gdk, glib, graphene, prelude::*, subclass::prelude::*};
 
 #[derive(Debug, PartialEq)]
 pub struct PeakPair {
@@ -165,9 +165,6 @@ mod imp {
             let block_size = bar_size + space_size;
             let effective_width = (w as f64 - (2.0 * space_size)) / block_size;
 
-            // Set up the Cairo node
-            let cr = snapshot.append_cairo(&graphene::Rect::new(0.0, 0.0, w as f32, h as f32));
-
             if let Some(ref peaks) = *self.peaks.borrow() {
                 // If we have more samples than pixels, then we chunk the
                 // samples and we average each chunk
@@ -181,7 +178,7 @@ mod imp {
                     spacing = block_size;
                 }
 
-                let mut offset = spacing;
+                let mut offset = block_size;
 
                 // We have two cursors:
                 //
@@ -209,9 +206,6 @@ mod imp {
                     }
                 }
 
-                cr.set_line_cap(cairo::LineCap::Round);
-                cr.set_line_width(bar_size);
-
                 for chunk in peaks.chunks(chunk_per_pixel) {
                     // Average each chunk
                     let mut peak_avg = PeakPair::new(0.0, 0.0);
@@ -231,49 +225,39 @@ mod imp {
                         right *= factor;
                     }
 
+                    let x = offset as f32;
+                    let y = (center_y - left * h as f64) as f32;
+                    let width = bar_size as f32;
+                    let height = (left * h as f64 + right * h as f64) as f32;
                     if offset < (cursor_pos[0] - spacing) {
-                        cr.set_source_rgba(
-                            cursor_color.red().into(),
-                            cursor_color.green().into(),
-                            cursor_color.blue().into(),
-                            cursor_color.alpha().into(),
-                        );
+                        snapshot
+                            .append_color(&cursor_color, &graphene::Rect::new(x, y, width, height));
                     } else if offset < (cursor_pos[1] - spacing) {
-                        cr.set_source_rgba(
-                            cursor_color.red().into(),
-                            cursor_color.green().into(),
-                            cursor_color.blue().into(),
-                            dimmed_color.alpha().into(),
+                        let hover_color = gdk::RGBA::new(
+                            cursor_color.red(),
+                            cursor_color.green(),
+                            cursor_color.blue(),
+                            dimmed_color.alpha(),
                         );
+                        snapshot
+                            .append_color(&hover_color, &graphene::Rect::new(x, y, width, height));
                     } else {
-                        cr.set_source_rgba(
-                            color.red().into(),
-                            color.green().into(),
-                            color.blue().into(),
-                            color.alpha().into(),
-                        );
+                        snapshot.append_color(&color, &graphene::Rect::new(x, y, width, height));
                     }
-
-                    cr.move_to(offset, center_y + left * h as f64);
-                    cr.line_to(offset, center_y - right * h as f64);
-                    cr.stroke().expect("stroke");
 
                     offset += spacing as f64;
                 }
             } else {
-                cr.set_line_cap(cairo::LineCap::Butt);
-                cr.set_line_width(bar_size);
+                let mut offset = space_size;
+                while offset < w as f64 - space_size {
+                    let x = offset as f32;
+                    let y = center_y as f32 - 2.0;
+                    let width = bar_size as f32;
+                    let height: f32 = 4.0;
+                    snapshot.append_color(&color, &graphene::Rect::new(x, y, width, height));
 
-                cr.move_to(space_size, center_y);
-                cr.line_to(w as f64 - space_size, center_y);
-                cr.set_source_rgba(
-                    color.red().into(),
-                    color.green().into(),
-                    color.blue().into(),
-                    color.alpha().into(),
-                );
-                cr.set_dash(&[2.0, 2.0], 0.0);
-                cr.stroke().expect("midline stroke");
+                    offset += block_size as f64;
+                }
             }
         }
     }

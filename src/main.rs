@@ -46,8 +46,23 @@ fn main() {
     env::set_var("PULSE_PROP_application.metadata().name", "Amberol");
 
     debug!("Loading resources");
-    let resources = gio::Resource::load(PKGDATADIR.to_owned() + "/amberol.gresource")
-        .expect("Could not load resources");
+    let resources = match env::var("MESON_DEVENV") {
+        Err(_) => gio::Resource::load(PKGDATADIR.to_owned() + "/amberol.gresource")
+            .expect("Unable to find amberol.gresource"),
+        Ok(_) => match env::current_exe() {
+            Ok(path) => {
+                let mut resource_path = path.clone();
+                resource_path.pop();
+                resource_path.push("amberol.gresource");
+                gio::Resource::load(&resource_path)
+                    .expect("Unable to find amberol.gresource in devenv")
+            }
+            Err(err) => {
+                error!("Unable to find the current path: {}", err);
+                return;
+            }
+        },
+    };
     gio::resources_register(&resources);
 
     debug!("Setting up application (profile: {})", &PROFILE);

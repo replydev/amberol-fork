@@ -46,6 +46,9 @@ mod imp {
         pub hover_position: Cell<Option<f64>>,
         // left and right channel peaks, normalised between 0 and 1
         pub peaks: RefCell<Option<Vec<PeakPair>>>,
+        pub tick_id: RefCell<Option<gtk::TickCallbackId>>,
+        pub last_frame_time: Cell<Option<i64>>,
+        pub factor: Cell<Option<f64>>,
     }
 
     #[glib::object_subclass]
@@ -130,48 +133,42 @@ mod imp {
         }
 
         fn snapshot(&self, widget: &Self::Type, snapshot: &gtk::Snapshot) {
-            if let Some(ref peaks) = *self.peaks.borrow() {
-                if peaks.len() == 0 {
-                    return;
-                }
+            let w = widget.width();
+            let h = widget.height();
+            if w == 0 || h == 0 {
+                return;
+            }
 
-                let w = widget.width();
-                let h = widget.height();
-                if w == 0 || h == 0 {
-                    return;
-                }
+            let center_y = h as f64 / 2.0;
 
-                let center_y = h as f64 / 2.0;
-
-                // Grab the colors
-                let style_context = widget.style_context();
-                let color = style_context.color();
-                let dimmed_color = if let Some(color) = style_context.lookup_color("dimmed_color") {
+            // Grab the colors
+            let style_context = widget.style_context();
+            let color = style_context.color();
+            let dimmed_color = if let Some(color) = style_context.lookup_color("dimmed_color") {
+                color
+            } else {
+                style_context.color()
+            };
+            let cursor_color = if let Some(color) = style_context.lookup_color("background_color_2")
+            {
+                color
+            } else {
+                if let Some(color) = style_context.lookup_color("accent_color") {
                     color
                 } else {
                     style_context.color()
-                };
-                let cursor_color =
-                    if let Some(color) = style_context.lookup_color("background_color_2") {
-                        color
-                    } else {
-                        if let Some(color) = style_context.lookup_color("accent_color") {
-                            color
-                        } else {
-                            style_context.color()
-                        }
-                    };
+                }
+            };
 
-                let bar_size = 2.0;
-                let space_size = 2.0;
-                let block_size = bar_size + space_size;
+            let bar_size = 2.0;
+            let space_size = 2.0;
+            let block_size = bar_size + space_size;
+            let effective_width = (w as f64 - (2.0 * space_size)) / block_size;
 
-                // Set up the Cairo node
-                let cr = snapshot.append_cairo(&graphene::Rect::new(0.0, 0.0, w as f32, h as f32));
+            // Set up the Cairo node
+            let cr = snapshot.append_cairo(&graphene::Rect::new(0.0, 0.0, w as f32, h as f32));
 
-                cr.set_line_cap(cairo::LineCap::Round);
-                cr.set_line_width(bar_size);
-
+            if let Some(ref peaks) = *self.peaks.borrow() {
                 // If we have more samples than pixels, then we chunk the
                 // samples and we average each chunk
                 let spacing;
@@ -180,7 +177,6 @@ mod imp {
                     chunk_per_pixel = 1;
                     spacing = block_size * (w as f64 / peaks.len() as f64);
                 } else {
-                    let effective_width = (w as f64 - (2.0 * space_size)) / block_size;
                     chunk_per_pixel = (peaks.len() as f64 / effective_width).round() as usize;
                     spacing = block_size;
                 }
@@ -213,6 +209,9 @@ mod imp {
                     }
                 }
 
+                cr.set_line_cap(cairo::LineCap::Round);
+                cr.set_line_width(bar_size);
+
                 for chunk in peaks.chunks(chunk_per_pixel) {
                     // Average each chunk
                     let mut peak_avg = PeakPair::new(0.0, 0.0);
@@ -224,8 +223,13 @@ mod imp {
 
                     // Scale by half: left goes in the upper half of the
                     // available space, and right goes in the lower half
-                    let left = peak_avg.left / 2.0;
-                    let right = peak_avg.right / 2.0;
+                    let mut left = peak_avg.left / 2.0;
+                    let mut right = peak_avg.right / 2.0;
+
+                    if let Some(factor) = self.factor.get() {
+                        left *= factor;
+                        right *= factor;
+                    }
 
                     if offset < (cursor_pos[0] - spacing) {
                         cr.set_source_rgba(
@@ -256,6 +260,20 @@ mod imp {
 
                     offset += spacing as f64;
                 }
+            } else {
+                cr.set_line_cap(cairo::LineCap::Butt);
+                cr.set_line_width(bar_size);
+
+                cr.move_to(space_size, center_y);
+                cr.line_to(w as f64 - space_size, center_y);
+                cr.set_source_rgba(
+                    color.red().into(),
+                    color.green().into(),
+                    color.blue().into(),
+                    color.alpha().into(),
+                );
+                cr.set_dash(&[2.0, 2.0], 0.0);
+                cr.stroke().expect("midline stroke");
             }
         }
     }
@@ -264,6 +282,11 @@ mod imp {
 glib::wrapper! {
     pub struct WaveformView(ObjectSubclass<imp::WaveformView>)
         @extends gtk::Widget;
+}
+
+fn ease_out_cubic(t: f64) -> f64 {
+    let p = t - 1.0;
+    p * p * p + 1.0
 }
 
 impl Default for WaveformView {
@@ -331,10 +354,42 @@ impl WaveformView {
     }
 
     pub fn set_peaks(&self, peaks: Option<Vec<(f64, f64)>>) {
+        if let Some(tick_id) = self.imp().tick_id.replace(None) {
+            tick_id.remove();
+        }
+
         if let Some(peaks) = peaks {
             let peak_pairs = self.normalize_peaks(peaks);
             debug!("Peaks: {}", peak_pairs.len());
             self.imp().peaks.replace(Some(peak_pairs));
+
+            if self.settings().is_gtk_enable_animations() {
+                self.imp().factor.set(Some(0.0));
+                self.imp().last_frame_time.set(None);
+
+                self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
+                    let frame_time = clock.frame_time();
+                    if let Some(last_frame_time) = this.imp().last_frame_time.get() {
+                        if frame_time < last_frame_time {
+                            warn!("Frame clock going backwards");
+                            return glib::Continue(true);
+                        }
+
+                        let delta = ease_out_cubic((frame_time - last_frame_time) as f64 / 250_000.0);
+                        this.imp().factor.replace(Some(delta));
+                        this.queue_draw();
+                        if delta >= 1.0 {
+                            debug!("Animation complete");
+                            this.imp().tick_id.replace(None);
+                            return glib::Continue(false);
+                        }
+                    } else {
+                        this.imp().last_frame_time.replace(Some(frame_time));
+                    }
+
+                    glib::Continue(true)
+                }));
+            }
         } else {
             self.imp().peaks.replace(None);
         }

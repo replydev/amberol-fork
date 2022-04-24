@@ -151,15 +151,16 @@ mod imp {
                 } else {
                     style_context.color()
                 };
-                let cursor_color = if let Some(color) = style_context.lookup_color("background_color_2") {
-                    color
-                } else {
-                    if let Some(color) = style_context.lookup_color("accent_color") {
+                let cursor_color =
+                    if let Some(color) = style_context.lookup_color("background_color_2") {
                         color
                     } else {
-                        style_context.color()
-                    }
-                };
+                        if let Some(color) = style_context.lookup_color("accent_color") {
+                            color
+                        } else {
+                            style_context.color()
+                        }
+                    };
 
                 let bar_size = 2.0;
                 let space_size = 2.0;

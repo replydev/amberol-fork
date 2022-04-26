@@ -6,11 +6,22 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add scrolling support to the volume control [#50]
+
 ### Changed
 
 ### Fixed
 
+- Fix behaviour of the waveform with short songs and avoid overdrawing [#68]
+- Make the waveform control more legible [#52]
+- Reset the shuffle state when clearing the playlist [#60]
+- Keep the playlist visibility, folded or unfolded, in sync with the
+  toggle button that controls it [#55]
+- Fix a crash when manually advancing through the playlist [#54]
+
 ### Removed
+
+- Drop the seek buttons, and rely on the waveform control [#59]
 
 ## [0.4.2] - 2022-04-22
 

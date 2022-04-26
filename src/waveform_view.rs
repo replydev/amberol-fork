@@ -126,7 +126,16 @@ mod imp {
             _for_size: i32,
         ) -> (i32, i32, i32, i32) {
             match orientation {
-                gtk::Orientation::Horizontal => (256, 256, -1, -1),
+                gtk::Orientation::Horizontal => {
+                    // We ask for as many samples we can fit within a 256 pixels wide area
+                    if let Some(ref peaks) = *self.peaks.borrow() {
+                        let n_peaks = peaks.len() as i32;
+                        let width = i32::min(n_peaks * 4, 256);
+                        return (width, width, -1, -1);
+                    } else {
+                        return (256, 256, -1, -1);
+                    }
+                }
                 gtk::Orientation::Vertical => (48, 48, -1, -1),
                 _ => (0, 0, -1, -1),
             }
@@ -139,7 +148,8 @@ mod imp {
                 return;
             }
 
-            let center_y = h as f64 / 2.0;
+            // Our reference line
+            let center_y = h as f32 / 2.0;
 
             // Grab the colors
             let style_context = widget.style_context();
@@ -160,25 +170,15 @@ mod imp {
                 }
             };
 
-            let bar_size = 2.0;
-            let space_size = 2.0;
+            let bar_size = 2;
+            let space_size = 2;
             let block_size = bar_size + space_size;
-            let effective_width = (w as f64 - (2.0 * space_size)) / block_size;
+            let available_width = w;
 
             if let Some(ref peaks) = *self.peaks.borrow() {
-                // If we have more samples than pixels, then we chunk the
-                // samples and we average each chunk
-                let spacing;
-                let chunk_per_pixel;
-                if peaks.len() < w as usize {
-                    chunk_per_pixel = 1;
-                    spacing = block_size * (w as f64 / peaks.len() as f64);
-                } else {
-                    chunk_per_pixel = (peaks.len() as f64 / effective_width).round() as usize;
-                    spacing = block_size;
-                }
-
-                let mut offset = block_size;
+                let n_peaks = peaks.len() as i32;
+                let waveform_width = w as f64;
+                let offset = 0.0;
 
                 // We have two cursors:
                 //
@@ -196,67 +196,105 @@ mod imp {
                 // position and the end of the waveform is meant to be shown as a
                 // current foreground color.
                 let position = self.position.get();
-                let mut cursor_pos: [f64; 2] =
-                    [position * w as f64 + spacing, position * w as f64 + spacing];
+                let mut cursor_pos: [f64; 2] = [
+                    position * waveform_width as f64 + offset,
+                    position * waveform_width as f64 + offset,
+                ];
                 if let Some(hover) = self.hover_position.get() {
                     if hover >= position {
-                        cursor_pos[1] = hover * w as f64 + spacing;
+                        cursor_pos[1] = hover * waveform_width as f64 + offset;
                     } else {
-                        cursor_pos[0] = hover * w as f64 + spacing;
+                        cursor_pos[0] = hover * waveform_width as f64 + offset;
                     }
                 }
 
-                for chunk in peaks.chunks(chunk_per_pixel) {
-                    // Average each chunk
-                    let mut peak_avg = PeakPair::new(0.0, 0.0);
-                    for p in 0..chunk.len() {
-                        peak_avg.left += chunk[p].left;
-                        peak_avg.right += chunk[p].right;
-                    }
-                    peak_avg /= chunk.len() as f64;
+                // If the number of samples is too big to fit into the available
+                // width, we average the samples that fit within a bar
+                let pixels_per_sample = if available_width > n_peaks * block_size {
+                    block_size as f64
+                } else {
+                    (available_width as f64 / 2.0) / n_peaks as f64
+                };
 
-                    // Scale by half: left goes in the upper half of the
-                    // available space, and right goes in the lower half
-                    let mut left = peak_avg.left / 2.0;
-                    let mut right = peak_avg.right / 2.0;
+                let mut current_pixel = 0.0;
+                let mut samples_in_accum = 0;
+                let mut accum = PeakPair::new(0.0, 0.0);
+                let mut offset = 0.0;
 
-                    if let Some(factor) = self.factor.get() {
-                        left *= factor;
-                        right *= factor;
-                    }
+                for sample in peaks {
+                    current_pixel += pixels_per_sample;
+                    samples_in_accum += 1;
+                    accum.left += sample.left;
+                    accum.right += sample.right;
+                    if current_pixel > 2.0 {
+                        accum /= samples_in_accum as f64;
 
-                    let x = offset as f32;
-                    let y = (center_y - left * h as f64) as f32;
-                    let width = bar_size as f32;
-                    let height = (left * h as f64 + right * h as f64) as f32;
-                    if offset < (cursor_pos[0] - spacing) {
-                        snapshot
-                            .append_color(&cursor_color, &graphene::Rect::new(x, y, width, height));
-                    } else if offset < (cursor_pos[1] - spacing) {
-                        let hover_color = gdk::RGBA::new(
-                            cursor_color.red(),
-                            cursor_color.green(),
-                            cursor_color.blue(),
-                            dimmed_color.alpha(),
+                        // Scale by half: left goes in the upper half of the
+                        // available space, and right goes in the lower half
+                        let mut left = accum.left / 2.0;
+                        let mut right = accum.right / 2.0;
+
+                        // We optionally apply the scaling factor computed
+                        // during the animation
+                        if let Some(factor) = self.factor.get() {
+                            left *= factor.clamp(0.0, 1.0);
+                            right *= factor.clamp(0.0, 1.0);
+                        }
+
+                        // The block rectangle, clamped to avoid overdrawing
+                        let x = offset as f32;
+                        let y = f32::clamp(
+                            center_y as f32 - left as f32 * h as f32,
+                            1.0,
+                            h as f32 / 2.0,
                         );
-                        snapshot
-                            .append_color(&hover_color, &graphene::Rect::new(x, y, width, height));
-                    } else {
-                        snapshot.append_color(&color, &graphene::Rect::new(x, y, width, height));
+                        let width: f32 = 2.0;
+                        let height = f32::clamp(
+                            left as f32 * h as f32 + right as f32 * h as f32,
+                            2.0,
+                            h as f32,
+                        );
+
+                        if offset < cursor_pos[0] {
+                            snapshot.append_color(
+                                &cursor_color,
+                                &graphene::Rect::new(x, y, width, height),
+                            );
+                        } else if offset < cursor_pos[1] {
+                            let hover_color = gdk::RGBA::new(
+                                cursor_color.red(),
+                                cursor_color.green(),
+                                cursor_color.blue(),
+                                dimmed_color.alpha(),
+                            );
+                            snapshot.append_color(
+                                &hover_color,
+                                &graphene::Rect::new(x, y, width, height),
+                            );
+                        } else {
+                            snapshot
+                                .append_color(&color, &graphene::Rect::new(x, y, width, height));
+                        }
+
+                        accum.left = 0.0;
+                        accum.right = 0.0;
+                        samples_in_accum = 0;
+                        current_pixel -= 2.0;
+                        offset += 2.0;
                     }
 
-                    offset += spacing as f64;
+                    offset += pixels_per_sample;
                 }
             } else {
                 let mut offset = space_size;
-                while offset < w as f64 - space_size {
+                while offset < w - space_size {
                     let x = offset as f32;
-                    let y = center_y as f32 - 2.0;
+                    let y = center_y as f32 - 1.0;
                     let width = bar_size as f32;
-                    let height: f32 = 4.0;
+                    let height: f32 = 2.0;
                     snapshot.append_color(&color, &graphene::Rect::new(x, y, width, height));
 
-                    offset += block_size as f64;
+                    offset += block_size;
                 }
             }
         }
@@ -377,7 +415,7 @@ impl WaveformView {
         } else {
             self.imp().peaks.replace(None);
         }
-        self.queue_draw();
+        self.queue_resize();
     }
 
     pub fn set_position(&self, position: f64) {

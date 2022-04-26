@@ -9,7 +9,7 @@
       <property name="spacing">6</property>
       <child>
         <object class="AmberolWaveformView" id="waveform_view">
-          <property name="hexpand">true</property>
+          <property name="halign">center</property>
           <property name="valign">center</property>
         </object>
       </child>

@@ -9,6 +9,8 @@
     <file alias="media-playlist-repeat-song.svg">assets/icons/media-playlist-repeat-song-symbolic.svg</file>
     <file alias="media-playlist-repeat.svg">assets/icons/media-playlist-repeat-symbolic.svg</file>
     <file alias="media-playlist-shuffle.svg">assets/icons/media-playlist-shuffle-symbolic.svg</file>
+    <file alias="media-seek-backward-symbolic.svg">assets/icons/media-seek-backward-symbolic.svg</file>
+    <file alias="media-seek-forward-symbolic.svg">assets/icons/media-seek-forward-symbolic.svg</file>
     <file alias="media-skip-backward-symbolic.svg">assets/icons/media-skip-backward-symbolic.svg</file>
     <file alias="media-skip-forward-symbolic.svg">assets/icons/media-skip-forward-symbolic.svg</file>
     <file alias="view-list-bullet-rtl-symbolic.svg">assets/icons/view-list-bullet-rtl-symbolic.svg</file>

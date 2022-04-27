@@ -431,7 +431,6 @@ impl Window {
 
     pub fn add_file_to_queue(&self, file: &gio::File, toast: bool) {
         use std::time::Instant;
-
         let queue = self.imp().player.queue();
         let was_empty = queue.is_empty();
 
@@ -458,6 +457,8 @@ impl Window {
                     queue.add_song(&song);
                 }
             } else if info.file_type() == gio::FileType::Directory {
+                self.action_set_enabled("queue.add-song", false);
+                self.action_set_enabled("queue.add-folder", false);
                 let now = Instant::now();
                 let mut files = utils::load_files_from_folder(file, true).into_iter();
                 let mut songs = Vec::new();
@@ -484,6 +485,8 @@ impl Window {
                             // win.add_toast(msg);
                             let queue =  win.imp().player.queue();
                             queue.add_songs(&songs);
+                            win.action_set_enabled("queue.add-song", true);
+                            win.action_set_enabled("queue.add-folder", true);
                             glib::Continue(false)
                         })
                 }));

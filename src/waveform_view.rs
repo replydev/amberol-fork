@@ -221,7 +221,7 @@ mod imp {
                     samples_in_accum += 1;
                     accum.left += sample.left;
                     accum.right += sample.right;
-                    if current_pixel > 2.0 {
+                    if current_pixel > bar_size as f64 {
                         accum /= samples_in_accum as f64;
 
                         // Scale by half: left goes in the upper half of the
@@ -274,11 +274,9 @@ mod imp {
                         accum.left = 0.0;
                         accum.right = 0.0;
                         samples_in_accum = 0;
-                        current_pixel -= 2.0;
-                        offset += 2.0;
+                        current_pixel -= bar_size as f64;
+                        offset += block_size as f64;
                     }
-
-                    offset += pixels_per_sample;
                 }
             } else {
                 let mut offset = space_size;

@@ -79,20 +79,52 @@ impl SongData {
             artist = tag.artist().map(|s| s.to_string());
             title = tag.title().map(|s| s.to_string());
             album = tag.album().map(|s| s.to_string());
-            for picture in tag.pictures() {
+            if let Some(picture) = tag.get_picture_type(lofty::PictureType::CoverFront) {
                 cover_art = match picture.mime_type() {
                     lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
                     lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
                     lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
                     _ => None,
                 };
-                // Stop at the first cover we find
-                if cover_art.is_some() {
-                    break;
+            } else {
+                for picture in tag.pictures() {
+                    cover_art = match picture.mime_type() {
+                        lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
+                        lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
+                        lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
+                        _ => None,
+                    };
+
+                    // Stop at the first cover we find
+                    if cover_art.is_some() {
+                        break;
+                    }
                 }
             }
         } else {
-            warn!("Unable to load tags for {}", uri);
+            warn!("Unable to load primary tag for: {}", uri);
+            for tag in tagged_file.tags() {
+                debug!("Found tag: {:?}", tag.tag_type());
+                artist = tag.artist().map(|s| s.to_string());
+                title = tag.title().map(|s| s.to_string());
+                album = tag.album().map(|s| s.to_string());
+                for picture in tag.pictures() {
+                    cover_art = match picture.mime_type() {
+                        lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
+                        lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
+                        lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
+                        _ => None,
+                    };
+                    // Stop at the first cover we find
+                    if cover_art.is_some() {
+                        break;
+                    }
+                }
+
+                if artist.is_some() && title.is_some() {
+                    break;
+                }
+            }
         };
 
         let uuid = if let Some(basename) = file.basename() {

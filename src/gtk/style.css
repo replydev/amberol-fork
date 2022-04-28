@@ -104,15 +104,16 @@ window.main-window {
   transition-timing-function: ease;
 }
 
+/* Reset the background of the playlist flap if there's no cover art */
 :not(.main-window) .playlist-background {
-  background-color: @window_bg_color;
+  background: @window_bg_color;
   color: @window_fg_color;
 }
 
 .main-window .playlist-background {
-  background: linear-gradient(127deg, alpha(@background_color_1, 0.70), @background_color_1 70.1%),
+  background: rgba(0, 0, 0, 0.08),
+              linear-gradient(127deg, alpha(@background_color_1, 0.70), @background_color_1 70.1%),
               linear-gradient(217deg, alpha(@background_color_3, 0.70), @background_color_3 70.1%),
-              /* background_color_2 is used to determine foreground_color */
               linear-gradient(336deg, alpha(@background_color_2, 0.70), @background_color_2 70.1%);
   color: @foreground_color;
 }

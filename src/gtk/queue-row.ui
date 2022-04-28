@@ -68,13 +68,12 @@
                     </child>
                   </object>
                 </child>
-                <child type="end">
+                <child>
                   <object class="GtkButton" id="remove_button">
                     <property name="icon-name">user-trash-symbolic</property>
-                    <property name="halign">center</property>
+                    <property name="halign">end</property>
                     <property name="valign">center</property>
                     <property name="tooltip_text" translatable="yes">Remove</property>
-                    <property name="visible">0</property>
                   </object>
                 </child>
                 <style>

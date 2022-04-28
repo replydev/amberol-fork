@@ -73,14 +73,7 @@
                               <object class="GtkHeaderBar">
                                 <style>
                                   <class name="flat"/>
-                                  </style>
-                                <child type="start">
-                                  <object class="GtkButton" id="back_button">
-                                    <property name="visible">false</property>
-                                    <property name="icon-name">go-previous-symbolic</property>
-                                    <property name="action-name">queue.toggle</property>
-                                    </object>
-                                  </child>
+                                </style>
                                 <child type="title">
                                   <object class="GtkBox">
                                     <property name="visible">false</property>
@@ -123,30 +116,52 @@
                           <object class="GtkBox" id="playlist_box">
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
+                            <style>
+                              <class name="playlist-background"/>
+                            </style>
                             <child>
-                              <object class="GtkBox" id="queue_length_box">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">2</property>
-                                <property name="margin-start">6</property>
+                              <object class="GtkBox">
                                 <child>
-                                  <object class="GtkLabel">
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Playlist</property>
+                                  <object class="GtkBox" id="queue_length_box">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">2</property>
+                                    <property name="margin-start">6</property>
+                                    <property name="hexpand">true</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">Playlist</property>
+                                        <style>
+                                          <class name="heading"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="queue_length_label">
+                                        <property name="xalign">0</property>
+                                        <style>
+                                          <class name="caption"/>
+                                        </style>
+                                      </object>
+                                    </child>
                                     <style>
-                                      <class name="heading"/>
-                                      </style>
-                                    </object>
-                                  </child>
+                                      <class name="queue-length"/>
+                                    </style>
+                                  </object>
+                                </child>
                                 <child>
-                                  <object class="GtkLabel" id="queue_length_label">
-                                    <property name="xalign">0</property>
-                                    </object>
-                                  </child>
-                                <style>
-                                  <class name="queue-length"/>
-                                  </style>
-                                </object>
-                              </child>
+                                  <object class="GtkButton" id="back_button">
+                                    <property name="visible">false</property>
+                                    <property name="icon-name">go-previous-symbolic</property>
+                                    <property name="action-name">queue.toggle</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                    <property name="margin-top">10</property>
+                                    <property name="margin-end">20</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
                             <child>
                               <object class="GtkScrolledWindow">
                                 <property name="hscrollbar-policy">never</property>

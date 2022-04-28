@@ -558,10 +558,8 @@ impl Window {
                 win.set_playlist_visible(flap.reveals_flap());
                 if flap.is_folded() {
                     win.imp().back_button.set_visible(win.playlist_visible());
-                    win.imp().playlist_box.add_css_class("playlist-background");
                 } else {
                     win.imp().back_button.set_visible(false);
-                    win.imp().playlist_box.remove_css_class("playlist-background");
                 }
             }),
         );
@@ -572,10 +570,8 @@ impl Window {
                 win.set_playlist_visible(flap.reveals_flap());
                 if flap.is_folded() {
                     win.imp().back_button.set_visible(win.playlist_visible());
-                    win.imp().playlist_box.add_css_class("playlist-background");
                 } else {
                     win.imp().back_button.set_visible(false);
-                    win.imp().playlist_box.remove_css_class("playlist-background");
                 }
             }),
         );

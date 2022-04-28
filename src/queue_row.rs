@@ -61,7 +61,6 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
-            obj.init_controllers();
             obj.init_widgets();
         }
 
@@ -162,15 +161,6 @@ impl Default for QueueRow {
 impl QueueRow {
     pub fn new() -> Self {
         Self::default()
-    }
-
-    fn init_controllers(&self) {
-        let controller = gtk::EventControllerMotion::new();
-        controller.set_name("queuerow motion");
-        controller.connect_contains_pointer_notify(clone!(@strong self as this => move |c| {
-            this.imp().remove_button.set_visible(c.contains_pointer());
-        }));
-        self.add_controller(&controller);
     }
 
     fn init_widgets(&self) {

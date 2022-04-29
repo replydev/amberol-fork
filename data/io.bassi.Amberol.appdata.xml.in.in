@@ -22,10 +22,16 @@
   </description>
   <screenshots>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.4/amberol-1.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.5/amberol-1.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.4/amberol-2.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.5/amberol-2.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.5/amberol-3.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.5/amberol-4.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>

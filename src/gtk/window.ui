@@ -116,9 +116,6 @@
                           <object class="GtkBox" id="playlist_box">
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
-                            <style>
-                              <class name="playlist-background"/>
-                            </style>
                             <child>
                               <object class="GtkBox">
                                 <child>
@@ -180,6 +177,10 @@
                                 </property>
                               </object>
                             </child>
+                            <style>
+                              <class name="playlist-background"/>
+                              <class name="darken"/>
+                            </style>
                           </object>
                         </child>
                       </object>

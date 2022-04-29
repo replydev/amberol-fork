@@ -54,6 +54,29 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.5.0" date="2022-04-29">
+      <description>
+        <p>Last UI change for a while, I promise.</p>
+        <ul>
+          <li>Move the playlist panel to the left</li>
+          <li>Drop the seek buttons</li>
+          <li>Improve the rendering of the waveform</li>
+          <li>Improve extraction of the song metadata</li>
+        </ul>
+        <p>Thanks to everyone who tried Amberol and filed issues!</p>
+      </description>
+    </release>
+    <release version="0.4.3" date="2022-04-27">
+      <description>
+        <p>Bugs never end, and so does bug squashing.</p>
+        <ul>
+          <li>Fix a crash when manually advancing through the playlist</li>
+          <li>Make the waveform scrubber more legible</li>
+          <li>Keep the UI state more consistent when toggling the playlist</li>
+        </ul>
+        <p>Many, many thanks to all of those who opened an issue after the 0.4.0 release!</p>
+      </description>
+    </release>
     <release version="0.4.2" date="2022-04-22">
       <description>
         <p>Fix a slight visual artefact in the playlist</p>

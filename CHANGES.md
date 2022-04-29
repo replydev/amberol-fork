@@ -6,9 +6,37 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Add scrolling support to the volume control [#50]
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.5.0] - 2022-04-29
+
+### Added
+
+- Improve fallback paths for song metadata
 
 ### Changed
+
+- Move the playlist side panel to the left of the playback controls [#50]
+- Make sure that the remove button in the playlist rows is accessible
+  without hovering
+
+### Fixed
+
+- Align the waveform to the pixel grid [#76]
+
+### Removed
+
+- Drop the seek buttons, and rely on the waveform control [#59]
+
+## [0.4.3] - 2022-04-26
+
+### Added
+
+- Add scrolling support to the volume control [#50]
 
 ### Fixed
 
@@ -18,10 +46,6 @@ All notable changes to this project will be documented in this file.
 - Keep the playlist visibility, folded or unfolded, in sync with the
   toggle button that controls it [#55]
 - Fix a crash when manually advancing through the playlist [#54]
-
-### Removed
-
-- Drop the seek buttons, and rely on the waveform control [#59]
 
 ## [0.4.2] - 2022-04-22
 

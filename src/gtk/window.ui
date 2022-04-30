@@ -201,6 +201,13 @@
                                     <property name="tooltip-text" translatable="yes">Remove all songs</property>
                                   </object>
                                 </child>
+                                <child type="center">
+                                  <object class="GtkLabel" id="queue_selected_label">
+                                    <style>
+                                      <class name="caption"/>
+                                    </style>
+                                  </object>
+                                </child>
                                 <child type="end">
                                   <object class="GtkButton" id="queue_remove_button">
                                     <property name="icon-name">app-remove-symbolic</property>

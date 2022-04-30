@@ -60,6 +60,8 @@ mod imp {
         pub queue_actionbar: TemplateChild<gtk::ActionBar>,
         #[template_child]
         pub queue_remove_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub queue_selected_label: TemplateChild<gtk::Label>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -134,6 +136,7 @@ mod imp {
                 playlist_box: TemplateChild::default(),
                 queue_actionbar: TemplateChild::default(),
                 queue_remove_button: TemplateChild::default(),
+                queue_selected_label: TemplateChild::default(),
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(true),
                 playlist_selection: Cell::new(false),
@@ -693,6 +696,13 @@ impl Window {
             let row = QueueRow::default();
             list_item.set_child(Some(&row));
 
+            row.connect_notify_local(
+                Some("selected"),
+                clone!(@weak win => move |_, _| {
+                    win.update_selected_count();
+                }),
+            );
+
             win
                 .bind_property("playlist-selection", &row, "selection-mode")
                 .flags(glib::BindingFlags::DEFAULT)
@@ -869,6 +879,26 @@ impl Window {
         } else {
             imp.waveform.set_uri(None);
         }
+    }
+
+    fn update_selected_count(&self) {
+        let queue = self.imp().player.queue();
+        let n_selected = queue.n_selected_songs();
+
+        let selected_str;
+        if n_selected == 0 {
+            selected_str = i18n("No song selected");
+        } else {
+            selected_str = ni18n_f(
+                // Translators: The '{}' must be left unmodified, and
+                // it is expanded to the number of songs selected
+                "{} song selected",
+                "{} songs selected",
+                n_selected,
+                &[&n_selected.to_string()],
+            );
+        }
+        self.imp().queue_selected_label.set_label(&selected_str);
     }
 
     pub fn open_file(&self, file: &gio::File) {

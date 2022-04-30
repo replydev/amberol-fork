@@ -280,4 +280,16 @@ impl Queue {
             song.downcast_ref::<Song>().unwrap().set_selected(false);
         }
     }
+
+    pub fn n_selected_songs(&self) -> u32 {
+        let mut count = 0;
+        for i in 0..self.imp().store.n_items() {
+            let song = self.imp().store.item(i).unwrap();
+            if song.downcast_ref::<Song>().unwrap().selected() {
+                count += 1;
+            }
+        }
+
+        count
+    }
 }

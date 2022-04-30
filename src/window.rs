@@ -318,7 +318,13 @@ impl Window {
         let imp = self.imp();
 
         if selection != imp.playlist_selection.replace(selection) {
+            if !selection {
+                let queue = imp.player.queue();
+                queue.unselect_all_songs();
+            }
+
             self.imp().queue_actionbar.set_revealed(selection);
+
             self.notify("playlist-selection");
         }
     }
@@ -713,6 +719,10 @@ impl Window {
                 .property_expression("item")
                 .chain_property::<Song>("playing")
                 .bind(&row, "playing", gtk::Widget::NONE);
+            list_item
+                .property_expression("item")
+                .chain_property::<Song>("selected")
+                .bind(&row, "selected", gtk::Widget::NONE);
         }));
         imp.queue_view
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));

@@ -104,7 +104,7 @@ mod imp {
                     ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
                     ParamSpecBoolean::new("selection-mode", "", "", false, ParamFlags::READWRITE),
-                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READABLE),
+                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READWRITE),
                 ]
             });
             PROPERTIES.as_ref()
@@ -139,6 +139,12 @@ mod imp {
                         .get::<bool>()
                         .expect("The value needs to be a boolean");
                     obj.set_selection_mode(p);
+                }
+                "selected" => {
+                    let p = value
+                        .get::<bool>()
+                        .expect("The value needs to be a boolean");
+                    self.selected_button.set_active(p);
                 }
                 _ => unimplemented!(),
             }

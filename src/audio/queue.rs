@@ -265,4 +265,11 @@ impl Queue {
             self.imp().model.unshuffle();
         }
     }
+
+    pub fn unselect_all_songs(&self) {
+        for i in 0..self.imp().store.n_items() {
+            let song = self.imp().store.item(i).unwrap();
+            song.downcast_ref::<Song>().unwrap().set_selected(false);
+        }
+    }
 }

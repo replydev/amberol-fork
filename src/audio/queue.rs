@@ -266,6 +266,14 @@ impl Queue {
         }
     }
 
+    pub fn select_song_at(&self, index: u32) {
+        if let Some(song) = self.imp().model.item(index) {
+            let song = song.downcast_ref::<Song>().unwrap();
+            let is_selected = !song.selected();
+            song.set_selected(is_selected);
+        }
+    }
+
     pub fn unselect_all_songs(&self) {
         for i in 0..self.imp().store.n_items() {
             let song = self.imp().store.item(i).unwrap();

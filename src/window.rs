@@ -735,13 +735,14 @@ impl Window {
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
         imp.queue_view
             .connect_activate(clone!(@weak self as win => move |_, pos| {
-                if win.playlist_selection() {
-                    return;
-                }
                 let queue = win.imp().player.queue();
-                if queue.current_song_index() != Some(pos) {
-                    win.imp().player.skip_to(pos);
-                    win.imp().player.play();
+                if win.playlist_selection() {
+                    queue.select_song_at(pos);
+                } else {
+                    if queue.current_song_index() != Some(pos) {
+                        win.imp().player.skip_to(pos);
+                        win.imp().player.play();
+                    }
                 }
             }));
     }

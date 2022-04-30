@@ -56,6 +56,10 @@ mod imp {
         pub queue_length_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub playlist_box: TemplateChild<gtk::Box>,
+        #[template_child]
+        pub queue_actionbar: TemplateChild<gtk::ActionBar>,
+        #[template_child]
+        pub queue_remove_button: TemplateChild<gtk::Button>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -64,6 +68,7 @@ mod imp {
 
         pub playlist_shuffled: Cell<bool>,
         pub playlist_visible: Cell<bool>,
+        pub playlist_selection: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -105,6 +110,7 @@ mod imp {
             });
             klass.install_property_action("queue.toggle", "playlist-visible");
             klass.install_property_action("queue.shuffle", "playlist-shuffled");
+            klass.install_property_action("queue.select", "playlist-selection");
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -126,8 +132,11 @@ mod imp {
                 status_page: TemplateChild::default(),
                 back_button: TemplateChild::default(),
                 playlist_box: TemplateChild::default(),
+                queue_actionbar: TemplateChild::default(),
+                queue_remove_button: TemplateChild::default(),
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(true),
+                playlist_selection: Cell::new(false),
                 player: AudioPlayer::new(sender),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
@@ -167,6 +176,13 @@ mod imp {
                         ParamFlags::READWRITE,
                     ),
                     ParamSpecBoolean::new("playlist-visible", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new(
+                        "playlist-selection",
+                        "",
+                        "",
+                        false,
+                        ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -176,6 +192,7 @@ mod imp {
             match pspec.name() {
                 "playlist-shuffled" => obj.set_playlist_shuffled(value.get::<bool>().unwrap()),
                 "playlist-visible" => obj.set_playlist_visible(value.get::<bool>().unwrap()),
+                "playlist-selection" => obj.set_playlist_selection(value.get::<bool>().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -184,6 +201,7 @@ mod imp {
             match pspec.name() {
                 "playlist-shuffled" => obj.playlist_shuffled().to_value(),
                 "playlist-visible" => obj.playlist_visible().to_value(),
+                "playlist-selection" => obj.playlist_selection().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -245,6 +263,7 @@ impl Window {
     fn clear_queue(&self) {
         self.set_playlist_visible(false);
         self.set_playlist_shuffled(false);
+        self.set_playlist_selection(false);
         self.update_waveform(None);
 
         let player = &self.imp().player;
@@ -288,6 +307,19 @@ impl Window {
             }
 
             self.notify("playlist-shuffled");
+        }
+    }
+
+    fn playlist_selection(&self) -> bool {
+        self.imp().playlist_selection.get()
+    }
+
+    fn set_playlist_selection(&self, selection: bool) {
+        let imp = self.imp();
+
+        if selection != imp.playlist_selection.replace(selection) {
+            self.imp().queue_actionbar.set_revealed(selection);
+            self.notify("playlist-selection");
         }
     }
 
@@ -415,6 +447,7 @@ impl Window {
         state.connect_notify_local(
             Some("playing"),
             clone!(@weak self as win => move |state, _| {
+                win.set_playlist_selection(false);
                 let play_button = win.imp().playback_control.play_button();
                 if state.playing() {
                     play_button.set_icon_name("media-playback-pause-symbolic");
@@ -595,6 +628,25 @@ impl Window {
             }),
         );
 
+        self.imp()
+            .queue_remove_button
+            .connect_clicked(clone!(@weak self as win => move |_| {
+                let queue = win.imp().player.queue();
+                let mut remove_songs: Vec<Song> = Vec::new();
+                // Collect all songs to be removed first, since we can't
+                // remove objects from the model while we're iterating it
+                for idx in 0..queue.n_songs() {
+                    let song = queue.song_at(idx).unwrap();
+                    if song.selected() {
+                        remove_songs.push(song);
+                    }
+                }
+
+                for song in remove_songs {
+                    win.remove_song(&song);
+                }
+            }));
+
         self.connect_close_request(move |window| {
             debug!("Saving window state");
             let width = window.default_size().0;
@@ -631,9 +683,14 @@ impl Window {
         let imp = self.imp();
 
         let factory = gtk::SignalListItemFactory::new();
-        factory.connect_setup(move |_, list_item| {
+        factory.connect_setup(clone!(@strong self as win => move |_, list_item| {
             let row = QueueRow::default();
             list_item.set_child(Some(&row));
+
+            win
+                .bind_property("playlist-selection", &row, "selection-mode")
+                .flags(glib::BindingFlags::DEFAULT)
+                .build();
 
             list_item
                 .bind_property("item", &row, "song")
@@ -656,7 +713,7 @@ impl Window {
                 .property_expression("item")
                 .chain_property::<Song>("playing")
                 .bind(&row, "playing", gtk::Widget::NONE);
-        });
+        }));
         imp.queue_view
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));
 
@@ -668,6 +725,9 @@ impl Window {
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
         imp.queue_view
             .connect_activate(clone!(@weak self as win => move |_, pos| {
+                if win.playlist_selection() {
+                    return;
+                }
                 let queue = win.imp().player.queue();
                 if queue.current_song_index() != Some(pos) {
                     win.imp().player.skip_to(pos);
@@ -809,7 +869,11 @@ impl Window {
     }
 
     pub fn remove_song(&self, song: &Song) {
-        let queue = self.imp().player.queue();
+        let imp = self.imp();
+        if song.playing() {
+            imp.player.skip_next();
+        }
+        let queue = imp.player.queue();
         queue.remove_song(song);
     }
 }

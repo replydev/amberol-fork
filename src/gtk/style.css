@@ -75,6 +75,11 @@ queuerow picture.cover {
   margin: 0px;
 }
 
+queuerow checkbutton.selection-mode {
+  padding-right: 12px;
+  padding-left: 8px;
+}
+
 .queue-length {
   padding-top: 12px;
   padding-left: 12px;

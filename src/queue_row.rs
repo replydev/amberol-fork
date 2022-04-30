@@ -1,13 +1,26 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
 use adw::subclass::prelude::*;
 use glib::clone;
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
-use crate::{audio::Song, cover_picture::CoverPicture, window::Window};
+use crate::{audio::Song, cover_picture::CoverPicture};
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum QueueRowMode {
+    Regular,
+    Selection,
+    Playing,
+}
+
+impl Default for QueueRowMode {
+    fn default() -> Self {
+        QueueRowMode::Regular
+    }
+}
 
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value};
@@ -30,9 +43,15 @@ mod imp {
         #[template_child]
         pub song_artist_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub remove_button: TemplateChild<gtk::Button>,
+        pub selection_title_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub selection_artist_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub selected_button: TemplateChild<gtk::CheckButton>,
 
         pub song: RefCell<Option<Song>>,
+        pub mode: Cell<QueueRowMode>,
+        pub previous_mode: Cell<QueueRowMode>,
     }
 
     #[glib::object_subclass]
@@ -84,12 +103,14 @@ mod imp {
                         ParamFlags::READWRITE,
                     ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new("selection-mode", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READABLE),
                 ]
             });
             PROPERTIES.as_ref()
         }
 
-        fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+        fn set_property(&self, obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "song" => {
                     let song = value.get::<Option<Song>>().unwrap();
@@ -97,31 +118,27 @@ mod imp {
                 }
                 "song-artist" => {
                     let p = value.get::<&str>().expect("The value needs to be a string");
-                    self.song_artist_label.set_label(p);
+                    obj.set_song_artist(p);
                 }
                 "song-title" => {
                     let p = value.get::<&str>().expect("The value needs to be a string");
-                    self.song_title_label.set_label(p);
+                    obj.set_song_title(p);
                 }
                 "song-cover" => {
                     let p = value.get::<gdk::Texture>().ok();
-                    if let Some(texture) = p {
-                        self.song_cover_image.set_cover(Some(&texture));
-                        self.song_cover_stack.set_visible_child_name("cover");
-                    } else {
-                        self.song_cover_image.set_cover(None);
-                        self.song_cover_stack.set_visible_child_name("no-cover");
-                    }
+                    obj.set_song_cover(p);
                 }
                 "playing" => {
                     let p = value
                         .get::<bool>()
                         .expect("The value needs to be a boolean");
-                    if p {
-                        self.row_stack.set_visible_child_name("currently-playing");
-                    } else {
-                        self.row_stack.set_visible_child_name("song-details");
-                    }
+                    obj.set_playing(p);
+                }
+                "selection-mode" => {
+                    let p = value
+                        .get::<bool>()
+                        .expect("The value needs to be a boolean");
+                    obj.set_selection_mode(p);
                 }
                 _ => unimplemented!(),
             }
@@ -138,6 +155,12 @@ mod imp {
                     let v = matches!(visible_child.as_str(), "currently-playing");
                     v.to_value()
                 }
+                "selection-mode" => {
+                    let visible_child = self.row_stack.visible_child_name().unwrap();
+                    let v = matches!(visible_child.as_str(), "selection-mode");
+                    v.to_value()
+                }
+                "selected" => self.selected_button.is_active().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -164,40 +187,82 @@ impl QueueRow {
     }
 
     fn init_widgets(&self) {
-        self.imp()
-            .remove_button
-            .connect_clicked(clone!(@strong self as this => move |_| {
-                let app = gio::Application::default()
-                    .expect("Failed to retrieve application singleton")
-                    .downcast::<gtk::Application>()
-                    .unwrap();
-                let win = app
-                    .active_window()
-                    .unwrap()
-                    .downcast::<Window>()
-                    .unwrap();
-                if let Some(song) = this.song() {
-                    win.remove_song(&song);
+        self.imp().selected_button.connect_active_notify(
+            clone!(@strong self as this => move |button| {
+                if let Some(ref song) = *this.imp().song.borrow() {
+                    song.set_selected(button.is_active());
                 }
-            }));
+                this.notify("selected");
+            }),
+        );
     }
 
-    pub fn set_song_title(&self, title: String) {
+    fn push_mode(&self, mode: QueueRowMode) -> QueueRowMode {
+        let imp = self.imp();
+        let prev_mode = imp.mode.replace(mode);
+        if mode != prev_mode {
+            imp.previous_mode.replace(prev_mode);
+
+            match mode {
+                QueueRowMode::Playing => imp.row_stack.set_visible_child_name("currently-playing"),
+                QueueRowMode::Selection => imp.row_stack.set_visible_child_name("selection-mode"),
+                QueueRowMode::Regular => imp.row_stack.set_visible_child_name("song-details"),
+            }
+        }
+
+        prev_mode
+    }
+
+    fn pop_mode(&self) -> QueueRowMode {
+        let imp = self.imp();
+        let prev_mode = imp.previous_mode.get();
+        imp.mode.replace(prev_mode);
+
+        match prev_mode {
+            QueueRowMode::Playing => imp.row_stack.set_visible_child_name("currently-playing"),
+            QueueRowMode::Selection => imp.row_stack.set_visible_child_name("selection-mode"),
+            QueueRowMode::Regular => imp.row_stack.set_visible_child_name("song-details"),
+        }
+
+        prev_mode
+    }
+
+    fn set_song_title(&self, title: &str) {
         let imp = self.imp();
         imp.song_title_label.set_label(&title);
+        imp.selection_title_label.set_label(&title);
     }
 
-    pub fn set_song_artist(&self, artist: String) {
+    fn set_song_artist(&self, artist: &str) {
         let imp = self.imp();
         imp.song_artist_label.set_label(&artist);
+        imp.selection_artist_label.set_label(&artist);
     }
 
-    pub fn set_playing(&self, playing: bool) {
+    fn set_song_cover(&self, cover: Option<gdk::Texture>) {
         let imp = self.imp();
-        if playing {
-            imp.row_stack.set_visible_child_name("currently-playing");
+        if let Some(texture) = cover {
+            imp.song_cover_image.set_cover(Some(&texture));
+            imp.song_cover_stack.set_visible_child_name("cover");
         } else {
-            imp.row_stack.set_visible_child_name("song-details");
+            imp.song_cover_image.set_cover(None);
+            imp.song_cover_stack.set_visible_child_name("no-cover");
+        }
+    }
+
+    fn set_playing(&self, playing: bool) {
+        if playing {
+            self.push_mode(QueueRowMode::Playing);
+        } else {
+            self.pop_mode();
+        }
+    }
+
+    fn set_selection_mode(&self, selection: bool) {
+        if selection {
+            self.push_mode(QueueRowMode::Selection);
+        } else {
+            self.pop_mode();
         }
     }
 

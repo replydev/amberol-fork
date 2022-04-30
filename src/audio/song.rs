@@ -257,6 +257,7 @@ mod imp {
     pub struct Song {
         pub data: RefCell<SongData>,
         pub playing: Cell<bool>,
+        pub selected: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -288,6 +289,7 @@ mod imp {
                         ParamFlags::READABLE,
                     ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READWRITE),
                 ]
             });
             PROPERTIES.as_ref()
@@ -309,6 +311,10 @@ mod imp {
                     let p = value.get::<bool>().expect("Value must be a boolean");
                     self.playing.set(p);
                 }
+                "selected" => {
+                    let p = value.get::<bool>().expect("Value must be a boolean");
+                    self.selected.set(p);
+                }
                 _ => unimplemented!(),
             }
         }
@@ -322,6 +328,7 @@ mod imp {
                 "uri" => obj.uri().to_value(),
                 "cover" => obj.cover_texture().to_value(),
                 "playing" => self.playing.get().to_value(),
+                "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -398,6 +405,17 @@ impl Song {
         let was_playing = self.imp().playing.replace(playing);
         if was_playing != playing {
             self.notify("playing");
+        }
+    }
+
+    pub fn selected(&self) -> bool {
+        self.imp().selected.get()
+    }
+
+    pub fn set_selected(&self, selected: bool) {
+        let was_selected = self.imp().selected.replace(selected);
+        if was_selected != selected {
+            self.notify("selected");
         }
     }
 

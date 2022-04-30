@@ -128,7 +128,6 @@
                   <property name="primary">true</property>
                   <property name="halign">end</property>
                   <property name="valign">center</property>
-                  <property name="tooltip-text" translatable="yes">More..</property>
                   <style>
                     <class name="circular"/>
                   </style>

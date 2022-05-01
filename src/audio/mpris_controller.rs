@@ -95,6 +95,7 @@ impl MprisController {
             metadata.artist = Some(vec![song.artist()]);
             metadata.title = Some(song.title());
             metadata.album = Some(song.album());
+            metadata.length = Some(song.duration() as i64);
 
             // MPRIS should really support passing a bytes buffer for
             // the cover art, instead of requiring this ridiculous

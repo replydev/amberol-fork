@@ -803,8 +803,8 @@ impl Window {
 
             let remaining_min = (remaining_time / 60) as u32;
             let remaining_str = &ni18n_f(
-                // Translators: The first '{}' is the word "Playlist";
-                // the second '{}' is the number of minutes remaining
+                // Translators: the '{}' must be left unmodified, and
+                // it will be replaced by the number of minutes remaining
                 // in the playlist
                 "{} minute remaining",
                 "{} minutes remaining",

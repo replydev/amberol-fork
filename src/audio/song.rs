@@ -3,6 +3,7 @@
 
 use std::{
     cell::{Cell, RefCell},
+    fmt::{self, Display, Formatter},
     time::Instant,
 };
 
@@ -427,5 +428,18 @@ impl Song {
 impl Default for Song {
     fn default() -> Self {
         Self::empty()
+    }
+}
+
+impl Display for Song {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Song {{ uuid: {}, uri: {}, artist: '{}', title: '{}' }}",
+            self.uuid().unwrap(),
+            self.uri(),
+            self.artist(),
+            self.title()
+        )
     }
 }

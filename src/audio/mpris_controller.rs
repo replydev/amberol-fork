@@ -5,10 +5,10 @@ use std::{cell::RefCell, sync::Arc, time::Duration};
 
 use glib::{clone, Sender};
 use gtk::glib;
-use mpris_player::{Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
+use mpris_player::{LoopStatus, Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
 
 use crate::{
-    audio::{Controller, PlaybackAction, PlaybackState, Song},
+    audio::{Controller, PlaybackAction, PlaybackState, RepeatMode, Song},
     config::APPLICATION_ID,
 };
 
@@ -86,6 +86,16 @@ impl MprisController {
             .connect_raise(clone!(@strong self.sender as sender => move || {
                 send!(sender, PlaybackAction::Raise);
             }));
+
+        self.mpris
+            .connect_loop_status(clone!(@strong self.sender as sender => move |status| {
+                let mode = match status {
+                    LoopStatus::None => RepeatMode::Consecutive,
+                    LoopStatus::Track => RepeatMode::RepeatOne,
+                    LoopStatus::Playlist => RepeatMode::RepeatAll,
+                };
+                send!(sender, PlaybackAction::Repeat(mode));
+            }));
     }
 
     fn update_metadata(&self) {
@@ -136,5 +146,13 @@ impl Controller for MprisController {
     fn set_position(&self, position: u64) {
         let msecs = Duration::from_secs(position).as_micros();
         self.mpris.set_position(msecs as i64);
+    }
+
+    fn set_repeat_mode(&self, repeat: RepeatMode) {
+        match repeat {
+            RepeatMode::Consecutive => self.mpris.set_loop_status(LoopStatus::None),
+            RepeatMode::RepeatOne => self.mpris.set_loop_status(LoopStatus::Track),
+            RepeatMode::RepeatAll => self.mpris.set_loop_status(LoopStatus::Playlist),
+        }
     }
 }

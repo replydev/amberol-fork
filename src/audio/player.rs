@@ -21,6 +21,7 @@ pub enum PlaybackAction {
 
     UpdatePosition(u64),
     VolumeChanged(f64),
+    Repeat(RepeatMode),
     PlayNext,
 
     Raise,
@@ -119,6 +120,7 @@ impl AudioPlayer {
             PlaybackAction::VolumeChanged(vol) => self.update_volume(vol),
             PlaybackAction::PlayNext => self.play_next(),
             PlaybackAction::Raise => self.present(),
+            PlaybackAction::Repeat(mode) => self.update_repeat_mode(mode),
             // _ => debug!("Received action {:?}", action),
         }
 
@@ -390,6 +392,20 @@ impl AudioPlayer {
             RepeatMode::RepeatOne => RepeatMode::Consecutive,
         };
         self.queue.set_repeat_mode(new_mode);
+
+        for c in &self.controllers {
+            c.set_repeat_mode(new_mode);
+        }
+    }
+
+    fn update_repeat_mode(&self, repeat: RepeatMode) {
+        if repeat != self.queue.repeat_mode() {
+            self.queue.set_repeat_mode(repeat);
+
+            for c in &self.controllers {
+                c.set_repeat_mode(repeat);
+            }
+        }
     }
 
     fn present(&self) {

@@ -488,9 +488,9 @@ impl Window {
                 win.scroll_playlist_to_song();
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
-                    debug!("Updating waveform for {:?}", &current);
+                    debug!("Updating waveform for {}", &current);
                     win.update_waveform(Some(&current));
-                    debug!("Updating style for {:?}", &current);
+                    debug!("Updating style for {}", &current);
                     win.update_style(&current);
                 } else {
                     win.update_waveform(None);

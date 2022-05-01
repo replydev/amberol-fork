@@ -109,20 +109,28 @@ window.main-window {
   transition-timing-function: ease;
 }
 
-/* Reset the background of the playlist flap if there's no cover art */
-:not(.main-window) .playlist-background {
-  background: @window_bg_color;
-  color: @window_fg_color;
-}
-
-.main-window .playlist-background {
+/* Apply the main window background to the playlist flap, if the main content
+ * is folded, as the flap background is transparent
+ */
+.main-window .folded .playlist-background {
   background: linear-gradient(127deg, alpha(@background_color_1, 0.70), @background_color_1 70.1%),
               linear-gradient(217deg, alpha(@background_color_3, 0.70), @background_color_3 70.1%),
               linear-gradient(336deg, alpha(@background_color_2, 0.70), @background_color_2 70.1%);
   color: @foreground_color;
 }
 
-.main-window .darken {
+.main-window .unfolded .darken {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: @foreground_color;
+}
+
+/* Reset the background of the playlist flap if there's no cover art */
+:not(.main-window) .playlist-background {
+  background: @window_bg_color;
+  color: @window_fg_color;
+}
+
+:not(.main-window) .unfolded .darken {
   background-color: rgba(0, 0, 0, 0.08);
 }
 

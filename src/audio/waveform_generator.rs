@@ -73,7 +73,7 @@ impl WaveformGenerator {
         (*self.imp().peaks.borrow()).as_ref().cloned()
     }
 
-    pub fn generate_peaks(&self) {
+    pub fn generate_peaks(&self) -> bool {
         if let Some(ref pipeline) = *self.imp().pipeline.borrow() {
             // Stop any running pipeline, and ensure that we have nothing to
             // report
@@ -92,8 +92,8 @@ impl WaveformGenerator {
         let pipeline = match gst::parse_launch(&pipeline_str) {
             Ok(pipeline) => pipeline,
             Err(err) => {
-                warn!("Unable to generate peaks: {}", err);
-                return;
+                warn!("Unable to generate the waveform: {}", err);
+                return false;
             }
         };
 
@@ -159,11 +159,20 @@ impl WaveformGenerator {
         }))
         .expect("failed to add bus watch");
 
-        pipeline
-            .set_state(gst::State::Playing)
-            .expect("Failed to play pipeline");
-
-        // Keep a reference on the pipeline so we can run it until completion
-        self.imp().pipeline.replace(Some(pipeline));
+        match pipeline.set_state(gst::State::Playing) {
+            Ok(_) => {
+                self.imp().pipeline.replace(Some(pipeline));
+                true
+            }
+            Err(err) => {
+                warn!("Unable to generate the waveform: {}", err);
+                pipeline
+                    .set_state(gst::State::Null)
+                    .expect("Pipeline reset failed");
+                self.imp().peaks.replace(None);
+                self.notify("has-peaks");
+                false
+            }
+        }
     }
 }

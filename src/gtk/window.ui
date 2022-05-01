@@ -154,10 +154,13 @@
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkToggleButton" id="select_button">
-                                        <property name="icon-name">object-select-symbolic</property>
+                                        <property name="icon-name">selection-mode-symbolic</property>
                                         <property name="action-name">queue.select</property>
                                         <property name="valign">center</property>
                                         <property name="tooltip-text" translatable="yes">Select songs in the playlist</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
                                       </object>
                                     </child>
                                     <child type="end">
@@ -167,6 +170,9 @@
                                         <property name="action-name">queue.toggle</property>
                                         <property name="valign">center</property>
                                         <property name="tooltip-text" translatable="yes">Close the playlist</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
                                       </object>
                                     </child>
                                   </object>
@@ -196,7 +202,7 @@
                                 <property name="revealed">false</property>
                                 <child>
                                   <object class="GtkButton" id="queue_clear_button">
-                                    <property name="icon-name">list-remove-all-symbolic</property>
+                                    <property name="icon-name">edit-clear-all-symbolic</property>
                                     <property name="action-name">queue.clear</property>
                                     <property name="tooltip-text" translatable="yes">Remove all songs</property>
                                   </object>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/io/bassi/Amberol/icons/scalable/actions/">
+    <file alias="app-remove-symbolic.svg">assets/icons/app-remove-symbolic.svg</file>
+    <file alias="edit-clear-all-symbolic.svg">assets/icons/edit-clear-all-symbolic.svg</file>
     <file alias="folder-music-symbolic.svg">assets/icons/folder-music-symbolic.svg</file>
     <file alias="go-previous-symbolic.svg">assets/icons/go-previous-symbolic.svg</file>
     <file alias="media-playback-pause.svg">assets/icons/media-playback-pause-symbolic.svg</file>
@@ -11,6 +13,7 @@
     <file alias="media-playlist-shuffle.svg">assets/icons/media-playlist-shuffle-symbolic.svg</file>
     <file alias="media-skip-backward-symbolic.svg">assets/icons/media-skip-backward-symbolic.svg</file>
     <file alias="media-skip-forward-symbolic.svg">assets/icons/media-skip-forward-symbolic.svg</file>
+    <file alias="selection-mode-symbolic.svg">assets/icons/selection-mode-symbolic.svg</file>
     <file alias="view-list-bullet-rtl-symbolic.svg">assets/icons/view-list-bullet-rtl-symbolic.svg</file>
     <file alias="view-list-bullet-symbolic.svg">assets/icons/view-list-bullet-symbolic.svg</file>
   </gresource>

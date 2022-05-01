@@ -265,4 +265,31 @@ impl Queue {
             self.imp().model.unshuffle();
         }
     }
+
+    pub fn select_song_at(&self, index: u32) {
+        if let Some(song) = self.imp().model.item(index) {
+            let song = song.downcast_ref::<Song>().unwrap();
+            let is_selected = !song.selected();
+            song.set_selected(is_selected);
+        }
+    }
+
+    pub fn unselect_all_songs(&self) {
+        for i in 0..self.imp().store.n_items() {
+            let song = self.imp().store.item(i).unwrap();
+            song.downcast_ref::<Song>().unwrap().set_selected(false);
+        }
+    }
+
+    pub fn n_selected_songs(&self) -> u32 {
+        let mut count = 0;
+        for i in 0..self.imp().store.n_items() {
+            let song = self.imp().store.item(i).unwrap();
+            if song.downcast_ref::<Song>().unwrap().selected() {
+                count += 1;
+            }
+        }
+
+        count
+    }
 }

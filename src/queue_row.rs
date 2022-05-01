@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
 use adw::subclass::prelude::*;
 use glib::clone;
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
-use crate::{audio::Song, cover_picture::CoverPicture, window::Window};
+use crate::{audio::Song, cover_picture::CoverPicture};
 
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value};
@@ -30,9 +30,15 @@ mod imp {
         #[template_child]
         pub song_artist_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub remove_button: TemplateChild<gtk::Button>,
+        pub selection_title_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub selection_artist_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub selected_button: TemplateChild<gtk::CheckButton>,
 
         pub song: RefCell<Option<Song>>,
+        pub playing: Cell<bool>,
+        pub selection_mode: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -84,12 +90,14 @@ mod imp {
                         ParamFlags::READWRITE,
                     ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new("selection-mode", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READWRITE),
                 ]
             });
             PROPERTIES.as_ref()
         }
 
-        fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+        fn set_property(&self, obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "song" => {
                     let song = value.get::<Option<Song>>().unwrap();
@@ -97,31 +105,33 @@ mod imp {
                 }
                 "song-artist" => {
                     let p = value.get::<&str>().expect("The value needs to be a string");
-                    self.song_artist_label.set_label(p);
+                    obj.set_song_artist(p);
                 }
                 "song-title" => {
                     let p = value.get::<&str>().expect("The value needs to be a string");
-                    self.song_title_label.set_label(p);
+                    obj.set_song_title(p);
                 }
                 "song-cover" => {
                     let p = value.get::<gdk::Texture>().ok();
-                    if let Some(texture) = p {
-                        self.song_cover_image.set_cover(Some(&texture));
-                        self.song_cover_stack.set_visible_child_name("cover");
-                    } else {
-                        self.song_cover_image.set_cover(None);
-                        self.song_cover_stack.set_visible_child_name("no-cover");
-                    }
+                    obj.set_song_cover(p);
                 }
                 "playing" => {
                     let p = value
                         .get::<bool>()
                         .expect("The value needs to be a boolean");
-                    if p {
-                        self.row_stack.set_visible_child_name("currently-playing");
-                    } else {
-                        self.row_stack.set_visible_child_name("song-details");
-                    }
+                    obj.set_playing(p);
+                }
+                "selection-mode" => {
+                    let p = value
+                        .get::<bool>()
+                        .expect("The value needs to be a boolean");
+                    obj.set_selection_mode(p);
+                }
+                "selected" => {
+                    let p = value
+                        .get::<bool>()
+                        .expect("The value needs to be a boolean");
+                    self.selected_button.set_active(p);
                 }
                 _ => unimplemented!(),
             }
@@ -133,11 +143,9 @@ mod imp {
                 "song-artist" => self.song_artist_label.label().to_value(),
                 "song-title" => self.song_title_label.label().to_value(),
                 "song-cover" => self.song_cover_image.cover().to_value(),
-                "playing" => {
-                    let visible_child = self.row_stack.visible_child_name().unwrap();
-                    let v = matches!(visible_child.as_str(), "currently-playing");
-                    v.to_value()
-                }
+                "playing" => self.playing.get().to_value(),
+                "selection-mode" => self.selection_mode.get().to_value(),
+                "selected" => self.selected_button.is_active().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -164,40 +172,61 @@ impl QueueRow {
     }
 
     fn init_widgets(&self) {
-        self.imp()
-            .remove_button
-            .connect_clicked(clone!(@strong self as this => move |_| {
-                let app = gio::Application::default()
-                    .expect("Failed to retrieve application singleton")
-                    .downcast::<gtk::Application>()
-                    .unwrap();
-                let win = app
-                    .active_window()
-                    .unwrap()
-                    .downcast::<Window>()
-                    .unwrap();
-                if let Some(song) = this.song() {
-                    win.remove_song(&song);
+        self.imp().selected_button.connect_active_notify(
+            clone!(@strong self as this => move |button| {
+                if let Some(ref song) = *this.imp().song.borrow() {
+                    song.set_selected(button.is_active());
                 }
-            }));
+                this.notify("selected");
+            }),
+        );
     }
 
-    pub fn set_song_title(&self, title: String) {
-        let imp = self.imp();
-        imp.song_title_label.set_label(&title);
+    fn set_playing(&self, playing: bool) {
+        if playing != self.imp().playing.replace(playing) {
+            self.update_mode();
+            self.notify("playing");
+        }
     }
 
-    pub fn set_song_artist(&self, artist: String) {
-        let imp = self.imp();
-        imp.song_artist_label.set_label(&artist);
+    fn set_selection_mode(&self, selection_mode: bool) {
+        if selection_mode != self.imp().selection_mode.replace(selection_mode) {
+            self.update_mode();
+            self.notify("selection-mode");
+        }
     }
 
-    pub fn set_playing(&self, playing: bool) {
+    fn update_mode(&self) {
         let imp = self.imp();
-        if playing {
+        if imp.selection_mode.get() {
+            imp.row_stack.set_visible_child_name("selection-mode");
+        } else if imp.playing.get() {
             imp.row_stack.set_visible_child_name("currently-playing");
         } else {
             imp.row_stack.set_visible_child_name("song-details");
+        }
+    }
+
+    fn set_song_title(&self, title: &str) {
+        let imp = self.imp();
+        imp.song_title_label.set_label(&title);
+        imp.selection_title_label.set_label(&title);
+    }
+
+    fn set_song_artist(&self, artist: &str) {
+        let imp = self.imp();
+        imp.song_artist_label.set_label(&artist);
+        imp.selection_artist_label.set_label(&artist);
+    }
+
+    fn set_song_cover(&self, cover: Option<gdk::Texture>) {
+        let imp = self.imp();
+        if let Some(texture) = cover {
+            imp.song_cover_image.set_cover(Some(&texture));
+            imp.song_cover_stack.set_visible_child_name("cover");
+        } else {
+            imp.song_cover_image.set_cover(None);
+            imp.song_cover_stack.set_visible_child_name("no-cover");
         }
     }
 

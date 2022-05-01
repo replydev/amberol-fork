@@ -3,6 +3,7 @@
 
 use std::{
     cell::{Cell, RefCell},
+    fmt::{self, Display, Formatter},
     time::Instant,
 };
 
@@ -257,6 +258,7 @@ mod imp {
     pub struct Song {
         pub data: RefCell<SongData>,
         pub playing: Cell<bool>,
+        pub selected: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -288,6 +290,7 @@ mod imp {
                         ParamFlags::READABLE,
                     ),
                     ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READWRITE),
                 ]
             });
             PROPERTIES.as_ref()
@@ -309,6 +312,10 @@ mod imp {
                     let p = value.get::<bool>().expect("Value must be a boolean");
                     self.playing.set(p);
                 }
+                "selected" => {
+                    let p = value.get::<bool>().expect("Value must be a boolean");
+                    self.selected.set(p);
+                }
                 _ => unimplemented!(),
             }
         }
@@ -322,6 +329,7 @@ mod imp {
                 "uri" => obj.uri().to_value(),
                 "cover" => obj.cover_texture().to_value(),
                 "playing" => self.playing.get().to_value(),
+                "selected" => self.selected.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -401,6 +409,17 @@ impl Song {
         }
     }
 
+    pub fn selected(&self) -> bool {
+        self.imp().selected.get()
+    }
+
+    pub fn set_selected(&self, selected: bool) {
+        let was_selected = self.imp().selected.replace(selected);
+        if was_selected != selected {
+            self.notify("selected");
+        }
+    }
+
     pub fn uuid(&self) -> Option<String> {
         self.imp().data.borrow().uuid().map(|s| s.to_string())
     }
@@ -409,5 +428,18 @@ impl Song {
 impl Default for Song {
     fn default() -> Self {
         Self::empty()
+    }
+}
+
+impl Display for Song {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Song {{ uuid: {}, uri: {}, artist: '{}', title: '{}' }}",
+            self.uuid().unwrap(),
+            self.uri(),
+            self.artist(),
+            self.title()
+        )
     }
 }

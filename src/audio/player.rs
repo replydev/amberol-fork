@@ -367,6 +367,10 @@ impl AudioPlayer {
 
     fn update_position(&self, position: u64) {
         self.state.set_position(position);
+
+        for c in &self.controllers {
+            c.set_position(position);
+        }
     }
 
     fn update_volume(&self, volume: f64) {

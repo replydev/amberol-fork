@@ -7,4 +7,5 @@ pub trait Controller {
     fn set_playback_state(&self, state: &PlaybackState);
 
     fn set_song(&self, song: &Song);
+    fn set_position(&self, position: u64);
 }

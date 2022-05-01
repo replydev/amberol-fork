@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::{cell::RefCell, sync::Arc};
+use std::{cell::RefCell, sync::Arc, time::Duration};
 
 use glib::{clone, Sender};
 use gtk::glib;
@@ -30,7 +30,7 @@ impl MprisController {
         mpris.set_can_raise(true);
         mpris.set_can_play(false);
         mpris.set_can_pause(true);
-        mpris.set_can_seek(false);
+        mpris.set_can_seek(true);
         mpris.set_can_go_next(true);
         mpris.set_can_go_previous(true);
         mpris.set_can_set_fullscreen(false);
@@ -131,5 +131,10 @@ impl Controller for MprisController {
     fn set_song(&self, song: &Song) {
         self.song.replace(Some(song.clone()));
         self.update_metadata();
+    }
+
+    fn set_position(&self, position: u64) {
+        let msecs = Duration::from_secs(position).as_micros();
+        self.mpris.set_position(msecs as i64);
     }
 }

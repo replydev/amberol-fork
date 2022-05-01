@@ -55,4 +55,5 @@ impl Controller for InhibitController {
     }
 
     fn set_song(&self, _song: &Song) {}
+    fn set_position(&self, _position: u64) {}
 }

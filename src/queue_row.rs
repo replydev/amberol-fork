@@ -9,19 +9,6 @@ use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
 use crate::{audio::Song, cover_picture::CoverPicture};
 
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum QueueRowMode {
-    Regular,
-    Selection,
-    Playing,
-}
-
-impl Default for QueueRowMode {
-    fn default() -> Self {
-        QueueRowMode::Regular
-    }
-}
-
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, Value};
     use once_cell::sync::Lazy;
@@ -50,8 +37,8 @@ mod imp {
         pub selected_button: TemplateChild<gtk::CheckButton>,
 
         pub song: RefCell<Option<Song>>,
-        pub mode: Cell<QueueRowMode>,
-        pub previous_mode: Cell<QueueRowMode>,
+        pub playing: Cell<bool>,
+        pub selection_mode: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -156,16 +143,8 @@ mod imp {
                 "song-artist" => self.song_artist_label.label().to_value(),
                 "song-title" => self.song_title_label.label().to_value(),
                 "song-cover" => self.song_cover_image.cover().to_value(),
-                "playing" => {
-                    let visible_child = self.row_stack.visible_child_name().unwrap();
-                    let v = matches!(visible_child.as_str(), "currently-playing");
-                    v.to_value()
-                }
-                "selection-mode" => {
-                    let visible_child = self.row_stack.visible_child_name().unwrap();
-                    let v = matches!(visible_child.as_str(), "selection-mode");
-                    v.to_value()
-                }
+                "playing" => self.playing.get().to_value(),
+                "selection-mode" => self.selection_mode.get().to_value(),
                 "selected" => self.selected_button.is_active().to_value(),
                 _ => unimplemented!(),
             }
@@ -203,34 +182,29 @@ impl QueueRow {
         );
     }
 
-    fn push_mode(&self, mode: QueueRowMode) -> QueueRowMode {
-        let imp = self.imp();
-        let prev_mode = imp.mode.replace(mode);
-        if mode != prev_mode {
-            imp.previous_mode.replace(prev_mode);
-
-            match mode {
-                QueueRowMode::Playing => imp.row_stack.set_visible_child_name("currently-playing"),
-                QueueRowMode::Selection => imp.row_stack.set_visible_child_name("selection-mode"),
-                QueueRowMode::Regular => imp.row_stack.set_visible_child_name("song-details"),
-            }
+    fn set_playing(&self, playing: bool) {
+        if playing != self.imp().playing.replace(playing) {
+            self.update_mode();
+            self.notify("playing");
         }
-
-        prev_mode
     }
 
-    fn pop_mode(&self) -> QueueRowMode {
-        let imp = self.imp();
-        let prev_mode = imp.previous_mode.get();
-        imp.mode.replace(prev_mode);
-
-        match prev_mode {
-            QueueRowMode::Playing => imp.row_stack.set_visible_child_name("currently-playing"),
-            QueueRowMode::Selection => imp.row_stack.set_visible_child_name("selection-mode"),
-            QueueRowMode::Regular => imp.row_stack.set_visible_child_name("song-details"),
+    fn set_selection_mode(&self, selection_mode: bool) {
+        if selection_mode != self.imp().selection_mode.replace(selection_mode) {
+            self.update_mode();
+            self.notify("selection-mode");
         }
+    }
 
-        prev_mode
+    fn update_mode(&self) {
+        let imp = self.imp();
+        if imp.selection_mode.get() {
+            imp.row_stack.set_visible_child_name("selection-mode");
+        } else if imp.playing.get() {
+            imp.row_stack.set_visible_child_name("currently-playing");
+        } else {
+            imp.row_stack.set_visible_child_name("song-details");
+        }
     }
 
     fn set_song_title(&self, title: &str) {
@@ -253,22 +227,6 @@ impl QueueRow {
         } else {
             imp.song_cover_image.set_cover(None);
             imp.song_cover_stack.set_visible_child_name("no-cover");
-        }
-    }
-
-    fn set_playing(&self, playing: bool) {
-        if playing {
-            self.push_mode(QueueRowMode::Playing);
-        } else {
-            self.pop_mode();
-        }
-    }
-
-    fn set_selection_mode(&self, selection: bool) {
-        if selection {
-            self.push_mode(QueueRowMode::Selection);
-        } else {
-            self.pop_mode();
         }
     }
 

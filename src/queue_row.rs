@@ -209,14 +209,14 @@ impl QueueRow {
 
     fn set_song_title(&self, title: &str) {
         let imp = self.imp();
-        imp.song_title_label.set_label(&title);
-        imp.selection_title_label.set_label(&title);
+        imp.song_title_label.set_label(title);
+        imp.selection_title_label.set_label(title);
     }
 
     fn set_song_artist(&self, artist: &str) {
         let imp = self.imp();
-        imp.song_artist_label.set_label(&artist);
-        imp.selection_artist_label.set_label(&artist);
+        imp.song_artist_label.set_label(artist);
+        imp.selection_artist_label.set_label(artist);
     }
 
     fn set_song_cover(&self, cover: Option<gdk::Texture>) {

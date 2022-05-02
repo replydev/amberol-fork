@@ -8,6 +8,7 @@ mod cover_picture;
 mod drag_overlay;
 mod i18n;
 mod playback_control;
+mod playlist_view;
 mod queue_row;
 mod song_details;
 mod utils;
@@ -51,7 +52,7 @@ fn main() {
             .expect("Unable to find amberol.gresource"),
         Ok(_) => match env::current_exe() {
             Ok(path) => {
-                let mut resource_path = path.clone();
+                let mut resource_path = path;
                 resource_path.pop();
                 resource_path.push("amberol.gresource");
                 gio::Resource::load(&resource_path)

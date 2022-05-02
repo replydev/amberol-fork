@@ -20,6 +20,7 @@
   <gresource prefix="/io/bassi/Amberol">
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
     <file alias="playback-control.ui" preprocess="xml-stripblanks">gtk/playback-control.ui</file>
+    <file alias="playlist-view.ui" preprocess="xml-stripblanks">gtk/playlist-view.ui</file>
     <file alias="queue-row.ui" preprocess="xml-stripblanks">gtk/queue-row.ui</file>
     <file alias="song-details.ui" preprocess="xml-stripblanks">gtk/song-details.ui</file>
     <file alias="style-hc.css">gtk/style-hc.css</file>

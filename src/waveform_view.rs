@@ -47,7 +47,7 @@ mod imp {
         // left and right channel peaks, normalised between 0 and 1
         pub peaks: RefCell<Option<Vec<PeakPair>>>,
         pub tick_id: RefCell<Option<gtk::TickCallbackId>>,
-        pub last_frame_time: Cell<Option<i64>>,
+        pub first_frame_time: Cell<Option<i64>>,
         pub factor: Cell<Option<f64>>,
     }
 
@@ -131,9 +131,10 @@ mod imp {
                     if let Some(ref peaks) = *self.peaks.borrow() {
                         let n_peaks = peaks.len() as i32;
                         let width = i32::min(n_peaks * 4, 256);
-                        return (width, width, -1, -1);
+
+                        (width, width, -1, -1)
                     } else {
-                        return (256, 256, -1, -1);
+                        (256, 256, -1, -1)
                     }
                 }
                 gtk::Orientation::Vertical => (48, 48, -1, -1),
@@ -310,6 +311,8 @@ impl Default for WaveformView {
     }
 }
 
+const ANIMATION_USECS: f64 = 250_000.0;
+
 impl WaveformView {
     pub fn new() -> Self {
         Self::default()
@@ -380,26 +383,29 @@ impl WaveformView {
 
             if self.settings().is_gtk_enable_animations() {
                 self.imp().factor.set(Some(0.0));
-                self.imp().last_frame_time.set(None);
+                self.imp().first_frame_time.set(None);
 
                 self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
                     let frame_time = clock.frame_time();
-                    if let Some(last_frame_time) = this.imp().last_frame_time.get() {
-                        if frame_time < last_frame_time {
+                    if let Some(first_frame_time) = this.imp().first_frame_time.get() {
+                        if frame_time < first_frame_time {
                             warn!("Frame clock going backwards");
                             return glib::Continue(true);
                         }
 
-                        let delta = ease_out_cubic((frame_time - last_frame_time) as f64 / 250_000.0);
-                        this.imp().factor.replace(Some(delta));
-                        this.queue_draw();
-                        if delta >= 1.0 {
+                        let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
+                        let delta = ease_out_cubic(progress);
+                        if delta > 1.0 {
                             debug!("Animation complete");
+                            this.imp().factor.replace(None);
                             this.imp().tick_id.replace(None);
                             return glib::Continue(false);
+                        } else {
+                            this.imp().factor.replace(Some(delta));
+                            this.queue_draw();
                         }
                     } else {
-                        this.imp().last_frame_time.replace(Some(frame_time));
+                        this.imp().first_frame_time.replace(Some(frame_time));
                     }
 
                     glib::Continue(true)

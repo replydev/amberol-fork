@@ -45,7 +45,7 @@ mod imp {
         fn startup(&self, application: &Self::Type) {
             self.parent_startup(application);
 
-            gtk::Window::set_default_icon_name(&APPLICATION_ID);
+            gtk::Window::set_default_icon_name(APPLICATION_ID);
         }
 
         fn activate(&self, application: &Self::Type) {

@@ -23,6 +23,7 @@
               <property name="icon-name">media-skip-backward-symbolic</property>
               <property name="action-name">win.previous</property>
               <property name="valign">center</property>
+              <property name="tooltip-text" translatable="yes">Play the previous song</property>
               <style>
                 <class name="circular"/>
               </style>
@@ -36,6 +37,7 @@
               <property name="icon-name">media-playback-start-symbolic</property>
               <property name="action-name">win.play</property>
               <property name="valign">center</property>
+              <property name="tooltip-text" translatable="yes">Toggle play</property>
               <style>
                 <class name="circular"/>
                 <class name="large"/>
@@ -50,6 +52,7 @@
               <property name="icon-name">media-skip-forward-symbolic</property>
               <property name="action-name">win.next</property>
               <property name="valign">center</property>
+              <property name="tooltip-text" translatable="yes">Play the next song</property>
               <style>
                 <class name="circular"/>
               </style>
@@ -109,11 +112,12 @@
                   <property name="icon-name">media-playlist-consecutive-symbolic</property>
                   <property name="action-name">queue.repeat-mode</property>
                   <property name="valign">center</property>
+                  <property name="tooltip-text" translatable="yes">Enable repeat</property>
                   <style>
                     <class name="circular"/>
                   </style>
                   <accessibility>
-                    <property name="label" translatable="yes">Repeat</property>
+                    <property name="label" translatable="yes">Repeat mode</property>
                   </accessibility>
                 </object>
               </child>

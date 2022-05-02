@@ -74,14 +74,15 @@ impl WaveformGenerator {
     }
 
     pub fn generate_peaks(&self) -> bool {
-        if let Some(ref pipeline) = *self.imp().pipeline.borrow() {
+        if let Some(pipeline) = self.imp().pipeline.take() {
             // Stop any running pipeline, and ensure that we have nothing to
             // report
             self.imp().peaks.replace(None);
             pipeline.send_event(gst::event::Eos::new());
-            pipeline
-                .set_state(gst::State::Null)
-                .expect("Stopping existing pipeline");
+            match pipeline.set_state(gst::State::Null) {
+                Ok(_) => {}
+                Err(err) => warn!("Unable to set existing pipeline to Null state: {}", err),
+            }
         }
 
         // Reset the peaks vector

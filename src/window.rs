@@ -58,6 +58,7 @@ mod imp {
         pub provider: gtk::CssProvider,
         pub receiver: RefCell<Option<Receiver<WindowAction>>>,
         pub waveform: WaveformGenerator,
+        pub settings: gio::Settings,
 
         pub playlist_shuffled: Cell<bool>,
         pub playlist_visible: Cell<bool>,
@@ -129,6 +130,7 @@ mod imp {
                 player: AudioPlayer::new(sender),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
+                settings: utils::settings_manager(),
                 receiver,
             }
         }
@@ -668,6 +670,18 @@ impl Window {
                 }
             }));
 
+        self.imp().settings.connect_changed(
+            Some("enable-recoloring"),
+            clone!(@strong self as this => move |settings, _| {
+                debug!("GSettings:enable-recoloring: {}", settings.boolean("enable-recoloring"));
+                let state = this.imp().player.state();
+                if let Some(current) = state.current_song() {
+                    this.update_style(&current);
+                }
+            }),
+        );
+        let _dummy = self.imp().settings.boolean("enable-recoloring");
+
         self.connect_close_request(move |window| {
             debug!("Saving window state");
             let width = window.default_size().0;
@@ -856,6 +870,12 @@ impl Window {
     fn update_style(&self, song: &Song) {
         let imp = self.imp();
 
+        if !imp.settings.boolean("enable-recoloring") {
+            imp.provider.load_from_data(&[]);
+            self.remove_css_class("main-window");
+            return;
+        }
+
         if let Some(bg_colors) = song.cover_palette() {
             // The color chosen depends on the linear gradient we use in the
             // style, so remember to change this when changing the main-window
@@ -880,6 +900,7 @@ impl Window {
                 self.add_css_class("main-window");
             }
         } else {
+            imp.provider.load_from_data(&[]);
             self.remove_css_class("main-window");
         }
     }

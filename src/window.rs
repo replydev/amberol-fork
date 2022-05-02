@@ -748,11 +748,9 @@ impl Window {
                 let queue = win.imp().player.queue();
                 if win.playlist_selection() {
                     queue.select_song_at(pos);
-                } else {
-                    if queue.current_song_index() != Some(pos) {
-                        win.imp().player.skip_to(pos);
-                        win.imp().player.play();
-                    }
+                } else if queue.current_song_index() != Some(pos) {
+                    win.imp().player.skip_to(pos);
+                    win.imp().player.play();
                 }
             }));
     }
@@ -885,19 +883,19 @@ impl Window {
         let queue = self.imp().player.queue();
         let n_selected = queue.n_selected_songs();
 
-        let selected_str;
-        if n_selected == 0 {
-            selected_str = i18n("No song selected");
+        let selected_str = if n_selected == 0 {
+            i18n("No song selected")
         } else {
-            selected_str = ni18n_f(
+            ni18n_f(
                 // Translators: The '{}' must be left unmodified, and
                 // it is expanded to the number of songs selected
                 "{} song selected",
                 "{} songs selected",
                 n_selected,
                 &[&n_selected.to_string()],
-            );
-        }
+            )
+        };
+
         self.imp().queue_selected_label.set_label(&selected_str);
     }
 

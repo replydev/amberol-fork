@@ -936,6 +936,8 @@ impl Window {
         }
         let queue = imp.player.queue();
         queue.remove_song(song);
+
+        self.update_selected_count();
     }
 
     pub fn add_toast(&self, msg: String) {

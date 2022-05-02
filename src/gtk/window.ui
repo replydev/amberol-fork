@@ -11,6 +11,10 @@
           <object class="DragOverlay" id="drag_overlay">
             <property name="title" translatable="yes">Drop a song to add it to the queue</property>
             <property name="child">
+
+              <object class="AdwToastOverlay" id="toast_overlay">
+                <property name="child">
+
               <object class="GtkStack" id="main_stack">
                 <child>
                   <object class="GtkStackPage">
@@ -121,6 +125,9 @@
                     </property>
                   </object>
                 </child>
+              </object>
+
+                </property>
               </object>
             </property>
           </object>

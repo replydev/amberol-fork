@@ -14,7 +14,7 @@ use crate::{
     audio::{AudioPlayer, RepeatMode, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
-    i18n::{i18n, ni18n_f},
+    i18n::{i18n, i18n_f, ni18n_f},
     playback_control::PlaybackControl,
     playlist_view::PlaylistView,
     queue_row::QueueRow,
@@ -39,6 +39,8 @@ mod imp {
         // Template widgets
         #[template_child]
         pub drag_overlay: TemplateChild<DragOverlay>,
+        #[template_child]
+        pub toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
         pub main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -115,6 +117,7 @@ mod imp {
             Self {
                 song_details: TemplateChild::default(),
                 queue_revealer: TemplateChild::default(),
+                toast_overlay: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
                 playback_control: TemplateChild::default(),
                 main_stack: TemplateChild::default(),
@@ -397,6 +400,28 @@ impl Window {
     }
 
     pub fn add_file_to_queue(&self, file: &gio::File) {
+        if let Ok(info) = file.query_info(
+            "standard::*",
+            gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
+            gio::Cancellable::NONE,
+        ) {
+            if info.file_type() != gio::FileType::Regular {
+                let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
+                self.add_toast(msg);
+                return;
+            }
+            if let Some(content_type) = info.content_type() {
+                if !gio::content_type_is_a(&content_type, "audio/*") {
+                    let msg = i18n_f(
+                        "“{}” is not a supported audio file",
+                        &[&info.display_name()],
+                    );
+                    self.add_toast(msg);
+                    return;
+                }
+            }
+        }
+
         let queue = self.imp().player.queue();
         let was_empty = queue.is_empty();
 
@@ -762,7 +787,8 @@ impl Window {
                             } else if info.file_type() == gio::FileType::Directory {
                                 win.add_folder_to_queue(&f);
                             } else {
-                                warn!("Unsupported file type {:?} for file '{}'", info.file_type(), f.uri());
+                                let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
+                                win.add_toast(msg);
                             }
                         }
                     }
@@ -910,5 +936,10 @@ impl Window {
         }
         let queue = imp.player.queue();
         queue.remove_song(song);
+    }
+
+    pub fn add_toast(&self, msg: String) {
+        let toast = adw::Toast::new(&msg);
+        self.imp().toast_overlay.add_toast(&toast);
     }
 }

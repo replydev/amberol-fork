@@ -112,12 +112,12 @@
                   <property name="icon-name">media-playlist-consecutive-symbolic</property>
                   <property name="action-name">queue.repeat-mode</property>
                   <property name="valign">center</property>
-                  <property name="tooltip-text" translatable="yes">Repeat Mode</property>
+                  <property name="tooltip-text" translatable="yes">Enable repeat</property>
                   <style>
                     <class name="circular"/>
                   </style>
                   <accessibility>
-                    <property name="label" translatable="yes">Repeat</property>
+                    <property name="label" translatable="yes">Repeat mode</property>
                   </accessibility>
                 </object>
               </child>

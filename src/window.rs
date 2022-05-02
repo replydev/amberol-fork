@@ -16,6 +16,7 @@ use crate::{
     drag_overlay::DragOverlay,
     i18n::{i18n, ni18n_f},
     playback_control::PlaybackControl,
+    playlist_view::PlaylistView,
     queue_row::QueueRow,
     song_details::SongDetails,
     utils,
@@ -39,8 +40,6 @@ mod imp {
         #[template_child]
         pub drag_overlay: TemplateChild<DragOverlay>,
         #[template_child]
-        pub back_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub status_page: TemplateChild<adw::StatusPage>,
@@ -51,17 +50,7 @@ mod imp {
         #[template_child]
         pub queue_revealer: TemplateChild<adw::Flap>,
         #[template_child]
-        pub queue_view: TemplateChild<gtk::ListView>,
-        #[template_child]
-        pub queue_length_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub playlist_box: TemplateChild<gtk::Box>,
-        #[template_child]
-        pub queue_actionbar: TemplateChild<gtk::ActionBar>,
-        #[template_child]
-        pub queue_remove_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub queue_selected_label: TemplateChild<gtk::Label>,
+        pub playlist_view: TemplateChild<PlaylistView>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -126,17 +115,11 @@ mod imp {
             Self {
                 song_details: TemplateChild::default(),
                 queue_revealer: TemplateChild::default(),
-                queue_view: TemplateChild::default(),
-                queue_length_label: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
                 playback_control: TemplateChild::default(),
                 main_stack: TemplateChild::default(),
                 status_page: TemplateChild::default(),
-                back_button: TemplateChild::default(),
-                playlist_box: TemplateChild::default(),
-                queue_actionbar: TemplateChild::default(),
-                queue_remove_button: TemplateChild::default(),
-                queue_selected_label: TemplateChild::default(),
+                playlist_view: TemplateChild::default(),
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(true),
                 playlist_selection: Cell::new(false),
@@ -326,7 +309,10 @@ impl Window {
                 queue.unselect_all_songs();
             }
 
-            self.imp().queue_actionbar.set_revealed(selection);
+            self.imp()
+                .playlist_view
+                .queue_actionbar()
+                .set_revealed(selection);
 
             self.notify("playlist-selection");
         }
@@ -599,9 +585,9 @@ impl Window {
             clone!(@weak self as win => move |flap, _| {
                 win.set_playlist_visible(flap.reveals_flap());
                 if flap.is_folded() {
-                    win.imp().back_button.set_visible(win.playlist_visible());
+                    win.imp().playlist_view.back_button().set_visible(win.playlist_visible());
                 } else {
-                    win.imp().back_button.set_visible(false);
+                    win.imp().playlist_view.back_button().set_visible(false);
                 }
             }),
         );
@@ -611,9 +597,9 @@ impl Window {
             clone!(@weak self as win => move |flap, _| {
                 win.set_playlist_visible(flap.reveals_flap());
                 if flap.is_folded() {
-                    win.imp().back_button.set_visible(win.playlist_visible());
+                    win.imp().playlist_view.back_button().set_visible(win.playlist_visible());
                 } else {
-                    win.imp().back_button.set_visible(false);
+                    win.imp().playlist_view.back_button().set_visible(false);
                 }
             }),
         );
@@ -638,7 +624,8 @@ impl Window {
         );
 
         self.imp()
-            .queue_remove_button
+            .playlist_view
+            .queue_remove_button()
             .connect_clicked(clone!(@weak self as win => move |_| {
                 let queue = win.imp().player.queue();
                 let mut remove_songs: Vec<Song> = Vec::new();
@@ -734,17 +721,19 @@ impl Window {
                 .chain_property::<Song>("selected")
                 .bind(&row, "selected", gtk::Widget::NONE);
         }));
-        imp.queue_view
+        imp.playlist_view
+            .queue_view()
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));
 
         let queue = imp.player.queue();
         let selection = gtk::SingleSelection::new(Some(queue.model()));
         selection.set_can_unselect(false);
         selection.set_selected(gtk::INVALID_LIST_POSITION);
-        imp.queue_view
+        imp.playlist_view
+            .queue_view()
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
-        imp.queue_view
-            .connect_activate(clone!(@weak self as win => move |_, pos| {
+        imp.playlist_view.queue_view().connect_activate(
+            clone!(@weak self as win => move |_, pos| {
                 let queue = win.imp().player.queue();
                 if win.playlist_selection() {
                     queue.select_song_at(pos);
@@ -752,7 +741,8 @@ impl Window {
                     win.imp().player.skip_to(pos);
                     win.imp().player.play();
                 }
-            }));
+            }),
+        );
     }
 
     fn setup_drop_target(&self) {
@@ -809,15 +799,18 @@ impl Window {
                 remaining_min,
                 &[&remaining_min.to_string()],
             );
-            self.imp().queue_length_label.set_label(remaining_str);
-            self.imp().queue_length_label.show();
+            self.imp()
+                .playlist_view
+                .queue_length_label()
+                .set_label(remaining_str);
+            self.imp().playlist_view.queue_length_label().show();
         } else {
-            self.imp().queue_length_label.hide();
+            self.imp().playlist_view.queue_length_label().hide();
         }
     }
 
     fn scroll_playlist_to_song(&self) {
-        let queue_view = self.imp().queue_view.get();
+        let queue_view = self.imp().playlist_view.queue_view();
         if let Some(current_idx) = self.imp().player.queue().current_song_index() {
             debug!("Scrolling playlist to {}", current_idx);
             queue_view
@@ -896,7 +889,10 @@ impl Window {
             )
         };
 
-        self.imp().queue_selected_label.set_label(&selected_str);
+        self.imp()
+            .playlist_view
+            .queue_selected_label()
+            .set_label(&selected_str);
     }
 
     pub fn open_file(&self, file: &gio::File) {

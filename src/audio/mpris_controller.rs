@@ -96,6 +96,12 @@ impl MprisController {
                 };
                 send!(sender, PlaybackAction::Repeat(mode));
             }));
+
+        self.mpris
+            .connect_seek(clone!(@strong self.sender as sender => move |position| {
+                let pos = Duration::from_micros(position as u64).as_secs();
+                send!(sender, PlaybackAction::Seek(pos));
+            }));
     }
 
     fn update_metadata(&self) {

@@ -499,9 +499,9 @@ impl Window {
                 win.scroll_playlist_to_song();
                 win.update_playlist_time();
                 if let Some(current) = state.current_song() {
-                    debug!("Updating waveform for {:?}", &current);
+                    debug!("Updating waveform for {}", &current);
                     win.update_waveform(Some(&current));
-                    debug!("Updating style for {:?}", &current);
+                    debug!("Updating style for {}", &current);
                     win.update_style(&current);
                 } else {
                     win.update_waveform(None);
@@ -643,7 +643,7 @@ impl Window {
             false,
             closure_local!(@strong self as this => move |_view: WaveformView, position: f64| {
                 debug!("New position: {}", position);
-                this.imp().player.seek_position(position);
+                this.imp().player.seek_position_rel(position);
                 this.imp().player.play();
             }),
         );

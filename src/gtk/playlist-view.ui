@@ -75,6 +75,7 @@
             <property name="vscrollbar-policy">automatic</property>
             <property name="propagate-natural-height">true</property>
             <property name="propagate-natural-width">true</property>
+            <property name="max-content-width">400</property>
             <property name="vexpand">true</property>
             <property name="child">
               <object class="GtkListView" id="queue_view">

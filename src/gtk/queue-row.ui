@@ -34,6 +34,9 @@
                             <property name="cover-size">1</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
+                            <style>
+                              <class name="card"/>
+                            </style>
                           </object>
                         </property>
                       </object>

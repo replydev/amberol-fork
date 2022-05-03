@@ -283,11 +283,11 @@ run_typos() {
 #   - Files are sorted alphabetically
 #
 # This assumes the following:
-#   - POTFILES is located at 'po/POTFILES'
+#   - POTFILES.in is located at 'po/POTFILES.in'
 #   - UI (Glade) files are located in 'src/gtk/' and use 'translatable="yes"'
 #   - Rust files are located in 'src' and use 'i18n' methods or macros
 check_potfiles() {
-    echo -e "$Checking po/POTFILES…"
+    echo -e "$Checking po/POTFILES.in…"
 
     local ret=0
 
@@ -304,10 +304,10 @@ check_potfiles() {
                 rs_potfiles+=($line)
             fi
         fi
-    done < po/POTFILES
+    done < po/POTFILES.in
 
     if [[ ret -eq 1 ]]; then
-        echo -e "  Checking po/POTFILES result: $fail"
+        echo -e "  Checking po/POTFILES.in result: $fail"
         echo "Please fix the above issues"
         exit 1
     fi
@@ -367,7 +367,7 @@ check_potfiles() {
 
     if [[ ret -eq 1 ]]; then
         echo ""
-        echo -e "  Checking po/POTFILES result: $fail"
+        echo -e "  Checking po/POTFILES.in result: $fail"
         echo "Please fix the above issues"
         exit 1
     fi
@@ -385,11 +385,11 @@ check_potfiles() {
 
     if [[ ret -eq 1 ]]; then
         echo ""
-        echo -e "  Checking po/POTFILES result: $fail"
+        echo -e "  Checking po/POTFILES.in result: $fail"
         echo "Please fix the above issues"
         exit 1
     else
-        echo -e "  Checking po/POTFILES result: $ok"
+        echo -e "  Checking po/POTFILES.in result: $ok"
     fi
 }
 

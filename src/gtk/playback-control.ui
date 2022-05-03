@@ -80,7 +80,7 @@
                   <property name="icon-name">view-list-bullet-symbolic</property>
                   <property name="action-name">queue.toggle</property>
                   <property name="valign">center</property>
-                  <property name="tooltip-text" translatable="yes">Show the playlist</property>
+                  <property name="tooltip-text" translatable="yes">Toggle playlist</property>
                   <style>
                     <class name="circular"/>
                   </style>

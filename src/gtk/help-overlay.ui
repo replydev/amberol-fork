@@ -50,18 +50,6 @@
                 <property name="action-name">win.next</property>
               </object>
             </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Seek Backwards</property>
-                <property name="action-name">win.seek-backwards</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Seek Forward</property>
-                <property name="action-name">win.seek-forward</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>

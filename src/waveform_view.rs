@@ -169,6 +169,11 @@ mod imp {
                     style_context.color()
                 };
 
+            let is_rtl = match widget.direction() {
+                gtk::TextDirection::Rtl => true,
+                _ => false,
+            };
+
             let bar_size = 2;
             let space_size = 2;
             let block_size = bar_size + space_size;
@@ -177,7 +182,6 @@ mod imp {
             if let Some(ref peaks) = *self.peaks.borrow() {
                 let n_peaks = peaks.len() as i32;
                 let waveform_width = w as f64;
-                let offset = 0.0;
 
                 // We have two cursors:
                 //
@@ -194,16 +198,28 @@ mod imp {
                 // shown as a full cursor color; and the area between the hover
                 // position and the end of the waveform is meant to be shown as a
                 // current foreground color.
-                let position = self.position.get();
+                let position = if is_rtl {
+                    1.0 - self.position.get()
+                } else {
+                    self.position.get()
+                };
                 let mut cursor_pos: [f64; 2] = [
-                    position * waveform_width as f64 + offset,
-                    position * waveform_width as f64 + offset,
+                    position * waveform_width as f64,
+                    position * waveform_width as f64,
                 ];
                 if let Some(hover) = self.hover_position.get() {
-                    if hover >= position {
-                        cursor_pos[1] = hover * waveform_width as f64 + offset;
+                    if is_rtl {
+                        if hover <= position {
+                            cursor_pos[1] = hover * waveform_width as f64;
+                        } else {
+                            cursor_pos[0] = hover * waveform_width as f64;
+                        }
                     } else {
-                        cursor_pos[0] = hover * waveform_width as f64 + offset;
+                        if hover <= position {
+                            cursor_pos[0] = hover * waveform_width as f64;
+                        } else {
+                            cursor_pos[1] = hover * waveform_width as f64;
+                        }
                     }
                 }
 
@@ -218,7 +234,7 @@ mod imp {
                 let mut current_pixel = 0.0;
                 let mut samples_in_accum = 0;
                 let mut accum = PeakPair::new(0.0, 0.0);
-                let mut offset = 0.0;
+                let mut offset = if is_rtl { waveform_width } else { 0.0 };
 
                 for sample in peaks {
                     current_pixel += pixels_per_sample;
@@ -254,32 +270,64 @@ mod imp {
                             h as f32,
                         );
 
-                        if offset < cursor_pos[0] {
-                            snapshot.append_color(
-                                &cursor_color,
-                                &graphene::Rect::new(x, y, width, height),
-                            );
-                        } else if offset < cursor_pos[1] {
-                            let hover_color = gdk::RGBA::new(
-                                cursor_color.red(),
-                                cursor_color.green(),
-                                cursor_color.blue(),
-                                dimmed_color.alpha(),
-                            );
-                            snapshot.append_color(
-                                &hover_color,
-                                &graphene::Rect::new(x, y, width, height),
-                            );
+                        if is_rtl {
+                            if offset > cursor_pos[0] {
+                                snapshot.append_color(
+                                    &cursor_color,
+                                    &graphene::Rect::new(x, y, width, height),
+                                );
+                            } else if offset > cursor_pos[1] {
+                                let hover_color = gdk::RGBA::new(
+                                    cursor_color.red(),
+                                    cursor_color.green(),
+                                    cursor_color.blue(),
+                                    dimmed_color.alpha(),
+                                );
+                                snapshot.append_color(
+                                    &hover_color,
+                                    &graphene::Rect::new(x, y, width, height),
+                                );
+                            } else {
+                                snapshot.append_color(
+                                    &color,
+                                    &graphene::Rect::new(x, y, width, height),
+                                );
+                            }
                         } else {
-                            snapshot
-                                .append_color(&color, &graphene::Rect::new(x, y, width, height));
+                            if offset < cursor_pos[0] {
+                                snapshot.append_color(
+                                    &cursor_color,
+                                    &graphene::Rect::new(x, y, width, height),
+                                );
+                            } else if offset < cursor_pos[1] {
+                                let hover_color = gdk::RGBA::new(
+                                    cursor_color.red(),
+                                    cursor_color.green(),
+                                    cursor_color.blue(),
+                                    dimmed_color.alpha(),
+                                );
+                                snapshot.append_color(
+                                    &hover_color,
+                                    &graphene::Rect::new(x, y, width, height),
+                                );
+                            } else {
+                                snapshot.append_color(
+                                    &color,
+                                    &graphene::Rect::new(x, y, width, height),
+                                );
+                            }
                         }
 
                         accum.left = 0.0;
                         accum.right = 0.0;
                         samples_in_accum = 0;
                         current_pixel -= bar_size as f64;
-                        offset += block_size as f64;
+
+                        if is_rtl {
+                            offset -= block_size as f64;
+                        } else {
+                            offset += block_size as f64;
+                        }
                     }
                 }
             } else {
@@ -330,7 +378,10 @@ impl WaveformView {
                 if n_press == 1 {
                     gesture.set_state(gtk::EventSequenceState::Claimed);
                     let width = this.width();
-                    let position = x as f64 / width as f64;
+                    let position = match this.direction() {
+                        gtk::TextDirection::Rtl => 1.0 - (x as f64 / width as f64),
+                        _ => x as f64 / width as f64,
+                    };
                     debug!("Button press at {} (width: {}, position: {})", x, width, position);
                     this.emit_by_name::<()>("position-changed", &[&position]);
                 }

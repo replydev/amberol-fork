@@ -4,7 +4,7 @@
 use adw::subclass::prelude::*;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
-use crate::{volume_control::VolumeControl, waveform_view::WaveformView};
+use crate::{utils, volume_control::VolumeControl, waveform_view::WaveformView};
 
 mod imp {
     use super::*;
@@ -22,6 +22,11 @@ mod imp {
 
         #[template_child]
         pub waveform_view: TemplateChild<WaveformView>,
+
+        #[template_child]
+        pub position_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub total_label: TemplateChild<gtk::Label>,
 
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -104,5 +109,25 @@ impl PlaybackControl {
 
     pub fn waveform_view(&self) -> WaveformView {
         self.imp().waveform_view.get()
+    }
+
+    pub fn set_duration(&self, duration: Option<u64>) {
+        if let Some(duration) = duration {
+            self.imp()
+                .total_label
+                .set_text(&utils::format_time(duration));
+        } else {
+            self.imp().total_label.set_text("");
+        }
+    }
+
+    pub fn set_position(&self, position: Option<u64>) {
+        if let Some(position) = position {
+            self.imp()
+                .position_label
+                .set_text(&utils::format_time(position));
+        } else {
+            self.imp().position_label.set_text("");
+        }
     }
 }

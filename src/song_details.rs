@@ -20,8 +20,6 @@ mod imp {
         #[template_child]
         pub song_album_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub song_time_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub cover_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub album_image: TemplateChild<CoverPicture>,
@@ -83,10 +81,6 @@ impl SongDetails {
 
     pub fn album_label(&self) -> gtk::Label {
         self.imp().song_album_label.get()
-    }
-
-    pub fn time_label(&self) -> gtk::Label {
-        self.imp().song_time_label.get()
     }
 
     pub fn album_image(&self) -> CoverPicture {

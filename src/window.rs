@@ -484,14 +484,13 @@ impl Window {
             Some("position"),
             clone!(@weak self as win => move |state, _| {
                 if state.current_song().is_some() {
-                    let position = state.position();
-                    let duration = state.duration();
-                    let time = utils::format_total_time(position, duration);
-                    win.imp().song_details.time_label().set_label(&time);
-                    let pos = position as f64 / duration as f64;
+                    win.imp().playback_control.set_position(Some(state.position()));
+                    win.imp().playback_control.set_duration(Some(state.duration()));
+                    let pos = state.position() as f64 / state.duration() as f64;
                     win.imp().playback_control.waveform_view().set_position(pos);
                 } else {
-                    win.imp().song_details.time_label().set_label("");
+                    win.imp().playback_control.set_position(None);
+                    win.imp().playback_control.set_duration(None);
                 }
             }),
         );

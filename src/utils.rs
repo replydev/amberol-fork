@@ -12,14 +12,8 @@ pub fn settings_manager() -> gio::Settings {
     gio::Settings::new(app_id)
 }
 
-pub fn format_total_time(seconds: u64, total: u64) -> String {
-    format!(
-        "{}:{:02} / {}:{:02}",
-        (seconds - (seconds % 60)) / 60,
-        seconds % 60,
-        (total - (total % 60)) / 60,
-        total % 60
-    )
+pub fn format_time(t: u64) -> String {
+    format!("{}:{:02}", (t - (t % 60)) / 60, t % 60)
 }
 
 pub fn is_color_dark(color: &gdk::RGBA) -> bool {

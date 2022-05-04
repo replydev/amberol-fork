@@ -256,6 +256,7 @@ impl Window {
         self.set_playlist_shuffled(false);
         self.set_playlist_selection(false);
         self.update_waveform(None);
+        self.update_style(None);
 
         let player = &self.imp().player;
         let queue = player.queue();
@@ -504,7 +505,7 @@ impl Window {
                     debug!("Updating waveform for {}", &current);
                     win.update_waveform(Some(&current));
                     debug!("Updating style for {}", &current);
-                    win.update_style(&current);
+                    win.update_style(Some(&current));
                 } else {
                     win.update_waveform(None);
                     debug!("Reset album art");
@@ -678,9 +679,7 @@ impl Window {
             clone!(@strong self as this => move |settings, _| {
                 debug!("GSettings:enable-recoloring: {}", settings.boolean("enable-recoloring"));
                 let state = this.imp().player.state();
-                if let Some(current) = state.current_song() {
-                    this.update_style(&current);
-                }
+                this.update_style(state.current_song().as_ref());
             }),
         );
         let _dummy = self.imp().settings.boolean("enable-recoloring");
@@ -870,42 +869,80 @@ impl Window {
         }
     }
 
-    fn update_style(&self, song: &Song) {
+    fn update_style(&self, song: Option<&Song>) {
         let imp = self.imp();
 
         if !imp.settings.boolean("enable-recoloring") {
             imp.provider.load_from_data(&[]);
-            self.remove_css_class("main-window");
+            imp.main_stack.remove_css_class("main-window");
             return;
         }
 
-        if let Some(bg_colors) = song.cover_palette() {
-            // The color chosen depends on the linear gradient we use in the
-            // style, so remember to change this when changing the main-window
-            // CSS class
-            let fg_color = if utils::is_color_dark(&bg_colors[1]) {
-                gdk::RGBA::parse("#ffffff").unwrap()
-            } else {
-                gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap()
-            };
+        if let Some(song) = song {
+            if let Some(bg_colors) = song.cover_palette() {
+                // The color chosen depends on the linear gradient we use in the
+                // style, so remember to change this when changing the main-window
+                // CSS class
+                let fg_color =
+                    if utils::is_color_dark(&bg_colors[0]) || utils::is_color_dark(&bg_colors[1]) {
+                        gdk::RGBA::parse("#ffffff").unwrap()
+                    } else {
+                        gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap()
+                    };
 
-            let mut css = String::new();
+                let mut css = String::new();
 
-            let n_colors = bg_colors.len();
-            for (i, color) in bg_colors.iter().enumerate().take(n_colors) {
-                css.push_str(&format!("@define-color background_color_{} {};", i, color));
+                let n_colors = bg_colors.len();
+                for (i, color) in bg_colors.iter().enumerate().take(n_colors) {
+                    let s = format!("@define-color background_color_{} {};", i, color);
+                    css.push_str(&s);
+                }
+
+                for i in n_colors - 1..5 {
+                    css.push_str(&format!(
+                        "@define-color background_color_{} @window_bg_color;",
+                        i
+                    ));
+                }
+
+                // We compute the complementary of the dominant color in the palette; then we
+                // try to find the closest color in the palette that we can use
+                let complementary = utils::complementary_color(&bg_colors[0]);
+                let mut near_color: Option<gdk::RGBA> = None;
+                let mut min_near: f32 = f32::MAX;
+                for color in bg_colors {
+                    let delta_e = utils::color_distance(&color, &complementary);
+                    if delta_e < min_near {
+                        min_near = delta_e;
+                        near_color = Some(color);
+                    }
+                }
+
+                if let Some(near_color) = near_color {
+                    css.push_str(&format!(
+                        "@define-color complementary_color {};",
+                        near_color
+                    ));
+                } else {
+                    css.push_str(&format!(
+                        "@define-color complementary_color {};",
+                        complementary
+                    ));
+                }
+
+                css.push_str(&format!("@define-color foreground_color {};", fg_color));
+
+                imp.provider.load_from_data(css.as_bytes());
+                if !imp.main_stack.has_css_class("main-window") {
+                    imp.main_stack.add_css_class("main-window");
+                }
+
+                return;
             }
-
-            css.push_str(&format!("@define-color foreground_color {};", fg_color));
-
-            imp.provider.load_from_data(css.as_bytes());
-            if !self.has_css_class("main-window") {
-                self.add_css_class("main-window");
-            }
-        } else {
-            imp.provider.load_from_data(&[]);
-            self.remove_css_class("main-window");
         }
+
+        imp.provider.load_from_data(&[]);
+        imp.main_stack.remove_css_class("main-window");
     }
 
     fn update_waveform(&self, song: Option<&Song>) {

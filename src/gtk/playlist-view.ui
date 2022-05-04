@@ -5,7 +5,6 @@
     <child>
       <object class="GtkBox" id="playlist_box">
         <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
         <child>
           <object class="GtkBox">
             <child>

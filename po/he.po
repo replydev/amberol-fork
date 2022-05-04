@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-04 01:23+0000\n"
-"PO-Revision-Date: 2022-05-04 14:07+0300\n"
+"POT-Creation-Date: 2022-05-04 11:09+0000\n"
+"PO-Revision-Date: 2022-05-04 14:26+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -214,7 +214,7 @@ msgstr "ניקוי"
 
 #: src/gtk/playback-control.ui:165
 msgid "_Match Cover Art"
-msgstr "ה_תאמת כיסוי אלבום"
+msgstr "ה_תאמת כיסוי אלבוםד"
 
 #: src/gtk/playback-control.ui:171
 msgid "_Keyboard Shortcuts"
@@ -257,7 +257,7 @@ msgid ""
 "Select a folder or drag files from your file manager to the application "
 "window to add songs to the playlist"
 msgstr ""
-"בחירת תיקייה או גרירת קבצים ממנהל הקבצים שלך לחלון היישום להוספת שירים "
+"יש לבחור תיקייה או לגרור קבצים ממנהל הקבצים שלך לחלון היישום להוספת שירים "
 "לרשימת ההשמעה"
 
 #: src/gtk/window.ui:48
@@ -298,7 +298,7 @@ msgstr "סוג קובץ לא מזוהה עבור „{}”"
 
 #: src/window.rs:418
 msgid "“{}” is not a supported audio file"
-msgstr "‏„{}” הנו קובץ שמע שאינו נתמך"
+msgstr "‏„{}” אינו קובץ שמע נתמך"
 
 #: src/window.rs:591
 msgid "Repeat all tracks"

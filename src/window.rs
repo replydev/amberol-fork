@@ -486,7 +486,7 @@ impl Window {
                 if state.current_song().is_some() {
                     let position = state.position();
                     let duration = state.duration();
-                    let time = utils::format_time(position, duration);
+                    let time = utils::format_total_time(position, duration);
                     win.imp().song_details.time_label().set_label(&time);
                     let pos = position as f64 / duration as f64;
                     win.imp().playback_control.waveform_view().set_position(pos);

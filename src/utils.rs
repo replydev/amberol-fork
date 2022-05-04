@@ -12,7 +12,7 @@ pub fn settings_manager() -> gio::Settings {
     gio::Settings::new(app_id)
 }
 
-pub fn format_time(seconds: u64, total: u64) -> String {
+pub fn format_total_time(seconds: u64, total: u64) -> String {
     format!(
         "{}:{:02} / {}:{:02}",
         (seconds - (seconds % 60)) / 60,

@@ -484,13 +484,15 @@ impl Window {
             Some("position"),
             clone!(@weak self as win => move |state, _| {
                 if state.current_song().is_some() {
-                    win.imp().playback_control.set_position(Some(state.position()));
-                    win.imp().playback_control.set_duration(Some(state.duration()));
+                    let elapsed = state.position();
+                    let remaining = state.duration().checked_sub(state.position()).unwrap_or_default();
+                    win.imp().playback_control.set_elapsed(Some(elapsed));
+                    win.imp().playback_control.set_remaining(Some(remaining));
                     let pos = state.position() as f64 / state.duration() as f64;
                     win.imp().playback_control.waveform_view().set_position(pos);
                 } else {
-                    win.imp().playback_control.set_position(None);
-                    win.imp().playback_control.set_duration(None);
+                    win.imp().playback_control.set_elapsed(None);
+                    win.imp().playback_control.set_remaining(None);
                 }
             }),
         );

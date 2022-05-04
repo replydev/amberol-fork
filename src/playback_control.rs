@@ -24,9 +24,9 @@ mod imp {
         pub waveform_view: TemplateChild<WaveformView>,
 
         #[template_child]
-        pub position_label: TemplateChild<gtk::Label>,
+        pub elapsed_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub total_label: TemplateChild<gtk::Label>,
+        pub remaining_label: TemplateChild<gtk::Label>,
 
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -111,23 +111,23 @@ impl PlaybackControl {
         self.imp().waveform_view.get()
     }
 
-    pub fn set_duration(&self, duration: Option<u64>) {
-        if let Some(duration) = duration {
+    pub fn set_remaining(&self, remaining: Option<u64>) {
+        if let Some(remaining) = remaining {
             self.imp()
-                .total_label
-                .set_text(&utils::format_time(duration));
+                .remaining_label
+                .set_text(&format!("-{}", utils::format_time(remaining)));
         } else {
-            self.imp().total_label.set_text("");
+            self.imp().remaining_label.set_text("0:00");
         }
     }
 
-    pub fn set_position(&self, position: Option<u64>) {
-        if let Some(position) = position {
+    pub fn set_elapsed(&self, elapsed: Option<u64>) {
+        if let Some(elapsed) = elapsed {
             self.imp()
-                .position_label
-                .set_text(&utils::format_time(position));
+                .elapsed_label
+                .set_text(&utils::format_time(elapsed));
         } else {
-            self.imp().position_label.set_text("");
+            self.imp().elapsed_label.set_text("0:00");
         }
     }
 }

@@ -23,7 +23,7 @@
               <property name="orientation">horizontal</property>
               <property name="hexpand">true</property>
               <child type="start">
-                <object class="GtkLabel" id="position_label">
+                <object class="GtkLabel" id="elapsed_label">
                   <property name="label">0:00</property>
                   <style>
                     <class name="caption"/>
@@ -32,7 +32,7 @@
                 </object>
               </child>
               <child type="end">
-                <object class="GtkLabel" id="total_label">
+                <object class="GtkLabel" id="remaining_label">
                   <property name="label">0:00</property>
                   <style>
                     <class name="caption"/>

@@ -59,9 +59,13 @@ Files: *.svg
 Copyright: 2022  Emmanuele Bassi
 License: CC-BY-SA-3.0
 
-Files: po/POTFILES po/LINGUAS
+Files: po/POTFILES.in po/LINGUAS
 Copyright: 2022  Emmanuele Bassi
 License: CC0-1.0
+
+Files: po/*.po
+Copyright: 2022  Translation authors
+License: GPL-3.0-or-later
 
 Files: src/amberol.gresource.xml
 Copyright: 2022  Emmanuele Bassi

@@ -4,7 +4,7 @@
 use adw::subclass::prelude::*;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
-use crate::{volume_control::VolumeControl, waveform_view::WaveformView};
+use crate::{utils, volume_control::VolumeControl, waveform_view::WaveformView};
 
 mod imp {
     use super::*;
@@ -22,6 +22,11 @@ mod imp {
 
         #[template_child]
         pub waveform_view: TemplateChild<WaveformView>,
+
+        #[template_child]
+        pub elapsed_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub remaining_label: TemplateChild<gtk::Label>,
 
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -104,5 +109,25 @@ impl PlaybackControl {
 
     pub fn waveform_view(&self) -> WaveformView {
         self.imp().waveform_view.get()
+    }
+
+    pub fn set_remaining(&self, remaining: Option<u64>) {
+        if let Some(remaining) = remaining {
+            self.imp()
+                .remaining_label
+                .set_text(&format!("-{}", utils::format_time(remaining)));
+        } else {
+            self.imp().remaining_label.set_text("0:00");
+        }
+    }
+
+    pub fn set_elapsed(&self, elapsed: Option<u64>) {
+        if let Some(elapsed) = elapsed {
+            self.imp()
+                .elapsed_label
+                .set_text(&utils::format_time(elapsed));
+        } else {
+            self.imp().elapsed_label.set_text("0:00");
+        }
     }
 }

@@ -8,9 +8,40 @@
       <property name="orientation">vertical</property>
       <property name="spacing">6</property>
       <child>
-        <object class="AmberolWaveformView" id="waveform_view">
-          <property name="halign">center</property>
-          <property name="valign">center</property>
+        <object class="GtkBox">
+          <property name="orientation">vertical</property>
+          <property name="spacing">2</property>
+          <property name="margin-bottom">6</property>
+          <child>
+            <object class="AmberolWaveformView" id="waveform_view">
+              <property name="halign">center</property>
+              <property name="valign">center</property>
+            </object>
+          </child>
+          <child>
+            <object class="GtkCenterBox">
+              <property name="orientation">horizontal</property>
+              <property name="hexpand">true</property>
+              <child type="start">
+                <object class="GtkLabel" id="elapsed_label">
+                  <property name="label">0:00</property>
+                  <style>
+                    <class name="caption"/>
+                    <class name="numeric"/>
+                  </style>
+                </object>
+              </child>
+              <child type="end">
+                <object class="GtkLabel" id="remaining_label">
+                  <property name="label">0:00</property>
+                  <style>
+                    <class name="caption"/>
+                    <class name="numeric"/>
+                  </style>
+                </object>
+              </child>
+            </object>
+          </child>
         </object>
       </child>
       <child>

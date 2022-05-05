@@ -77,7 +77,7 @@
               <property name="margin-end">18</property>
               <child>
                 <object class="GtkToggleButton" id="playlist_button">
-                  <property name="icon-name">view-list-bullet-symbolic</property>
+                  <property name="icon-name">view-queue-symbolic</property>
                   <property name="action-name">queue.toggle</property>
                   <property name="valign">center</property>
                   <property name="tooltip-text" translatable="yes">Toggle playlist</property>

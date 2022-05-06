@@ -85,6 +85,10 @@ impl WaveformGenerator {
             }
         }
 
+        if self.imp().uri.borrow().is_none() {
+            return false;
+        }
+
         // Reset the peaks vector
         let peaks: Vec<(f64, f64)> = Vec::new();
         self.imp().peaks.replace(Some(peaks));

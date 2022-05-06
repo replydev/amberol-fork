@@ -398,28 +398,32 @@ impl Window {
         for pos in 0..files.n_items() {
             let file = files.item(pos).unwrap().downcast::<gio::File>().unwrap();
             debug!("Adding {} to the queue", file.uri());
-            self.add_file_to_queue(&file);
+            self.add_file_to_queue(&file, true);
         }
     }
 
-    pub fn add_file_to_queue(&self, file: &gio::File) {
+    pub fn add_file_to_queue(&self, file: &gio::File, toast: bool) {
         if let Ok(info) = file.query_info(
-            "standard::*",
+            "standard::name,standard::display-name,standard::type,standard::content-type",
             gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
             gio::Cancellable::NONE,
         ) {
             if info.file_type() != gio::FileType::Regular {
-                let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
-                self.add_toast(msg);
+                if toast {
+                    let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
+                    self.add_toast(msg);
+                }
                 return;
             }
             if let Some(content_type) = info.content_type() {
                 if !gio::content_type_is_a(&content_type, "audio/*") {
-                    let msg = i18n_f(
-                        "“{}” is not a supported audio file",
-                        &[&info.display_name()],
-                    );
-                    self.add_toast(msg);
+                    if toast {
+                        let msg = i18n_f(
+                            "“{}” is not a supported audio file",
+                            &[&info.display_name()],
+                        );
+                        self.add_toast(msg);
+                    }
                     return;
                 }
             }
@@ -437,25 +441,20 @@ impl Window {
     }
 
     pub fn add_folder_to_queue(&self, folder: &gio::File) {
+        use std::time::Instant;
+
         debug!("Adding the contents of {} to the queue", folder.uri());
 
+        let now = Instant::now();
         let mut files = utils::load_files_from_folder(folder, true).into_iter();
         glib::idle_add_local(clone!(@strong self as win => move || {
-            let queue = win.imp().player.queue();
-
             files.next()
                 .map(|f| {
-                    let s = Song::new(f.uri().as_str());
-                    if !s.equals(&Song::default()) {
-                        let was_empty = queue.is_empty();
-                        queue.add_song(&s);
-                        if was_empty {
-                            win.imp().player.skip_to(0);
-                        }
-                    }
+                    win.add_file_to_queue(&f, false);
                 })
                 .map(|_| glib::Continue(true))
                 .unwrap_or_else(|| {
+                    debug!("Total loading time: {} ms", now.elapsed().as_millis());
                     glib::Continue(false)
                 })
         }));
@@ -798,9 +797,9 @@ impl Window {
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
                     for f in file_list.files() {
-                        if let Ok(info) = f.query_info("standard::*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
+                        if let Ok(info) = f.query_info("standard::type,standard::display-name", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
                             if info.file_type() == gio::FileType::Regular {
-                                win.add_file_to_queue(&f);
+                                win.add_file_to_queue(&f, true);
                             } else if info.file_type() == gio::FileType::Directory {
                                 win.add_folder_to_queue(&f);
                             } else {
@@ -972,7 +971,7 @@ impl Window {
     }
 
     pub fn open_file(&self, file: &gio::File) {
-        self.add_file_to_queue(file);
+        self.add_file_to_queue(file, true);
         let queue = self.imp().player.queue();
         if queue.n_songs() == 1 {
             self.imp().player.play();

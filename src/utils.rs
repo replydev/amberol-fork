@@ -295,10 +295,10 @@ pub fn color_distance(color_a: &gdk::RGBA, color_b: &gdk::RGBA) -> f32 {
     f32::sqrt(delta_l + delta_a + delta_b)
 }
 
-pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
+fn load_files_from_folder_internal(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
     let mut enumerator = folder
         .enumerate_children(
-            "standard::*",
+            "standard::name,standard::type",
             gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
             None::<&gio::Cancellable>,
         )
@@ -308,16 +308,10 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
         let child = enumerator.child(&info);
         if recursive && info.file_type() == gio::FileType::Directory {
-            let mut res = load_files_from_folder(&child, recursive);
+            let mut res = load_files_from_folder_internal(&child, recursive);
             files.append(&mut res);
         } else if info.file_type() == gio::FileType::Regular {
-            if let Some(content_type) = info.content_type() {
-                if gio::content_type_is_a(&content_type, "audio/*") {
-                    let child = enumerator.child(&info);
-                    debug!("Adding {} to the queue", child.uri());
-                    files.push(child.clone());
-                }
-            }
+            files.push(child.clone());
         }
     }
 
@@ -347,4 +341,19 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     });
 
     files
+}
+
+pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
+    use std::time::Instant;
+
+    let now = Instant::now();
+    let res = load_files_from_folder_internal(folder, recursive);
+    debug!(
+        "Folder enumeration: {} us (recursive: {}), total files: {}",
+        now.elapsed().as_micros(),
+        recursive,
+        res.len()
+    );
+
+    res
 }

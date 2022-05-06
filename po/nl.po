@@ -1,0 +1,317 @@
+# Dutch translation for amberol.
+# Copyright (C) 2022 amberol's COPYRIGHT HOLDER
+# This file is distributed under the same license as the amberol package.
+# Philip Goto <Philip.goto@gmail.com>, 2022.
+# Nathan Follens <nfollens@gnome.org>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: amberol main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
+"POT-Creation-Date: 2022-05-04 16:27+0000\n"
+"PO-Revision-Date: 2022-05-04 21:03+0200\n"
+"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
+"Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: data/io.bassi.Amberol.desktop.in.in:3
+#: data/io.bassi.Amberol.appdata.xml.in.in:6
+msgid "Amberol"
+msgstr "Amberol"
+
+#: data/io.bassi.Amberol.desktop.in.in:4
+msgid "Music Player"
+msgstr "Muziekspeler"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/io.bassi.Amberol.desktop.in.in:12
+msgid "music;sound;player;media;audio;playlist;"
+msgstr ""
+"muziek;music;geluid;sound;speler;player;media;audio;afspeellijst;playlist;"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:7
+msgid "Plays music, and nothing else"
+msgstr "Speelt muziek af, en niets anders"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:9
+msgid ""
+"Amberol is a music player with no delusions of grandeur. If you just want to "
+"play music available on your local system then Amberol is the music player "
+"you are looking for."
+msgstr ""
+"Amberol is een muziekspeler zonder grootheidswaanzin. Als u alleen muziek "
+"wilt afspelen die beschikbaar is op uw lokale systeem, dan is Amberol de "
+"muziekspeler die u zoekt."
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:14
+msgid "Current features:"
+msgstr "Huidige functies:"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:16
+msgid "adaptive UI"
+msgstr "adaptieve gebruikersinterface"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:17
+msgid "UI recoloring using the album art"
+msgstr "interfacekleuring gebruikmakend van de albumhoes"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:18
+msgid "drag and drop support to queue songs"
+msgstr ""
+"ondersteuning voor slepen en neerzetten om nummers in de wachtrij te plaatsen"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:19
+msgid "shuffle and repeat"
+msgstr "in willekeurige volgorde afspelen en herhalen"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:20
+msgid "MPRIS integration"
+msgstr "MPRIS-integratie"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:41
+msgid "Emmanuele Bassi"
+msgstr "Emmanuele Bassi"
+
+#: src/audio/inhibit_controller.rs:41
+msgid "Playback in progress"
+msgstr "Bezig met afspelen"
+
+#: src/audio/song.rs:367
+msgid "Unknown artist"
+msgstr "Onbekende artiest"
+
+#: src/audio/song.rs:374
+msgid "Unknown title"
+msgstr "Onbekende titel"
+
+#: src/audio/song.rs:381
+msgid "Unknown album"
+msgstr "Onbekend album"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "Songs Queue"
+msgstr "Wachtrij"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Queue a Song"
+msgstr "Nummer in de wachtrij plaatsen"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Queue a Folder"
+msgstr "Map in de wachtrij plaatsen"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Clear"
+msgstr "Wissen"
+
+#: src/gtk/help-overlay.ui:34
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Afspelen"
+
+#: src/gtk/help-overlay.ui:37
+msgctxt "shortcut window"
+msgid "Toggle Play/Pause"
+msgstr "Afspelen/pauzeren"
+
+#: src/gtk/help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Previous Track"
+msgstr "Vorig nummer"
+
+#: src/gtk/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Next Track"
+msgstr "Volgend nummer"
+
+#: src/gtk/help-overlay.ui:57
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Algemeen"
+
+#: src/gtk/help-overlay.ui:60
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Sneltoetsen tonen"
+
+#: src/gtk/help-overlay.ui:66
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: src/gtk/playback-control.ui:26
+msgid "Play the previous song"
+msgstr "Vorig nummer afspelen"
+
+#: src/gtk/playback-control.ui:31
+msgid "Skip backwards"
+msgstr "Achteruitspoelen"
+
+#: src/gtk/playback-control.ui:40 src/gtk/playback-control.ui:46
+msgid "Toggle play"
+msgstr "Afspelen omschakelen"
+
+#: src/gtk/playback-control.ui:55
+msgid "Play the next song"
+msgstr "Volgend nummer afspelen"
+
+#: src/gtk/playback-control.ui:60
+msgid "Skip forward"
+msgstr "Vooruitspoelen"
+
+#: src/gtk/playback-control.ui:83 src/gtk/playback-control.ui:88
+msgid "Toggle playlist"
+msgstr "Afspeellijst omschakelen"
+
+#: src/gtk/playback-control.ui:97
+msgid "Shuffle the playlist"
+msgstr "De afspeellijst in willekeurige volgorde afspelen"
+
+#: src/gtk/playback-control.ui:115 src/window.rs:588
+msgid "Enable repeat"
+msgstr "Herhalen inschakelen"
+
+#: src/gtk/playback-control.ui:120
+msgid "Repeat mode"
+msgstr "Herhalingsmodus"
+
+#: src/gtk/playback-control.ui:135
+msgid "Menu"
+msgstr "Menu"
+
+#: src/gtk/playback-control.ui:151
+msgid "Add _Song"
+msgstr "_Nummer toevoegen"
+
+#: src/gtk/playback-control.ui:155
+msgid "Add _Folder"
+msgstr "_Map toevoegen"
+
+#: src/gtk/playback-control.ui:159
+msgid "Clear"
+msgstr "Wissen"
+
+#: src/gtk/playback-control.ui:165
+msgid "_Match Cover Art"
+msgstr "_Overeenkomen met albumhoes"
+
+#: src/gtk/playback-control.ui:171
+msgid "_Keyboard Shortcuts"
+msgstr "_Sneltoetsen"
+
+#: src/gtk/playback-control.ui:175
+msgid "_About Amberol"
+msgstr "_Over Amberol"
+
+#: src/gtk/playlist-view.ui:20
+msgid "Playlist"
+msgstr "Afspeellijst"
+
+#: src/gtk/playlist-view.ui:50
+msgid "Select songs in the playlist"
+msgstr "Nummers in de afspeellijst selecteren"
+
+#: src/gtk/playlist-view.ui:62
+msgid "Close the playlist"
+msgstr "De afspeellijst sluiten"
+
+#: src/gtk/playlist-view.ui:98
+msgid "Remove all songs"
+msgstr "Alle nummers verwijderen"
+
+#: src/gtk/playlist-view.ui:111
+msgid "Remove selected songs"
+msgstr "Geselecteerde nummers verwijderen"
+
+#: src/gtk/queue-row.ui:135
+msgid "Playing next"
+msgstr "Hierna afspelen"
+
+#: src/gtk/window.ui:12
+msgid "Drop a song to add it to the queue"
+msgstr "Sleep een nummer hierheen om deze aan de wachtrij toe te voegen"
+
+#: src/gtk/window.ui:45
+msgid ""
+"Select a folder or drag files from your file manager to the application "
+"window to add songs to the playlist"
+msgstr ""
+"Selecteer een map of sleep bestanden van uw bestandsbeheerder naar het "
+"toepassingsvenster om nummers aan de afspeellijst toe te voegen"
+
+#: src/gtk/window.ui:48
+msgid "Choose a folder"
+msgstr "Kies een map"
+
+#: src/application.rs:152
+msgid "Plays music and nothing else"
+msgstr "Speelt muziek af en niets anders"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/application.rs:158
+msgid "translator-credits"
+msgstr ""
+"Philip Goto\n"
+"Nathan Follens <nfollens@gnome.org>"
+
+#: src/window.rs:338
+msgid "_Add Song"
+msgstr "Nummer _toevoegen"
+
+#: src/window.rs:339 src/window.rs:373
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#: src/window.rs:347
+msgid "Audio files"
+msgstr "Audiobestanden"
+
+#: src/window.rs:372
+msgid "_Add Folder"
+msgstr "Map _toevoegen"
+
+#: src/window.rs:412 src/window.rs:806
+msgid "Unrecognized file type for “{}”"
+msgstr "Onbekend bestandstype voor ‘{}’"
+
+#: src/window.rs:419
+msgid "“{}” is not a supported audio file"
+msgstr "‘{}’ is geen ondersteund audiobestand"
+
+#: src/window.rs:592
+msgid "Repeat all tracks"
+msgstr "Alle nummers herhalen"
+
+#: src/window.rs:596
+msgid "Repeat the current track"
+msgstr "Het huidige nummer herhalen"
+
+#. Translators: the '{}' must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
+#: src/window.rs:839
+msgid "{} minute remaining"
+msgid_plural "{} minutes remaining"
+msgstr[0] "{} minuut resterend"
+msgstr[1] "{} minuten resterend"
+
+#: src/window.rs:967
+msgid "No song selected"
+msgstr "Geen nummers geselecteerd"
+
+#. Translators: The '{}' must be left unmodified, and
+#. it is expanded to the number of songs selected
+#: src/window.rs:972
+msgid "{} song selected"
+msgid_plural "{} songs selected"
+msgstr[0] "{} nummer geselecteerd"
+msgstr[1] "{} nummers geselecteerd"

@@ -12,6 +12,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <property name="margin-start">6</property>
+                <property name="margin-bottom">6</property>
                 <property name="hexpand">true</property>
                 <child>
                   <object class="GtkLabel">

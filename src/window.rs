@@ -263,6 +263,8 @@ impl Window {
 
         player.stop();
         state.set_current_song(None);
+
+        self.imp().main_stack.set_visible_child_name("initial-view");
     }
 
     fn clear_queue(&self) {

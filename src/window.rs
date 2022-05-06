@@ -568,7 +568,7 @@ impl Window {
                 } else {
                     win.imp().main_stack.get().set_visible_child_name("main-view");
 
-                    win.action_set_enabled("queue.toggle", queue.n_songs() > 1);
+                    win.action_set_enabled("queue.toggle", true);
                     win.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
 
                     win.action_set_enabled("win.play", true);

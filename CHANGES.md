@@ -12,6 +12,46 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.6.0] - 2022-05-06
+
+### Added
+
+- Use a selection mode for the playlist management [#81]
+- Allow disabling UI recoloring
+- Expose more song state through MPRIS
+- Add better error messages in the UI
+- Support RTL text direction in the waveform widget
+- Add translations for:
+  - Russian
+  - Turkish
+  - Brazilian Portuguese
+  - Hebrew
+  - Galician
+  - Swedish
+  - Basque
+  - Persian
+  - Ukrainian
+  - Polish
+
+### Changed
+
+- Reset to the initial state when clearing the playlist [#101]
+- Tone down the recoloring to improve legibility of text and controls [#97]
+- Recolor only the main window [#104]
+- Use better icon for playlist toggle button [#102]
+- Use the cover art palette for the waveform view accent color [#61]
+- Set the minimum and maximum width for the playlist view [#93]
+
+### Fixed
+
+- Fix the background recoloring gradient to use the whole cover art palette
+- Reset the waveform generator and view on failure [#57]
+- Darken the playlist background when unfolded [#85]
+- Improve the tooltips for playback controls [#69]
+- Fix extra spacing in the playlist view [#98]
+- Fix elapsed song time in RTL locales [#95]
+- Remove missing shortcuts from the shortcuts dialog [#96]
+
 ## [0.5.0] - 2022-04-29
 
 ### Added

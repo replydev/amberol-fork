@@ -881,16 +881,6 @@ impl Window {
 
         if let Some(song) = song {
             if let Some(bg_colors) = song.cover_palette() {
-                // The color chosen depends on the linear gradient we use in the
-                // style, so remember to change this when changing the main-window
-                // CSS class
-                let fg_color =
-                    if utils::is_color_dark(&bg_colors[0]) || utils::is_color_dark(&bg_colors[1]) {
-                        gdk::RGBA::parse("#ffffff").unwrap()
-                    } else {
-                        gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap()
-                    };
-
                 let mut css = String::new();
 
                 let n_colors = bg_colors.len();
@@ -930,8 +920,6 @@ impl Window {
                         complementary
                     ));
                 }
-
-                css.push_str(&format!("@define-color foreground_color {};", fg_color));
 
                 imp.provider.load_from_data(css.as_bytes());
                 if !imp.main_stack.has_css_class("main-window") {

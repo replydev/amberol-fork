@@ -16,12 +16,6 @@ pub fn format_time(t: u64) -> String {
     format!("{}:{:02}", (t - (t % 60)) / 60, t % 60)
 }
 
-pub fn is_color_dark(color: &gdk::RGBA) -> bool {
-    let lum = color.red() * 0.2126 + color.green() * 0.7152 + color.blue() * 0.072;
-
-    lum < 0.5
-}
-
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
 

@@ -44,14 +44,30 @@
                             <property name="title">Amberol</property>
                             <property name="description" translatable="yes">Select a folder or drag files from your file manager to the application window to add songs to the playlist</property>
                             <property name="child">
-                              <object class="GtkButton">
-                                <property name="label" translatable="yes">Choose a folder</property>
-                                <property name="action-name">queue.add-folder</property>
+                              <object class="GtkBox">
                                 <property name="halign">center</property>
-                                <style>
-                                  <class name="suggested-action"/>
-                                  <class name="pill"/>
-                                </style>
+                                <property name="homogeneous">true</property>
+                                <property name="spacing">12</property>
+                                <child>
+                                  <object class="GtkButton">
+                                    <property name="label" translatable="yes">Choose a file</property>
+                                    <property name="action-name">queue.add-song</property>
+                                    <style>
+                                      <class name="suggested-action"/>
+                                      <class name="pill"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton">
+                                    <property name="label" translatable="yes">Choose a folder</property>
+                                    <property name="action-name">queue.add-folder</property>
+                                    <style>
+                                      <class name="suggested-action"/>
+                                      <class name="pill"/>
+                                    </style>
+                                  </object>
+                                </child>
                               </object>
                             </property>
                           </object>

@@ -16,12 +16,6 @@ pub fn format_time(t: u64) -> String {
     format!("{}:{:02}", (t - (t % 60)) / 60, t % 60)
 }
 
-pub fn is_color_dark(color: &gdk::RGBA) -> bool {
-    let lum = color.red() * 0.2126 + color.green() * 0.7152 + color.blue() * 0.072;
-
-    lum < 0.5
-}
-
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
 
@@ -301,10 +295,10 @@ pub fn color_distance(color_a: &gdk::RGBA, color_b: &gdk::RGBA) -> f32 {
     f32::sqrt(delta_l + delta_a + delta_b)
 }
 
-pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
+fn load_files_from_folder_internal(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
     let mut enumerator = folder
         .enumerate_children(
-            "standard::*",
+            "standard::name,standard::type",
             gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
             None::<&gio::Cancellable>,
         )
@@ -314,16 +308,10 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
         let child = enumerator.child(&info);
         if recursive && info.file_type() == gio::FileType::Directory {
-            let mut res = load_files_from_folder(&child, recursive);
+            let mut res = load_files_from_folder_internal(&child, recursive);
             files.append(&mut res);
         } else if info.file_type() == gio::FileType::Regular {
-            if let Some(content_type) = info.content_type() {
-                if gio::content_type_is_a(&content_type, "audio/*") {
-                    let child = enumerator.child(&info);
-                    debug!("Adding {} to the queue", child.uri());
-                    files.push(child.clone());
-                }
-            }
+            files.push(child.clone());
         }
     }
 
@@ -353,4 +341,19 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     });
 
     files
+}
+
+pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
+    use std::time::Instant;
+
+    let now = Instant::now();
+    let res = load_files_from_folder_internal(folder, recursive);
+    debug!(
+        "Folder enumeration: {} us (recursive: {}), total files: {}",
+        now.elapsed().as_micros(),
+        recursive,
+        res.len()
+    );
+
+    res
 }

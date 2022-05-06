@@ -251,7 +251,7 @@ impl Window {
         self.set_default_size(600, -1);
     }
 
-    fn clear_queue(&self) {
+    fn reset_queue(&self) {
         self.set_playlist_visible(false);
         self.set_playlist_shuffled(false);
         self.set_playlist_selection(false);
@@ -259,13 +259,17 @@ impl Window {
         self.update_style(None);
 
         let player = &self.imp().player;
-        let queue = player.queue();
         let state = player.state();
 
         player.stop();
-
         state.set_current_song(None);
-        queue.clear();
+
+        self.imp().main_stack.set_visible_child_name("initial-view");
+    }
+
+    fn clear_queue(&self) {
+        self.reset_queue();
+        self.imp().player.queue().clear();
     }
 
     fn playlist_visible(&self) -> bool {
@@ -398,28 +402,32 @@ impl Window {
         for pos in 0..files.n_items() {
             let file = files.item(pos).unwrap().downcast::<gio::File>().unwrap();
             debug!("Adding {} to the queue", file.uri());
-            self.add_file_to_queue(&file);
+            self.add_file_to_queue(&file, true);
         }
     }
 
-    pub fn add_file_to_queue(&self, file: &gio::File) {
+    pub fn add_file_to_queue(&self, file: &gio::File, toast: bool) {
         if let Ok(info) = file.query_info(
-            "standard::*",
+            "standard::name,standard::display-name,standard::type,standard::content-type",
             gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
             gio::Cancellable::NONE,
         ) {
             if info.file_type() != gio::FileType::Regular {
-                let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
-                self.add_toast(msg);
+                if toast {
+                    let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
+                    self.add_toast(msg);
+                }
                 return;
             }
             if let Some(content_type) = info.content_type() {
                 if !gio::content_type_is_a(&content_type, "audio/*") {
-                    let msg = i18n_f(
-                        "“{}” is not a supported audio file",
-                        &[&info.display_name()],
-                    );
-                    self.add_toast(msg);
+                    if toast {
+                        let msg = i18n_f(
+                            "“{}” is not a supported audio file",
+                            &[&info.display_name()],
+                        );
+                        self.add_toast(msg);
+                    }
                     return;
                 }
             }
@@ -437,25 +445,20 @@ impl Window {
     }
 
     pub fn add_folder_to_queue(&self, folder: &gio::File) {
+        use std::time::Instant;
+
         debug!("Adding the contents of {} to the queue", folder.uri());
 
+        let now = Instant::now();
         let mut files = utils::load_files_from_folder(folder, true).into_iter();
         glib::idle_add_local(clone!(@strong self as win => move || {
-            let queue = win.imp().player.queue();
-
             files.next()
                 .map(|f| {
-                    let s = Song::new(f.uri().as_str());
-                    if !s.equals(&Song::default()) {
-                        let was_empty = queue.is_empty();
-                        queue.add_song(&s);
-                        if was_empty {
-                            win.imp().player.skip_to(0);
-                        }
-                    }
+                    win.add_file_to_queue(&f, false);
                 })
                 .map(|_| glib::Continue(true))
                 .unwrap_or_else(|| {
+                    debug!("Total loading time: {} ms", now.elapsed().as_millis());
                     glib::Continue(false)
                 })
         }));
@@ -558,12 +561,14 @@ impl Window {
         queue.connect_notify_local(
             Some("n-songs"),
             clone!(@weak self as win => move |queue, _| {
+                debug!("queue.n_songs() = {}", queue.n_songs());
                 if queue.is_empty() {
                     win.set_initial_state();
+                    win.reset_queue();
                 } else {
                     win.imp().main_stack.get().set_visible_child_name("main-view");
 
-                    win.action_set_enabled("queue.toggle", queue.n_songs() > 1);
+                    win.action_set_enabled("queue.toggle", true);
                     win.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
 
                     win.action_set_enabled("win.play", true);
@@ -654,6 +659,17 @@ impl Window {
                 this.imp().player.play();
             }),
         );
+
+        self.imp()
+            .playlist_view
+            .queue_select_all_button()
+            .connect_clicked(clone!(@weak self as win => move |_| {
+                let queue = win.imp().player.queue();
+                for idx in 0..queue.n_songs() {
+                    let song = queue.song_at(idx).unwrap();
+                    song.set_selected(true);
+                }
+            }));
 
         self.imp()
             .playlist_view
@@ -798,9 +814,9 @@ impl Window {
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
                     for f in file_list.files() {
-                        if let Ok(info) = f.query_info("standard::*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
+                        if let Ok(info) = f.query_info("standard::type,standard::display-name", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE) {
                             if info.file_type() == gio::FileType::Regular {
-                                win.add_file_to_queue(&f);
+                                win.add_file_to_queue(&f, true);
                             } else if info.file_type() == gio::FileType::Directory {
                                 win.add_folder_to_queue(&f);
                             } else {
@@ -881,16 +897,6 @@ impl Window {
 
         if let Some(song) = song {
             if let Some(bg_colors) = song.cover_palette() {
-                // The color chosen depends on the linear gradient we use in the
-                // style, so remember to change this when changing the main-window
-                // CSS class
-                let fg_color =
-                    if utils::is_color_dark(&bg_colors[0]) || utils::is_color_dark(&bg_colors[1]) {
-                        gdk::RGBA::parse("#ffffff").unwrap()
-                    } else {
-                        gdk::RGBA::parse("rgba(0, 0, 0, 0.8)").unwrap()
-                    };
-
                 let mut css = String::new();
 
                 let n_colors = bg_colors.len();
@@ -931,8 +937,6 @@ impl Window {
                     ));
                 }
 
-                css.push_str(&format!("@define-color foreground_color {};", fg_color));
-
                 imp.provider.load_from_data(css.as_bytes());
                 if !imp.main_stack.has_css_class("main-window") {
                     imp.main_stack.add_css_class("main-window");
@@ -957,6 +961,7 @@ impl Window {
             }
         } else {
             imp.waveform.set_uri(None);
+            imp.waveform.generate_peaks();
         }
     }
 
@@ -984,7 +989,7 @@ impl Window {
     }
 
     pub fn open_file(&self, file: &gio::File) {
-        self.add_file_to_queue(file);
+        self.add_file_to_queue(file, true);
         let queue = self.imp().player.queue();
         if queue.n_songs() == 1 {
             self.imp().player.play();

@@ -12,6 +12,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <property name="margin-start">6</property>
+                <property name="margin-bottom">6</property>
                 <property name="hexpand">true</property>
                 <child>
                   <object class="GtkLabel">
@@ -74,6 +75,7 @@
             <property name="vscrollbar-policy">automatic</property>
             <property name="propagate-natural-height">true</property>
             <property name="propagate-natural-width">true</property>
+            <property name="min-content-width">300</property>
             <property name="max-content-width">400</property>
             <property name="vexpand">true</property>
             <property name="child">
@@ -91,10 +93,9 @@
           <object class="GtkActionBar" id="queue_actionbar">
             <property name="revealed">false</property>
             <child>
-              <object class="GtkButton" id="queue_clear_button">
-                <property name="icon-name">edit-clear-all-symbolic</property>
-                <property name="action-name">queue.clear</property>
-                <property name="tooltip-text" translatable="yes">Remove all songs</property>
+              <object class="GtkButton" id="queue_select_all_button">
+                <property name="icon-name">edit-select-all-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Select all songs</property>
               </object>
             </child>
             <child type="center">

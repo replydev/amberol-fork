@@ -99,44 +99,20 @@ scrolledwindow undershoot.top {
 }
 
 .main-window {
-  background: linear-gradient(127deg, alpha(@background_color_0, .8), alpha(@background_color_0, 0) 70.71%),
-              linear-gradient(217deg, alpha(@background_color_1, .8), alpha(@background_color_1, 0) 70.71%),
-              linear-gradient(336deg, alpha(@background_color_2, .8), alpha(@background_color_2, 0) 70.71%);
-  color: @foreground_color;
-  transition-property: background, color;
+  background: linear-gradient(127deg, alpha(@background_color_0, .55), alpha(@background_color_0, 0) 70.71%),
+              linear-gradient(217deg, alpha(@background_color_1, .55), alpha(@background_color_1, 0) 70.71%),
+              linear-gradient(336deg, alpha(@background_color_2, .55), alpha(@background_color_2, 0) 70.71%);
+  transition-property: background;
   transition-duration: 250ms;
   transition-timing-function: ease;
 }
 
-/* Apply the main window background to the playlist flap, if the main content
- * is folded, as the flap background is transparent
- */
-.main-window .folded .playlist-background {
-  background: linear-gradient(127deg, alpha(@background_color_0, .8), alpha(@background_color_0, 0) 70.71%),
-              linear-gradient(217deg, alpha(@background_color_1, .8), alpha(@background_color_1, 0) 70.71%),
-              linear-gradient(336deg, alpha(@background_color_2, .8), alpha(@background_color_2, 0) 70.71%);
-  color: @foreground_color;
-}
-
 .main-window .unfolded .darken {
   background-color: rgba(0, 0, 0, 0.08);
-  color: @foreground_color;
 }
 
-/* Reset the background of the playlist flap if there's no cover art */
-:not(.main-window) .playlist-background {
+.main-window .folded playlistview {
   background: @window_bg_color;
-  color: @window_fg_color;
-}
-
-:not(.main-window) .unfolded .darken {
-  background-color: rgba(0, 0, 0, 0.08);
-}
-
-.main-window popover arrow,
-.main-window popover contents {
-  background-color: shade(@background_color_0, 1.2);
-  color: @foreground_color;
 }
 
 .main-window button:focus,

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-03 13:02+0000\n"
-"PO-Revision-Date: 2022-05-03 21:10+0300\n"
+"POT-Creation-Date: 2022-05-06 17:43+0000\n"
+"PO-Revision-Date: 2022-05-06 22:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -32,8 +32,8 @@ msgstr "Програвач музики"
 #: data/io.bassi.Amberol.desktop.in.in:12
 msgid "music;sound;player;media;audio;playlist;"
 msgstr ""
-"music;sound;player;media;audio;playlist;музика;звук;програвач;мультимедіа;звук"
-";список відтворення;відтворення;"
+"music;sound;player;media;audio;playlist;музика;звук;програвач;мультимедіа;"
+"звук;список відтворення;відтворення;"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
@@ -45,9 +45,9 @@ msgid ""
 "play music available on your local system then Amberol is the music player "
 "you are looking for."
 msgstr ""
-"«Амберол» — програма для відтворення музики без особливих претензій на"
-" грандіозність. Якщо вам потрібно лише відтворити вашу музику у вашій"
-" локальній системі, «Амберол» — саме той програвач, який вам потрібен."
+"«Амберол» — програма для відтворення музики без особливих претензій на "
+"грандіозність. Якщо вам потрібно лише відтворити вашу музику у вашій "
+"локальній системі, «Амберол» — саме той програвач, який вам потрібен."
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:14
 msgid "Current features:"
@@ -64,8 +64,8 @@ msgstr "перефарбовування інтерфейсу на основі 
 #: data/io.bassi.Amberol.appdata.xml.in.in:18
 msgid "drag and drop support to queue songs"
 msgstr ""
-"підтримка перетягування зі скиданням для створення черги відтворення"
-" композицій"
+"підтримка перетягування зі скиданням для створення черги відтворення "
+"композицій"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:19
 msgid "shuffle and repeat"
@@ -135,96 +135,82 @@ msgctxt "shortcut window"
 msgid "Next Track"
 msgstr "Наступна композиція"
 
-#: src/gtk/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Seek Backwards"
-msgstr "Перейти назад"
-
-#: src/gtk/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Seek Forward"
-msgstr "Перемотати вперед"
-
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:57
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Загальне"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:60
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:66
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти з програми"
 
-#: src/gtk/playback-control.ui:26
+#: src/gtk/playback-control.ui:57
 msgid "Play the previous song"
 msgstr "Відтворити попередню композицію"
 
-#: src/gtk/playback-control.ui:31
+#: src/gtk/playback-control.ui:62
 msgid "Skip backwards"
 msgstr "Перемотати назад"
 
-#: src/gtk/playback-control.ui:40 src/gtk/playback-control.ui:46
+#: src/gtk/playback-control.ui:71 src/gtk/playback-control.ui:77
 msgid "Toggle play"
 msgstr "Увімкнути або вимкнути відтворення"
 
-#: src/gtk/playback-control.ui:55
+#: src/gtk/playback-control.ui:86
 msgid "Play the next song"
 msgstr "Відтворити наступну композицію"
 
-#: src/gtk/playback-control.ui:60
+#: src/gtk/playback-control.ui:91
 msgid "Skip forward"
 msgstr "Перемотати вперед"
 
-#: src/gtk/playback-control.ui:83
-msgid "Show the playlist"
-msgstr "Показати список відтворення"
-
-#: src/gtk/playback-control.ui:88
+#: src/gtk/playback-control.ui:114 src/gtk/playback-control.ui:119
 msgid "Toggle playlist"
 msgstr "Перемкнути список відтворення"
 
-#: src/gtk/playback-control.ui:97
+#: src/gtk/playback-control.ui:128
 msgid "Shuffle the playlist"
 msgstr "Перемішати список відтворення"
 
-#: src/gtk/playback-control.ui:115 src/window.rs:587
+#: src/gtk/playback-control.ui:146 src/window.rs:594
 msgid "Enable repeat"
 msgstr "Увімкнути повторення"
 
-#: src/gtk/playback-control.ui:120
+#: src/gtk/playback-control.ui:151
 msgid "Repeat mode"
 msgstr "Режим повтору"
 
-#: src/gtk/playback-control.ui:135
+#: src/gtk/playback-control.ui:166
 msgid "Menu"
 msgstr "Меню"
 
-#: src/gtk/playback-control.ui:151
+#: src/gtk/playback-control.ui:182
 msgid "Add _Song"
 msgstr "Додати _композицію"
 
-#: src/gtk/playback-control.ui:155
+#: src/gtk/playback-control.ui:186
 msgid "Add _Folder"
 msgstr "Додати _теку"
 
-#: src/gtk/playback-control.ui:159
+#: src/gtk/playback-control.ui:190
 msgid "Clear"
 msgstr "Очистити"
 
-#: src/gtk/playback-control.ui:165
+#: src/gtk/playback-control.ui:196
 msgid "_Match Cover Art"
 msgstr "_Колір обкладинки"
 
-#: src/gtk/playback-control.ui:171
+#: src/gtk/playback-control.ui:202
 msgid "_Keyboard Shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: src/gtk/playback-control.ui:175
+#: src/gtk/playback-control.ui:206
 msgid "_About Amberol"
 msgstr "_Про «Амберол»"
 
@@ -241,14 +227,15 @@ msgid "Close the playlist"
 msgstr "Закрити список відтворення"
 
 #: src/gtk/playlist-view.ui:98
-msgid "Remove all songs"
-msgstr "Вилучити усі композиції"
+#| msgid "Remove all songs"
+msgid "Select all songs"
+msgstr "Позначити усі композиції"
 
 #: src/gtk/playlist-view.ui:111
 msgid "Remove selected songs"
 msgstr "Вилучити позначені композиції"
 
-#: src/gtk/queue-row.ui:132
+#: src/gtk/queue-row.ui:137
 msgid "Playing next"
 msgstr "Відтворення наступної"
 
@@ -261,10 +248,15 @@ msgid ""
 "Select a folder or drag files from your file manager to the application "
 "window to add songs to the playlist"
 msgstr ""
-"Виберіть теку або перетягніть файли з вашої програми для керування файлами до"
-" вікна програми, щоб додати композиції до списку відтворення"
+"Виберіть теку або перетягніть файли з вашої програми для керування файлами "
+"до вікна програми, щоб додати композиції до списку відтворення"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:53
+#| msgid "Choose a folder"
+msgid "Choose a file"
+msgstr "Виберіть файл"
+
+#: src/gtk/window.ui:63
 msgid "Choose a folder"
 msgstr "Виберіть теку"
 
@@ -277,42 +269,42 @@ msgstr "Відтворює музику, нічого більше"
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2022"
 
-#: src/window.rs:337
+#: src/window.rs:342
 msgid "_Add Song"
 msgstr "_Додати композицію"
 
-#: src/window.rs:338 src/window.rs:372
+#: src/window.rs:343 src/window.rs:377
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/window.rs:346
+#: src/window.rs:351
 msgid "Audio files"
 msgstr "файли звукових даних"
 
-#: src/window.rs:371
+#: src/window.rs:376
 msgid "_Add Folder"
 msgstr "_Додати теку"
 
-#: src/window.rs:411 src/window.rs:807
+#: src/window.rs:417 src/window.rs:823
 msgid "Unrecognized file type for “{}”"
 msgstr "Нерозпізнаний тип файлів «{}»"
 
-#: src/window.rs:418
+#: src/window.rs:426
 msgid "“{}” is not a supported audio file"
 msgstr "«{}» не є підтримуваним звуковим файлом"
 
-#: src/window.rs:591
+#: src/window.rs:598
 msgid "Repeat all tracks"
 msgstr "Повторити усі композиції"
 
-#: src/window.rs:595
+#: src/window.rs:602
 msgid "Repeat the current track"
 msgstr "Повторити поточну композицію"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:840
+#: src/window.rs:856
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Лишилася {} хвилина"
@@ -320,16 +312,27 @@ msgstr[1] "Лишилося {} хвилини"
 msgstr[2] "Лишилося {} хвилин"
 msgstr[3] "Лишилася хвилина"
 
-#: src/window.rs:930
+#: src/window.rs:973
 msgid "No song selected"
 msgstr "Не вибрано композиції"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:935
+#: src/window.rs:978
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Вибрано {} композицію"
 msgstr[1] "Вибрано {} композиції"
 msgstr[2] "Вибрано {} композицій"
 msgstr[3] "Вибрано {} композицію"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Seek Backwards"
+#~ msgstr "Перейти назад"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Seek Forward"
+#~ msgstr "Перемотати вперед"
+
+#~ msgid "Show the playlist"
+#~ msgstr "Показати список відтворення"

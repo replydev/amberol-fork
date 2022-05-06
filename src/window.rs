@@ -251,7 +251,7 @@ impl Window {
         self.set_default_size(600, -1);
     }
 
-    fn clear_queue(&self) {
+    fn reset_queue(&self) {
         self.set_playlist_visible(false);
         self.set_playlist_shuffled(false);
         self.set_playlist_selection(false);
@@ -259,13 +259,15 @@ impl Window {
         self.update_style(None);
 
         let player = &self.imp().player;
-        let queue = player.queue();
         let state = player.state();
 
         player.stop();
-
         state.set_current_song(None);
-        queue.clear();
+    }
+
+    fn clear_queue(&self) {
+        self.reset_queue();
+        self.imp().player.queue().clear();
     }
 
     fn playlist_visible(&self) -> bool {
@@ -557,8 +559,10 @@ impl Window {
         queue.connect_notify_local(
             Some("n-songs"),
             clone!(@weak self as win => move |queue, _| {
+                debug!("queue.n_songs() = {}", queue.n_songs());
                 if queue.is_empty() {
                     win.set_initial_state();
+                    win.reset_queue();
                 } else {
                     win.imp().main_stack.get().set_visible_child_name("main-view");
 
@@ -955,6 +959,7 @@ impl Window {
             }
         } else {
             imp.waveform.set_uri(None);
+            imp.waveform.generate_peaks();
         }
     }
 

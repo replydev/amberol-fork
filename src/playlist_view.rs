@@ -19,6 +19,8 @@ mod imp {
         #[template_child]
         pub queue_actionbar: TemplateChild<gtk::ActionBar>,
         #[template_child]
+        pub queue_select_all_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub queue_remove_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub queue_selected_label: TemplateChild<gtk::Label>,
@@ -80,6 +82,10 @@ impl PlaylistView {
 
     pub fn queue_remove_button(&self) -> gtk::Button {
         self.imp().queue_remove_button.get()
+    }
+
+    pub fn queue_select_all_button(&self) -> gtk::Button {
+        self.imp().queue_select_all_button.get()
     }
 
     pub fn queue_selected_label(&self) -> gtk::Label {

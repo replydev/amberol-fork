@@ -656,6 +656,17 @@ impl Window {
 
         self.imp()
             .playlist_view
+            .queue_select_all_button()
+            .connect_clicked(clone!(@weak self as win => move |_| {
+                let queue = win.imp().player.queue();
+                for idx in 0..queue.n_songs() {
+                    let song = queue.song_at(idx).unwrap();
+                    song.set_selected(true);
+                }
+            }));
+
+        self.imp()
+            .playlist_view
             .queue_remove_button()
             .connect_clicked(clone!(@weak self as win => move |_| {
                 let queue = win.imp().player.queue();

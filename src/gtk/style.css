@@ -111,9 +111,10 @@ scrolledwindow undershoot.top {
   background-color: rgba(0, 0, 0, 0.08);
 }
 
-.main-window .folded playlistview {
+.folded playlistview {
   background: @window_bg_color;
 }
+
 
 .main-window button:focus,
 .main-window row:focus {

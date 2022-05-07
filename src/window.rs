@@ -964,12 +964,15 @@ impl Window {
                     imp.main_stack.add_css_class("main-window");
                 }
 
+                self.action_set_enabled("win.enable-recoloring", true);
+
                 return;
             }
         }
 
         imp.provider.load_from_data(&[]);
         imp.main_stack.remove_css_class("main-window");
+        self.action_set_enabled("win.enable-recoloring", false);
     }
 
     fn update_waveform(&self, song: Option<&Song>) {

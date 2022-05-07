@@ -9,6 +9,7 @@ use std::{
 use adw::subclass::prelude::*;
 use glib::{clone, closure_local, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use gtk_macros::stateful_action;
 
 use crate::{
     audio::{AudioPlayer, RepeatMode, Song, WaveformGenerator},
@@ -146,6 +147,7 @@ mod imp {
 
             obj.setup_channel();
             obj.setup_waveform();
+            obj.setup_actions();
             obj.set_initial_state();
             obj.bind_state();
             obj.bind_queue();
@@ -213,6 +215,26 @@ glib::wrapper! {
 impl Window {
     pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
         glib::Object::new(&[("application", application)]).expect("Failed to create Window")
+    }
+
+    fn setup_actions(&self) {
+        let enable_recoloring = self.imp().settings.boolean("enable-recoloring");
+        stateful_action!(
+            self,
+            "enable-recoloring",
+            enable_recoloring,
+            clone!(@weak self as this => move |action, _| {
+                let state = action.state().unwrap();
+                let action_state: bool = state.get().unwrap();
+                let enable_recoloring = !action_state;
+                action.set_state(&enable_recoloring.to_variant());
+
+                this.imp()
+                    .settings
+                    .set_boolean("enable-recoloring", enable_recoloring)
+                    .expect("Unable to store setting");
+            })
+        );
     }
 
     fn setup_channel(&self) {

@@ -8,7 +8,7 @@ use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use crate::{
     config::{APPLICATION_ID, VERSION},
     i18n::i18n,
-    utils, Window,
+    Window,
 };
 
 mod imp {
@@ -121,23 +121,6 @@ impl Application {
             "about",
             clone!(@weak self as app => move |_, _| {
                 app.show_about();
-            })
-        );
-
-        let settings = utils::settings_manager();
-        let enable_recoloring = settings.boolean("enable-recoloring");
-        stateful_action!(
-            self,
-            "enable-recoloring",
-            enable_recoloring,
-            clone!(@weak self as app => move |action, _| {
-                let state = action.state().unwrap();
-                let action_state: bool = state.get().unwrap();
-                let enable_recoloring = !action_state;
-                action.set_state(&enable_recoloring.to_variant());
-
-                let settings = utils::settings_manager();
-                settings.set_boolean("enable-recoloring", enable_recoloring).expect("Unable to store setting");
             })
         );
     }

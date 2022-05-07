@@ -194,7 +194,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Match Cover Art</attribute>
-        <attribute name="action">app.enable-recoloring</attribute>
+        <attribute name="action">win.enable-recoloring</attribute>
       </item>
     </section>
     <section>

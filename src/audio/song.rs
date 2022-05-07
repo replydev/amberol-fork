@@ -81,22 +81,17 @@ impl SongData {
             title = tag.title().map(|s| s.to_string());
             album = tag.album().map(|s| s.to_string());
             if let Some(picture) = tag.get_picture_type(lofty::PictureType::CoverFront) {
-                cover_art = match picture.mime_type() {
-                    lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
-                    lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
-                    lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
-                    _ => None,
-                };
+                cover_art = Some(glib::Bytes::from(picture.data()));
             } else {
+                // If we don't have a CoverFront picture, we fall back to Other
+                // and BandLogo types
                 for picture in tag.pictures() {
-                    cover_art = match picture.mime_type() {
-                        lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
-                        lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
-                        lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
+                    cover_art = match picture.pic_type() {
+                        lofty::PictureType::Other => Some(glib::Bytes::from(picture.data())),
+                        lofty::PictureType::BandLogo => Some(glib::Bytes::from(picture.data())),
                         _ => None,
                     };
 
-                    // Stop at the first cover we find
                     if cover_art.is_some() {
                         break;
                     }
@@ -109,16 +104,19 @@ impl SongData {
                 artist = tag.artist().map(|s| s.to_string());
                 title = tag.title().map(|s| s.to_string());
                 album = tag.album().map(|s| s.to_string());
-                for picture in tag.pictures() {
-                    cover_art = match picture.mime_type() {
-                        lofty::MimeType::Png => Some(glib::Bytes::from(picture.data())),
-                        lofty::MimeType::Jpeg => Some(glib::Bytes::from(picture.data())),
-                        lofty::MimeType::Tiff => Some(glib::Bytes::from(picture.data())),
-                        _ => None,
-                    };
-                    // Stop at the first cover we find
-                    if cover_art.is_some() {
-                        break;
+                if let Some(picture) = tag.get_picture_type(lofty::PictureType::CoverFront) {
+                    cover_art = Some(glib::Bytes::from(picture.data()));
+                } else {
+                    for picture in tag.pictures() {
+                        cover_art = match picture.pic_type() {
+                            lofty::PictureType::Other => Some(glib::Bytes::from(picture.data())),
+                            lofty::PictureType::BandLogo => Some(glib::Bytes::from(picture.data())),
+                            _ => None,
+                        };
+
+                        if cover_art.is_some() {
+                            break;
+                        }
                     }
                 }
 

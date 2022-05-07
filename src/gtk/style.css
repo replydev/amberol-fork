@@ -81,8 +81,7 @@ queuerow checkbutton.selection-mode {
 }
 
 .queue-length {
-  padding-top: 12px;
-  padding-left: 12px;
+  padding: 12px;
 }
 
 dragoverlay {

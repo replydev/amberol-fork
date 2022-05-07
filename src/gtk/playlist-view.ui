@@ -11,8 +11,6 @@
               <object class="GtkBox" id="queue_length_box">
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
-                <property name="margin-start">6</property>
-                <property name="margin-bottom">6</property>
                 <property name="hexpand">true</property>
                 <child>
                   <object class="GtkLabel">
@@ -38,8 +36,8 @@
             </child>
             <child type="end">
               <object class="GtkBox">
-                <property name="margin-top">10</property>
-                <property name="margin-end">12</property>
+                <property name="margin-top">4</property>
+                <property name="margin-end">6</property>
                 <property name="halign">end</property>
                 <property name="spacing">6</property>
                 <child>

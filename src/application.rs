@@ -10,7 +10,7 @@ use log::debug;
 use crate::{
     config::{APPLICATION_ID, VERSION},
     i18n::i18n,
-    Window,
+    window::Window,
 };
 
 mod imp {

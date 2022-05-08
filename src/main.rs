@@ -16,14 +16,14 @@ mod volume_control;
 mod waveform_view;
 mod window;
 
-use self::{application::Application, window::Window};
-
 use std::env;
 
 use config::{APPLICATION_ID, GETTEXT_PACKAGE, LOCALEDIR, PKGDATADIR, PROFILE};
 use gettextrs::{bind_textdomain_codeset, bindtextdomain, setlocale, textdomain, LocaleCategory};
 use gtk::{gio, glib, prelude::*};
 use log::{debug, error};
+
+use self::application::Application;
 
 fn main() {
     pretty_env_logger::init();

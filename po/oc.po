@@ -1,0 +1,311 @@
+# Occitan translation for amberol.
+# Copyright (C) 2022 amberol's COPYRIGHT HOLDER
+# This file is distributed under the same license as the amberol package.
+# Quentin PAGÈS <pages_quentin@hotmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: amberol main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
+"POT-Creation-Date: 2022-05-08 09:35+0000\n"
+"PO-Revision-Date: 2022-05-08 12:25+0200\n"
+"Last-Translator: Quentin PAGÈS\n"
+"Language-Team: Occitan <totenoc@gmail.com>\n"
+"Language: oc\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: data/io.bassi.Amberol.desktop.in.in:3
+#: data/io.bassi.Amberol.appdata.xml.in.in:6
+msgid "Amberol"
+msgstr "Amberol"
+
+#: data/io.bassi.Amberol.desktop.in.in:4
+msgid "Music Player"
+msgstr "Lector de musica"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/io.bassi.Amberol.desktop.in.in:12
+msgid "music;sound;player;media;audio;playlist;"
+msgstr "musica;son;lector;mèdia;audio;àudio;lista de lectura;"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:7
+msgid "Plays music, and nothing else"
+msgstr "Legís de musica, e pas res mai"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:9
+msgid ""
+"Amberol is a music player with no delusions of grandeur. If you just want to "
+"play music available on your local system then Amberol is the music player "
+"you are looking for."
+msgstr ""
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:14
+msgid "Current features:"
+msgstr "Foncionalitats actualas :"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:16
+msgid "adaptive UI"
+msgstr "Interfàcia grafica adaptativa"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:17
+msgid "UI recoloring using the album art"
+msgstr ""
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:18
+msgid "drag and drop support to queue songs"
+msgstr ""
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:19
+msgid "shuffle and repeat"
+msgstr ""
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:20
+msgid "MPRIS integration"
+msgstr ""
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:41
+msgid "Emmanuele Bassi"
+msgstr "Emmanuele Bassi"
+
+#: src/audio/inhibit_controller.rs:41
+msgid "Playback in progress"
+msgstr ""
+
+#: src/audio/song.rs:367
+msgid "Unknown artist"
+msgstr "Artista desconegut"
+
+#: src/audio/song.rs:374
+msgid "Unknown title"
+msgstr "Títol desconegut"
+
+#: src/audio/song.rs:381
+msgid "Unknown album"
+msgstr "Album desconegut"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "Songs Queue"
+msgstr "Fila d'espèra"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Queue a Song"
+msgstr "Metre en espèra una cançon"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Queue a Folder"
+msgstr "Metre en espèra un dossièr"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Clear"
+msgstr "Escafar"
+
+#: src/gtk/help-overlay.ui:34
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Lectura"
+
+#: src/gtk/help-overlay.ui:37
+msgctxt "shortcut window"
+msgid "Toggle Play/Pause"
+msgstr "Bascuola lo mòde lectura/pausa"
+
+#: src/gtk/help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Previous Track"
+msgstr "Pista precedenta"
+
+#: src/gtk/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Next Track"
+msgstr "Pista seguenta"
+
+#: src/gtk/help-overlay.ui:57
+msgctxt "shortcut window"
+msgid "General"
+msgstr "General"
+
+#: src/gtk/help-overlay.ui:60
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Afichar los acorchis"
+
+#: src/gtk/help-overlay.ui:66
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Quitar"
+
+#: src/gtk/playback-control.ui:57
+msgid "Play the previous song"
+msgstr ""
+
+#: src/gtk/playback-control.ui:62
+msgid "Skip backwards"
+msgstr ""
+
+#: src/gtk/playback-control.ui:71 src/gtk/playback-control.ui:77
+msgid "Toggle play"
+msgstr ""
+
+#: src/gtk/playback-control.ui:86
+msgid "Play the next song"
+msgstr ""
+
+#: src/gtk/playback-control.ui:91
+msgid "Skip forward"
+msgstr ""
+
+#: src/gtk/playback-control.ui:114 src/gtk/playback-control.ui:119
+msgid "Toggle playlist"
+msgstr ""
+
+#: src/gtk/playback-control.ui:128
+msgid "Shuffle the playlist"
+msgstr ""
+
+#: src/gtk/playback-control.ui:146 src/window.rs:594
+msgid "Enable repeat"
+msgstr "Activa la lectura en bocla"
+
+#: src/gtk/playback-control.ui:151
+msgid "Repeat mode"
+msgstr "Lectura en bocla"
+
+#: src/gtk/playback-control.ui:166
+msgid "Menu"
+msgstr "Menú"
+
+#: src/gtk/playback-control.ui:182
+msgid "Add _Song"
+msgstr "Apondre una _cançon"
+
+#: src/gtk/playback-control.ui:186
+msgid "Add _Folder"
+msgstr "Apondre un _dossièr"
+
+#: src/gtk/playback-control.ui:190
+msgid "Clear"
+msgstr "Escafar"
+
+#: src/gtk/playback-control.ui:196
+msgid "_Match Cover Art"
+msgstr ""
+
+#: src/gtk/playback-control.ui:202
+msgid "_Keyboard Shortcuts"
+msgstr "_Acorchis de clavièr"
+
+#: src/gtk/playback-control.ui:206
+msgid "_About Amberol"
+msgstr "_A prepaus d’Amberol"
+
+#: src/gtk/playlist-view.ui:20
+msgid "Playlist"
+msgstr "Lista de lectura"
+
+#: src/gtk/playlist-view.ui:50
+msgid "Select songs in the playlist"
+msgstr ""
+
+#: src/gtk/playlist-view.ui:62
+msgid "Close the playlist"
+msgstr "Tampar la lista de lectura"
+
+#: src/gtk/playlist-view.ui:98
+msgid "Select all songs"
+msgstr ""
+
+#: src/gtk/playlist-view.ui:111
+msgid "Remove selected songs"
+msgstr ""
+
+#: src/gtk/queue-row.ui:137
+msgid "Playing next"
+msgstr ""
+
+#: src/gtk/window.ui:12
+msgid "Drop a song to add it to the queue"
+msgstr ""
+
+#: src/gtk/window.ui:45
+msgid ""
+"Select a folder or drag files from your file manager to the application "
+"window to add songs to the playlist"
+msgstr ""
+
+#: src/gtk/window.ui:53
+msgid "Choose a file"
+msgstr "Causir un fichièr"
+
+#: src/gtk/window.ui:63
+msgid "Choose a folder"
+msgstr "Causir un dossièr"
+
+#: src/application.rs:152
+msgid "Plays music and nothing else"
+msgstr "Legís de musica, e pas res mai"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/application.rs:158
+msgid "translator-credits"
+msgstr "Quentin PAGÈS"
+
+#: src/window.rs:342
+msgid "_Add Song"
+msgstr "Apondre una _cançon"
+
+#: src/window.rs:343 src/window.rs:377
+msgid "_Cancel"
+msgstr "_Anullar"
+
+#: src/window.rs:351
+msgid "Audio files"
+msgstr "Fichièrs àudio"
+
+#: src/window.rs:376
+msgid "_Add Folder"
+msgstr "Apondre un _dossièr"
+
+#: src/window.rs:417 src/window.rs:823
+msgid "Unrecognized file type for “{}”"
+msgstr ""
+
+#: src/window.rs:426
+msgid "“{}” is not a supported audio file"
+msgstr ""
+
+#: src/window.rs:598
+msgid "Repeat all tracks"
+msgstr ""
+
+#: src/window.rs:602
+msgid "Repeat the current track"
+msgstr ""
+
+#. Translators: the '{}' must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
+#: src/window.rs:856
+msgid "{} minute remaining"
+msgid_plural "{} minutes remaining"
+msgstr[0] "{} minuta restanta"
+msgstr[1] "{} minutas restantas"
+
+#: src/window.rs:973
+msgid "No song selected"
+msgstr "Cap de cançon pas seleccionada"
+
+#. Translators: The '{}' must be left unmodified, and
+#. it is expanded to the number of songs selected
+#: src/window.rs:978
+msgid "{} song selected"
+msgid_plural "{} songs selected"
+msgstr[0] "{} cançon seleccionada"
+msgstr[1] "{} cançons seleccionadas"

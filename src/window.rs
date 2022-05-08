@@ -271,7 +271,7 @@ impl Window {
         // let width = settings.int("window-width");
         // let height = settings.int("window-height");
         // self.set_default_size(width, height);
-        self.set_default_size(600, -1);
+        self.set_default_size(720, 605);
     }
 
     fn reset_queue(&self) {

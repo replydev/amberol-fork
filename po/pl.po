@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-03 12:33+0000\n"
-"PO-Revision-Date: 2022-05-03 15:00+0200\n"
+"POT-Creation-Date: 2022-05-06 17:43+0000\n"
+"PO-Revision-Date: 2022-05-08 11:33+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -133,96 +133,82 @@ msgctxt "shortcut window"
 msgid "Next Track"
 msgstr "Następna ścieżka"
 
-#: src/gtk/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Seek Backwards"
-msgstr "Przewinięcie do tyłu"
-
-#: src/gtk/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Seek Forward"
-msgstr "Przewinięcie do przodu"
-
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:57
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Ogólne"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:60
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
 msgstr "Wyświetlenie skrótów"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:66
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Zakończenie działania"
 
-#: src/gtk/playback-control.ui:26
+#: src/gtk/playback-control.ui:57
 msgid "Play the previous song"
 msgstr "Odtwarza poprzedni utwór"
 
-#: src/gtk/playback-control.ui:31
+#: src/gtk/playback-control.ui:62
 msgid "Skip backwards"
 msgstr "Przechodzi do tyłu"
 
-#: src/gtk/playback-control.ui:40 src/gtk/playback-control.ui:46
+#: src/gtk/playback-control.ui:71 src/gtk/playback-control.ui:77
 msgid "Toggle play"
 msgstr "Przełącza odtwarzanie"
 
-#: src/gtk/playback-control.ui:55
+#: src/gtk/playback-control.ui:86
 msgid "Play the next song"
 msgstr "Odtwarza następny utwór"
 
-#: src/gtk/playback-control.ui:60
+#: src/gtk/playback-control.ui:91
 msgid "Skip forward"
 msgstr "Przechodzi do przodu"
 
-#: src/gtk/playback-control.ui:83
-msgid "Show the playlist"
-msgstr "Wyświetla listę odtwarzania"
-
-#: src/gtk/playback-control.ui:88
+#: src/gtk/playback-control.ui:114 src/gtk/playback-control.ui:119
 msgid "Toggle playlist"
 msgstr "Przełącza listę odtwarzania"
 
-#: src/gtk/playback-control.ui:97
+#: src/gtk/playback-control.ui:128
 msgid "Shuffle the playlist"
 msgstr "Miesza listę odtwarzania"
 
-#: src/gtk/playback-control.ui:115 src/window.rs:587
+#: src/gtk/playback-control.ui:146 src/window.rs:594
 msgid "Enable repeat"
 msgstr "Włącza powtarzanie"
 
-#: src/gtk/playback-control.ui:120
+#: src/gtk/playback-control.ui:151
 msgid "Repeat mode"
 msgstr "Tryb powtarzania"
 
-#: src/gtk/playback-control.ui:135
+#: src/gtk/playback-control.ui:166
 msgid "Menu"
 msgstr "Menu"
 
-#: src/gtk/playback-control.ui:151
+#: src/gtk/playback-control.ui:182
 msgid "Add _Song"
 msgstr "Dodaj _utwór"
 
-#: src/gtk/playback-control.ui:155
+#: src/gtk/playback-control.ui:186
 msgid "Add _Folder"
 msgstr "_Dodaj katalog"
 
-#: src/gtk/playback-control.ui:159
+#: src/gtk/playback-control.ui:190
 msgid "Clear"
 msgstr "Wyczyść"
 
-#: src/gtk/playback-control.ui:165
+#: src/gtk/playback-control.ui:196
 msgid "_Match Cover Art"
 msgstr "_Kolor okładki"
 
-#: src/gtk/playback-control.ui:171
+#: src/gtk/playback-control.ui:202
 msgid "_Keyboard Shortcuts"
 msgstr "_Skróty klawiszowe"
 
-#: src/gtk/playback-control.ui:175
+#: src/gtk/playback-control.ui:206
 msgid "_About Amberol"
 msgstr "_O programie"
 
@@ -232,21 +218,21 @@ msgstr "Lista odtwarzania"
 
 #: src/gtk/playlist-view.ui:50
 msgid "Select songs in the playlist"
-msgstr "Wybiera utwory na liście odtwarzania"
+msgstr "Zaznacza utwory na liście odtwarzania"
 
 #: src/gtk/playlist-view.ui:62
 msgid "Close the playlist"
 msgstr "Zamyka listę odtwarzania"
 
 #: src/gtk/playlist-view.ui:98
-msgid "Remove all songs"
-msgstr "Usuwa wszystkie utwory"
+msgid "Select all songs"
+msgstr "Zaznacza wszystkie utwory"
 
 #: src/gtk/playlist-view.ui:111
 msgid "Remove selected songs"
-msgstr "Usuwa wybrane utwory"
+msgstr "Usuwa zaznaczone utwory"
 
-#: src/gtk/queue-row.ui:132
+#: src/gtk/queue-row.ui:137
 msgid "Playing next"
 msgstr "Następne"
 
@@ -262,7 +248,11 @@ msgstr ""
 "Wybranie katalogu lub przeciągnięcie plików z menedżera plików do okna "
 "programu doda utwory do listy odtwarzania"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:53
+msgid "Choose a file"
+msgstr "Wybierz plik"
+
+#: src/gtk/window.ui:63
 msgid "Choose a folder"
 msgstr "Wybierz katalog"
 
@@ -277,57 +267,57 @@ msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2022\n"
 "Aviary.pl <community-poland@mozilla.org>, 2022"
 
-#: src/window.rs:337
+#: src/window.rs:342
 msgid "_Add Song"
 msgstr "_Dodaj utwór"
 
-#: src/window.rs:338 src/window.rs:372
+#: src/window.rs:343 src/window.rs:377
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: src/window.rs:346
+#: src/window.rs:351
 msgid "Audio files"
 msgstr "Pliki dźwiękowe"
 
-#: src/window.rs:371
+#: src/window.rs:376
 msgid "_Add Folder"
 msgstr "_Dodaj katalog"
 
-#: src/window.rs:411 src/window.rs:807
+#: src/window.rs:417 src/window.rs:823
 msgid "Unrecognized file type for “{}”"
 msgstr "Nieznany typ pliku „{}”"
 
-#: src/window.rs:418
+#: src/window.rs:426
 msgid "“{}” is not a supported audio file"
 msgstr "„{}” nie jest obsługiwanym plikiem dźwiękowym"
 
-#: src/window.rs:591
+#: src/window.rs:598
 msgid "Repeat all tracks"
 msgstr "Powtarza wszystkie ścieżki"
 
-#: src/window.rs:595
+#: src/window.rs:602
 msgid "Repeat the current track"
 msgstr "Powtarza obecną ścieżkę"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:840
+#: src/window.rs:856
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Pozostała {} minuta"
 msgstr[1] "Pozostały {} minuty"
 msgstr[2] "Pozostało {} minut"
 
-#: src/window.rs:930
+#: src/window.rs:973
 msgid "No song selected"
-msgstr "Nie wybrano utworu"
+msgstr "Nie zaznaczono żadnego utworu"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:935
+#: src/window.rs:978
 msgid "{} song selected"
 msgid_plural "{} songs selected"
-msgstr[0] "Wybrano {} utwór"
-msgstr[1] "Wybrano {} utwory"
-msgstr[2] "Wybrano {} utworów"
+msgstr[0] "Zaznaczono {} utwór"
+msgstr[1] "Zaznaczono {} utwory"
+msgstr[2] "Zaznaczono {} utworów"

@@ -36,7 +36,6 @@
             </child>
             <child type="end">
               <object class="GtkBox">
-                <property name="margin-top">4</property>
                 <property name="margin-end">6</property>
                 <property name="halign">end</property>
                 <property name="spacing">6</property>
@@ -44,6 +43,7 @@
                   <object class="GtkToggleButton" id="select_button">
                     <property name="icon-name">selection-mode-symbolic</property>
                     <property name="action-name">queue.select</property>
+                    <property name="halign">center</property>
                     <property name="valign">center</property>
                     <property name="tooltip-text" translatable="yes">Select songs in the playlist</property>
                     <style>
@@ -56,6 +56,7 @@
                     <property name="visible">false</property>
                     <property name="icon-name">go-previous-symbolic</property>
                     <property name="action-name">queue.toggle</property>
+                    <property name="halign">center</property>
                     <property name="valign">center</property>
                     <property name="tooltip-text" translatable="yes">Close the playlist</property>
                     <style>

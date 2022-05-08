@@ -52,7 +52,7 @@
                     <child>
                       <object class="GtkLabel" id="song_title_label">
                         <property name="xalign">0</property>
-                        <property name="width-chars">25</property>
+                        <property name="width-chars">30</property>
                         <property name="max-width-chars">35</property>
                         <property name="ellipsize">end</property>
                         <style>
@@ -63,9 +63,8 @@
                     <child>
                       <object class="GtkLabel" id="song_artist_label">
                         <property name="xalign">0</property>
-                        <property name="width-chars">25</property>
-                        <property name="max-width-chars">35</property>
                         <property name="ellipsize">end</property>
+                        <property name="max-width-chars">35</property>
                         <style>
                           <class name="song-artist"/>
                         </style>
@@ -103,6 +102,7 @@
                     <child>
                       <object class="GtkLabel" id="selection_title_label">
                         <property name="xalign">0</property>
+                        <property name="width-chars">30</property>
                         <property name="max-width-chars">35</property>
                         <property name="ellipsize">end</property>
                         <style>
@@ -133,8 +133,9 @@
           <object class="GtkStackPage">
             <property name="name">currently-playing</property>
             <property name="child">
-              <object class="GtkLabel">
+              <object class="GtkLabel" id="playing_label">
                 <property name="label" translatable="yes">Playing next</property>
+                <property name="width-chars">30</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="currently-playing"/>

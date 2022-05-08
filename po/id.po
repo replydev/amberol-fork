@@ -1,0 +1,314 @@
+# Indonesian translation for amberol.
+# Copyright (C) 2022 amberol's COPYRIGHT HOLDER
+# This file is distributed under the same license as the amberol package.
+# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: amberol main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
+"POT-Creation-Date: 2022-05-07 22:18+0000\n"
+"PO-Revision-Date: 2022-05-08 12:16+0700\n"
+"Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
+"Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: data/io.bassi.Amberol.desktop.in.in:3
+#: data/io.bassi.Amberol.appdata.xml.in.in:6
+msgid "Amberol"
+msgstr "Amberol"
+
+#: data/io.bassi.Amberol.desktop.in.in:4
+msgid "Music Player"
+msgstr "Pemutar Musik"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/io.bassi.Amberol.desktop.in.in:12
+msgid "music;sound;player;media;audio;playlist;"
+msgstr "musik;suara;pemutar;media;audio;daftar putar;"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:7
+msgid "Plays music, and nothing else"
+msgstr "Putar musik, dan tidak ada yang lain"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:9
+msgid ""
+"Amberol is a music player with no delusions of grandeur. If you just want to "
+"play music available on your local system then Amberol is the music player "
+"you are looking for."
+msgstr ""
+"Amberol adalah pemutar musik tanpa delusi keagungan. Jika Anda hanya ingin "
+"memutar musik yang tersedia di sistem lokal Anda maka Amberol adalah pemutar "
+"musik yang Anda cari."
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:14
+msgid "Current features:"
+msgstr "Fitur saat ini:"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:16
+msgid "adaptive UI"
+msgstr "antarmuka adaptif"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:17
+msgid "UI recoloring using the album art"
+msgstr "Pewarnaan ulang antar muka menggunakan sampul album"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:18
+msgid "drag and drop support to queue songs"
+msgstr "seret dan lepas dukungan untuk mengantrekan lagu"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:19
+msgid "shuffle and repeat"
+msgstr "acak dan ulangi"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:20
+msgid "MPRIS integration"
+msgstr "Integrasi MPRIS"
+
+#: data/io.bassi.Amberol.appdata.xml.in.in:41
+msgid "Emmanuele Bassi"
+msgstr "Emmanuele Bassi"
+
+#: src/audio/inhibit_controller.rs:41
+msgid "Playback in progress"
+msgstr "Pemutaran sedang berlangsung"
+
+#: src/audio/song.rs:367
+msgid "Unknown artist"
+msgstr "Artis tak dikenal"
+
+#: src/audio/song.rs:374
+msgid "Unknown title"
+msgstr "Judul tak dikenal"
+
+#: src/audio/song.rs:381
+msgid "Unknown album"
+msgstr "Album tak dikenal"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "Songs Queue"
+msgstr "Antrean Lagu"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Queue a Song"
+msgstr "Antrekan Lagu"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Queue a Folder"
+msgstr "Antrekan Folder"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Clear"
+msgstr "Bersihkan"
+
+#: src/gtk/help-overlay.ui:34
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Putar"
+
+#: src/gtk/help-overlay.ui:37
+msgctxt "shortcut window"
+msgid "Toggle Play/Pause"
+msgstr "Jungkitkan Putar/Jeda"
+
+#: src/gtk/help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Previous Track"
+msgstr "Trek Sebelumnya"
+
+#: src/gtk/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Next Track"
+msgstr "Trek Selanjutnya"
+
+#: src/gtk/help-overlay.ui:57
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Umum"
+
+#: src/gtk/help-overlay.ui:60
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Tampilkan Pintasan"
+
+#: src/gtk/help-overlay.ui:66
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Keluar"
+
+#: src/gtk/playback-control.ui:57
+msgid "Play the previous song"
+msgstr "Putar lagu sebelumnya"
+
+#: src/gtk/playback-control.ui:62
+msgid "Skip backwards"
+msgstr "Lewati ke belakang"
+
+#: src/gtk/playback-control.ui:71 src/gtk/playback-control.ui:77
+msgid "Toggle play"
+msgstr "Jungkitkan pemutar"
+
+#: src/gtk/playback-control.ui:86
+msgid "Play the next song"
+msgstr "Putar lagu berikutnya"
+
+#: src/gtk/playback-control.ui:91
+msgid "Skip forward"
+msgstr "Lewati ke depan"
+
+#: src/gtk/playback-control.ui:114 src/gtk/playback-control.ui:119
+msgid "Toggle playlist"
+msgstr "Jungkitkan daftar putar"
+
+#: src/gtk/playback-control.ui:128
+msgid "Shuffle the playlist"
+msgstr "Acak daftar putar"
+
+#: src/gtk/playback-control.ui:146 src/window.rs:594
+msgid "Enable repeat"
+msgstr "Aktifkan pengulangan"
+
+#: src/gtk/playback-control.ui:151
+msgid "Repeat mode"
+msgstr "Mode berulang"
+
+#: src/gtk/playback-control.ui:166
+msgid "Menu"
+msgstr "Menu"
+
+#: src/gtk/playback-control.ui:182
+msgid "Add _Song"
+msgstr "Tambah _Lagu"
+
+#: src/gtk/playback-control.ui:186
+msgid "Add _Folder"
+msgstr "Tambah _Folder"
+
+#: src/gtk/playback-control.ui:190
+msgid "Clear"
+msgstr "Bersihkan"
+
+#: src/gtk/playback-control.ui:196
+msgid "_Match Cover Art"
+msgstr "Cocokkan Sampul Albu_m"
+
+#: src/gtk/playback-control.ui:202
+msgid "_Keyboard Shortcuts"
+msgstr "Pintasan Papan Ti_k"
+
+#: src/gtk/playback-control.ui:206
+msgid "_About Amberol"
+msgstr "Tent_ang Amberol"
+
+#: src/gtk/playlist-view.ui:20
+msgid "Playlist"
+msgstr "Daftar Putar"
+
+#: src/gtk/playlist-view.ui:50
+msgid "Select songs in the playlist"
+msgstr "Pilih lagu dalam daftar putar"
+
+#: src/gtk/playlist-view.ui:62
+msgid "Close the playlist"
+msgstr "Tutup daftar putar"
+
+#: src/gtk/playlist-view.ui:98
+msgid "Select all songs"
+msgstr "Pilih semua lagu"
+
+#: src/gtk/playlist-view.ui:111
+msgid "Remove selected songs"
+msgstr "Hapus lagu yang dipilih"
+
+#: src/gtk/queue-row.ui:137
+msgid "Playing next"
+msgstr "Memutar berikutnya"
+
+#: src/gtk/window.ui:12
+msgid "Drop a song to add it to the queue"
+msgstr "Jatuhkan lagu untuk menambahkannya ke antrean"
+
+#: src/gtk/window.ui:45
+msgid ""
+"Select a folder or drag files from your file manager to the application "
+"window to add songs to the playlist"
+msgstr ""
+"Pilih folder atau berkas file dari pengelola berkas Anda ke jendela aplikasi "
+"untuk menambahkan lagu ke daftar putar"
+
+#: src/gtk/window.ui:53
+msgid "Choose a file"
+msgstr "Pilih berkas"
+
+#: src/gtk/window.ui:63
+msgid "Choose a folder"
+msgstr "Pilih folder"
+
+#: src/application.rs:152
+msgid "Plays music and nothing else"
+msgstr "Putar musik dan tak ada yang lain"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/application.rs:158
+msgid "translator-credits"
+msgstr "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2022."
+
+#: src/window.rs:342
+msgid "_Add Song"
+msgstr "T_ambah Lagu"
+
+#: src/window.rs:343 src/window.rs:377
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: src/window.rs:351
+msgid "Audio files"
+msgstr "Berkas suara"
+
+#: src/window.rs:376
+msgid "_Add Folder"
+msgstr "T_ambah Folder"
+
+#: src/window.rs:417 src/window.rs:823
+msgid "Unrecognized file type for “{}”"
+msgstr "Jenis berkas yang tidak dikenal untuk \"{}\""
+
+#: src/window.rs:426
+msgid "“{}” is not a supported audio file"
+msgstr "\"{}\" bukan berkas audio yang didukung"
+
+#: src/window.rs:598
+msgid "Repeat all tracks"
+msgstr "Ulangi semua trek"
+
+#: src/window.rs:602
+msgid "Repeat the current track"
+msgstr "Ulangi trek saat ini"
+
+#. Translators: the '{}' must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
+#: src/window.rs:856
+msgid "{} minute remaining"
+msgid_plural "{} minutes remaining"
+msgstr[0] "{} menit tersisa"
+
+#: src/window.rs:973
+msgid "No song selected"
+msgstr "Tidak ada lagu yang dipilih"
+
+#. Translators: The '{}' must be left unmodified, and
+#. it is expanded to the number of songs selected
+#: src/window.rs:978
+msgid "{} song selected"
+msgid_plural "{} songs selected"
+msgstr[0] "{} lagu dipilih"

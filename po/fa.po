@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-03 21:39+0430\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
+"POT-Creation-Date: 2022-05-03 20:11+0000\n"
 "PO-Revision-Date: 2022-05-03 21:51+0430\n"
 "Last-Translator: eshagh <eshagh094@gmail.com>\n"
 "Language-Team: Farsi\n"
@@ -19,7 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: data/io.bassi.Amberol.desktop.in.in:3 data/io.bassi.Amberol.appdata.xml.in.in:6
+#: data/io.bassi.Amberol.desktop.in.in:3
+#: data/io.bassi.Amberol.appdata.xml.in.in:6
 msgid "Amberol"
 msgstr "آمبرول"
 
@@ -27,6 +28,7 @@ msgstr "آمبرول"
 msgid "Music Player"
 msgstr "پخش‌کنندهٔ آهنگ"
 
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
 msgid "music;sound;player;media;audio;playlist;"
 msgstr "music;sound;player:media;موزیک;آهنگ;موسیقی;صدا;صوت;آوا;پخش‌کننده;رسانه;"
@@ -38,8 +40,8 @@ msgstr "پخش آهنگ، نه چیز دیگر"
 #: data/io.bassi.Amberol.appdata.xml.in.in:9
 msgid ""
 "Amberol is a music player with no delusions of grandeur. If you just want to "
-"play music available on your local system then Amberol is the music player you "
-"are looking for."
+"play music available on your local system then Amberol is the music player "
+"you are looking for."
 msgstr ""
 "آمبرول یک پخش‌کننده آهنگ بدون توهم بزرگی است. اگر شما فقط نیاز به پخش آهنگ‌های "
 "موجود روی سامانهٔ محلی‌تان دارید، آمبرول آن پخش‌کننده آهنگی است که شما دنبال آن "
@@ -71,89 +73,7 @@ msgstr "یکپارچگی با MPRIS"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:41
 msgid "Emmanuele Bassi"
-msgstr "Emmanuele Bassi"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:59
-msgid "Last UI change for a while, I promise."
-msgstr "آخرین تغییر رابط کاربری برای مدتی، قول می‌دهم."
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:61
-msgid "Move the playlist panel to the left"
-msgstr "بردن تابلوی فهرست پخش به چپ"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:62
-msgid "Drop the seek buttons"
-msgstr "رهاکردن دکمه‌های حرکت"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:63
-msgid "Improve the rendering of the waveform"
-msgstr "بهبود نمایش شکل موج"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:64
-msgid "Improve extraction of the song metadata"
-msgstr "بهبود استخراج ابرداده آهنگ"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:66
-msgid "Thanks to everyone who tried Amberol and filed issues!"
-msgstr "تشکر از همه کسانی که آمبرول را امتحان کردند و مشکل‌ها را پر!"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:71
-msgid "Bugs never end, and so does bug squashing."
-msgstr "مشکلات تمامی ندارند، پس مشکلات را برطرف می‌کنیم."
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:73
-msgid "Fix a crash when manually advancing through the playlist"
-msgstr "برطرف کردن کرش هنگام پیشروی از طریق فهرست پخش"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:74
-msgid "Make the waveform scrubber more legible"
-msgstr "خواناتر کردن شکل موج"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:75
-msgid "Keep the UI state more consistent when toggling the playlist"
-msgstr "استوار نگه‌داشتن رابط کاربری هنگام تغییر وضعیت فهرست پخش"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:77
-msgid ""
-"Many, many thanks to all of those who opened an issue after the 0.4.0 release!"
-msgstr "تشکر بسیار فراوان از همه کسانی که بعد از نگارش ۰.۴.۰ مشکلی را باز کردند!"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:82
-msgid "Fix a slight visual artefact in the playlist"
-msgstr "تصحیح یک مصنوع بصری جزئی در لیست پخش"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:87
-msgid "A brown paper bag release fixing an embarrassing bug."
-msgstr "رها کردن کیسه کاغذی قهوه‌ای برای رفع یک اشکال شرم‌آور."
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:92
-msgid "The first beta release for Amberol! Isn't this exciting?"
-msgstr "اولین نگارش بتا برای آمبرول! آیا این هیجان انگیز نیست؟"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:94
-msgid "Show an initial page when launching Amberol"
-msgstr "هنگام راه‌اندازی آمبرول یک صفحهٔ اولیه را نشان می‌دهد"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:95
-msgid "Make the layout more mobile friendly without impacting desktop users"
-msgstr "بدون تأثیر بر کاربران میزکار، طرح‌بندی را برای تلفن همراه راحت‌تر می‌کند"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:96
-msgid "Allow removing songs from the playlist"
-msgstr "اجازهٔ برداشتن آهنگ از فهرست پخش را می‌دهد"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:97
-msgid "Add initial (experimental) support for recursive loading of music folders"
-msgstr ""
-"پشتیبانی اولیه (آزمایشی) را برای بارگذاری بازگشتی شاخه‌های موسیقی اضافه کنید"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:98
-msgid "Show the cover art for music tracks in the playlist"
-msgstr "تصویر جلد قطعه‌های موسیقی را در فهرست پخش نمایش می‌دهد"
-
-#: data/io.bassi.Amberol.appdata.xml.in.in:99
-msgid "Show the current position inside the song"
-msgstr "نمایش موقعیت حال درون آهنگ"
+msgstr "امانوئل باسی"
 
 #: src/audio/inhibit_controller.rs:41
 msgid "Playback in progress"
@@ -266,7 +186,7 @@ msgstr "تغییر وضعیت فهرست پخش"
 
 #: src/gtk/playback-control.ui:97
 msgid "Shuffle the playlist"
-msgstr "برهم زدن فهرست پخش"
+msgstr "بُر زدن فهرست پخش"
 
 #: src/gtk/playback-control.ui:115 src/window.rs:587
 msgid "Enable repeat"
@@ -334,8 +254,8 @@ msgstr "برای افزودن آهنگی به صف آن را به اینجا ر�
 
 #: src/gtk/window.ui:45
 msgid ""
-"Select a folder or drag files from your file manager to the application window "
-"to add songs to the playlist"
+"Select a folder or drag files from your file manager to the application "
+"window to add songs to the playlist"
 msgstr ""
 "برای افزودن آهنگ‌ها به فهرست پخش، یک شاخه را برگزینید یا پرونده‌ها را از مدیر "
 "پرونده‌تان به پنجرهٔ برنامه بکشید"
@@ -348,6 +268,7 @@ msgstr "شاخه‌ای برگزینید"
 msgid "Plays music and nothing else"
 msgstr "پخش آهنگ، و دیگر هیچ"
 
+#. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:158
 msgid "translator-credits"
 msgstr ""
@@ -386,6 +307,9 @@ msgstr "تکرار همهٔ قطعه‌ها"
 msgid "Repeat the current track"
 msgstr "تکرار قطعهٔ کنونی"
 
+#. Translators: the '{}' must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
 #: src/window.rs:840
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
@@ -396,8 +320,77 @@ msgstr[1] "{} دقیقه باقی‌مانده"
 msgid "No song selected"
 msgstr "هیچ آهنگی برگزیده نشده"
 
+#. Translators: The '{}' must be left unmodified, and
+#. it is expanded to the number of songs selected
 #: src/window.rs:935
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} آهنگ برگزیده شده"
 msgstr[1] "{} آهنگ برگزیده شده"
+
+#~ msgid "Last UI change for a while, I promise."
+#~ msgstr "آخرین تغییر رابط کاربری برای مدتی، قول می‌دهم."
+
+#~ msgid "Move the playlist panel to the left"
+#~ msgstr "بردن تابلوی فهرست پخش به چپ"
+
+#~ msgid "Drop the seek buttons"
+#~ msgstr "رهاکردن دکمه‌های حرکت"
+
+#~ msgid "Improve the rendering of the waveform"
+#~ msgstr "بهبود نمایش شکل موج"
+
+#~ msgid "Improve extraction of the song metadata"
+#~ msgstr "بهبود استخراج ابرداده آهنگ"
+
+#~ msgid "Thanks to everyone who tried Amberol and filed issues!"
+#~ msgstr "تشکر از همه کسانی که آمبرول را امتحان کردند و مشکل‌ها را پر!"
+
+#~ msgid "Bugs never end, and so does bug squashing."
+#~ msgstr "مشکلات تمامی ندارند، پس مشکلات را برطرف می‌کنیم."
+
+#~ msgid "Fix a crash when manually advancing through the playlist"
+#~ msgstr "برطرف کردن کرش هنگام پیشروی از طریق فهرست پخش"
+
+#~ msgid "Make the waveform scrubber more legible"
+#~ msgstr "خواناتر کردن شکل موج"
+
+#~ msgid "Keep the UI state more consistent when toggling the playlist"
+#~ msgstr "استوار نگه‌داشتن رابط کاربری هنگام تغییر وضعیت فهرست پخش"
+
+#~ msgid ""
+#~ "Many, many thanks to all of those who opened an issue after the 0.4.0 "
+#~ "release!"
+#~ msgstr ""
+#~ "تشکر بسیار فراوان از همه کسانی که بعد از نگارش ۰.۴.۰ مشکلی را باز کردند!"
+
+#~ msgid "Fix a slight visual artefact in the playlist"
+#~ msgstr "تصحیح یک مصنوع بصری جزئی در لیست پخش"
+
+#~ msgid "A brown paper bag release fixing an embarrassing bug."
+#~ msgstr "رها کردن کیسه کاغذی قهوه‌ای برای رفع یک اشکال شرم‌آور."
+
+#~ msgid "The first beta release for Amberol! Isn't this exciting?"
+#~ msgstr "اولین نگارش بتا برای آمبرول! آیا این هیجان انگیز نیست؟"
+
+#~ msgid "Show an initial page when launching Amberol"
+#~ msgstr "هنگام راه‌اندازی آمبرول یک صفحهٔ اولیه را نشان می‌دهد"
+
+#~ msgid "Make the layout more mobile friendly without impacting desktop users"
+#~ msgstr ""
+#~ "بدون تأثیر بر کاربران میزکار، طرح‌بندی را برای تلفن همراه راحت‌تر می‌کند"
+
+#~ msgid "Allow removing songs from the playlist"
+#~ msgstr "اجازهٔ برداشتن آهنگ از فهرست پخش را می‌دهد"
+
+#~ msgid ""
+#~ "Add initial (experimental) support for recursive loading of music folders"
+#~ msgstr ""
+#~ "پشتیبانی اولیه (آزمایشی) را برای بارگذاری بازگشتی شاخه‌های موسیقی اضافه "
+#~ "کنید"
+
+#~ msgid "Show the cover art for music tracks in the playlist"
+#~ msgstr "تصویر جلد قطعه‌های موسیقی را در فهرست پخش نمایش می‌دهد"
+
+#~ msgid "Show the current position inside the song"
+#~ msgstr "نمایش موقعیت حال درون آهنگ"

@@ -19,8 +19,6 @@ mod window;
 use self::{application::Application, window::Window};
 
 #[macro_use]
-extern crate gtk_macros;
-#[macro_use]
 extern crate log;
 
 use std::env;

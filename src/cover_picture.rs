@@ -33,6 +33,9 @@ mod imp {
 
     use super::*;
 
+    const LARGE_SIZE: i32 = 192;
+    const SMALL_SIZE: i32 = 48;
+
     #[derive(Debug, Default)]
     pub struct CoverPicture {
         pub cover: RefCell<Option<gdk::Texture>>,
@@ -112,8 +115,8 @@ mod imp {
             _for_size: i32,
         ) -> (i32, i32, i32, i32) {
             match self.cover_size.get() {
-                CoverSize::Large => (128, 128, -1, -1),
-                CoverSize::Small => (48, 48, -1, -1),
+                CoverSize::Large => (LARGE_SIZE, LARGE_SIZE, -1, -1),
+                CoverSize::Small => (SMALL_SIZE, SMALL_SIZE, -1, -1),
             }
         }
 

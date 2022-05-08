@@ -24,8 +24,8 @@ songdetails label.song-title {
 }
 
 picture.cover {
-  min-width: 128px;
-  min-height: 128px;
+  min-width: 192px;
+  min-height: 192px;
   box-shadow: 0px 1px 4px rgba(0,0,0,0.5),
               0px 2px 8px rgba(0,0,0,0.3);
   border-radius: 6px;

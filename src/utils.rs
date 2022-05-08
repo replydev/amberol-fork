@@ -17,14 +17,22 @@ pub fn format_time(t: u64) -> String {
     format!("{}:{:02}", (t - (t % 60)) / 60, t % 60)
 }
 
+// The base cover size is 196px, but we need to account for HiDPI;
+// better to scale down when rendering on displays with a scaling
+// factor of 1 than having to scale up on displays with a scaling
+// factor of 2.
+const COVER_SIZE: i32 = 196 * 2;
+
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
 
-    // We use 256x256 to account for HiDPI; better to scale down when
-    // rendering on displays with a scaling factor of 1 than having to
-    // scale up on displays with a scaling factor of 2.
-    match gdk_pixbuf::Pixbuf::from_stream_at_scale(&stream, 256, 256, true, gio::Cancellable::NONE)
-    {
+    match gdk_pixbuf::Pixbuf::from_stream_at_scale(
+        &stream,
+        COVER_SIZE,
+        COVER_SIZE,
+        true,
+        gio::Cancellable::NONE,
+    ) {
         Ok(pixbuf) => Some(pixbuf),
         Err(_) => None,
     }

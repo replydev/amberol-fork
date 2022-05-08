@@ -10,6 +10,7 @@ use adw::subclass::prelude::*;
 use glib::{clone, closure_local, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use gtk_macros::stateful_action;
+use log::debug;
 
 use crate::{
     audio::{AudioPlayer, RepeatMode, Song, WaveformGenerator},

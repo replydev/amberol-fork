@@ -177,7 +177,6 @@ impl CoverPicture {
     }
 
     pub fn set_cover_size(&self, cover_size: CoverSize) {
-        debug!("Setting cover size: {:?}", &cover_size);
         self.imp().cover_size.replace(cover_size);
         self.queue_resize();
         self.notify("cover-size");

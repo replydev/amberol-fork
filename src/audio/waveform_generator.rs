@@ -6,6 +6,7 @@ use std::cell::RefCell;
 use glib::clone;
 use gst::prelude::*;
 use gtk::{glib, subclass::prelude::*};
+use log::{debug, warn};
 
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};

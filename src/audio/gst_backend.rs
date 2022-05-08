@@ -4,6 +4,7 @@
 use glib::{clone, Sender};
 use gtk::{glib, prelude::*};
 use gtk_macros::send;
+use log::{debug, error, warn};
 
 use crate::audio::{PlaybackAction, SeekDirection};
 

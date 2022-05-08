@@ -18,14 +18,12 @@ mod window;
 
 use self::{application::Application, window::Window};
 
-#[macro_use]
-extern crate log;
-
 use std::env;
 
 use config::{APPLICATION_ID, GETTEXT_PACKAGE, LOCALEDIR, PKGDATADIR, PROFILE};
 use gettextrs::{bind_textdomain_codeset, bindtextdomain, setlocale, textdomain, LocaleCategory};
 use gtk::{gio, glib, prelude::*};
+use log::{debug, error};
 
 fn main() {
     pretty_env_logger::init();

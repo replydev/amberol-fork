@@ -6,6 +6,7 @@ use std::{cell::RefCell, sync::Arc, time::Duration};
 use glib::{clone, Sender};
 use gtk::glib;
 use gtk_macros::send;
+use log::error;
 use mpris_player::{LoopStatus, Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
 
 use crate::{

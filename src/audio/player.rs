@@ -6,6 +6,7 @@ use std::{cell::RefCell, rc::Rc};
 use glib::{clone, Receiver, Sender};
 use gtk::glib;
 use gtk_macros::send;
+use log::{debug, error};
 
 use crate::{
     audio::{Controller, GstBackend, InhibitController, MprisController, PlayerState, Queue, Song},

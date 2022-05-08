@@ -5,6 +5,7 @@ use adw::subclass::prelude::*;
 use glib::clone;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use gtk_macros::action;
+use log::debug;
 
 use crate::{
     config::{APPLICATION_ID, VERSION},

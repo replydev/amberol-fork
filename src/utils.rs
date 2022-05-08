@@ -3,6 +3,7 @@
 
 use color_thief::{get_palette, ColorFormat};
 use gtk::{gdk, gio, glib, prelude::*};
+use log::debug;
 
 use crate::config::APPLICATION_ID;
 

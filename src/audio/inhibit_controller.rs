@@ -4,6 +4,7 @@
 use std::cell::Cell;
 
 use gtk::{gio, prelude::*};
+use log::debug;
 
 use crate::{
     audio::{Controller, PlaybackState, RepeatMode, Song},

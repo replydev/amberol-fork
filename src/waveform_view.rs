@@ -14,6 +14,7 @@ use std::{
 use adw::subclass::prelude::*;
 use glib::clone;
 use gtk::{gdk, glib, graphene, prelude::*, subclass::prelude::*};
+use log::{debug, warn};
 
 #[derive(Debug, PartialEq)]
 pub struct PeakPair {

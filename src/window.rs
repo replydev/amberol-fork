@@ -445,6 +445,8 @@ impl Window {
                     if !gio::content_type_is_a(&content_type, "audio/*") {
                         if toast {
                             let msg = i18n_f(
+                                // Translators: '{}' must be left unmodified; it
+                                // will expand to a file name
                                 "“{}” is not a supported audio file",
                                 &[&info.display_name()],
                             );
@@ -467,20 +469,22 @@ impl Window {
                         .map(|_| glib::Continue(true))
                         .unwrap_or_else(|| {
                             debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
-                            let msg = ni18n_f(
+                            // let msg = ni18n_f(
                                 // Translators: The '{}' is to be left unmodified;
                                 // it will be expanded to the number of added songs.
-                                "Added {} song",
-                                "Added {} songs",
-                                n_files as u32,
-                                &[&n_files.to_string()],
-                            );
-                            win.add_toast(msg);
+                            //     "Added {} song",
+                            //     "Added {} songs",
+                            //     n_files as u32,
+                            //     &[&n_files.to_string()],
+                            // );
+                            // win.add_toast(msg);
                             glib::Continue(false)
                         })
                 }));
             } else {
                 if toast {
+                    // Translators: The '{}' must be left unmodified;
+                    // it will expand to a file name
                     let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
                     self.add_toast(msg);
                 }

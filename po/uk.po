@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-06 17:43+0000\n"
-"PO-Revision-Date: 2022-05-06 22:03+0300\n"
+"POT-Creation-Date: 2022-05-08 18:03+0000\n"
+"PO-Revision-Date: 2022-05-09 13:37+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -79,19 +79,19 @@ msgstr "Інтеграція із MPRIS"
 msgid "Emmanuele Bassi"
 msgstr "Emmanuele Bassi"
 
-#: src/audio/inhibit_controller.rs:41
+#: src/audio/inhibit_controller.rs:42
 msgid "Playback in progress"
 msgstr "Відбувається відтворення"
 
-#: src/audio/song.rs:367
+#: src/audio/song.rs:366
 msgid "Unknown artist"
 msgstr "Невідомий виконавець"
 
-#: src/audio/song.rs:374
+#: src/audio/song.rs:373
 msgid "Unknown title"
 msgstr "Невідома назва"
 
-#: src/audio/song.rs:381
+#: src/audio/song.rs:380
 msgid "Unknown album"
 msgstr "Невідомий альбом"
 
@@ -178,7 +178,7 @@ msgstr "Перемкнути список відтворення"
 msgid "Shuffle the playlist"
 msgstr "Перемішати список відтворення"
 
-#: src/gtk/playback-control.ui:146 src/window.rs:594
+#: src/gtk/playback-control.ui:146 src/window.rs:626
 msgid "Enable repeat"
 msgstr "Увімкнути повторення"
 
@@ -214,24 +214,23 @@ msgstr "_Клавіатурні скорочення"
 msgid "_About Amberol"
 msgstr "_Про «Амберол»"
 
-#: src/gtk/playlist-view.ui:20
+#: src/gtk/playlist-view.ui:18
 msgid "Playlist"
 msgstr "Список відтворення"
 
-#: src/gtk/playlist-view.ui:50
+#: src/gtk/playlist-view.ui:48
 msgid "Select songs in the playlist"
 msgstr "Вибрати композиції у списку відтворення"
 
-#: src/gtk/playlist-view.ui:62
+#: src/gtk/playlist-view.ui:60
 msgid "Close the playlist"
 msgstr "Закрити список відтворення"
 
-#: src/gtk/playlist-view.ui:98
-#| msgid "Remove all songs"
+#: src/gtk/playlist-view.ui:95
 msgid "Select all songs"
 msgstr "Позначити усі композиції"
 
-#: src/gtk/playlist-view.ui:111
+#: src/gtk/playlist-view.ui:108
 msgid "Remove selected songs"
 msgstr "Вилучити позначені композиції"
 
@@ -243,68 +242,77 @@ msgstr "Відтворення наступної"
 msgid "Drop a song to add it to the queue"
 msgstr "Скиньте композицію, щоб додати її до черги"
 
-#: src/gtk/window.ui:45
+#: src/gtk/window.ui:48
+#| msgid ""
+#| "Select a folder or drag files from your file manager to the application "
+#| "window to add songs to the playlist"
 msgid ""
-"Select a folder or drag files from your file manager to the application "
-"window to add songs to the playlist"
+"Select a file or a folder, or drag files from your file manager to the "
+"application window to add songs to the playlist"
 msgstr ""
-"Виберіть теку або перетягніть файли з вашої програми для керування файлами "
+"Виберіть файл чи теку або перетягніть файли з вашої програми для керування"
+" файлами "
 "до вікна програми, щоб додати композиції до списку відтворення"
 
-#: src/gtk/window.ui:53
-#| msgid "Choose a folder"
-msgid "Choose a file"
-msgstr "Виберіть файл"
+#: src/gtk/window.ui:57
+#| msgid "_Add Folder"
+msgid "Add Folder"
+msgstr "Додати теку"
 
-#: src/gtk/window.ui:63
-msgid "Choose a folder"
-msgstr "Виберіть теку"
+#: src/gtk/window.ui:67
+#| msgid "_Add Folder"
+msgid "Add File"
+msgstr "Додати файл"
 
-#: src/application.rs:152
+#: src/application.rs:137
 msgid "Plays music and nothing else"
 msgstr "Відтворює музику, нічого більше"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:158
+#: src/application.rs:143
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2022"
 
-#: src/window.rs:342
+#: src/window.rs:365
 msgid "_Add Song"
 msgstr "_Додати композицію"
 
-#: src/window.rs:343 src/window.rs:377
+#: src/window.rs:366 src/window.rs:400
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/window.rs:351
+#: src/window.rs:374
 msgid "Audio files"
 msgstr "файли звукових даних"
 
-#: src/window.rs:376
+#: src/window.rs:399
 msgid "_Add Folder"
 msgstr "_Додати теку"
 
-#: src/window.rs:417 src/window.rs:823
-msgid "Unrecognized file type for “{}”"
-msgstr "Нерозпізнаний тип файлів «{}»"
-
-#: src/window.rs:426
+#. Translators: '{}' must be left unmodified; it
+#. will expand to a file name
+#: src/window.rs:450
 msgid "“{}” is not a supported audio file"
 msgstr "«{}» не є підтримуваним звуковим файлом"
 
-#: src/window.rs:598
+#. Translators: The '{}' must be left unmodified;
+#. it will expand to a file name
+#: src/window.rs:488
+msgid "Unrecognized file type for “{}”"
+msgstr "Нерозпізнаний тип файлів «{}»"
+
+#: src/window.rs:630
 msgid "Repeat all tracks"
 msgstr "Повторити усі композиції"
 
-#: src/window.rs:602
+#: src/window.rs:634
 msgid "Repeat the current track"
 msgstr "Повторити поточну композицію"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:856
+#: src/window.rs:879
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Лишилася {} хвилина"
@@ -312,19 +320,26 @@ msgstr[1] "Лишилося {} хвилини"
 msgstr[2] "Лишилося {} хвилин"
 msgstr[3] "Лишилася хвилина"
 
-#: src/window.rs:973
+#: src/window.rs:999
 msgid "No song selected"
 msgstr "Не вибрано композиції"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:978
+#: src/window.rs:1004
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Вибрано {} композицію"
 msgstr[1] "Вибрано {} композиції"
 msgstr[2] "Вибрано {} композицій"
 msgstr[3] "Вибрано {} композицію"
+
+#~| msgid "Choose a folder"
+#~ msgid "Choose a file"
+#~ msgstr "Виберіть файл"
+
+#~ msgid "Choose a folder"
+#~ msgstr "Виберіть теку"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Seek Backwards"

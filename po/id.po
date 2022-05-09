@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-07 22:18+0000\n"
-"PO-Revision-Date: 2022-05-08 12:16+0700\n"
+"POT-Creation-Date: 2022-05-08 18:03+0000\n"
+"PO-Revision-Date: 2022-05-09 09:38+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -74,19 +74,19 @@ msgstr "Integrasi MPRIS"
 msgid "Emmanuele Bassi"
 msgstr "Emmanuele Bassi"
 
-#: src/audio/inhibit_controller.rs:41
+#: src/audio/inhibit_controller.rs:42
 msgid "Playback in progress"
 msgstr "Pemutaran sedang berlangsung"
 
-#: src/audio/song.rs:367
+#: src/audio/song.rs:366
 msgid "Unknown artist"
 msgstr "Artis tak dikenal"
 
-#: src/audio/song.rs:374
+#: src/audio/song.rs:373
 msgid "Unknown title"
 msgstr "Judul tak dikenal"
 
-#: src/audio/song.rs:381
+#: src/audio/song.rs:380
 msgid "Unknown album"
 msgstr "Album tak dikenal"
 
@@ -173,7 +173,7 @@ msgstr "Jungkitkan daftar putar"
 msgid "Shuffle the playlist"
 msgstr "Acak daftar putar"
 
-#: src/gtk/playback-control.ui:146 src/window.rs:594
+#: src/gtk/playback-control.ui:146 src/window.rs:626
 msgid "Enable repeat"
 msgstr "Aktifkan pengulangan"
 
@@ -209,23 +209,23 @@ msgstr "Pintasan Papan Ti_k"
 msgid "_About Amberol"
 msgstr "Tent_ang Amberol"
 
-#: src/gtk/playlist-view.ui:20
+#: src/gtk/playlist-view.ui:18
 msgid "Playlist"
 msgstr "Daftar Putar"
 
-#: src/gtk/playlist-view.ui:50
+#: src/gtk/playlist-view.ui:48
 msgid "Select songs in the playlist"
 msgstr "Pilih lagu dalam daftar putar"
 
-#: src/gtk/playlist-view.ui:62
+#: src/gtk/playlist-view.ui:60
 msgid "Close the playlist"
 msgstr "Tutup daftar putar"
 
-#: src/gtk/playlist-view.ui:98
+#: src/gtk/playlist-view.ui:95
 msgid "Select all songs"
 msgstr "Pilih semua lagu"
 
-#: src/gtk/playlist-view.ui:111
+#: src/gtk/playlist-view.ui:108
 msgid "Remove selected songs"
 msgstr "Hapus lagu yang dipilih"
 
@@ -237,78 +237,88 @@ msgstr "Memutar berikutnya"
 msgid "Drop a song to add it to the queue"
 msgstr "Jatuhkan lagu untuk menambahkannya ke antrean"
 
-#: src/gtk/window.ui:45
+#: src/gtk/window.ui:48
 msgid ""
-"Select a folder or drag files from your file manager to the application "
-"window to add songs to the playlist"
+"Select a file or a folder, or drag files from your file manager to the "
+"application window to add songs to the playlist"
 msgstr ""
-"Pilih folder atau berkas file dari pengelola berkas Anda ke jendela aplikasi "
-"untuk menambahkan lagu ke daftar putar"
+"Pilih berkas atau folder, atau seret berkas dari pengelola berkas Anda ke "
+"jendela aplikasi untuk menambahkan lagu ke daftar putar"
 
-#: src/gtk/window.ui:53
-msgid "Choose a file"
-msgstr "Pilih berkas"
+#: src/gtk/window.ui:57
+msgid "Add Folder"
+msgstr "Tambah Folder"
 
-#: src/gtk/window.ui:63
-msgid "Choose a folder"
-msgstr "Pilih folder"
+#: src/gtk/window.ui:67
+msgid "Add File"
+msgstr "Tambah Berkas"
 
-#: src/application.rs:152
+#: src/application.rs:137
 msgid "Plays music and nothing else"
 msgstr "Putar musik dan tak ada yang lain"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:158
+#: src/application.rs:143
 msgid "translator-credits"
 msgstr "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2022."
 
-#: src/window.rs:342
+#: src/window.rs:365
 msgid "_Add Song"
 msgstr "T_ambah Lagu"
 
-#: src/window.rs:343 src/window.rs:377
+#: src/window.rs:366 src/window.rs:400
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: src/window.rs:351
+#: src/window.rs:374
 msgid "Audio files"
 msgstr "Berkas suara"
 
-#: src/window.rs:376
+#: src/window.rs:399
 msgid "_Add Folder"
 msgstr "T_ambah Folder"
 
-#: src/window.rs:417 src/window.rs:823
-msgid "Unrecognized file type for “{}”"
-msgstr "Jenis berkas yang tidak dikenal untuk \"{}\""
-
-#: src/window.rs:426
+#. Translators: '{}' must be left unmodified; it
+#. will expand to a file name
+#: src/window.rs:450
 msgid "“{}” is not a supported audio file"
 msgstr "\"{}\" bukan berkas audio yang didukung"
 
-#: src/window.rs:598
+#. Translators: The '{}' must be left unmodified;
+#. it will expand to a file name
+#: src/window.rs:488
+msgid "Unrecognized file type for “{}”"
+msgstr "Jenis berkas yang tidak dikenal untuk \"{}\""
+
+#: src/window.rs:630
 msgid "Repeat all tracks"
 msgstr "Ulangi semua trek"
 
-#: src/window.rs:602
+#: src/window.rs:634
 msgid "Repeat the current track"
 msgstr "Ulangi trek saat ini"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:856
+#: src/window.rs:879
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} menit tersisa"
 
-#: src/window.rs:973
+#: src/window.rs:999
 msgid "No song selected"
 msgstr "Tidak ada lagu yang dipilih"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:978
+#: src/window.rs:1004
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} lagu dipilih"
+
+#~ msgid "Choose a file"
+#~ msgstr "Pilih berkas"
+
+#~ msgid "Choose a folder"
+#~ msgstr "Pilih folder"

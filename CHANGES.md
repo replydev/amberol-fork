@@ -12,6 +12,33 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.6.1] - 2022-05-09
+
+### Added
+
+- Add translations for:
+  - Dutch
+  - Indonesian
+  - Occitan
+  - Spanish
+
+### Changed
+
+- Make the cover art image slightly bigger
+- Update translations for:
+  - Ukrainian
+  - Swedish
+  - Polish
+  - Persian
+
+### Fixed
+
+- Improve the appearance of the initial landing page [#106]
+- Stabilise the width of the playlist panel [#110]
+- Rely on gdk-pixbuf instead of lofty for image format detection [#111]
+- Multiple papercut style fixes [#105, #108]
+- Fix selector for playlist background when folded [#107]
+
 ## [0.6.0] - 2022-05-06
 
 ### Added

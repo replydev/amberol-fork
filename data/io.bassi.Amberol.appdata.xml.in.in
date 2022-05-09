@@ -54,6 +54,16 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.6.1" date="2022-05-09">
+      <description>
+        <p>Papercut fixes for the initial landing page and the playlist</p>
+        <ul>
+          <li>Fix styling of the folded playlist</li>
+          <li>Improve the cover art detection</li>
+          <li>Add localization for various languages</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.0" date="2022-05-06">
       <description>
         <p>New round of UI touch-ups, to make Amberol more readable.</p>

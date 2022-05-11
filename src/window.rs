@@ -463,6 +463,12 @@ impl Window {
                 let mut files = utils::load_files_from_folder(file, true).into_iter();
                 let mut songs = Vec::new();
                 let n_files = files.len();
+                let msg = i18n(
+                    // Translators: The '{}' is to be left unmodified;
+                    // it will be expanded to the number of added songs.
+                    "Adding songs",
+                );
+                self.add_toast(msg);
                 glib::idle_add_local(clone!(@strong self as win => move || {
                     files.next()
                         .map(|f| {

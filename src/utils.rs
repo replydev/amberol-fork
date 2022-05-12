@@ -13,7 +13,14 @@ pub fn settings_manager() -> gio::Settings {
     gio::Settings::new(app_id)
 }
 
-pub fn format_time(t: u64) -> String {
+pub fn format_remaining_time(t: i64) -> String {
+    // We use an explicit LRM character so the MINUS SIGN character
+    // stays in front of the remaining time even in RTL locales, instead
+    // of getting flipped at the end of the text
+    format!("\u{200e}\u{2212}{}:{:02}", (t - (t % 60)) / 60, t % 60)
+}
+
+pub fn format_time(t: i64) -> String {
     format!("{}:{:02}", (t - (t % 60)) / 60, t % 60)
 }
 

@@ -520,11 +520,13 @@ impl Window {
             clone!(@weak self as win => move |state, _| {
                 if state.current_song().is_some() {
                     let elapsed = state.position();
-                    let remaining = state.duration().checked_sub(state.position()).unwrap_or_default();
+                    let duration = state.duration();
+                    let remaining = duration.checked_sub(elapsed).unwrap_or_default();
                     win.imp().playback_control.set_elapsed(Some(elapsed));
                     win.imp().playback_control.set_remaining(Some(remaining));
-                    let pos = state.position() as f64 / state.duration() as f64;
-                    win.imp().playback_control.waveform_view().set_position(pos);
+
+                    let position = state.position() as f64 / state.duration() as f64;
+                    win.imp().playback_control.waveform_view().set_position(position);
                 } else {
                     win.imp().playback_control.set_elapsed(None);
                     win.imp().playback_control.set_remaining(None);

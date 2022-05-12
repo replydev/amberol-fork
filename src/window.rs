@@ -29,6 +29,11 @@ pub enum WindowAction {
     Present,
 }
 
+pub enum WindowMode {
+    InitialView,
+    MainView,
+}
+
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};
     use once_cell::sync::Lazy;
@@ -291,7 +296,7 @@ impl Window {
         player.stop();
         state.set_current_song(None);
 
-        self.imp().main_stack.set_visible_child_name("initial-view");
+        self.switch_mode(WindowMode::InitialView);
     }
 
     fn clear_queue(&self) {
@@ -382,6 +387,7 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
+                    win.switch_mode(WindowMode::MainView);
                     win.add_files_to_queue(&dialog.files());
                 }
             }),
@@ -411,6 +417,7 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
+                    win.switch_mode(WindowMode::MainView);
                     win.add_folders_to_queue(&dialog.files());
                 }
             }),
@@ -622,8 +629,6 @@ impl Window {
                     win.set_initial_state();
                     win.reset_queue();
                 } else {
-                    win.imp().main_stack.get().set_visible_child_name("main-view");
-
                     win.action_set_enabled("queue.toggle", true);
                     win.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
 
@@ -1077,5 +1082,13 @@ impl Window {
             );
             self.clipboard().set_text(&s);
         }
+    }
+
+    pub fn switch_mode(&self, mode: WindowMode) {
+        let stack = self.imp().main_stack.get();
+        match mode {
+            WindowMode::InitialView => stack.set_visible_child_name("initial-view"),
+            WindowMode::MainView => stack.set_visible_child_name("main-view"),
+        };
     }
 }

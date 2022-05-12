@@ -115,7 +115,7 @@ impl PlaybackControl {
         if let Some(remaining) = remaining {
             self.imp()
                 .remaining_label
-                .set_text(&format!("-{}", utils::format_time(remaining)));
+                .set_text(&utils::format_remaining_time(remaining as i64));
         } else {
             self.imp().remaining_label.set_text("0:00");
         }
@@ -125,7 +125,7 @@ impl PlaybackControl {
         if let Some(elapsed) = elapsed {
             self.imp()
                 .elapsed_label
-                .set_text(&utils::format_time(elapsed));
+                .set_text(&utils::format_time(elapsed as i64));
         } else {
             self.imp().elapsed_label.set_text("0:00");
         }

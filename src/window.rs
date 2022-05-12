@@ -431,7 +431,6 @@ impl Window {
 
     pub fn add_file_to_queue(&self, file: &gio::File, toast: bool) {
         use std::time::Instant;
-
         let queue = self.imp().player.queue();
         let was_empty = queue.is_empty();
 
@@ -458,13 +457,25 @@ impl Window {
                     queue.add_song(&song);
                 }
             } else if info.file_type() == gio::FileType::Directory {
+                self.action_set_enabled("queue.add-song", false);
+                self.action_set_enabled("queue.add-folder", false);
                 let now = Instant::now();
                 let mut files = utils::load_files_from_folder(file, true).into_iter();
+                let mut songs = Vec::new();
                 let n_files = files.len();
+                let msg = i18n(
+                    // Translators: The '{}' is to be left unmodified;
+                    // it will be expanded to the number of added songs.
+                    "Adding songs",
+                );
+                self.add_toast(msg);
                 glib::idle_add_local(clone!(@strong self as win => move || {
                     files.next()
                         .map(|f| {
-                            win.add_file_to_queue(&f, false);
+                            let s = Song::new(f.uri().as_str());
+                            if !s.equals(&Song::default()) {
+                                songs.push(s);
+                        }
                         })
                         .map(|_| glib::Continue(true))
                         .unwrap_or_else(|| {
@@ -478,6 +489,10 @@ impl Window {
                             //     &[&n_files.to_string()],
                             // );
                             // win.add_toast(msg);
+                            let queue =  win.imp().player.queue();
+                            queue.add_songs(&songs);
+                            win.action_set_enabled("queue.add-song", true);
+                            win.action_set_enabled("queue.add-folder", true);
                             glib::Continue(false)
                         })
                 }));

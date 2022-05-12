@@ -470,12 +470,17 @@ impl Window {
             } else if info.file_type() == gio::FileType::Directory {
                 self.action_set_enabled("queue.add-song", false);
                 self.action_set_enabled("queue.add-folder", false);
+                self.set_playlist_visible(true);
+
                 self.imp().playlist_view.begin_loading();
+
                 let now = Instant::now();
+
                 let mut files = utils::load_files_from_folder(file, true).into_iter();
                 let mut songs = Vec::new();
-                let n_files = files.len() as u32;
                 let mut cur_file: u32 = 0;
+                let n_files = files.len() as u32;
+
                 glib::idle_add_local(clone!(@strong self as win => move || {
                     files.next()
                         .map(|f| {
@@ -489,24 +494,38 @@ impl Window {
                         .map(|_| glib::Continue(true))
                         .unwrap_or_else(|| {
                             debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
-                            // let msg = ni18n_f(
-                                // Translators: The '{}' is to be left unmodified;
-                                // it will be expanded to the number of added songs.
-                            //     "Added {} song",
-                            //     "Added {} songs",
-                            //     n_files as u32,
-                            //     &[&n_files.to_string()],
-                            // );
-                            // win.add_toast(msg);
-                            let queue =  win.imp().player.queue();
-                            let was_empty = queue.is_empty();
-                            queue.add_songs(&songs);
-                            win.action_set_enabled("queue.add-song", true);
-                            win.action_set_enabled("queue.add-folder", true);
-                            win.imp().playlist_view.end_loading();
-                            if !queue.is_empty() && was_empty {
-                                win.imp().player.skip_to(0);
-                            }
+                            let msg = if songs.is_empty() {
+                                i18n("No songs found")
+                            } else {
+                                let queue =  win.imp().player.queue();
+                                let was_empty = queue.is_empty();
+
+                                win.imp().playlist_view.end_loading();
+
+                                // Bulk add to avoid hammering the UI with list model updates
+                                queue.add_songs(&songs);
+
+                                win.action_set_enabled("queue.add-song", true);
+                                win.action_set_enabled("queue.add-folder", true);
+
+                                debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
+                                if was_empty {
+                                    win.imp().player.skip_to(0);
+                                }
+
+                                ni18n_f(
+                                    // Translators: the `{}` must be left unmodified;
+                                    // it will be expanded to the number of songs added
+                                    // to the playlist
+                                    "Added one song",
+                                    "Added {} songs",
+                                    songs.len() as u32,
+                                    &[&songs.len().to_string()],
+                                )
+                            };
+
+                            win.add_toast(msg);
+
                             glib::Continue(false)
                         })
                 }));

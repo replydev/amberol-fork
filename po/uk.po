@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-08 18:03+0000\n"
-"PO-Revision-Date: 2022-05-09 13:37+0300\n"
+"POT-Creation-Date: 2022-05-12 11:35+0000\n"
+"PO-Revision-Date: 2022-05-12 14:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -178,7 +178,7 @@ msgstr "Перемкнути список відтворення"
 msgid "Shuffle the playlist"
 msgstr "Перемішати список відтворення"
 
-#: src/gtk/playback-control.ui:146 src/window.rs:626
+#: src/gtk/playback-control.ui:146 src/window.rs:643
 msgid "Enable repeat"
 msgstr "Увімкнути повторення"
 
@@ -222,15 +222,15 @@ msgstr "Список відтворення"
 msgid "Select songs in the playlist"
 msgstr "Вибрати композиції у списку відтворення"
 
-#: src/gtk/playlist-view.ui:60
+#: src/gtk/playlist-view.ui:61
 msgid "Close the playlist"
 msgstr "Закрити список відтворення"
 
-#: src/gtk/playlist-view.ui:95
+#: src/gtk/playlist-view.ui:96
 msgid "Select all songs"
 msgstr "Позначити усі композиції"
 
-#: src/gtk/playlist-view.ui:108
+#: src/gtk/playlist-view.ui:109
 msgid "Remove selected songs"
 msgstr "Вилучити позначені композиції"
 
@@ -243,24 +243,18 @@ msgid "Drop a song to add it to the queue"
 msgstr "Скиньте композицію, щоб додати її до черги"
 
 #: src/gtk/window.ui:48
-#| msgid ""
-#| "Select a folder or drag files from your file manager to the application "
-#| "window to add songs to the playlist"
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
 msgstr ""
-"Виберіть файл чи теку або перетягніть файли з вашої програми для керування"
-" файлами "
-"до вікна програми, щоб додати композиції до списку відтворення"
+"Виберіть файл чи теку або перетягніть файли з вашої програми для керування "
+"файлами до вікна програми, щоб додати композиції до списку відтворення"
 
 #: src/gtk/window.ui:57
-#| msgid "_Add Folder"
 msgid "Add Folder"
 msgstr "Додати теку"
 
 #: src/gtk/window.ui:67
-#| msgid "_Add Folder"
 msgid "Add File"
 msgstr "Додати файл"
 
@@ -291,28 +285,34 @@ msgstr "_Додати теку"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:450
+#: src/window.rs:449
 msgid "“{}” is not a supported audio file"
 msgstr "«{}» не є підтримуваним звуковим файлом"
 
+#. Translators: The '{}' is to be left unmodified;
+#. it will be expanded to the number of added songs.
+#: src/window.rs:469
+msgid "Adding songs"
+msgstr "Додавання композицій"
+
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:488
+#: src/window.rs:503
 msgid "Unrecognized file type for “{}”"
 msgstr "Нерозпізнаний тип файлів «{}»"
 
-#: src/window.rs:630
+#: src/window.rs:647
 msgid "Repeat all tracks"
 msgstr "Повторити усі композиції"
 
-#: src/window.rs:634
+#: src/window.rs:651
 msgid "Repeat the current track"
 msgstr "Повторити поточну композицію"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:879
+#: src/window.rs:896
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Лишилася {} хвилина"
@@ -320,13 +320,13 @@ msgstr[1] "Лишилося {} хвилини"
 msgstr[2] "Лишилося {} хвилин"
 msgstr[3] "Лишилася хвилина"
 
-#: src/window.rs:999
+#: src/window.rs:1016
 msgid "No song selected"
 msgstr "Не вибрано композиції"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1004
+#: src/window.rs:1021
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Вибрано {} композицію"

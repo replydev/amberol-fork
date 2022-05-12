@@ -173,6 +173,7 @@ impl Queue {
     }
 
     pub fn clear(&self) {
+        self.imp().current_pos.replace(None);
         self.imp().store.remove_all();
         self.notify("n-songs");
     }

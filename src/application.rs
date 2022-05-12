@@ -40,6 +40,7 @@ mod imp {
             obj.set_accels_for_action("win.previous", &["b"]);
             obj.set_accels_for_action("win.next", &["n"]);
             obj.set_accels_for_action("win.play", &["p"]);
+            obj.set_accels_for_action("win.copy", &["<primary>c"]);
         }
     }
 

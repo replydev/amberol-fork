@@ -24,6 +24,8 @@ mod imp {
         pub queue_remove_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub queue_selected_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub playlist_progress: TemplateChild<gtk::ProgressBar>,
     }
 
     #[glib::object_subclass]
@@ -98,5 +100,19 @@ impl PlaylistView {
 
     pub fn queue_length_label(&self) -> gtk::Label {
         self.imp().queue_length_label.get()
+    }
+
+    pub fn begin_loading(&self) {
+        self.imp().playlist_progress.set_fraction(0.0);
+        self.imp().playlist_progress.set_visible(true);
+    }
+
+    pub fn end_loading(&self) {
+        self.imp().playlist_progress.set_visible(false);
+    }
+
+    pub fn update_loading(&self, cur: u32, max: u32) {
+        let step = cur as f64 / max as f64;
+        self.imp().playlist_progress.set_fraction(step);
     }
 }

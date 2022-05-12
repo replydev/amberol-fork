@@ -459,22 +459,20 @@ impl Window {
             } else if info.file_type() == gio::FileType::Directory {
                 self.action_set_enabled("queue.add-song", false);
                 self.action_set_enabled("queue.add-folder", false);
+                self.imp().playlist_view.begin_loading();
                 let now = Instant::now();
                 let mut files = utils::load_files_from_folder(file, true).into_iter();
                 let mut songs = Vec::new();
-                let n_files = files.len();
-                let msg = i18n(
-                    // Translators: The '{}' is to be left unmodified;
-                    // it will be expanded to the number of added songs.
-                    "Adding songs",
-                );
-                self.add_toast(msg);
+                let n_files = files.len() as u32;
+                let mut cur_file: u32 = 0;
                 glib::idle_add_local(clone!(@strong self as win => move || {
                     files.next()
                         .map(|f| {
+                            win.imp().playlist_view.update_loading(cur_file, n_files);
                             let s = Song::new(f.uri().as_str());
                             if !s.equals(&Song::default()) {
                                 songs.push(s);
+                            cur_file += 1;
                         }
                         })
                         .map(|_| glib::Continue(true))
@@ -490,9 +488,14 @@ impl Window {
                             // );
                             // win.add_toast(msg);
                             let queue =  win.imp().player.queue();
+                            let was_empty = queue.is_empty();
                             queue.add_songs(&songs);
                             win.action_set_enabled("queue.add-song", true);
                             win.action_set_enabled("queue.add-folder", true);
+                            win.imp().playlist_view.end_loading();
+                            if !queue.is_empty() && was_empty {
+                                win.imp().player.skip_to(0);
+                            }
                             glib::Continue(false)
                         })
                 }));

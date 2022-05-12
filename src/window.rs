@@ -16,7 +16,7 @@ use crate::{
     audio::{AudioPlayer, RepeatMode, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
-    i18n::{i18n, i18n_f, ni18n_f},
+    i18n::{i18n, i18n_f, i18n_k, ni18n_f},
     playback_control::PlaybackControl,
     playlist_view::PlaylistView,
     queue_row::QueueRow,
@@ -99,6 +99,10 @@ mod imp {
             klass.install_action("queue.add-folder", None, move |win, _, _| {
                 debug!("Window::win.add-folder()");
                 win.add_folder();
+            });
+            klass.install_action("win.copy", None, move |win, _, _| {
+                debug!("Window::win.copy()");
+                win.copy_song();
             });
             klass.install_action("queue.clear", None, move |win, _, _| {
                 debug!("Window::queue.clear()");
@@ -1059,5 +1063,19 @@ impl Window {
     pub fn add_toast(&self, msg: String) {
         let toast = adw::Toast::new(&msg);
         self.imp().toast_overlay.add_toast(&toast);
+    }
+
+    fn copy_song(&self) {
+        let state = self.imp().player.state();
+        if let Some(song) = state.current_song() {
+            let s = i18n_k(
+                // Translators: `{title}` and `{artist}` must be left
+                // untranslated; they will expand to the title and
+                // artist of the currently playing song, respectively
+                "Currently playing “{title}” by “{artist}”",
+                &[("title", &song.title()), ("artist", &song.artist())],
+            );
+            self.clipboard().set_text(&s);
+        }
     }
 }

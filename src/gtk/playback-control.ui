@@ -16,6 +16,7 @@
             <object class="AmberolWaveformView" id="waveform_view">
               <property name="halign">center</property>
               <property name="valign">center</property>
+              <property name="can-focus">true</property>
             </object>
           </child>
           <child>

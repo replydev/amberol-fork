@@ -111,11 +111,31 @@ mod imp {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            obj.set_focusable(true);
+
             obj.setup_gesture();
         }
     }
 
     impl WidgetImpl for WaveformView {
+        fn focus(&self, widget: &Self::Type, direction: gtk::DirectionType) -> bool {
+            debug!("WaveformView::focus({})", direction);
+            if !widget.is_focus() {
+                widget.grab_focus();
+                return true;
+            }
+
+            let pos = self.position.get();
+
+            match direction {
+                gtk::DirectionType::Left if pos == 0.0 => false,
+                gtk::DirectionType::Left if pos > 0.0 => true,
+                gtk::DirectionType::Right if pos < 1.0 => true,
+                gtk::DirectionType::Right if pos == 1.0 => false,
+                _ => false,
+            }
+        }
+
         fn request_mode(&self, _widget: &Self::Type) -> gtk::SizeRequestMode {
             gtk::SizeRequestMode::ConstantSize
         }
@@ -376,6 +396,10 @@ impl WaveformView {
         click_gesture.set_button(0);
         click_gesture.connect_pressed(
             clone!(@strong self as this => move |gesture, n_press, x, _| {
+                if !this.has_focus() {
+                    this.grab_focus();
+                }
+
                 if n_press == 1 {
                     gesture.set_state(gtk::EventSequenceState::Claimed);
                     let width = this.width();
@@ -403,6 +427,22 @@ impl WaveformView {
             this.queue_draw();
         }));
         self.add_controller(&motion_gesture);
+
+        let key_controller = gtk::EventControllerKey::new();
+        key_controller.set_name("waveform-key");
+        key_controller.connect_key_released(
+            clone!(@strong self as this => move |_, keyval, _, _| {
+                let delta = match keyval {
+                    gdk::Key::Left => -0.05,
+                    gdk::Key::Right => 0.05,
+                    _ => return,
+                };
+
+                let position = this.imp().position.get() + delta;
+                this.emit_by_name::<()>("position-changed", &[&position]);
+            }),
+        );
+        self.add_controller(&key_controller);
     }
 
     fn normalize_peaks(&self, peaks: Vec<(f64, f64)>) -> Vec<PeakPair> {

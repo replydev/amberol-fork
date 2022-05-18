@@ -106,7 +106,7 @@ scrolledwindow undershoot.top {
   transition-timing-function: ease;
 }
 
-.main-window .unfolded .darken {
+.darken {
   background-color: rgba(0, 0, 0, 0.08);
 }
 

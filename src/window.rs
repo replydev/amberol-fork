@@ -864,9 +864,7 @@ impl Window {
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));
 
         let queue = imp.player.queue();
-        let selection = gtk::SingleSelection::new(Some(queue.model()));
-        selection.set_can_unselect(false);
-        selection.set_selected(gtk::INVALID_LIST_POSITION);
+        let selection = gtk::NoSelection::new(Some(queue.model()));
         imp.playlist_view
             .queue_view()
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));

@@ -85,6 +85,14 @@ mod imp {
                 debug!("Window::win.play()");
                 win.imp().player.toggle_play();
             });
+            klass.install_action("win.seek-backwards", None, move |win, _, _| {
+                debug!("Window::win.seek-backwards");
+                win.imp().player.seek_backwards();
+            });
+            klass.install_action("win.seek-forward", None, move |win, _, _| {
+                debug!("Window::win.seek-forward");
+                win.imp().player.seek_forward();
+            });
             klass.install_action("win.previous", None, move |win, _, _| {
                 debug!("Window::win.previous()");
                 win.imp().player.skip_previous();

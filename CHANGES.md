@@ -6,9 +6,27 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add "copy song details to clipboard" [!53]
+
 ### Changed
 
+- Add whole folder at once [!30]
+- Provide user feedback during loading [!54]
+- Translation updates:
+  - Swedish
+  - Ukrainian
+  - Occitan
+  - Basque
+  - Turkish
+  - Polish
+  - Russian
+  - Persian
+
 ### Fixed
+
+- Ensure that the remaining time sign is consistent in RTL locales [#118]
+- Improve the UI consistency when clearing the playlist
+- Apply darkening to the playlist view unconditionally [#128]
 
 ### Removed
 

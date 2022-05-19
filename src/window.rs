@@ -593,9 +593,10 @@ impl Window {
                     debug!("Updating style for {}", &current);
                     win.update_style(Some(&current));
                 } else {
+                    debug!("Reset waveform");
                     win.update_waveform(None);
                     debug!("Reset album art");
-                    win.remove_css_class("main-window");
+                    win.update_style(None);
                 }
             }),
         );

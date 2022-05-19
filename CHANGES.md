@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Add "copy song details to clipboard" [!53]
+- Add a cache for the waveforms, to speed up loading on songs we have
+  already seen [#131]
 
 ### Changed
 

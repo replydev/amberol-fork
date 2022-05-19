@@ -73,6 +73,12 @@ mod imp {
                 child.unparent();
             }
         }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            self.menu_button.set_primary(true);
+        }
     }
 
     impl WidgetImpl for PlaybackControl {}

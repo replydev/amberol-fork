@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 - Add "copy song details to clipboard" [!53]
 - Add a cache for the waveforms, to speed up loading on songs we have
   already seen [#131]
+- Add accessibility information to various custom widgets
+- Add translations:
+  - Chinese (China)
 
 ### Changed
 
@@ -29,6 +32,8 @@ All notable changes to this project will be documented in this file.
 - Ensure that the remaining time sign is consistent in RTL locales [#118]
 - Improve the UI consistency when clearing the playlist
 - Apply darkening to the playlist view unconditionally [#128]
+- Fix the playlist end state [#132]
+- Fix key navigation [#130]
 
 ### Removed
 

@@ -605,6 +605,9 @@ impl Window {
                     win.update_waveform(None);
                     debug!("Reset album art");
                     win.update_style(None);
+
+                    debug!("Return to the first song");
+                    win.imp().player.skip_to(0);
                 }
             }),
         );

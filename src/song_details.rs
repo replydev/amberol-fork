@@ -36,6 +36,7 @@ mod imp {
 
             klass.set_layout_manager_type::<gtk::BinLayout>();
             klass.set_css_name("songdetails");
+            klass.set_accessible_role(gtk::AccessibleRole::Group);
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {

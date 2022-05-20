@@ -60,6 +60,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.set_css_name("waveformview");
+            klass.set_accessible_role(gtk::AccessibleRole::Slider);
         }
     }
 
@@ -112,6 +113,12 @@ mod imp {
             self.parent_constructed(obj);
 
             obj.setup_gesture();
+
+            obj.upcast_ref::<gtk::Accessible>().update_property(&[
+                (gtk::accessible::Property::ValueMin(0.0)),
+                (gtk::accessible::Property::ValueMax(1.0)),
+                (gtk::accessible::Property::ValueNow(0.0)),
+            ]);
         }
     }
 
@@ -349,7 +356,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct WaveformView(ObjectSubclass<imp::WaveformView>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible;
 }
 
 fn ease_out_cubic(t: f64) -> f64 {
@@ -473,7 +481,9 @@ impl WaveformView {
     }
 
     pub fn set_position(&self, position: f64) {
-        self.imp().position.replace(position.clamp(0.0, 1.0));
+        let pos = position.clamp(0.0, 1.0);
+        self.imp().position.replace(pos);
+        self.update_property(&[gtk::accessible::Property::ValueNow(pos)]);
         self.queue_draw();
     }
 }

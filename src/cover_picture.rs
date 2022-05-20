@@ -50,6 +50,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.set_css_name("picture");
+            klass.set_accessible_role(gtk::AccessibleRole::Img);
         }
     }
 

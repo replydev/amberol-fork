@@ -25,6 +25,9 @@
               <child type="start">
                 <object class="GtkLabel" id="elapsed_label">
                   <property name="label">0:00</property>
+                  <accessibility>
+                    <property name="label" translatable="yes" context="a11y">Elapsed time</property>
+                  </accessibility>
                   <style>
                     <class name="caption"/>
                     <class name="numeric"/>
@@ -34,6 +37,9 @@
               <child type="end">
                 <object class="GtkLabel" id="remaining_label">
                   <property name="label">0:00</property>
+                  <accessibility>
+                    <property name="label" translatable="yes" context="a11y">Remaining time</property>
+                  </accessibility>
                   <style>
                     <class name="caption"/>
                     <class name="numeric"/>
@@ -59,7 +65,7 @@
                 <class name="circular"/>
               </style>
               <accessibility>
-                <property name="label" translatable="yes">Skip backwards</property>
+                <property name="label" translatable="yes" context="a11y">Skip backwards</property>
               </accessibility>
             </object>
           </child>
@@ -74,7 +80,7 @@
                 <class name="large"/>
               </style>
               <accessibility>
-                <property name="label" translatable="yes">Toggle play</property>
+                <property name="label" translatable="yes" context="a11y">Toggle play</property>
               </accessibility>
             </object>
           </child>
@@ -88,7 +94,7 @@
                 <class name="circular"/>
               </style>
               <accessibility>
-                <property name="label" translatable="yes">Skip forward</property>
+                <property name="label" translatable="yes" context="a11y">Skip forward</property>
               </accessibility>
             </object>
           </child>
@@ -116,7 +122,7 @@
                     <class name="circular"/>
                   </style>
                   <accessibility>
-                    <property name="label" translatable="yes">Toggle playlist</property>
+                    <property name="label" translatable="yes" context="a11y">Toggle playlist</property>
                   </accessibility>
                 </object>
               </child>
@@ -126,6 +132,9 @@
                   <property name="action-name">queue.shuffle</property>
                   <property name="valign">center</property>
                   <property name="tooltip-text" translatable="yes">Shuffle the playlist</property>
+                  <accessibility>
+                    <property name="label" translatable="yes" context="a11y">Shuffle</property>
+                  </accessibility>
                   <style>
                     <class name="circular"/>
                   </style>
@@ -148,7 +157,7 @@
                     <class name="circular"/>
                   </style>
                   <accessibility>
-                    <property name="label" translatable="yes">Repeat mode</property>
+                    <property name="label" translatable="yes" context="a11y">Repeat</property>
                   </accessibility>
                 </object>
               </child>
@@ -163,7 +172,7 @@
                     <class name="circular"/>
                   </style>
                   <accessibility>
-                    <property name="label" translatable="yes">Menu</property>
+                    <property name="label" translatable="yes" context="a11y">Primary menu</property>
                   </accessibility>
                 </object>
               </child>

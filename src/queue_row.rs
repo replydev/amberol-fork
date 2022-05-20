@@ -52,6 +52,7 @@ mod imp {
 
             klass.set_layout_manager_type::<gtk::BoxLayout>();
             klass.set_css_name("queuerow");
+            klass.set_accessible_role(gtk::AccessibleRole::Group);
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {

@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.6.2] - 20220-05-20
+
+### Added
+
 - Add "copy song details to clipboard" [!53]
 - Add a cache for the waveforms, to speed up loading on songs we have
   already seen [#131]

@@ -1025,15 +1025,13 @@ impl Window {
     fn update_waveform(&self, song: Option<&Song>) {
         let imp = self.imp();
 
+        // Reset the widget
         imp.playback_control.waveform_view().set_peaks(None);
+
         if let Some(song) = song {
-            imp.waveform.set_uri(Some(song.uri()));
-            if !imp.waveform.generate_peaks() {
-                imp.waveform.set_uri(None);
-            }
+            imp.waveform.set_song(Some(song.clone()));
         } else {
-            imp.waveform.set_uri(None);
-            imp.waveform.generate_peaks();
+            imp.waveform.set_song(None);
         }
     }
 

@@ -5,8 +5,10 @@ use std::cell::RefCell;
 
 use glib::clone;
 use gst::prelude::*;
-use gtk::{glib, subclass::prelude::*};
+use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use log::{debug, warn};
+
+use crate::audio::Song;
 
 mod imp {
     use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};
@@ -16,7 +18,7 @@ mod imp {
 
     #[derive(Debug, Default)]
     pub struct WaveformGenerator {
-        pub uri: RefCell<Option<String>>,
+        pub song: RefCell<Option<Song>>,
         pub peaks: RefCell<Option<Vec<(f64, f64)>>>,
         pub pipeline: RefCell<Option<gst::Element>>,
     }
@@ -66,15 +68,84 @@ impl WaveformGenerator {
         WaveformGenerator::default()
     }
 
-    pub fn set_uri(&self, uri: Option<String>) {
-        self.imp().uri.replace(uri);
+    pub fn set_song(&self, song: Option<Song>) {
+        self.imp().song.replace(song);
+        self.load_peaks();
     }
 
     pub fn peaks(&self) -> Option<Vec<(f64, f64)>> {
         (*self.imp().peaks.borrow()).as_ref().cloned()
     }
 
-    pub fn generate_peaks(&self) -> bool {
+    fn save_peaks(&self) {
+        if let Some(peaks) = self.peaks() {
+            let song = match self.imp().song.borrow().as_ref() {
+                Some(s) => s.clone(),
+                None => {
+                    self.notify("has-peaks");
+                    return;
+                }
+            };
+
+            if let Some(uuid) = song.uuid() {
+                let mut cache = glib::user_cache_dir();
+                cache.push("amberol");
+                cache.push("waveforms");
+                glib::mkdir_with_parents(&cache, 0o755);
+
+                cache.push(format!("{}.json", uuid));
+
+                let j = serde_json::to_string(&peaks).unwrap();
+                let file = gio::File::for_path(&cache);
+                file.replace_contents_async(
+                    j,
+                    None,
+                    false,
+                    gio::FileCreateFlags::NONE,
+                    gio::Cancellable::NONE,
+                    move |_| {
+                        debug!("Waveform cached at: {:?}", &cache);
+                    },
+                );
+            }
+        }
+
+        self.notify("has-peaks");
+    }
+
+    fn load_peaks(&self) {
+        let song = match self.imp().song.borrow().as_ref() {
+            Some(s) => s.clone(),
+            None => return,
+        };
+
+        if let Some(uuid) = song.uuid() {
+            let mut cache = glib::user_cache_dir();
+            cache.push("amberol");
+            cache.push("waveforms");
+            cache.push(format!("{}.json", uuid));
+
+            let file = gio::File::for_path(&cache);
+            file.load_contents_async(
+                gio::Cancellable::NONE,
+                clone!(@strong self as this => move |res| {
+                    match res {
+                        Ok((bytes, _tag)) => {
+                            let p: Vec<(f64, f64)> = serde_json::from_slice(&bytes[..]).unwrap();
+                            this.imp().peaks.replace(Some(p));
+                            this.notify("has-peaks");
+                        }
+                        Err(err) => {
+                            debug!("Could not read waveform cache file: {}", err);
+                            this.generate_peaks();
+                        }
+                    }
+                }),
+            );
+        }
+    }
+
+    fn generate_peaks(&self) {
         if let Some(pipeline) = self.imp().pipeline.take() {
             // Stop any running pipeline, and ensure that we have nothing to
             // report
@@ -86,9 +157,14 @@ impl WaveformGenerator {
             }
         }
 
-        if self.imp().uri.borrow().is_none() {
-            return false;
-        }
+        let song = match self.imp().song.borrow().as_ref() {
+            Some(s) => s.clone(),
+            None => {
+                self.imp().peaks.replace(None);
+                self.notify("has-peaks");
+                return;
+            }
+        };
 
         // Reset the peaks vector
         let peaks: Vec<(f64, f64)> = Vec::new();
@@ -99,7 +175,9 @@ impl WaveformGenerator {
             Ok(pipeline) => pipeline,
             Err(err) => {
                 warn!("Unable to generate the waveform: {}", err);
-                return false;
+                self.imp().peaks.replace(None);
+                self.notify("has-peaks");
+                return;
             }
         };
 
@@ -108,7 +186,7 @@ impl WaveformGenerator {
             .unwrap()
             .by_name("uridecodebin")
             .unwrap();
-        uridecodebin.set_property("uri", self.imp().uri.borrow().as_deref());
+        uridecodebin.set_property("uri", song.uri());
 
         let fakesink = pipeline
             .downcast_ref::<gst::Bin>()
@@ -132,7 +210,7 @@ impl WaveformGenerator {
                     pipeline.set_state(gst::State::Null).expect("Unable to set 'null' state");
                     // We're done
                     this.imp().pipeline.replace(None);
-                    this.notify("has-peaks");
+                    this.save_peaks();
                     return glib::Continue(false);
                 }
                 MessageView::Error(err) => {
@@ -140,7 +218,7 @@ impl WaveformGenerator {
                     pipeline.set_state(gst::State::Null).expect("Unable to set 'null' state");
                     // We're done
                     this.imp().pipeline.replace(None);
-                    this.notify("has-peaks");
+                    this.save_peaks();
                     return glib::Continue(false);
                 }
                 MessageView::Element(element) => {
@@ -168,7 +246,6 @@ impl WaveformGenerator {
         match pipeline.set_state(gst::State::Playing) {
             Ok(_) => {
                 self.imp().pipeline.replace(Some(pipeline));
-                true
             }
             Err(err) => {
                 warn!("Unable to generate the waveform: {}", err);
@@ -177,8 +254,7 @@ impl WaveformGenerator {
                     .expect("Pipeline reset failed");
                 self.imp().peaks.replace(None);
                 self.notify("has-peaks");
-                false
             }
-        }
+        };
     }
 }

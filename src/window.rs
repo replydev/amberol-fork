@@ -903,6 +903,8 @@ impl Window {
         drop_target.connect_drop(
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
+                    win.switch_mode(WindowMode::MainView);
+
                     for f in file_list.files() {
                         win.add_file_to_queue(&f, true);
                     }

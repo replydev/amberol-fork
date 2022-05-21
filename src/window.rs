@@ -1074,6 +1074,7 @@ impl Window {
     }
 
     pub fn open_file(&self, file: &gio::File) {
+        self.switch_mode(WindowMode::MainView);
         self.add_file_to_queue(file, true);
 
         // If we successfully opened the file, start playing it immediately,

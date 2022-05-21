@@ -1094,6 +1094,7 @@ impl Window {
         queue.remove_song(song);
 
         self.update_selected_count();
+        self.update_playlist_time();
     }
 
     pub fn add_toast(&self, msg: String) {

@@ -600,6 +600,7 @@ impl Window {
                     win.update_waveform(Some(&current));
                     debug!("Updating style for {}", &current);
                     win.update_style(Some(&current));
+                    win.set_title(Some(&format!("{} - {}", current.artist(), current.title())));
                 } else {
                     debug!("Reset waveform");
                     win.update_waveform(None);

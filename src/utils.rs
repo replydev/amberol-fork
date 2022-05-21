@@ -3,7 +3,7 @@
 
 use color_thief::{get_palette, ColorFormat};
 use gtk::{gdk, gio, glib, prelude::*};
-use log::debug;
+use log::{debug, warn};
 
 use crate::config::APPLICATION_ID;
 
@@ -24,11 +24,11 @@ pub fn format_time(t: i64) -> String {
     format!("{}:{:02}", (t - (t % 60)) / 60, t % 60)
 }
 
-// The base cover size is 196px, but we need to account for HiDPI;
+// The base cover size is 192px, but we need to account for HiDPI;
 // better to scale down when rendering on displays with a scaling
 // factor of 1 than having to scale up on displays with a scaling
 // factor of 2.
-const COVER_SIZE: i32 = 196 * 2;
+const COVER_SIZE: i32 = 192 * 2;
 
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
@@ -41,7 +41,10 @@ pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
         gio::Cancellable::NONE,
     ) {
         Ok(pixbuf) => Some(pixbuf),
-        Err(_) => None,
+        Err(err) => {
+            warn!("Unable to load cover art: {}", err);
+            None
+        }
     }
 }
 

@@ -1,13 +1,17 @@
-#
-#  <>, YEAR-2022.
+# German translation for amberol.
+# Copyright (C) 2022 amberol's COPYRIGHT HOLDER
+# This file is distributed under the same license as the amberol package.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Christian Kirbach <christian.kirbach@gmail.com>, 2022.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-18 14:32+0000\n"
-"PO-Revision-Date: 2022-05-18 22:30+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2022-05-21 00:10+0000\n"
+"PO-Revision-Date: 2022-05-21 09:59+0200\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -90,129 +94,178 @@ msgstr "Unbekanntes Album"
 
 #: src/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
-msgid "Songs Queue"
-msgstr "Titel-Warteschlange"
-
-#: src/gtk/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Queue a Song"
-msgstr "Einen Titel zur Warteschlange hinzufügen"
-
-#: src/gtk/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Queue a Folder"
-msgstr "Einen Ordner zur Warteschlange hinzufügen"
-
-#: src/gtk/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Clear"
-msgstr "Leeren"
-
-#: src/gtk/help-overlay.ui:34
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Wiedergeben"
-
-#: src/gtk/help-overlay.ui:37
-msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
-msgstr "Abspielen/Pausieren umschalten"
-
-#: src/gtk/help-overlay.ui:43
-msgctxt "shortcut window"
-msgid "Previous Track"
-msgstr "Vorheriger Titel"
-
-#: src/gtk/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Next Track"
-msgstr "Nächster Titel"
-
-#: src/gtk/help-overlay.ui:57
-msgctxt "shortcut window"
 msgid "General"
 msgstr "Allgemein"
 
-#: src/gtk/help-overlay.ui:60
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Toggle primary menu"
+msgstr "Hauptmenü ein-/ausschalten"
+
+#: src/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Copy song details to the clipboard"
 msgstr "Titel-Details in die Zwischenablage kopieren"
 
-#: src/gtk/help-overlay.ui:66
+#: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
 msgstr "Tastenkombinationen anzeigen"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/gtk/playback-control.ui:57
+#: src/gtk/help-overlay.ui:40
+msgctxt "shortcut window"
+msgid "Playlist"
+msgstr "Wiedergabeliste"
+
+#: src/gtk/help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Add a song to the playlist"
+msgstr "Einen Titel zur Wiedergabeliste hinzufügen"
+
+#: src/gtk/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Add a folder to the playlist"
+msgstr "Einen Ordner zur Wiedergabeliste hinzufügen"
+
+#: src/gtk/help-overlay.ui:55
+msgctxt "shortcut window"
+msgid "Clear the playlist"
+msgstr "Wiedergabeliste leeren"
+
+#: src/gtk/help-overlay.ui:61
+msgctxt "shortcut window"
+msgid "Toggle the playlist pane"
+msgstr "Leiste der Wiedergabeliste ein-/ausblenden"
+
+#: src/gtk/help-overlay.ui:69
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Wiedergeben"
+
+#: src/gtk/help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle Play/Pause"
+msgstr "Abspielen/Pausieren umschalten"
+
+#: src/gtk/help-overlay.ui:78
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Vorheriger Titel"
+
+#: src/gtk/help-overlay.ui:84
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Nächster Titel"
+
+#: src/gtk/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Seek backwards in the current song"
+msgstr "Im aktuellen Titel rückwärts springen"
+
+#: src/gtk/help-overlay.ui:96
+msgctxt "shortcut window"
+msgid "Seek forward in the current song"
+msgstr "Im aktuellen Titel vorwärts springen"
+
+#: src/gtk/playback-control.ui:30
+msgctxt "a11y"
+msgid "Elapsed time"
+msgstr "Verstrichene Zeit"
+
+#: src/gtk/playback-control.ui:42
+msgctxt "a11y"
+msgid "Remaining time"
+msgstr "Verbleibende Zeit"
+
+#: src/gtk/playback-control.ui:64
 msgid "Play the previous song"
 msgstr "Den vorherigen Titel wiedergeben"
 
-#: src/gtk/playback-control.ui:62
+#: src/gtk/playback-control.ui:69
+msgctxt "a11y"
 msgid "Skip backwards"
 msgstr "Zurückspulen"
 
-#: src/gtk/playback-control.ui:71 src/gtk/playback-control.ui:77
+#: src/gtk/playback-control.ui:78
 msgid "Toggle play"
-msgstr "Wiedergabe ein/ausschalten"
+msgstr "Wiedergabe ein-/ausschalten"
 
-#: src/gtk/playback-control.ui:86
+#: src/gtk/playback-control.ui:84
+msgctxt "a11y"
+msgid "Toggle play"
+msgstr "Wiedergabe ein-/ausschalten"
+
+#: src/gtk/playback-control.ui:93
 msgid "Play the next song"
 msgstr "Den nächsten Titel wiedergeben"
 
-#: src/gtk/playback-control.ui:91
+#: src/gtk/playback-control.ui:98
+msgctxt "a11y"
 msgid "Skip forward"
 msgstr "Vorspulen"
 
-#: src/gtk/playback-control.ui:114 src/gtk/playback-control.ui:119
+#: src/gtk/playback-control.ui:121
 msgid "Toggle playlist"
-msgstr "Wiedergabeliste ein/ausblenden"
+msgstr "Wiedergabeliste ein-/ausblenden"
 
-#: src/gtk/playback-control.ui:128
+#: src/gtk/playback-control.ui:126
+msgctxt "a11y"
+msgid "Toggle playlist"
+msgstr "Wiedergabeliste ein-/ausblenden"
+
+#: src/gtk/playback-control.ui:135
 msgid "Shuffle the playlist"
 msgstr "Die Wiedergabeliste durchmischen"
 
-#: src/gtk/playback-control.ui:146 src/window.rs:674
+#: src/gtk/playback-control.ui:137
+msgctxt "a11y"
+msgid "Shuffle"
+msgstr "Durchmischen"
+
+#: src/gtk/playback-control.ui:156 src/window.rs:686
 msgid "Enable repeat"
 msgstr "Wiederholungsfunktion einschalten"
 
-#: src/gtk/playback-control.ui:151
-msgid "Repeat mode"
-msgstr "Wiederholungsmodus"
+#: src/gtk/playback-control.ui:161
+msgctxt "a11y"
+msgid "Repeat"
+msgstr "Wiederholen"
 
-#: src/gtk/playback-control.ui:166
-msgid "Menu"
-msgstr "Menü"
+#: src/gtk/playback-control.ui:176
+msgctxt "a11y"
+msgid "Primary menu"
+msgstr "Hauptmenü"
 
-#: src/gtk/playback-control.ui:182
+#: src/gtk/playback-control.ui:192
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/gtk/playback-control.ui:188
+#: src/gtk/playback-control.ui:198
 msgid "Add _Song"
 msgstr "_Titel hinzufügen"
 
-#: src/gtk/playback-control.ui:192
+#: src/gtk/playback-control.ui:202
 msgid "Add _Folder"
 msgstr "_Ordner hinzufügen"
 
-#: src/gtk/playback-control.ui:196
+#: src/gtk/playback-control.ui:206
 msgid "Clear"
 msgstr "Leeren"
 
-#: src/gtk/playback-control.ui:202
+#: src/gtk/playback-control.ui:212
 msgid "_Match Cover Art"
 msgstr "Ans Albumbild _anpassen"
 
-#: src/gtk/playback-control.ui:208
+#: src/gtk/playback-control.ui:218
 msgid "_Keyboard Shortcuts"
 msgstr "Tasten_kombinationen"
 
-#: src/gtk/playback-control.ui:212
+#: src/gtk/playback-control.ui:222
 msgid "_About Amberol"
 msgstr "_Info zu Amberol"
 
@@ -261,47 +314,48 @@ msgstr "Ordner hinzufügen"
 msgid "Add File"
 msgstr "Datei hinzufügen"
 
-#: src/application.rs:138
+#: src/application.rs:142
 msgid "Plays music and nothing else"
 msgstr "Spielt Musik ab und sonst nichts"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:144
+#: src/application.rs:148
 msgid "translator-credits"
 msgstr ""
 "Jürgen Benvenuti <gastornis@posteo.org>, 2022.\n"
-"Christian Kirbach <christian.kirbach@gmail.com>, 2022."
+"Christian Kirbach <christian.kirbach@gmail.com>, 2022.\n"
+"Philipp Kiemle <philipp.kiemle@gmail.com>, 2022."
 
-#: src/window.rs:374
+#: src/window.rs:382
 msgid "_Add Song"
 msgstr "Titel _hinzufügen"
 
-#: src/window.rs:375 src/window.rs:410
+#: src/window.rs:383 src/window.rs:418
 msgid "_Cancel"
 msgstr "A_bbrechen"
 
-#: src/window.rs:383
+#: src/window.rs:391
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
-#: src/window.rs:409
+#: src/window.rs:417
 msgid "_Add Folder"
 msgstr "_Ordner hinzufügen"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:460
+#: src/window.rs:468
 msgid "“{}” is not a supported audio file"
 msgstr "»{}« ist keine unterstützte Audio-Datei"
 
-#: src/window.rs:498
+#: src/window.rs:506
 msgid "No songs found"
 msgstr "Keine Lieder gefunden"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:520
+#: src/window.rs:528
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Ein Titel wurde hinzugefügt"
@@ -309,34 +363,34 @@ msgstr[1] "{} Titel wurden hinzugefügt"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:536
+#: src/window.rs:544
 msgid "Unrecognized file type for “{}”"
 msgstr "Unbekannter Datei-Typ für »{}«"
 
-#: src/window.rs:678
+#: src/window.rs:690
 msgid "Repeat all tracks"
 msgstr "Alle Titel wiederholen"
 
-#: src/window.rs:682
+#: src/window.rs:694
 msgid "Repeat the current track"
 msgstr "Den aktuellen Titel wiederholen"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:925
+#: src/window.rs:939
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Eine Minute verbleibend"
 msgstr[1] "{} Minuten verbleibend"
 
-#: src/window.rs:1045
+#: src/window.rs:1057
 msgid "No song selected"
 msgstr "Kein Titel ausgewählt"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1050
+#: src/window.rs:1062
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} Titel ausgewählt"
@@ -346,6 +400,33 @@ msgstr[1] "{} Titel ausgewählt"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1097
+#: src/window.rs:1109
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Aktuell wird »{title}« von »{artist}« wiedergegeben"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Songs Queue"
+#~ msgstr "Titel-Warteschlange"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Queue a Song"
+#~ msgstr "Einen Titel zur Warteschlange hinzufügen"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Queue a Folder"
+#~ msgstr "Einen Ordner zur Warteschlange hinzufügen"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Clear"
+#~ msgstr "Leeren"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Previous Track"
+#~ msgstr "Vorheriger Titel"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Next Track"
+#~ msgstr "Nächster Titel"
+
+#~ msgid "Menu"
+#~ msgstr "Menü"

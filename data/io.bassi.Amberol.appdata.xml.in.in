@@ -54,6 +54,14 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.6.3" date="2022-05-21">
+      <description>
+        <p>Brown paper bag release!</p>
+        <ul>
+          <li>Fix drag and drop on the initial landing page</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.2" date="2022-05-20">
       <description>
         <p>Another round of small, papercut issue fixes</p>

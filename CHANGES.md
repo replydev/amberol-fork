@@ -12,7 +12,23 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
-## [0.6.2] - 20220-05-20
+## [0.6.3] - 2022-05-21
+
+### Added
+
+- Add translations:
+  - German
+
+### Changed
+
+- Translation updates:
+  - Swedish
+
+### Fixed
+
+- Fix drag and drop on the initial landing page [!62]
+
+## [0.6.2] - 2022-05-20
 
 ### Added
 
@@ -44,8 +60,6 @@ All notable changes to this project will be documented in this file.
 - Apply darkening to the playlist view unconditionally [#128]
 - Fix the playlist end state [#132]
 - Fix key navigation [#130]
-
-### Removed
 
 ## [0.6.1] - 2022-05-09
 

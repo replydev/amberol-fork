@@ -489,54 +489,56 @@ impl Window {
                 let mut cur_file: u32 = 0;
                 let n_files = files.len() as u32;
 
-                glib::idle_add_local(clone!(@strong self as win => move || {
-                    files.next()
-                        .map(|f| {
-                            win.imp().playlist_view.update_loading(cur_file, n_files);
-                            let s = Song::new(f.uri().as_str());
-                            if !s.equals(&Song::default()) {
-                                songs.push(s);
-                            cur_file += 1;
-                        }
-                        })
-                        .map(|_| glib::Continue(true))
-                        .unwrap_or_else(|| {
-                            debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
-                            let msg = if songs.is_empty() {
-                                i18n("No songs found")
-                            } else {
-                                let queue =  win.imp().player.queue();
-                                let was_empty = queue.is_empty();
+                glib::idle_add_local(
+                    clone!(@weak self as win => @default-return glib::Continue(false), move || {
+                        files.next()
+                            .map(|f| {
+                                win.imp().playlist_view.update_loading(cur_file, n_files);
+                                let s = Song::new(f.uri().as_str());
+                                if !s.equals(&Song::default()) {
+                                    songs.push(s);
+                                cur_file += 1;
+                            }
+                            })
+                            .map(|_| glib::Continue(true))
+                            .unwrap_or_else(|| {
+                                debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
+                                let msg = if songs.is_empty() {
+                                    i18n("No songs found")
+                                } else {
+                                    let queue =  win.imp().player.queue();
+                                    let was_empty = queue.is_empty();
 
-                                win.imp().playlist_view.end_loading();
+                                    win.imp().playlist_view.end_loading();
 
-                                // Bulk add to avoid hammering the UI with list model updates
-                                queue.add_songs(&songs);
+                                    // Bulk add to avoid hammering the UI with list model updates
+                                    queue.add_songs(&songs);
 
-                                win.action_set_enabled("queue.add-song", true);
-                                win.action_set_enabled("queue.add-folder", true);
+                                    win.action_set_enabled("queue.add-song", true);
+                                    win.action_set_enabled("queue.add-folder", true);
 
-                                debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
-                                if was_empty {
-                                    win.imp().player.skip_to(0);
-                                }
+                                    debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
+                                    if was_empty {
+                                        win.imp().player.skip_to(0);
+                                    }
 
-                                ni18n_f(
-                                    // Translators: the `{}` must be left unmodified;
-                                    // it will be expanded to the number of songs added
-                                    // to the playlist
-                                    "Added one song",
-                                    "Added {} songs",
-                                    songs.len() as u32,
-                                    &[&songs.len().to_string()],
-                                )
-                            };
+                                    ni18n_f(
+                                        // Translators: the `{}` must be left unmodified;
+                                        // it will be expanded to the number of songs added
+                                        // to the playlist
+                                        "Added one song",
+                                        "Added {} songs",
+                                        songs.len() as u32,
+                                        &[&songs.len().to_string()],
+                                    )
+                                };
 
-                            win.add_toast(msg);
+                                win.add_toast(msg);
 
-                            glib::Continue(false)
-                        })
-                }));
+                                glib::Continue(false)
+                            })
+                    }),
+                );
             } else {
                 if toast {
                     // Translators: The '{}' must be left unmodified;

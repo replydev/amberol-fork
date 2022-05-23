@@ -609,8 +609,12 @@ impl Window {
                     debug!("Reset album art");
                     win.update_style(None);
 
-                    debug!("Return to the first song");
-                    win.imp().player.skip_to(0);
+                    // The current song gets unset when the queue finished
+                    // or it is cleared
+                    if !win.imp().player.queue().is_empty() {
+                        debug!("Return to the first song");
+                        win.imp().player.skip_to(0);
+                    }
                 }
             }),
         );

@@ -188,6 +188,10 @@ impl AudioPlayer {
     }
 
     pub fn toggle_play(&self) {
+        if self.queue.is_empty() {
+            return;
+        }
+
         if self.state.playing() {
             self.set_playback_state(PlaybackState::Paused);
         } else {
@@ -212,6 +216,10 @@ impl AudioPlayer {
     }
 
     pub fn skip_previous(&self) {
+        if self.queue.is_empty() {
+            return;
+        }
+
         if let Some(current_song) = self.state.current_song() {
             // We only skip to the previous song if we are
             // within a seek backward step, otherwise we just
@@ -256,6 +264,10 @@ impl AudioPlayer {
     }
 
     pub fn skip_next(&self) {
+        if self.queue.is_empty() {
+            return;
+        }
+
         if let Some(current_song) = self.state.current_song() {
             current_song.set_playing(false);
         }
@@ -290,6 +302,10 @@ impl AudioPlayer {
     }
 
     pub fn skip_to(&self, pos: u32) {
+        if self.queue.is_empty() {
+            return;
+        }
+
         if Some(pos) == self.queue.current_song_index() {
             return;
         }

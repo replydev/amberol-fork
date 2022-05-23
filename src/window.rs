@@ -7,7 +7,7 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
-use glib::{clone, closure_local, Receiver};
+use glib::{clone, closure_local, FromVariant, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use gtk_macros::stateful_action;
 use log::debug;
@@ -124,6 +124,13 @@ mod imp {
             klass.install_property_action("queue.toggle", "playlist-visible");
             klass.install_property_action("queue.shuffle", "playlist-shuffled");
             klass.install_property_action("queue.select", "playlist-selection");
+
+            klass.install_action("win.skip-to", Some("u"), move |win, _, param| {
+                if let Some(pos) = param.and_then(u32::from_variant) {
+                    win.imp().player.skip_to(pos);
+                    win.imp().player.play();
+                }
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -472,8 +479,16 @@ impl Window {
                             return;
                         }
                     }
+
                     let song = Song::new(&file.uri());
                     queue.add_song(&song);
+                    if toast {
+                        self.add_skip_to_toast(
+                            i18n("Added a new song"),
+                            i18n("Play"),
+                            queue.n_songs() - 1,
+                        );
+                    }
                 }
             } else if info.file_type() == gio::FileType::Directory {
                 self.action_set_enabled("queue.add-song", false);
@@ -912,8 +927,29 @@ impl Window {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
                     win.switch_mode(WindowMode::MainView);
 
+                    let n_songs = win.imp().player.queue().n_songs();
+                    let n_files = file_list.files().len();
                     for f in file_list.files() {
-                        win.add_file_to_queue(&f, true);
+                        win.add_file_to_queue(&f, n_files == 1);
+                    }
+
+                    let added_songs = win.imp().player.queue().n_songs() - n_songs;
+
+                    // If we only added one song, add_file_to_queue() will deal
+                    // with that; nevertheless, we want to reuse the same message
+                    // so we don't need multiple localisations
+                    if added_songs > 1 {
+                        let msg = ni18n_f(
+                            // Translators: the `{}` must be left unmodified;
+                            // it will be expanded to the number of songs added
+                            // to the playlist
+                            "Added one song",
+                            "Added {} songs",
+                            added_songs as u32,
+                            &[&added_songs.to_string()],
+                        );
+
+                        win.add_toast(msg);
                     }
 
                     return true;
@@ -1105,6 +1141,14 @@ impl Window {
 
     pub fn add_toast(&self, msg: String) {
         let toast = adw::Toast::new(&msg);
+        self.imp().toast_overlay.add_toast(&toast);
+    }
+
+    pub fn add_skip_to_toast(&self, msg: String, button: String, pos: u32) {
+        let toast = adw::Toast::new(&msg);
+        toast.set_button_label(Some(&button));
+        toast.set_action_name(Some("win.skip-to"));
+        toast.set_action_target_value(Some(&pos.to_variant()));
         self.imp().toast_overlay.add_toast(&toast);
     }
 

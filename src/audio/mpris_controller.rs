@@ -4,7 +4,7 @@
 use std::{cell::RefCell, sync::Arc, time::Duration};
 
 use glib::{clone, Sender};
-use gtk::glib;
+use gtk::{gio, glib, prelude::*};
 use gtk_macros::send;
 use log::error;
 use mpris_player::{LoopStatus, Metadata, MprisPlayer, OrgMprisMediaPlayer2Player, PlaybackStatus};
@@ -126,8 +126,16 @@ impl MprisController {
                 cache.push("covers");
                 cache.push(format!("{}.png", uuid));
 
-                if let Ok(uri) = glib::filename_to_uri(&cache, None) {
-                    metadata.art_url = Some(uri.as_str().to_string());
+                let file = gio::File::for_path(&cache);
+                match file.query_info(
+                    "standard::type",
+                    gio::FileQueryInfoFlags::NONE,
+                    gio::Cancellable::NONE,
+                ) {
+                    Ok(info) if info.file_type() == gio::FileType::Regular => {
+                        metadata.art_url = Some(file.uri().to_string());
+                    }
+                    _ => metadata.art_url = None,
                 }
             }
 

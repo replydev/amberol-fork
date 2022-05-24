@@ -304,19 +304,10 @@ impl Window {
         self.set_playlist_selection(false);
         self.update_waveform(None);
         self.update_style(None);
-
-        let player = &self.imp().player;
-        let state = player.state();
-
-        player.stop();
-        state.set_current_song(None);
-
-        self.switch_mode(WindowMode::InitialView);
     }
 
     fn clear_queue(&self) {
-        self.reset_queue();
-        self.imp().player.queue().clear();
+        self.imp().player.clear_queue();
     }
 
     fn playlist_visible(&self) -> bool {
@@ -845,6 +836,8 @@ impl Window {
         // to avoid generating the UI definition file at build
         // time
         self.imp().status_page.set_icon_name(Some(APPLICATION_ID));
+
+        self.switch_mode(WindowMode::InitialView);
     }
 
     fn setup_playlist(&self) {

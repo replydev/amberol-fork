@@ -436,4 +436,10 @@ impl AudioPlayer {
     fn present(&self) {
         send!(self.window_sender, WindowAction::Present);
     }
+
+    pub fn clear_queue(&self) {
+        self.stop();
+        self.state.set_current_song(None);
+        self.queue.clear();
+    }
 }

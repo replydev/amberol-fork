@@ -13,7 +13,7 @@ use gtk_macros::stateful_action;
 use log::debug;
 
 use crate::{
-    audio::{AudioPlayer, RepeatMode, Song, WaveformGenerator},
+    audio::{AudioPlayer, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
     i18n::{i18n, i18n_f, i18n_k, ni18n_f},
@@ -593,10 +593,11 @@ impl Window {
                     win.imp().playback_control.set_remaining(Some(remaining));
 
                     let position = state.position() as f64 / state.duration() as f64;
-                    win.imp().playback_control.waveform_view().set_position(position);
+                    win.imp().playback_control.set_position(position);
                 } else {
                     win.imp().playback_control.set_elapsed(None);
                     win.imp().playback_control.set_remaining(None);
+                    win.imp().playback_control.set_position(0.0);
                 }
             }),
         );
@@ -694,22 +695,7 @@ impl Window {
         queue.connect_notify_local(
             Some("repeat-mode"),
             clone!(@weak self as win => move |queue, _| {
-                let imp = win.imp();
-                let repeat_button = imp.playback_control.repeat_button();
-                match queue.repeat_mode() {
-                    RepeatMode::Consecutive => {
-                        repeat_button.set_icon_name("media-playlist-consecutive-symbolic");
-                        repeat_button.set_tooltip_text(Some(&i18n("Enable repeat")));
-                    },
-                    RepeatMode::RepeatAll => {
-                        repeat_button.set_icon_name("media-playlist-repeat-symbolic");
-                        repeat_button.set_tooltip_text(Some(&i18n("Repeat all tracks")));
-                    },
-                    RepeatMode::RepeatOne => {
-                        repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
-                        repeat_button.set_tooltip_text(Some(&i18n("Repeat the current track")));
-                    },
-                }
+                win.imp().playback_control.set_repeat_mode(queue.repeat_mode());
             }),
         );
         queue.connect_notify_local(

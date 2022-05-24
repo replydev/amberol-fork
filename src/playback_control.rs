@@ -4,7 +4,10 @@
 use adw::subclass::prelude::*;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 
-use crate::{utils, volume_control::VolumeControl, waveform_view::WaveformView};
+use crate::{
+    audio::RepeatMode, i18n::i18n, utils, volume_control::VolumeControl,
+    waveform_view::WaveformView,
+};
 
 mod imp {
     use super::*;
@@ -135,6 +138,28 @@ impl PlaybackControl {
                 .set_text(&utils::format_time(elapsed as i64));
         } else {
             self.imp().elapsed_label.set_text("0:00");
+        }
+    }
+
+    pub fn set_position(&self, position: f64) {
+        self.imp().waveform_view.set_position(position);
+    }
+
+    pub fn set_repeat_mode(&self, repeat_mode: RepeatMode) {
+        let repeat_button = self.imp().repeat_button.get();
+        match repeat_mode {
+            RepeatMode::Consecutive => {
+                repeat_button.set_icon_name("media-playlist-consecutive-symbolic");
+                repeat_button.set_tooltip_text(Some(&i18n("Enable repeat")));
+            }
+            RepeatMode::RepeatAll => {
+                repeat_button.set_icon_name("media-playlist-repeat-symbolic");
+                repeat_button.set_tooltip_text(Some(&i18n("Repeat all tracks")));
+            }
+            RepeatMode::RepeatOne => {
+                repeat_button.set_icon_name("media-playlist-repeat-song-symbolic");
+                repeat_button.set_tooltip_text(Some(&i18n("Repeat the current track")));
+            }
         }
     }
 }

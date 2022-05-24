@@ -607,18 +607,11 @@ impl Window {
             clone!(@weak self as win => move |state, _| {
                 win.scroll_playlist_to_song();
                 win.update_playlist_time();
-                if let Some(current) = state.current_song() {
-                    debug!("Updating waveform for {}", &current);
-                    win.update_waveform(Some(&current));
-                    debug!("Updating style for {}", &current);
-                    win.update_style(Some(&current));
-                    win.set_title(Some(&format!("{} - {}", current.artist(), current.title())));
-                } else {
-                    debug!("Reset waveform");
-                    win.update_waveform(None);
-                    debug!("Reset album art");
-                    win.update_style(None);
+                win.update_title(state.current_song().as_ref());
+                win.update_waveform(state.current_song().as_ref());
+                win.update_style(state.current_song().as_ref());
 
+                if state.current_song().is_none() {
                     // The current song gets unset when the queue finished
                     // or it is cleared
                     if !win.imp().player.queue().is_empty() {
@@ -1071,6 +1064,14 @@ impl Window {
             imp.waveform.set_song(Some(song.clone()));
         } else {
             imp.waveform.set_song(None);
+        }
+    }
+
+    fn update_title(&self, song: Option<&Song>) {
+        if let Some(song) = song {
+            self.set_title(Some(&format!("{} - {}", song.artist(), song.title())));
+        } else {
+            self.set_title(Some("Amberol"));
         }
     }
 

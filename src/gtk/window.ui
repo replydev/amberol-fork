@@ -67,7 +67,6 @@
                                             <property name="label" translatable="yes">Add File</property>
                                             <property name="action-name">queue.add-song</property>
                                             <style>
-                                              <class name="suggested-action"/>
                                               <class name="pill"/>
                                             </style>
                                           </object>

@@ -121,7 +121,8 @@ scrolledwindow undershoot.top {
   outline-color: alpha(currentColor, .25);
 }
 
-.main-window scale highlight {
+.main-window scale highlight,
+.main-window progressbar progress {
   background: currentColor;
   color: inherit;
 }

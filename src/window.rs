@@ -60,6 +60,8 @@ mod imp {
         pub queue_revealer: TemplateChild<adw::Flap>,
         #[template_child]
         pub playlist_view: TemplateChild<PlaylistView>,
+        #[template_child]
+        pub add_folder_button: TemplateChild<gtk::Button>,
 
         pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
@@ -149,6 +151,7 @@ mod imp {
                 playback_control: TemplateChild::default(),
                 main_stack: TemplateChild::default(),
                 status_page: TemplateChild::default(),
+                add_folder_button: TemplateChild::default(),
                 playlist_view: TemplateChild::default(),
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(true),
@@ -1162,8 +1165,14 @@ impl Window {
     pub fn switch_mode(&self, mode: WindowMode) {
         let stack = self.imp().main_stack.get();
         match mode {
-            WindowMode::InitialView => stack.set_visible_child_name("initial-view"),
-            WindowMode::MainView => stack.set_visible_child_name("main-view"),
+            WindowMode::InitialView => {
+                stack.set_visible_child_name("initial-view");
+                self.set_default_widget(Some(&self.imp().add_folder_button.get()));
+            }
+            WindowMode::MainView => {
+                stack.set_visible_child_name("main-view");
+                self.set_default_widget(Some(&self.imp().playback_control.play_button()));
+            }
         };
     }
 }

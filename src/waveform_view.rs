@@ -181,21 +181,19 @@ mod imp {
             let center_y = h as f32 / 2.0;
 
             // Grab the colors
+            let hc = adw::StyleManager::default().is_high_contrast();
+
             let style_context = widget.style_context();
             let color = style_context.color();
-            let dimmed_color = if let Some(color) = style_context.lookup_color("dimmed_color") {
-                color
-            } else {
-                style_context.color()
-            };
-            let cursor_color =
-                if let Some(color) = style_context.lookup_color("complementary_color") {
-                    color
-                } else if let Some(color) = style_context.lookup_color("accent_color") {
-                    color
-                } else {
-                    style_context.color()
-                };
+            let empty_opacity = if hc { 0.4 } else { 0.2 };
+            let hover_opacity = if hc { 0.7 } else { 0.45 };
+
+            let empty_color = gdk::RGBA::new(
+                color.red(),
+                color.green(),
+                color.blue(),
+                color.alpha() * empty_opacity,
+            );
 
             let is_rtl = match widget.direction() {
                 gtk::TextDirection::Rtl => true,
@@ -301,15 +299,15 @@ mod imp {
                         if is_rtl {
                             if offset > cursor_pos[0] {
                                 snapshot.append_color(
-                                    &cursor_color,
+                                    &color,
                                     &graphene::Rect::new(x, y, width, height),
                                 );
                             } else if offset > cursor_pos[1] {
                                 let hover_color = gdk::RGBA::new(
-                                    cursor_color.red(),
-                                    cursor_color.green(),
-                                    cursor_color.blue(),
-                                    dimmed_color.alpha(),
+                                    color.red(),
+                                    color.green(),
+                                    color.blue(),
+                                    color.alpha() * hover_opacity,
                                 );
                                 snapshot.append_color(
                                     &hover_color,
@@ -317,22 +315,22 @@ mod imp {
                                 );
                             } else {
                                 snapshot.append_color(
-                                    &color,
+                                    &empty_color,
                                     &graphene::Rect::new(x, y, width, height),
                                 );
                             }
                         } else {
                             if offset < cursor_pos[0] {
                                 snapshot.append_color(
-                                    &cursor_color,
+                                    &color,
                                     &graphene::Rect::new(x, y, width, height),
                                 );
                             } else if offset < cursor_pos[1] {
                                 let hover_color = gdk::RGBA::new(
-                                    cursor_color.red(),
-                                    cursor_color.green(),
-                                    cursor_color.blue(),
-                                    dimmed_color.alpha(),
+                                    color.red(),
+                                    color.green(),
+                                    color.blue(),
+                                    color.alpha() * hover_opacity,
                                 );
                                 snapshot.append_color(
                                     &hover_color,
@@ -340,7 +338,7 @@ mod imp {
                                 );
                             } else {
                                 snapshot.append_color(
-                                    &color,
+                                    &empty_color,
                                     &graphene::Rect::new(x, y, width, height),
                                 );
                             }

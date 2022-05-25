@@ -135,11 +135,35 @@ impl ShuffleListModel {
         self.imp().shuffle.borrow().is_some()
     }
 
-    pub fn reshuffle(&self) {
+    pub fn reshuffle(&self, anchor: u32) {
         if let Some(ref model) = *self.imp().model.borrow() {
-            let mut positions: Vec<u32> = (0..model.n_items()).collect();
+            let n_songs = model.n_items();
             let mut rng = thread_rng();
-            positions.shuffle(&mut rng);
+
+            let positions: Vec<u32> = if anchor == 0 {
+                let mut before: Vec<u32> = vec![0];
+                let mut after: Vec<u32> = (1..n_songs).collect();
+                after.shuffle(&mut rng);
+
+                before.extend(after);
+                before
+            } else if anchor == n_songs - 1 {
+                let mut before: Vec<u32> = (0..n_songs - 1).collect();
+                let after: Vec<u32> = vec![n_songs - 1];
+                before.shuffle(&mut rng);
+
+                before.extend(after);
+                before
+            } else {
+                let mut before: Vec<u32> = (0..anchor).collect();
+                let mut after: Vec<u32> = (anchor + 1..n_songs).collect();
+                before.shuffle(&mut rng);
+                after.shuffle(&mut rng);
+
+                before.push(anchor);
+                before.extend(after);
+                before
+            };
 
             self.imp().shuffle.replace(Some(positions));
             self.items_changed(0, model.n_items(), model.n_items());

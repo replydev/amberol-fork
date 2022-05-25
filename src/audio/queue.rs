@@ -115,6 +115,22 @@ impl Queue {
         None
     }
 
+    pub fn set_current_song(&self, song: Option<Song>) {
+        if let Some(song) = song {
+            for i in 0..self.n_songs() {
+                let s = self.song_at(i).unwrap();
+                if song.equals(&s) {
+                    self.imp().current_pos.replace(Some(i));
+                    self.notify("current");
+                    return;
+                }
+            }
+        } else {
+            self.imp().current_pos.replace(None);
+            self.notify("current");
+        }
+    }
+
     pub fn current_song_index(&self) -> Option<u32> {
         self.imp().current_pos.get()
     }
@@ -126,7 +142,7 @@ impl Queue {
             self.imp().model.unshuffle();
             self.imp().store.append(song);
             if was_shuffled {
-                self.imp().model.reshuffle();
+                self.imp().model.reshuffle(0);
             }
             self.notify("n-songs");
         }
@@ -141,7 +157,7 @@ impl Queue {
             .splice(self.imp().model.n_items(), 0, songs);
 
         if was_shuffled {
-            self.imp().model.reshuffle();
+            self.imp().model.reshuffle(0);
         }
 
         self.notify("n-songs");
@@ -166,7 +182,7 @@ impl Queue {
 
         if n_songs != self.n_songs() {
             if was_shuffled {
-                self.imp().model.reshuffle();
+                self.imp().model.reshuffle(0);
             }
             self.notify("n-songs");
         }
@@ -261,9 +277,13 @@ impl Queue {
 
     pub fn set_shuffle(&self, _shuffle: bool) {
         if _shuffle {
-            self.imp().model.reshuffle();
+            let current_pos = self.imp().current_pos.get().unwrap_or(0);
+            self.imp().model.reshuffle(current_pos);
         } else {
+            let current_pos = self.current_song_index().unwrap_or(0);
+            let current_song = self.song_at(current_pos);
             self.imp().model.unshuffle();
+            self.set_current_song(current_song);
         }
     }
 

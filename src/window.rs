@@ -476,7 +476,7 @@ impl Window {
 
                     let song = Song::new(&file.uri());
                     queue.add_song(&song);
-                    if toast {
+                    if toast && queue.n_songs() >= 1 {
                         self.add_skip_to_toast(
                             i18n("Added a new song"),
                             i18n("Play"),

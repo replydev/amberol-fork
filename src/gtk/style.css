@@ -38,14 +38,6 @@ picture.cover {
 
 waveformview {
   padding-bottom: 6px;
-  opacity: 0.55;
-  transition-property: opacity;
-  transition-duration: 100ms;
-  transition-timing-function: ease;
-}
-
-waveformview:hover {
-  opacity: 1.0;
 }
 
 queuerow .currently-playing {

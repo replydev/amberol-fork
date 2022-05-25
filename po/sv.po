@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-20 13:53+0000\n"
-"PO-Revision-Date: 2022-05-21 00:46+0200\n"
+"POT-Creation-Date: 2022-05-23 16:50+0000\n"
+"PO-Revision-Date: 2022-05-25 16:25+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -225,7 +225,7 @@ msgctxt "a11y"
 msgid "Shuffle"
 msgstr "Blanda"
 
-#: src/gtk/playback-control.ui:156 src/window.rs:683
+#: src/gtk/playback-control.ui:156 src/window.rs:708
 msgid "Enable repeat"
 msgstr "Aktivera upprepning"
 
@@ -325,36 +325,44 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: src/window.rs:382
+#: src/window.rs:389
 msgid "_Add Song"
 msgstr "_Lägg till låt"
 
-#: src/window.rs:383 src/window.rs:418
+#: src/window.rs:390 src/window.rs:425
 msgid "_Cancel"
 msgstr "A_vbryt"
 
-#: src/window.rs:391
+#: src/window.rs:398
 msgid "Audio files"
 msgstr "Ljudfiler"
 
-#: src/window.rs:417
+#: src/window.rs:424
 msgid "_Add Folder"
 msgstr "_Lägg till mapp"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:468
+#: src/window.rs:475
 msgid "“{}” is not a supported audio file"
 msgstr "Ljudfilen ”{}” stöds inte"
 
-#: src/window.rs:506
+#: src/window.rs:487
+msgid "Added a new song"
+msgstr "Lade till en ny låt"
+
+#: src/window.rs:488
+msgid "Play"
+msgstr "Spela upp"
+
+#: src/window.rs:522
 msgid "No songs found"
 msgstr "Inga låtar hittades"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:528
+#: src/window.rs:544 src/window.rs:946
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Lade till en låt"
@@ -362,34 +370,34 @@ msgstr[1] "Lade till {} låtar"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:544
+#: src/window.rs:561
 msgid "Unrecognized file type for “{}”"
 msgstr "Okänd filtyp för ”{}”"
 
-#: src/window.rs:687
+#: src/window.rs:712
 msgid "Repeat all tracks"
 msgstr "Upprepa alla spår"
 
-#: src/window.rs:691
+#: src/window.rs:716
 msgid "Repeat the current track"
 msgstr "Upprepa aktuellt spår"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:934
+#: src/window.rs:982
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minut kvarstår"
 msgstr[1] "{} minuter kvarstår"
 
-#: src/window.rs:1052
+#: src/window.rs:1100
 msgid "No song selected"
 msgstr "Ingen låt markerad"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1057
+#: src/window.rs:1105
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} låt markerad"
@@ -398,7 +406,7 @@ msgstr[1] "{} låtar markerade"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1104
+#: src/window.rs:1162
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Spelar nu ”{title}” av ”{artist}”"
 

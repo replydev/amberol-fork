@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-21 00:10+0000\n"
-"PO-Revision-Date: 2022-05-21 09:59+0200\n"
-"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
+"POT-Creation-Date: 2022-05-24 13:13+0000\n"
+"PO-Revision-Date: 2022-05-25 07:47+0200\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -227,7 +227,7 @@ msgctxt "a11y"
 msgid "Shuffle"
 msgstr "Durchmischen"
 
-#: src/gtk/playback-control.ui:156 src/window.rs:686
+#: src/gtk/playback-control.ui:156 src/playback_control.rs:153
 msgid "Enable repeat"
 msgstr "Wiederholungsfunktion einschalten"
 
@@ -326,36 +326,52 @@ msgstr ""
 "Christian Kirbach <christian.kirbach@gmail.com>, 2022.\n"
 "Philipp Kiemle <philipp.kiemle@gmail.com>, 2022."
 
-#: src/window.rs:382
+#: src/playback_control.rs:157
+msgid "Repeat all tracks"
+msgstr "Alle Titel wiederholen"
+
+#: src/playback_control.rs:161
+msgid "Repeat the current track"
+msgstr "Den aktuellen Titel wiederholen"
+
+#: src/window.rs:383
 msgid "_Add Song"
 msgstr "Titel _hinzufügen"
 
-#: src/window.rs:383 src/window.rs:418
+#: src/window.rs:384 src/window.rs:419
 msgid "_Cancel"
 msgstr "A_bbrechen"
 
-#: src/window.rs:391
+#: src/window.rs:392
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
-#: src/window.rs:417
+#: src/window.rs:418
 msgid "_Add Folder"
 msgstr "_Ordner hinzufügen"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:468
+#: src/window.rs:469
 msgid "“{}” is not a supported audio file"
 msgstr "»{}« ist keine unterstützte Audio-Datei"
 
-#: src/window.rs:506
+#: src/window.rs:481
+msgid "Added a new song"
+msgstr "Ein neuer Titel wurde hinzugefügt"
+
+#: src/window.rs:482
+msgid "Play"
+msgstr "Abspielen"
+
+#: src/window.rs:516
 msgid "No songs found"
 msgstr "Keine Lieder gefunden"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:528
+#: src/window.rs:538 src/window.rs:921
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Ein Titel wurde hinzugefügt"
@@ -363,34 +379,26 @@ msgstr[1] "{} Titel wurden hinzugefügt"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:544
+#: src/window.rs:555
 msgid "Unrecognized file type for “{}”"
 msgstr "Unbekannter Datei-Typ für »{}«"
-
-#: src/window.rs:690
-msgid "Repeat all tracks"
-msgstr "Alle Titel wiederholen"
-
-#: src/window.rs:694
-msgid "Repeat the current track"
-msgstr "Den aktuellen Titel wiederholen"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:939
+#: src/window.rs:957
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Eine Minute verbleibend"
 msgstr[1] "{} Minuten verbleibend"
 
-#: src/window.rs:1057
+#: src/window.rs:1083
 msgid "No song selected"
 msgstr "Kein Titel ausgewählt"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1062
+#: src/window.rs:1088
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} Titel ausgewählt"
@@ -400,7 +408,7 @@ msgstr[1] "{} Titel ausgewählt"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1109
+#: src/window.rs:1145
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Aktuell wird »{title}« von »{artist}« wiedergegeben"
 

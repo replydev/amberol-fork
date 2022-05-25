@@ -107,7 +107,18 @@ scrolledwindow undershoot.top {
 }
 
 
-.main-window button:focus,
-.main-window row:focus {
+.main-window button:focus:focus-visible,
+.main-window row:focus:focus-visible,
+.main-window scale:focus:focus-visible > trough {
   outline-color: alpha(currentColor, .25);
+}
+
+.main-window scale highlight,
+.main-window progressbar progress {
+  background: currentColor;
+  color: inherit;
+}
+
+.main-window scale slider {
+  background-color: white;
 }

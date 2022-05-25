@@ -396,7 +396,6 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
-                    win.switch_mode(WindowMode::MainView);
                     win.add_files_to_queue(&dialog.files());
                 }
             }),
@@ -426,7 +425,6 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
-                    win.switch_mode(WindowMode::MainView);
                     win.add_folders_to_queue(&dialog.files());
                 }
             }),
@@ -435,6 +433,12 @@ impl Window {
     }
 
     fn add_folders_to_queue(&self, folders: &gio::ListModel) {
+        if folders.n_items() == 0 {
+            self.add_toast(i18n("No available song found"));
+            return;
+        }
+
+        self.switch_mode(WindowMode::MainView);
         for pos in 0..folders.n_items() {
             let folder = folders.item(pos).unwrap().downcast::<gio::File>().unwrap();
             self.add_file_to_queue(&folder, true);
@@ -442,6 +446,12 @@ impl Window {
     }
 
     fn add_files_to_queue(&self, files: &gio::ListModel) {
+        if files.n_items() == 0 {
+            self.add_toast(i18n("No available song found"));
+            return;
+        }
+
+        self.switch_mode(WindowMode::MainView);
         for pos in 0..files.n_items() {
             let file = files.item(pos).unwrap().downcast::<gio::File>().unwrap();
             debug!("Adding {} to the queue", file.uri());

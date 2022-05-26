@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-24 13:13+0000\n"
-"PO-Revision-Date: 2022-05-25 07:47+0200\n"
+"POT-Creation-Date: 2022-05-25 22:02+0000\n"
+"PO-Revision-Date: 2022-05-26 21:50+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -338,7 +338,7 @@ msgstr "Den aktuellen Titel wiederholen"
 msgid "_Add Song"
 msgstr "Titel _hinzufügen"
 
-#: src/window.rs:384 src/window.rs:419
+#: src/window.rs:384 src/window.rs:418
 msgid "_Cancel"
 msgstr "A_bbrechen"
 
@@ -346,32 +346,36 @@ msgstr "A_bbrechen"
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
-#: src/window.rs:418
+#: src/window.rs:417
 msgid "_Add Folder"
 msgstr "_Ordner hinzufügen"
 
+#: src/window.rs:437 src/window.rs:450
+msgid "No available song found"
+msgstr "Kein vorhandenes Lied gefunden"
+
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:469
+#: src/window.rs:479
 msgid "“{}” is not a supported audio file"
 msgstr "»{}« ist keine unterstützte Audio-Datei"
 
-#: src/window.rs:481
+#: src/window.rs:491
 msgid "Added a new song"
 msgstr "Ein neuer Titel wurde hinzugefügt"
 
-#: src/window.rs:482
+#: src/window.rs:492
 msgid "Play"
 msgstr "Abspielen"
 
-#: src/window.rs:516
+#: src/window.rs:526
 msgid "No songs found"
 msgstr "Keine Lieder gefunden"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:538 src/window.rs:921
+#: src/window.rs:548 src/window.rs:931
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Ein Titel wurde hinzugefügt"
@@ -379,26 +383,26 @@ msgstr[1] "{} Titel wurden hinzugefügt"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:555
+#: src/window.rs:565
 msgid "Unrecognized file type for “{}”"
 msgstr "Unbekannter Datei-Typ für »{}«"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:957
+#: src/window.rs:967
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Eine Minute verbleibend"
 msgstr[1] "{} Minuten verbleibend"
 
-#: src/window.rs:1083
+#: src/window.rs:1093
 msgid "No song selected"
 msgstr "Kein Titel ausgewählt"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1088
+#: src/window.rs:1098
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} Titel ausgewählt"
@@ -408,7 +412,7 @@ msgstr[1] "{} Titel ausgewählt"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1145
+#: src/window.rs:1155
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Aktuell wird »{title}« von »{artist}« wiedergegeben"
 

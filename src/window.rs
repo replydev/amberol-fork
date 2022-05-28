@@ -743,8 +743,11 @@ impl Window {
             false,
             closure_local!(@strong self as this => move |_view: WaveformView, position: f64| {
                 debug!("New position: {}", position);
-                this.imp().player.seek_position_rel(position);
-                this.imp().player.play();
+                let state = this.imp().player.state();
+                if state.current_song().is_some() {
+                    this.imp().player.seek_position_rel(position);
+                    this.imp().player.play();
+                }
             }),
         );
 

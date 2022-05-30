@@ -620,15 +620,6 @@ impl Window {
                 win.update_title(state.current_song().as_ref());
                 win.update_waveform(state.current_song().as_ref());
                 win.update_style(state.current_song().as_ref());
-
-                if state.current_song().is_none() {
-                    // The current song gets unset when the queue finished
-                    // or it is cleared
-                    if !win.imp().player.queue().is_empty() {
-                        debug!("Return to the first song");
-                        win.imp().player.skip_to(0);
-                    }
-                }
             }),
         );
         // Update the cover, if any is available

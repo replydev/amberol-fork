@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-20 13:53+0000\n"
-"PO-Revision-Date: 2022-05-21 15:17+0300\n"
+"POT-Creation-Date: 2022-05-25 22:02+0000\n"
+"PO-Revision-Date: 2022-05-26 12:52+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -229,7 +229,7 @@ msgctxt "a11y"
 msgid "Shuffle"
 msgstr "В случайном порядке"
 
-#: src/gtk/playback-control.ui:156 src/window.rs:683
+#: src/gtk/playback-control.ui:156 src/playback_control.rs:153
 msgid "Enable repeat"
 msgstr "Включить повтор"
 
@@ -324,15 +324,23 @@ msgstr "Воспроизводит музыку и ничего больше"
 msgid "translator-credits"
 msgstr "Aleksandr Melman <alexmelman88@gmail.com>, 2022"
 
-#: src/window.rs:382
+#: src/playback_control.rs:157
+msgid "Repeat all tracks"
+msgstr "Повторить все дорожки"
+
+#: src/playback_control.rs:161
+msgid "Repeat the current track"
+msgstr "Повтор текущей дорожки"
+
+#: src/window.rs:383
 msgid "_Add Song"
 msgstr "_Добавить песню"
 
-#: src/window.rs:383 src/window.rs:418
+#: src/window.rs:384 src/window.rs:418
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: src/window.rs:391
+#: src/window.rs:392
 msgid "Audio files"
 msgstr "Аудиофайлы"
 
@@ -340,20 +348,32 @@ msgstr "Аудиофайлы"
 msgid "_Add Folder"
 msgstr "_Добавить папку"
 
+#: src/window.rs:437 src/window.rs:450
+msgid "No available song found"
+msgstr "Доступных песен не найдено"
+
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:468
+#: src/window.rs:479
 msgid "“{}” is not a supported audio file"
 msgstr "\"{}\" не является поддерживаемым аудиофайлом"
 
-#: src/window.rs:506
+#: src/window.rs:491
+msgid "Added a new song"
+msgstr "Добавлена новая песня"
+
+#: src/window.rs:492
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: src/window.rs:526
 msgid "No songs found"
 msgstr "Песни не найдены"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:528
+#: src/window.rs:548 src/window.rs:931
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Добавлена одна песня"
@@ -362,35 +382,27 @@ msgstr[2] "Добавлено {} песен"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:544
+#: src/window.rs:565
 msgid "Unrecognized file type for “{}”"
 msgstr "Нераспознанный тип файла для \"{}\""
-
-#: src/window.rs:687
-msgid "Repeat all tracks"
-msgstr "Повторить все дорожки"
-
-#: src/window.rs:691
-msgid "Repeat the current track"
-msgstr "Повтор текущей дорожки"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:934
+#: src/window.rs:967
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} минута осталась"
 msgstr[1] "{} минуты осталось"
 msgstr[2] "{} минут осталось"
 
-#: src/window.rs:1052
+#: src/window.rs:1093
 msgid "No song selected"
 msgstr "Не выбрана песня"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1057
+#: src/window.rs:1098
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} песня выбрана"
@@ -400,7 +412,7 @@ msgstr[2] "{} песен выбрано"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1104
+#: src/window.rs:1155
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Сейчас играет \"{title}\" от \"{artist}\""
 

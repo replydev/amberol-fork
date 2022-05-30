@@ -224,7 +224,8 @@ impl Queue {
         let repeat_mode = self.imp().repeat_mode.get();
         if let Some(current) = self.current_song_index() {
             let next: Option<u32> = match repeat_mode {
-                RepeatMode::Consecutive if current < n_songs => Some(current + 1),
+                RepeatMode::Consecutive if current < n_songs - 1 => Some(current + 1),
+                RepeatMode::Consecutive if current == n_songs - 1 => None,
                 RepeatMode::RepeatOne => Some(current),
                 RepeatMode::RepeatAll if current < n_songs - 1 => Some(current + 1),
                 RepeatMode::RepeatAll if current == n_songs - 1 => Some(0),

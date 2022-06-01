@@ -125,8 +125,8 @@
                                     <child>
                                       <object class="AmberolPlaybackControl" id="playback_control">
                                         <property name="halign">center</property>
-                                        <property name="margin-top">6</property>
-                                        <property name="margin-bottom">12</property>
+                                        <property name="margin-top">0</property>
+                                        <property name="margin-bottom">24</property>
                                       </object>
                                     </child>
                                   </object>

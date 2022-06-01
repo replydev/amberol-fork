@@ -295,8 +295,7 @@ impl AudioPlayer {
                 self.set_playback_state(PlaybackState::Playing);
             }
         } else {
-            self.backend.set_song_uri(None);
-            self.state.set_current_song(None);
+            self.skip_to(0);
             self.set_playback_state(PlaybackState::Stopped);
         }
     }

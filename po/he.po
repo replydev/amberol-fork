@@ -270,7 +270,7 @@ msgstr "ניקוי"
 
 #: src/gtk/playback-control.ui:212
 msgid "_Match Cover Art"
-msgstr "ה_תאמת כיסוי אלבוםד"
+msgstr "ה_תאמת כיסוי אלבום"
 
 #: src/gtk/playback-control.ui:218
 msgid "_Keyboard Shortcuts"

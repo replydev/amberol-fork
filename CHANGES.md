@@ -12,6 +12,47 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.7.0] - 2022-06-03
+
+### Added
+
+- Show the current song in the window title
+- Add a warning for failed cover art loading
+- Show toast when adding a single song [#136]
+- New translation
+  - Slovenian
+
+### Changed
+
+- Change the currently playing song indicator [#74]
+- Improve vertical spacing of playback controls [!70]
+- Make the shuffle model more predictable [!67]
+- Refine the app icon [!66]
+- Rework waveform colors [#119]
+- Tweak the cover art style in the playlist [!63, #147]
+- Use a single suggested action button [#145]
+- Adjust scale and progress bar styles [#146]
+- Translation updates
+  - German
+  - Polish
+  - Ukrainian
+  - Swedish
+  - Russian
+  - Turkish
+  - Hebrew
+  - Dutch
+
+### Fixed
+
+- Do not change position when scrubbing without a song [#151]
+- Fix double select on playlist end [#149]
+- Notify if no files/folders were selected [#148]
+- Add a check for MPRIS cover art
+- Fix handling cleared queues [#138]
+- Use a weak reference when loading songs [#140]
+- Update playlist length when removing a single song
+- Switch window mode when opening a file
+
 ## [0.6.3] - 2022-05-21
 
 ### Added

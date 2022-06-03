@@ -22,16 +22,16 @@
   </description>
   <screenshots>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.6/amberol-1.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-1.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.6/amberol-2.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-2.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.6/amberol-3.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-3.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.6/amberol-4.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-4.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
@@ -54,6 +54,19 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.7.0" date="2022-06-03">
+      <description>
+        <p>Lots of small UI fixes and stability improvements</p>
+        <ul>
+          <li>Improve the consistency of the cover art display</li>
+          <li>Make the behaviour of the playlist shuffle more predictable</li>
+          <li>Fix state transitions when opening a song from the file manager</li>
+          <li>Indicate the currently playing song in the playlist</li>
+          <li>Improve the styling of the waveform scrubber</li>
+          <li>Translation updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.3" date="2022-05-21">
       <description>
         <p>Brown paper bag release!</p>

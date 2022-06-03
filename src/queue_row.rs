@@ -202,7 +202,7 @@ impl QueueRow {
         if imp.selection_mode.get() {
             imp.row_stack.set_visible_child_name("selection-mode");
         } else if imp.playing.get() {
-            imp.row_stack.set_visible_child_name("currently-playing");
+            imp.row_stack.set_visible_child_name("song-details");
         } else {
             imp.row_stack.set_visible_child_name("song-details");
         }

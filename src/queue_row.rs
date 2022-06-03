@@ -30,6 +30,8 @@ mod imp {
         #[template_child]
         pub song_artist_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub song_playing_image: TemplateChild<gtk::Image>,
+        #[template_child]
         pub selection_title_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub selection_artist_label: TemplateChild<gtk::Label>,
@@ -202,9 +204,11 @@ impl QueueRow {
         if imp.selection_mode.get() {
             imp.row_stack.set_visible_child_name("selection-mode");
         } else if imp.playing.get() {
-            imp.row_stack.set_visible_child_name("currently-playing");
+            imp.row_stack.set_visible_child_name("song-details");
+            imp.song_playing_image.set_visible(true);
         } else {
             imp.row_stack.set_visible_child_name("song-details");
+            imp.song_playing_image.set_visible(false);
         }
     }
 

@@ -35,8 +35,8 @@
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
-  <url type="homepage">https://gitlab.gnome.org/ebassi/amberol</url>
-  <url type="bugtracker">https://gitlab.gnome.org/ebassi/amberol/-/issues</url>
+  <url type="homepage">https://gitlab.gnome.org/World/amberol</url>
+  <url type="bugtracker">https://gitlab.gnome.org/World/amberol/-/issues</url>
   <url type="donation">https://ko-fi.com/emmanueleb</url>
   <developer_name>Emmanuele Bassi</developer_name>
   <update_contact>ebassi_at_gnome.org</update_contact>

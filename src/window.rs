@@ -522,6 +522,11 @@ impl Window {
                             .map(|_| glib::Continue(true))
                             .unwrap_or_else(|| {
                                 debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
+
+                                // Re-enable the actions
+                                win.action_set_enabled("queue.add-song", true);
+                                win.action_set_enabled("queue.add-folder", true);
+
                                 let msg = if songs.is_empty() {
                                     i18n("No songs found")
                                 } else {
@@ -532,9 +537,6 @@ impl Window {
 
                                     // Bulk add to avoid hammering the UI with list model updates
                                     queue.add_songs(&songs);
-
-                                    win.action_set_enabled("queue.add-song", true);
-                                    win.action_set_enabled("queue.add-folder", true);
 
                                     debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
                                     if was_empty {

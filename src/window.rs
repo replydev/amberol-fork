@@ -891,6 +891,8 @@ impl Window {
                 } else if queue.current_song_index() != Some(pos) {
                     win.imp().player.skip_to(pos);
                     win.imp().player.play();
+                } else if !win.imp().player.state().playing() {
+                    win.imp().player.play();
                 }
             }),
         );

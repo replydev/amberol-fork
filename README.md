@@ -50,6 +50,16 @@ Run Amberol from your terminal using:
 
 to obtain a full debug log.
 
+Translations
+------------
+
+Amberol is translated on the [GNOME translation platform](https://l10n.gnome.org/module/amberol).
+
+You should contact the coordinator of [the localization team for your language](https://l10n.gnome.org/teams/)
+if you have questions.
+
+For more information, please see the [GNOME Translation Project wiki](https://wiki.gnome.org/TranslationProject).
+
 Code of conduct
 ---------------
 

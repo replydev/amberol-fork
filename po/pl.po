@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-03 16:35+0000\n"
-"PO-Revision-Date: 2022-06-05 14:00+0200\n"
+"POT-Creation-Date: 2022-06-05 12:47+0000\n"
+"PO-Revision-Date: 2022-06-05 16:02+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -337,6 +337,10 @@ msgstr "_Dodaj utwór"
 msgid "_Cancel"
 msgstr "_Anuluj"
 
+#: src/window.rs:386
+msgid "Open File"
+msgstr "Otwarcie pliku"
+
 #: src/window.rs:392
 msgid "Audio files"
 msgstr "Pliki dźwiękowe"
@@ -344,6 +348,10 @@ msgstr "Pliki dźwiękowe"
 #: src/window.rs:417
 msgid "_Add Folder"
 msgstr "_Dodaj katalog"
+
+#: src/window.rs:420
+msgid "Open Folder"
+msgstr "Otwarcie katalogu"
 
 #: src/window.rs:437 src/window.rs:450
 msgid "No available song found"
@@ -363,14 +371,14 @@ msgstr "Dodano nowy utwór"
 msgid "Play"
 msgstr "Odtwórz"
 
-#: src/window.rs:526
+#: src/window.rs:531
 msgid "No songs found"
 msgstr "Nie odnaleziono żadnych utworów"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:548 src/window.rs:925
+#: src/window.rs:550 src/window.rs:929
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Dodano jeden utwór"
@@ -379,27 +387,27 @@ msgstr[2] "Dodano {} utworów"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:565
+#: src/window.rs:567
 msgid "Unrecognized file type for “{}”"
 msgstr "Nieznany typ pliku „{}”"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:961
+#: src/window.rs:965
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Pozostała {} minuta"
 msgstr[1] "Pozostały {} minuty"
 msgstr[2] "Pozostało {} minut"
 
-#: src/window.rs:1087
+#: src/window.rs:1091
 msgid "No song selected"
 msgstr "Nie zaznaczono żadnego utworu"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1092
+#: src/window.rs:1096
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Zaznaczono {} utwór"
@@ -409,9 +417,6 @@ msgstr[2] "Zaznaczono {} utworów"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1149
+#: src/window.rs:1153
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Odtwarzanie utworu „{title}” — {artist}"
-
-msgid "Open File"
-msgstr "Otwarcie pliku"

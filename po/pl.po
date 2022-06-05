@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-20 13:53+0000\n"
-"PO-Revision-Date: 2022-05-22 15:22+0200\n"
+"POT-Creation-Date: 2022-06-03 16:35+0000\n"
+"PO-Revision-Date: 2022-06-05 14:00+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -228,7 +228,7 @@ msgctxt "a11y"
 msgid "Shuffle"
 msgstr "Wymieszaj"
 
-#: src/gtk/playback-control.ui:156 src/window.rs:683
+#: src/gtk/playback-control.ui:156 src/playback_control.rs:153
 msgid "Enable repeat"
 msgstr "Włącza powtarzanie"
 
@@ -290,10 +290,6 @@ msgstr "Zaznacza wszystkie utwory"
 msgid "Remove selected songs"
 msgstr "Usuwa zaznaczone utwory"
 
-#: src/gtk/queue-row.ui:137
-msgid "Playing next"
-msgstr "Następne"
-
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
 msgstr "Przeciągnięcie utworu doda go do kolejki"
@@ -325,15 +321,23 @@ msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2022\n"
 "Aviary.pl <community-poland@mozilla.org>, 2022"
 
-#: src/window.rs:382
+#: src/playback_control.rs:157
+msgid "Repeat all tracks"
+msgstr "Powtarza wszystkie ścieżki"
+
+#: src/playback_control.rs:161
+msgid "Repeat the current track"
+msgstr "Powtarza obecną ścieżkę"
+
+#: src/window.rs:383
 msgid "_Add Song"
 msgstr "_Dodaj utwór"
 
-#: src/window.rs:383 src/window.rs:418
+#: src/window.rs:384 src/window.rs:418
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: src/window.rs:391
+#: src/window.rs:392
 msgid "Audio files"
 msgstr "Pliki dźwiękowe"
 
@@ -341,20 +345,32 @@ msgstr "Pliki dźwiękowe"
 msgid "_Add Folder"
 msgstr "_Dodaj katalog"
 
+#: src/window.rs:437 src/window.rs:450
+msgid "No available song found"
+msgstr "Nie odnaleziono dostępnego utworu"
+
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:468
+#: src/window.rs:479
 msgid "“{}” is not a supported audio file"
 msgstr "„{}” nie jest obsługiwanym plikiem dźwiękowym"
 
-#: src/window.rs:506
+#: src/window.rs:491
+msgid "Added a new song"
+msgstr "Dodano nowy utwór"
+
+#: src/window.rs:492
+msgid "Play"
+msgstr "Odtwórz"
+
+#: src/window.rs:526
 msgid "No songs found"
 msgstr "Nie odnaleziono żadnych utworów"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:528
+#: src/window.rs:548 src/window.rs:925
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Dodano jeden utwór"
@@ -363,35 +379,27 @@ msgstr[2] "Dodano {} utworów"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:544
+#: src/window.rs:565
 msgid "Unrecognized file type for “{}”"
 msgstr "Nieznany typ pliku „{}”"
-
-#: src/window.rs:687
-msgid "Repeat all tracks"
-msgstr "Powtarza wszystkie ścieżki"
-
-#: src/window.rs:691
-msgid "Repeat the current track"
-msgstr "Powtarza obecną ścieżkę"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:934
+#: src/window.rs:961
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Pozostała {} minuta"
 msgstr[1] "Pozostały {} minuty"
 msgstr[2] "Pozostało {} minut"
 
-#: src/window.rs:1052
+#: src/window.rs:1087
 msgid "No song selected"
 msgstr "Nie zaznaczono żadnego utworu"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1057
+#: src/window.rs:1092
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Zaznaczono {} utwór"
@@ -401,6 +409,9 @@ msgstr[2] "Zaznaczono {} utworów"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1104
+#: src/window.rs:1149
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Odtwarzanie utworu „{title}” — {artist}"
+
+msgid "Open File"
+msgstr "Otwarcie pliku"

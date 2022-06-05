@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-25 22:02+0000\n"
-"PO-Revision-Date: 2022-05-26 09:08+0300\n"
+"POT-Creation-Date: 2022-06-05 12:47+0000\n"
+"PO-Revision-Date: 2022-06-05 18:21+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -292,10 +292,6 @@ msgstr "Позначити усі композиції"
 msgid "Remove selected songs"
 msgstr "Вилучити позначені композиції"
 
-#: src/gtk/queue-row.ui:137
-msgid "Playing next"
-msgstr "Відтворення наступної"
-
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
 msgstr "Скиньте композицію, щоб додати її до черги"
@@ -341,6 +337,10 @@ msgstr "_Додати композицію"
 msgid "_Cancel"
 msgstr "_Скасувати"
 
+#: src/window.rs:386
+msgid "Open File"
+msgstr "Відкрити файл"
+
 #: src/window.rs:392
 msgid "Audio files"
 msgstr "файли звукових даних"
@@ -349,8 +349,12 @@ msgstr "файли звукових даних"
 msgid "_Add Folder"
 msgstr "_Додати теку"
 
+#: src/window.rs:420
+#| msgid "Add Folder"
+msgid "Open Folder"
+msgstr "Відкрити теку"
+
 #: src/window.rs:437 src/window.rs:450
-#| msgid "No songs found"
 msgid "No available song found"
 msgstr "Не знайдено доступних композицій"
 
@@ -368,14 +372,14 @@ msgstr "Додано нову композицію"
 msgid "Play"
 msgstr "Відтворити"
 
-#: src/window.rs:526
+#: src/window.rs:531
 msgid "No songs found"
 msgstr "Композицій не знайдено"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:548 src/window.rs:931
+#: src/window.rs:550 src/window.rs:929
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Додано {} композицію"
@@ -385,14 +389,14 @@ msgstr[3] "Додано одну композицію"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:565
+#: src/window.rs:567
 msgid "Unrecognized file type for “{}”"
 msgstr "Нерозпізнаний тип файлів «{}»"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:967
+#: src/window.rs:965
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Лишилася {} хвилина"
@@ -400,13 +404,13 @@ msgstr[1] "Лишилося {} хвилини"
 msgstr[2] "Лишилося {} хвилин"
 msgstr[3] "Лишилася хвилина"
 
-#: src/window.rs:1093
+#: src/window.rs:1091
 msgid "No song selected"
 msgstr "Не вибрано композиції"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1098
+#: src/window.rs:1096
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Вибрано {} композицію"
@@ -417,9 +421,12 @@ msgstr[3] "Вибрано {} композицію"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1155
+#: src/window.rs:1153
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Зараз відтворюємо «{title}», «{artist}»"
+
+#~ msgid "Playing next"
+#~ msgstr "Відтворення наступної"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Songs Queue"

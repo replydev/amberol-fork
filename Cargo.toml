@@ -8,6 +8,7 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
+ashpd = { version = "0.3", features = ["feature_gtk4"] }
 color-thief = "0.2.1"
 gdk-pixbuf = { version = "0.15", features = ["v2_36"] }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }

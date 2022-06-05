@@ -383,7 +383,7 @@ impl Window {
             .accept_label(&i18n("_Add Song"))
             .cancel_label(&i18n("_Cancel"))
             .modal(true)
-            .title("Open File")
+            .title(&i18n("Open File"))
             .action(gtk::FileChooserAction::Open)
             .transient_for(&win)
             .build();
@@ -417,7 +417,7 @@ impl Window {
             .accept_label(&i18n("_Add Folder"))
             .cancel_label(&i18n("_Cancel"))
             .modal(true)
-            .title("Open Folder")
+            .title(&i18n("Open Folder"))
             .action(gtk::FileChooserAction::SelectFolder)
             .transient_for(&win)
             .build();

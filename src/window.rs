@@ -495,8 +495,11 @@ impl Window {
                     }
                 }
             } else if info.file_type() == gio::FileType::Directory {
+                // Disable actions on the queue; loading is "atomic"
                 self.action_set_enabled("queue.add-song", false);
                 self.action_set_enabled("queue.add-folder", false);
+                self.action_set_enabled("queue.clear", false);
+
                 self.set_playlist_visible(true);
 
                 self.imp().playlist_view.begin_loading();
@@ -526,6 +529,7 @@ impl Window {
                                 // Re-enable the actions
                                 win.action_set_enabled("queue.add-song", true);
                                 win.action_set_enabled("queue.add-folder", true);
+                                win.action_set_enabled("queue.clear", true);
 
                                 let msg = if songs.is_empty() {
                                     i18n("No songs found")

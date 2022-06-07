@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-25 22:02+0000\n"
-"PO-Revision-Date: 2022-05-26 21:50+0200\n"
+"POT-Creation-Date: 2022-06-05 12:47+0000\n"
+"PO-Revision-Date: 2022-06-06 11:26+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -54,11 +54,11 @@ msgstr "Derzeitige Funktionen:"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:16
 msgid "adaptive UI"
-msgstr "Sich anpassende Oberfläche"
+msgstr "Adaptive Benutzeroberfläche"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:17
 msgid "UI recoloring using the album art"
-msgstr "Oberfläche passt sich farblich ans Albumbild an"
+msgstr "Benutzeroberfläche passt sich farblich ans Albumbild an"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:18
 msgid "drag and drop support to queue songs"
@@ -289,10 +289,6 @@ msgstr "Alle Titel auswählen"
 msgid "Remove selected songs"
 msgstr "Ausgewählte Titel entfernen"
 
-#: src/gtk/queue-row.ui:137
-msgid "Playing next"
-msgstr "Anstehende Titel"
-
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
 msgstr "Legen Sie einen Titel ab, um ihn zur Warteschlange hinzuzufügen"
@@ -342,6 +338,10 @@ msgstr "Titel _hinzufügen"
 msgid "_Cancel"
 msgstr "A_bbrechen"
 
+#: src/window.rs:386
+msgid "Open File"
+msgstr "Datei öffnen"
+
 #: src/window.rs:392
 msgid "Audio files"
 msgstr "Audio-Dateien"
@@ -349,6 +349,10 @@ msgstr "Audio-Dateien"
 #: src/window.rs:417
 msgid "_Add Folder"
 msgstr "_Ordner hinzufügen"
+
+#: src/window.rs:420
+msgid "Open Folder"
+msgstr "Ordner öffnen"
 
 #: src/window.rs:437 src/window.rs:450
 msgid "No available song found"
@@ -368,14 +372,14 @@ msgstr "Ein neuer Titel wurde hinzugefügt"
 msgid "Play"
 msgstr "Abspielen"
 
-#: src/window.rs:526
+#: src/window.rs:531
 msgid "No songs found"
 msgstr "Keine Lieder gefunden"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:548 src/window.rs:931
+#: src/window.rs:550 src/window.rs:929
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Ein Titel wurde hinzugefügt"
@@ -383,26 +387,26 @@ msgstr[1] "{} Titel wurden hinzugefügt"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:565
+#: src/window.rs:567
 msgid "Unrecognized file type for “{}”"
 msgstr "Unbekannter Datei-Typ für »{}«"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:967
+#: src/window.rs:965
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Eine Minute verbleibend"
 msgstr[1] "{} Minuten verbleibend"
 
-#: src/window.rs:1093
+#: src/window.rs:1091
 msgid "No song selected"
 msgstr "Kein Titel ausgewählt"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1098
+#: src/window.rs:1096
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} Titel ausgewählt"
@@ -412,9 +416,12 @@ msgstr[1] "{} Titel ausgewählt"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1155
+#: src/window.rs:1153
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Aktuell wird »{title}« von »{artist}« wiedergegeben"
+
+#~ msgid "Playing next"
+#~ msgstr "Anstehende Titel"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Songs Queue"

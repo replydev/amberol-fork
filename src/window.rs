@@ -7,10 +7,11 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
+use ashpd::{desktop::background, WindowIdentifier};
 use glib::{clone, closure_local, FromVariant, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use gtk_macros::stateful_action;
-use log::debug;
+use log::{debug, warn};
 
 use crate::{
     audio::{AudioPlayer, Song, WaveformGenerator},
@@ -184,6 +185,7 @@ mod imp {
             obj.setup_drop_target();
             obj.setup_provider();
             obj.restore_window_state();
+            obj.request_background();
         }
 
         fn properties() -> &'static [ParamSpec] {
@@ -1173,5 +1175,36 @@ impl Window {
                 self.set_default_widget(Some(&self.imp().playback_control.play_button()));
             }
         };
+    }
+
+    async fn portal_request_background(&self) {
+        let root = self.native().unwrap();
+        let identifier = WindowIdentifier::from_native(&root).await;
+
+        match background::request(
+            &identifier,
+            &i18n("Amberol needs to run in the background to play music"),
+            false,
+            None::<&[&str]>,
+            true,
+        )
+        .await
+        {
+            Ok(response) => {
+                debug!("Background request successful: {:?}", response);
+                self.add_toast(i18n("Amberol is running in the background"));
+            }
+            Err(err) => {
+                warn!("Background request denied: {}", err);
+                self.add_toast(i18n("Amberol cannot run in the background"));
+            }
+        }
+    }
+
+    fn request_background(&self) {
+        let ctx = glib::MainContext::default();
+        ctx.spawn_local(clone!(@weak self as win => async move {
+            win.portal_request_background().await
+        }));
     }
 }

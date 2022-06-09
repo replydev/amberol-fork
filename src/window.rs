@@ -1125,13 +1125,7 @@ impl Window {
     }
 
     pub fn remove_song(&self, song: &Song) {
-        let imp = self.imp();
-        if song.playing() {
-            imp.player.skip_next();
-        }
-        let queue = imp.player.queue();
-        queue.remove_song(song);
-
+        self.imp().player.remove_song(song);
         self.update_selected_count();
         self.update_playlist_time();
     }

@@ -441,4 +441,16 @@ impl AudioPlayer {
         self.state.set_current_song(None);
         self.queue.clear();
     }
+
+    pub fn remove_song(&self, song: &Song) {
+        if song.playing() {
+            self.skip_next();
+        }
+
+        self.queue.remove_song(song);
+
+        if self.queue.is_empty() {
+            self.state.set_current_song(None);
+        }
+    }
 }

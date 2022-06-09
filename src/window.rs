@@ -918,6 +918,11 @@ impl Window {
 
                     let n_songs = win.imp().player.queue().n_songs();
                     let n_files = file_list.files().len();
+                    if n_files == 0 {
+                        win.add_toast(i18n("No available song found"));
+                        return true;
+                    }
+
                     for f in file_list.files() {
                         win.add_file_to_queue(&f, n_files == 1);
                     }

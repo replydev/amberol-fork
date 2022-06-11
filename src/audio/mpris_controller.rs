@@ -120,12 +120,7 @@ impl MprisController {
             // MPRIS should really support passing a bytes buffer for
             // the cover art, instead of requiring this ridiculous
             // charade
-            if let Some(uuid) = song.uuid() {
-                let mut cache = glib::user_cache_dir();
-                cache.push("amberol");
-                cache.push("covers");
-                cache.push(format!("{}.png", uuid));
-
+            if let Some(cache) = song.cover_cache() {
                 let file = gio::File::for_path(&cache);
                 match file.query_info(
                     "standard::type",

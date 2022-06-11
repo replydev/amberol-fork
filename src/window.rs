@@ -935,17 +935,38 @@ impl Window {
         let selection = gtk::NoSelection::new(Some(&filter_model));
         imp.playlist_view
             .queue_view()
-            .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
+            .set_model(Some(selection.upcast_ref::<gtk::SelectionModel>()));
         imp.playlist_view.queue_view().connect_activate(
-            clone!(@weak self as win => move |_, pos| {
+            clone!(@weak self as win, @weak selection => move |_, pos| {
+                let song = selection
+                    .upcast::<gio::ListModel>()
+                    .item(pos)
+                    .unwrap()
+                    .downcast::<Song>()
+                    .unwrap();
+
                 let queue = win.imp().player.queue();
-                if win.playlist_selection() {
-                    queue.select_song_at(pos);
-                } else if queue.current_song_index() != Some(pos) {
-                    win.imp().player.skip_to(pos);
-                    win.imp().player.play();
-                } else if !win.imp().player.state().playing() {
-                    win.imp().player.play();
+
+                let mut real_pos = None;
+                for i in 0..queue.model().n_items() {
+                    if let Some(item) = queue.model().item(i) {
+                        let s = item.downcast::<Song>().unwrap();
+                        if s.equals(&song) {
+                            real_pos = Some(i);
+                            break;
+                        }
+                    }
+                }
+
+                if let Some(real_pos) = real_pos {
+                    if win.playlist_selection() {
+                        queue.select_song_at(real_pos);
+                    } else if queue.current_song_index() != Some(real_pos) {
+                        win.imp().player.skip_to(real_pos);
+                        win.imp().player.play();
+                    } else if !win.imp().player.state().playing() {
+                        win.imp().player.play();
+                    }
                 }
             }),
         );

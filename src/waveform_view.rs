@@ -285,13 +285,13 @@ mod imp {
                         // The block rectangle, clamped to avoid overdrawing
                         let x = offset as f32;
                         let y = f32::clamp(
-                            center_y as f32 - left as f32 * h as f32,
+                            center_y as f32 - right as f32 * h as f32,
                             1.0,
                             h as f32 / 2.0,
                         );
                         let width: f32 = 2.0;
                         let height = f32::clamp(
-                            left as f32 * h as f32 + right as f32 * h as f32,
+                            right as f32 * h as f32 + left as f32 * h as f32,
                             2.0,
                             h as f32,
                         );
@@ -452,8 +452,8 @@ impl WaveformView {
     }
 
     fn normalize_peaks(&self, peaks: Vec<(f64, f64)>) -> Vec<PeakPair> {
-        let left_channel: Vec<f64> = peaks.iter().map(|p| p.0).collect();
-        let right_channel: Vec<f64> = peaks.iter().map(|p| p.1).collect();
+        let right_channel: Vec<f64> = peaks.iter().map(|p| p.0).collect();
+        let left_channel: Vec<f64> = peaks.iter().map(|p| p.1).collect();
 
         let max_left: f64 = left_channel
             .iter()

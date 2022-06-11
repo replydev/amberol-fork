@@ -35,6 +35,7 @@ run_command(
 rust_sources = files(
   'application.rs',
   'audio/controller.rs',
+  'audio/cover_cache.rs',
   'audio/gst_backend.rs',
   'audio/inhibit_controller.rs',
   'audio/mod.rs',

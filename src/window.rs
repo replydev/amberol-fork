@@ -916,12 +916,7 @@ impl Window {
         let queue = imp.player.queue();
 
         fn search_string(song: Song) -> String {
-            format!(
-                "{} {} {}",
-                song.artist(),
-                song.album(),
-                song.title()
-            )
+            song.search_key()
         }
 
         let song_key_expression = gtk::ClosureExpression::new::<String, &[gtk::Expression], _>(

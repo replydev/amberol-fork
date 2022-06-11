@@ -373,6 +373,10 @@ impl Song {
     pub fn uuid(&self) -> Option<String> {
         self.imp().data.borrow().uuid().map(|s| s.to_string())
     }
+
+    pub fn search_key(&self) -> String {
+        format!("{} {} {}", self.artist(), self.album(), self.title())
+    }
 }
 
 impl Default for Song {

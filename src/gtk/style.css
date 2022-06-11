@@ -114,7 +114,8 @@ scrolledwindow undershoot.top {
 
 .main-window button:focus:focus-visible,
 .main-window row:focus:focus-visible,
-.main-window scale:focus:focus-visible > trough {
+.main-window scale:focus:focus-visible > trough,
+.main-window searchbar entry.search {
   outline-color: alpha(currentColor, .25);
 }
 

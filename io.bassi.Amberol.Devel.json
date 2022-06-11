@@ -4,7 +4,8 @@
     "runtime-version" : "master",
     "sdk" : "org.gnome.Sdk",
     "sdk-extensions" : [
-        "org.freedesktop.Sdk.Extension.rust-stable"
+        "org.freedesktop.Sdk.Extension.rust-stable",
+        "org.freedesktop.Sdk.Extension.llvm13"
     ],
     "command" : "amberol",
     "finish-args" : [
@@ -18,12 +19,16 @@
         "--filesystem=xdg-download:ro"
     ],
     "build-options" : {
-        "append-path" : "/usr/lib/sdk/rust-stable/bin",
+        "append-path" : "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm13/bin",
         "build-args" : [
             "--share=network"
         ],
         "env" : {
+            "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER" : "clang",
+            "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER" : "clang",
             "G_MESSAGES_DEBUG" : "none",
+            "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS" : "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
+            "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS" : "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
             "RUST_BACKTRACE" : "1",
             "RUST_LOG" : "amberol=debug,glib=debug"
         }

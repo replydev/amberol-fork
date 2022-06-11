@@ -4,6 +4,7 @@
 use std::{
     cell::{Cell, RefCell},
     fmt::{self, Display, Formatter},
+    path::PathBuf,
     time::Instant,
 };
 
@@ -16,15 +17,18 @@ use log::{debug, warn};
 use once_cell::sync::Lazy;
 use sha2::{Digest, Sha256};
 
-use crate::{i18n::i18n, utils};
+use crate::{
+    audio::cover_cache::{CoverArt, CoverCache},
+    i18n::i18n,
+};
 
 #[derive(Debug, Clone)]
 pub struct SongData {
     artist: Option<String>,
     title: Option<String>,
     album: Option<String>,
-    cover_texture: Option<gdk::Texture>,
-    cover_palette: Option<Vec<gdk::RGBA>>,
+    cover_art: Option<CoverArt>,
+    cover_uuid: Option<String>,
     uuid: Option<String>,
     duration: u64,
     file: gio::File,
@@ -47,16 +51,36 @@ impl SongData {
         self.uuid.as_deref()
     }
 
+    pub fn cover_uuid(&self) -> Option<&str> {
+        self.cover_uuid.as_deref()
+    }
+
     pub fn duration(&self) -> u64 {
         self.duration
     }
 
     pub fn cover_texture(&self) -> Option<&gdk::Texture> {
-        self.cover_texture.as_ref()
+        if let Some(cover) = &self.cover_art {
+            return Some(&cover.texture());
+        }
+
+        None
     }
 
     pub fn cover_palette(&self) -> Option<&Vec<gdk::RGBA>> {
-        self.cover_palette.as_ref()
+        if let Some(cover) = &self.cover_art {
+            return Some(&cover.palette());
+        }
+
+        None
+    }
+
+    pub fn cover_cache(&self) -> Option<&PathBuf> {
+        if let Some(cover) = &self.cover_art {
+            return cover.cache();
+        }
+
+        None
     }
 
     pub fn from_uri(uri: &str) -> Self {
@@ -73,31 +97,25 @@ impl SongData {
             }
         };
 
+        let mut cover_cache = CoverCache::global().lock().unwrap();
+
         let mut artist = None;
         let mut title = None;
         let mut album = None;
         let mut cover_art = None;
+        let mut cover_uuid = None;
         if let Some(tag) = tagged_file.primary_tag() {
+            debug!("Found primary tag");
             artist = tag.artist().map(|s| s.to_string());
             title = tag.title().map(|s| s.to_string());
             album = tag.album().map(|s| s.to_string());
-            if let Some(picture) = tag.get_picture_type(lofty::PictureType::CoverFront) {
-                cover_art = Some(glib::Bytes::from(picture.data()));
-            } else {
-                // If we don't have a CoverFront picture, we fall back to Other
-                // and BandLogo types
-                for picture in tag.pictures() {
-                    cover_art = match picture.pic_type() {
-                        lofty::PictureType::Other => Some(glib::Bytes::from(picture.data())),
-                        lofty::PictureType::BandLogo => Some(glib::Bytes::from(picture.data())),
-                        _ => None,
-                    };
-
-                    if cover_art.is_some() {
-                        break;
-                    }
+            match cover_cache.cover_art(&path, &tag) {
+                Some(res) => {
+                    cover_art = Some(res.0);
+                    cover_uuid = Some(res.1);
                 }
-            }
+                None => (),
+            };
         } else {
             warn!("Unable to load primary tag for: {}", uri);
             for tag in tagged_file.tags() {
@@ -105,21 +123,13 @@ impl SongData {
                 artist = tag.artist().map(|s| s.to_string());
                 title = tag.title().map(|s| s.to_string());
                 album = tag.album().map(|s| s.to_string());
-                if let Some(picture) = tag.get_picture_type(lofty::PictureType::CoverFront) {
-                    cover_art = Some(glib::Bytes::from(picture.data()));
-                } else {
-                    for picture in tag.pictures() {
-                        cover_art = match picture.pic_type() {
-                            lofty::PictureType::Other => Some(glib::Bytes::from(picture.data())),
-                            lofty::PictureType::BandLogo => Some(glib::Bytes::from(picture.data())),
-                            _ => None,
-                        };
-
-                        if cover_art.is_some() {
-                            break;
-                        }
+                match cover_cache.cover_art(&path, &tag) {
+                    Some(res) => {
+                        cover_art = Some(res.0);
+                        cover_uuid = Some(res.1);
                     }
-                }
+                    None => (),
+                };
 
                 if artist.is_some() && title.is_some() {
                     break;
@@ -129,16 +139,8 @@ impl SongData {
 
         let uuid = if let Some(basename) = file.basename() {
             let mut hasher = Sha256::new();
-
             hasher.update(basename.to_str().unwrap());
 
-            // Compute the checksum using the data we have
-            // at load time; at worst, we are going to use
-            // the basename of the file, in case the song
-            // is missing all metadata
-            if let Some(basename) = file.basename() {
-                hasher.update(basename.to_str().unwrap());
-            }
             if let Some(ref artist) = artist {
                 hasher.update(&artist);
             }
@@ -154,65 +156,6 @@ impl SongData {
             None
         };
 
-        // The pixel buffer for the cover art
-        let cover_pixbuf = if let Some(ref cover_art) = cover_art {
-            utils::load_cover_texture(cover_art)
-        } else {
-            None
-        };
-
-        if let Some(ref pixbuf) = cover_pixbuf {
-            if let Some(ref uuid) = uuid {
-                // This is not great; the only reason why we have to do this
-                // is because MPRIS is a bad specification, and requires us
-                // to save the cover art in order to pass a URL to it.
-                let mut cache = glib::user_cache_dir();
-                cache.push("amberol");
-                cache.push("covers");
-                glib::mkdir_with_parents(&cache, 0o755);
-
-                cache.push(format!("{}.png", uuid));
-                let file = gio::File::for_path(&cache);
-                match file.create(gio::FileCreateFlags::NONE, gio::Cancellable::NONE) {
-                    Ok(stream) => {
-                        debug!("Creating cover data cache at {:?}", &cache);
-                        pixbuf.save_to_streamv_async(
-                            &stream,
-                            "png",
-                            &[("tEXt::Software", "amberol")],
-                            gio::Cancellable::NONE,
-                            move |res| {
-                                match res {
-                                    Err(e) => warn!("Unable to cache cover data: {}", e),
-                                    _ => debug!("Cached cover data: {:?}", &cache),
-                                };
-                            },
-                        );
-                    }
-                    Err(e) => {
-                        if let Some(file_error) = e.kind::<glib::FileError>() {
-                            match file_error {
-                                glib::FileError::Exist => (),
-                                _ => warn!("Unable to create file: {}", e),
-                            };
-                        }
-                    }
-                };
-            } else {
-                warn!("No UUID available")
-            }
-        }
-
-        // The texture we draw on screen
-        let cover_texture = cover_pixbuf.as_ref().map(gdk::Texture::for_pixbuf);
-
-        // The color palette we use for styling the UI
-        let cover_palette = if let Some(ref pixbuf) = cover_pixbuf {
-            utils::load_palette(pixbuf)
-        } else {
-            None
-        };
-
         let properties = lofty::AudioFile::properties(&tagged_file);
         let duration = properties.duration().as_secs();
 
@@ -222,8 +165,8 @@ impl SongData {
             artist,
             title,
             album,
-            cover_texture,
-            cover_palette,
+            cover_art,
+            cover_uuid,
             uuid,
             duration,
             file,
@@ -241,8 +184,8 @@ impl Default for SongData {
             artist: Some("Invalid Artist".to_string()),
             title: Some("Invalid Title".to_string()),
             album: Some("Invalid Album".to_string()),
-            cover_texture: None,
-            cover_palette: None,
+            cover_art: None,
+            cover_uuid: None,
             uuid: None,
             duration: 0,
             file: gio::File::for_path("/does-not-exist"),
@@ -391,6 +334,14 @@ impl Song {
 
     pub fn cover_palette(&self) -> Option<Vec<gdk::RGBA>> {
         self.imp().data.borrow().cover_palette().cloned()
+    }
+
+    pub fn cover_uuid(&self) -> Option<String> {
+        self.imp().data.borrow().cover_uuid().map(|s| s.to_string())
+    }
+
+    pub fn cover_cache(&self) -> Option<PathBuf> {
+        self.imp().data.borrow().cover_cache().cloned()
     }
 
     pub fn duration(&self) -> u64 {

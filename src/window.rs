@@ -74,6 +74,7 @@ mod imp {
         pub playlist_shuffled: Cell<bool>,
         pub playlist_visible: Cell<bool>,
         pub playlist_selection: Cell<bool>,
+        pub playlist_search: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -128,6 +129,7 @@ mod imp {
             klass.install_property_action("queue.toggle", "playlist-visible");
             klass.install_property_action("queue.shuffle", "playlist-shuffled");
             klass.install_property_action("queue.select", "playlist-selection");
+            klass.install_property_action("queue.search", "playlist-search");
 
             klass.install_action("win.skip-to", Some("u"), move |win, _, param| {
                 if let Some(pos) = param.and_then(u32::from_variant) {
@@ -158,6 +160,7 @@ mod imp {
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(true),
                 playlist_selection: Cell::new(false),
+                playlist_search: Cell::new(false),
                 player: AudioPlayer::new(sender),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
@@ -209,6 +212,7 @@ mod imp {
                         false,
                         ParamFlags::READWRITE,
                     ),
+                    ParamSpecBoolean::new("playlist-search", "", "", false, ParamFlags::READWRITE),
                 ]
             });
             PROPERTIES.as_ref()
@@ -219,6 +223,7 @@ mod imp {
                 "playlist-shuffled" => obj.set_playlist_shuffled(value.get::<bool>().unwrap()),
                 "playlist-visible" => obj.set_playlist_visible(value.get::<bool>().unwrap()),
                 "playlist-selection" => obj.set_playlist_selection(value.get::<bool>().unwrap()),
+                "playlist-search" => obj.set_playlist_search(value.get::<bool>().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -228,6 +233,7 @@ mod imp {
                 "playlist-shuffled" => obj.playlist_shuffled().to_value(),
                 "playlist-visible" => obj.playlist_visible().to_value(),
                 "playlist-selection" => obj.playlist_selection().to_value(),
+                "playlist-search" => obj.playlist_search().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -369,6 +375,19 @@ impl Window {
                 .set_revealed(selection);
 
             self.notify("playlist-selection");
+        }
+    }
+
+    fn playlist_search(&self) -> bool {
+        self.imp().playlist_search.get()
+    }
+
+    fn set_playlist_search(&self, search: bool) {
+        let imp = self.imp();
+
+        if search != imp.playlist_search.replace(search) {
+            imp.playlist_view.set_search(search);
+            self.notify("playlist-search");
         }
     }
 
@@ -790,6 +809,16 @@ impl Window {
                 }
             }));
 
+        self.imp()
+            .playlist_view
+            .playlist_searchbar()
+            .connect_notify_local(
+                Some("search-mode-enabled"),
+                clone!(@weak self as win => move |searchbar, _| {
+                    win.set_playlist_search(searchbar.is_search_mode());
+                }),
+            );
+
         self.imp().settings.connect_changed(
             Some("enable-recoloring"),
             clone!(@strong self as this => move |settings, _| {
@@ -885,7 +914,30 @@ impl Window {
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));
 
         let queue = imp.player.queue();
-        let selection = gtk::NoSelection::new(Some(queue.model()));
+
+        fn search_string(song: Song) -> String {
+            format!(
+                "{} {} {}",
+                song.artist(),
+                song.album(),
+                song.title()
+            )
+        }
+
+        let song_key_expression = gtk::ClosureExpression::new::<String, &[gtk::Expression], _>(
+            &[],
+            closure_local!(|song: Option<Song>| { song.map(search_string).unwrap_or_default() }),
+        );
+
+        let filter = gtk::StringFilter::builder()
+            .match_mode(gtk::StringFilterMatchMode::Substring)
+            .expression(&song_key_expression)
+            .ignore_case(true)
+            .build();
+
+        let filter_model = gtk::FilterListModel::new(Some(queue.model()), Some(&filter));
+
+        let selection = gtk::NoSelection::new(Some(&filter_model));
         imp.playlist_view
             .queue_view()
             .set_model(Some(&selection.upcast::<gtk::SelectionModel>()));
@@ -902,6 +954,12 @@ impl Window {
                 }
             }),
         );
+
+        imp.playlist_view
+            .playlist_searchentry()
+            .bind_property("text", &filter, "search")
+            .flags(glib::BindingFlags::SYNC_CREATE)
+            .build();
     }
 
     fn setup_drop_target(&self) {

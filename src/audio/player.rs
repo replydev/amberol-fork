@@ -9,7 +9,10 @@ use gtk_macros::send;
 use log::{debug, error};
 
 use crate::{
-    audio::{Controller, GstBackend, InhibitController, MprisController, PlayerState, Queue, Song},
+    audio::{
+        Controller, CoverCache, GstBackend, InhibitController, MprisController, PlayerState, Queue,
+        Song,
+    },
     window::WindowAction,
 };
 
@@ -440,6 +443,9 @@ impl AudioPlayer {
         self.stop();
         self.state.set_current_song(None);
         self.queue.clear();
+
+        let mut cover_cache = CoverCache::global().lock().unwrap();
+        cover_cache.clear();
     }
 
     pub fn remove_song(&self, song: &Song) {

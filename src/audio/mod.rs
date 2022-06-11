@@ -40,6 +40,9 @@
 mod controller;
 pub use controller::Controller;
 
+mod cover_cache;
+pub use cover_cache::{CoverArt, CoverCache};
+
 mod inhibit_controller;
 mod mpris_controller;
 pub use inhibit_controller::InhibitController;

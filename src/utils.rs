@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::path::PathBuf;
+
 use color_thief::{get_palette, ColorFormat};
 use gtk::{gdk, gio, glib, prelude::*};
 use log::{debug, warn};
@@ -46,6 +48,46 @@ pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
             None
         }
     }
+}
+
+pub fn cache_cover_art(uuid: &str, pixbuf: &gdk_pixbuf::Pixbuf) -> Option<PathBuf> {
+    let mut cache_dir = glib::user_cache_dir();
+    cache_dir.push("amberol");
+    cache_dir.push("covers");
+    glib::mkdir_with_parents(&cache_dir, 0o755);
+
+    cache_dir.push(format!("{}.png", &uuid));
+    let file = gio::File::for_path(&cache_dir);
+    match file.create(gio::FileCreateFlags::NONE, gio::Cancellable::NONE) {
+        Ok(stream) => {
+            debug!("Creating cover data cache at {:?}", &cache_dir);
+            pixbuf.save_to_streamv_async(
+                &stream,
+                "png",
+                &[("tEXt::Software", "amberol")],
+                gio::Cancellable::NONE,
+                move |res| {
+                    match res {
+                        Err(e) => warn!("Unable to cache cover data: {}", e),
+                        _ => (),
+                    };
+                },
+            );
+        }
+        Err(e) => {
+            if let Some(file_error) = e.kind::<glib::FileError>() {
+                match file_error {
+                    glib::FileError::Exist => (),
+                    _ => {
+                        warn!("Unable to create cache file: {}", e);
+                        return None;
+                    }
+                };
+            }
+        }
+    };
+
+    Some(cache_dir)
 }
 
 fn color_format(has_alpha: bool) -> ColorFormat {

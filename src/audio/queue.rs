@@ -186,6 +186,10 @@ impl Queue {
             }
             self.notify("n-songs");
         }
+
+        if self.is_empty() {
+            self.imp().current_pos.replace(None);
+        }
     }
 
     pub fn clear(&self) {

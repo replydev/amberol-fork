@@ -476,7 +476,7 @@ impl Window {
         ) {
             if info.file_type() == gio::FileType::Regular {
                 if let Some(content_type) = info.content_type() {
-                    if !gio::content_type_is_a(&content_type, "audio/*") {
+                    if !gio::content_type_is_mime_type(&content_type, "audio/*") {
                         if toast {
                             let msg = i18n_f(
                                 // Translators: '{}' must be left unmodified; it

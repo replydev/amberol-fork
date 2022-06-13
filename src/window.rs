@@ -298,12 +298,10 @@ impl Window {
     }
 
     fn restore_window_state(&self) {
-        // FIXME: https://gitlab.gnome.org/GNOME/gtk/-/issues/4136
-        // let settings = utils::settings_manager();
-        // let width = settings.int("window-width");
-        // let height = settings.int("window-height");
-        // self.set_default_size(width, height);
-        self.set_default_size(720, 605);
+        let settings = utils::settings_manager();
+        let width = settings.int("window-width");
+        let height = settings.int("window-height");
+        self.set_default_size(width, height);
     }
 
     fn reset_queue(&self) {

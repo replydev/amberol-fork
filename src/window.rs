@@ -7,6 +7,7 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
+#[cfg(target_os = "linux")]
 use ashpd::{desktop::background, WindowIdentifier};
 use glib::{clone, closure_local, FromVariant, Receiver};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
@@ -185,6 +186,8 @@ mod imp {
             obj.setup_drop_target();
             obj.setup_provider();
             obj.restore_window_state();
+
+            #[cfg(target_os = "linux")]
             obj.request_background();
         }
 
@@ -1176,6 +1179,7 @@ impl Window {
         };
     }
 
+    #[cfg(target_os = "linux")]
     async fn portal_request_background(&self) {
         let root = self.native().unwrap();
         let identifier = WindowIdentifier::from_native(&root).await;
@@ -1200,6 +1204,7 @@ impl Window {
         }
     }
 
+    #[cfg(target_os = "linux")]
     fn request_background(&self) {
         let ctx = glib::MainContext::default();
         ctx.spawn_local(clone!(@weak self as win => async move {

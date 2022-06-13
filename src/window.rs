@@ -75,6 +75,8 @@ mod imp {
         pub playlist_visible: Cell<bool>,
         pub playlist_selection: Cell<bool>,
         pub playlist_search: Cell<bool>,
+
+        pub playlist_filtermodel: RefCell<Option<gio::ListModel>>,
     }
 
     #[glib::object_subclass]
@@ -161,6 +163,7 @@ mod imp {
                 playlist_visible: Cell::new(true),
                 playlist_selection: Cell::new(false),
                 playlist_search: Cell::new(false),
+                playlist_filtermodel: RefCell::default(),
                 player: AudioPlayer::new(sender),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
@@ -782,10 +785,20 @@ impl Window {
             .playlist_view
             .queue_select_all_button()
             .connect_clicked(clone!(@weak self as win => move |_| {
-                let queue = win.imp().player.queue();
-                for idx in 0..queue.n_songs() {
-                    let song = queue.song_at(idx).unwrap();
-                    song.set_selected(true);
+                if win.playlist_search() {
+                    if let Some(ref model) = *win.imp().playlist_filtermodel.borrow() {
+                        for idx in 0..model.n_items() {
+                            let item = model.item(idx).unwrap();
+                            let song = item.downcast_ref::<Song>().unwrap();
+                            song.set_selected(true);
+                        }
+                    }
+                } else {
+                    let queue = win.imp().player.queue();
+                    for idx in 0..queue.n_songs() {
+                        let song = queue.song_at(idx).unwrap();
+                        song.set_selected(true);
+                    }
                 }
             }));
 
@@ -970,6 +983,9 @@ impl Window {
                 }
             }),
         );
+
+        imp.playlist_filtermodel
+            .replace(Some(filter_model.upcast::<gio::ListModel>()));
 
         imp.playlist_view
             .playlist_searchentry()

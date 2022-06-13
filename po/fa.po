@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-12 16:50+0000\n"
-"PO-Revision-Date: 2022-05-13 08:21+0430\n"
-"Last-Translator: eshagh <eshagh094@gmail.com>\n"
+"POT-Creation-Date: 2022-06-08 10:13+0000\n"
+"PO-Revision-Date: 2022-06-13 10:33+0430\n"
+"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Farsi\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/io.bassi.Amberol.desktop.in.in:3 data/io.bassi.Amberol.appdata.xml.in.in:6
 msgid "Amberol"
-msgstr "آمبرول"
+msgstr "امبرول"
 
 #: data/io.bassi.Amberol.desktop.in.in:4
 msgid "Music Player"
@@ -34,7 +34,7 @@ msgstr "music;sound;player:media;موزیک;آهنگ;موسیقی;صدا;صوت;
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
-msgstr "پخش آهنگ، نه چیز دیگر"
+msgstr "پخش آهنگ و هیچ چیز دیگر"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:9
 msgid ""
@@ -42,13 +42,12 @@ msgid ""
 "play music available on your local system then Amberol is the music player you "
 "are looking for."
 msgstr ""
-"آمبرول یک پخش‌کننده آهنگ بدون توهم بزرگی است. اگر شما فقط نیاز به پخش آهنگ‌های "
-"موجود روی سامانهٔ محلی‌تان دارید، آمبرول آن پخش‌کننده آهنگی است که شما دنبال آن "
-"هستید."
+"امبرول پخش‌کنندهٔ آهنگی بدون توهّم بزرگی است. اگر فقط می‌خواهید آهنگ‌های روی سامانهٔ "
+"محلیتان را پخش کنید، امبرول پخش‌کنندهٔ آهنگیست که دنبالش می‌گردید."
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:14
 msgid "Current features:"
-msgstr "ویژگی های کنونی:"
+msgstr "ویژگی‌های کنونی:"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:16
 msgid "adaptive UI"
@@ -56,19 +55,19 @@ msgstr "رابط کاربری تطبیقی"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:17
 msgid "UI recoloring using the album art"
-msgstr "رنگ‌آمیزی مجدد رابط کاربری با استفاده از تصویر آلبوم"
+msgstr "تغییر رنگ رابط کاربری با استفاده از تصویر آلبوم"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:18
 msgid "drag and drop support to queue songs"
-msgstr "پشتیبانی از کشیدن و رها کردن برای افزودن آهنگ‌ها به صف"
+msgstr "پشتیبانی از کشیدن و رها کردن برای صف کردن آهنگ‌ها"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:19
 msgid "shuffle and repeat"
-msgstr "تصادفی و تکرار"
+msgstr "بر زدن و تکرار"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:20
 msgid "MPRIS integration"
-msgstr "یکپارچگی با MPRIS"
+msgstr "یکپارچگی MPRIS"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:41
 msgid "Emmanuele Bassi"
@@ -76,7 +75,7 @@ msgstr "امانوئل باسی"
 
 #: src/audio/inhibit_controller.rs:42
 msgid "Playback in progress"
-msgstr "پخش در حال انجام است"
+msgstr "پخش در حال انجام"
 
 #: src/audio/song.rs:366
 msgid "Unknown artist"
@@ -92,168 +91,213 @@ msgstr "آلبوم ناشناس"
 
 #: src/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
-msgid "Songs Queue"
-msgstr "صف آهنگ‌ها"
-
-#: src/gtk/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Queue a Song"
-msgstr "افزودن یک آهنگ به صف"
-
-#: src/gtk/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Queue a Folder"
-msgstr "افزودن یک شاخه به صف"
-
-#: src/gtk/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Clear"
-msgstr "پاک‌سازی"
-
-#: src/gtk/help-overlay.ui:34
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "بازپخش"
-
-#: src/gtk/help-overlay.ui:37
-msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
-msgstr "تغییر وضعیت پخش/مکث"
-
-#: src/gtk/help-overlay.ui:43
-msgctxt "shortcut window"
-msgid "Previous Track"
-msgstr "قطعهٔ قبلی"
-
-#: src/gtk/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Next Track"
-msgstr "قطعهٔ بعدی"
-
-#: src/gtk/help-overlay.ui:57
-msgctxt "shortcut window"
 msgid "General"
 msgstr "عمومی"
 
-#: src/gtk/help-overlay.ui:60
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Toggle primary menu"
+msgstr "تغییر وضعیت فهرست اصلی"
+
+#: src/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Copy song details to the clipboard"
 msgstr "رونوشت جزییات آهنگ به تخته‌گیره"
 
-#: src/gtk/help-overlay.ui:66
+#: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
 msgstr "نمایش میان‌برها"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "خروج"
 
-#: src/gtk/playback-control.ui:57
-msgid "Play the previous song"
-msgstr "پخش آهنگ قبلی"
+#: src/gtk/help-overlay.ui:40
+msgctxt "shortcut window"
+msgid "Playlist"
+msgstr "سیاههٔ پخش"
 
-#: src/gtk/playback-control.ui:62
+#: src/gtk/help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Add a song to the playlist"
+msgstr "افزودن آهنگ به سیاههٔ پخش"
+
+#: src/gtk/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Add a folder to the playlist"
+msgstr "افزودن شاخه‌ای به سیاههٔ پخش"
+
+#: src/gtk/help-overlay.ui:55
+msgctxt "shortcut window"
+msgid "Clear the playlist"
+msgstr "پاک سازی سیاههٔ پخش"
+
+#: src/gtk/help-overlay.ui:61
+msgctxt "shortcut window"
+msgid "Toggle the playlist pane"
+msgstr "تغییر وضعیت قاب سیاههٔ پخش"
+
+#: src/gtk/help-overlay.ui:69
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "پخش"
+
+#: src/gtk/help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle Play/Pause"
+msgstr "تغییر وضعیت پخش/مکث"
+
+#: src/gtk/help-overlay.ui:78
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "آهنگ پیشین"
+
+#: src/gtk/help-overlay.ui:84
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "آهنگ بعدی"
+
+#: src/gtk/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Seek backwards in the current song"
+msgstr "عقب رفتن در آهنگ کنونی"
+
+#: src/gtk/help-overlay.ui:96
+msgctxt "shortcut window"
+msgid "Seek forward in the current song"
+msgstr "جلو رفتن در آهنگ کنونی"
+
+#: src/gtk/playback-control.ui:30
+msgctxt "a11y"
+msgid "Elapsed time"
+msgstr "زمان رفته"
+
+#: src/gtk/playback-control.ui:42
+msgctxt "a11y"
+msgid "Remaining time"
+msgstr "زمان مانده"
+
+#: src/gtk/playback-control.ui:64
+msgid "Play the previous song"
+msgstr "پخش آهنگ پیشین"
+
+#: src/gtk/playback-control.ui:69
+msgctxt "a11y"
 msgid "Skip backwards"
 msgstr "پرش به عقب"
 
-#: src/gtk/playback-control.ui:71 src/gtk/playback-control.ui:77
+#: src/gtk/playback-control.ui:78
 msgid "Toggle play"
 msgstr "تغییر وضعیت پخش"
 
-#: src/gtk/playback-control.ui:86
+#: src/gtk/playback-control.ui:84
+msgctxt "a11y"
+msgid "Toggle play"
+msgstr "تغییر وضعیت پخش"
+
+#: src/gtk/playback-control.ui:93
 msgid "Play the next song"
 msgstr "پخش آهنگ بعدی"
 
-#: src/gtk/playback-control.ui:91
+#: src/gtk/playback-control.ui:98
+msgctxt "a11y"
 msgid "Skip forward"
 msgstr "پرش به جلو"
 
-#: src/gtk/playback-control.ui:114 src/gtk/playback-control.ui:119
+#: src/gtk/playback-control.ui:121
 msgid "Toggle playlist"
-msgstr "تغییر وضعیت فهرست پخش"
+msgstr "تغییر وضعیت سیاههٔ پخش"
 
-#: src/gtk/playback-control.ui:128
+#: src/gtk/playback-control.ui:126
+msgctxt "a11y"
+msgid "Toggle playlist"
+msgstr "تغییر وضعیت سیاههٔ پخش"
+
+#: src/gtk/playback-control.ui:135
 msgid "Shuffle the playlist"
-msgstr "بُر زدن فهرست پخش"
+msgstr "بُر زدن سیاههٔ پخش"
 
-#: src/gtk/playback-control.ui:146 src/window.rs:674
+#: src/gtk/playback-control.ui:137
+msgctxt "a11y"
+msgid "Shuffle"
+msgstr "بر زدن"
+
+#: src/gtk/playback-control.ui:156 src/playback_control.rs:153
 msgid "Enable repeat"
 msgstr "به‌کار انداختن تکرار"
 
-#: src/gtk/playback-control.ui:151
-msgid "Repeat mode"
-msgstr "حالت تکرار"
+#: src/gtk/playback-control.ui:161
+msgctxt "a11y"
+msgid "Repeat"
+msgstr "تکرار"
 
-#: src/gtk/playback-control.ui:166
-msgid "Menu"
-msgstr "فهرست"
+#: src/gtk/playback-control.ui:176
+msgctxt "a11y"
+msgid "Primary menu"
+msgstr "فهرست اصلی"
 
-#: src/gtk/playback-control.ui:182
+#: src/gtk/playback-control.ui:192
 msgid "Copy"
 msgstr "رونوشت"
 
-#: src/gtk/playback-control.ui:188
+#: src/gtk/playback-control.ui:198
 msgid "Add _Song"
 msgstr "افزودن _آهنگ"
 
-#: src/gtk/playback-control.ui:192
+#: src/gtk/playback-control.ui:202
 msgid "Add _Folder"
 msgstr "افزودن _شاخه"
 
-#: src/gtk/playback-control.ui:196
+#: src/gtk/playback-control.ui:206
 msgid "Clear"
-msgstr "پاک‌کردن"
+msgstr "پاک‌سازی"
 
 # این متن یک دکمه برای فعال کردن اینکه از رنگ غالب تصویر جلد آهنگ به عنوان رنگ غالب برنامه استفاده شود، است.
-#: src/gtk/playback-control.ui:202
+#: src/gtk/playback-control.ui:212
 msgid "_Match Cover Art"
 msgstr "انطباق با تصویر جلد"
 
-#: src/gtk/playback-control.ui:208
+#: src/gtk/playback-control.ui:218
 msgid "_Keyboard Shortcuts"
-msgstr "میانبرهای _صفحه‌کلید"
+msgstr "_میان‌برهای صفحه‌کلید"
 
-#: src/gtk/playback-control.ui:212
+#: src/gtk/playback-control.ui:222
 msgid "_About Amberol"
-msgstr "_دربارهٔ آمبرول"
+msgstr "_دربارهٔ امبرول"
 
 #: src/gtk/playlist-view.ui:19
 msgid "Playlist"
-msgstr "فهرست پخش"
+msgstr "سیاههٔ پخش"
 
 #: src/gtk/playlist-view.ui:49
 msgid "Select songs in the playlist"
-msgstr "برگزیدن آهنگ‌های فهرست پخش"
+msgstr "گزینش آهنگ‌های سیاههٔ پخش"
 
 #: src/gtk/playlist-view.ui:62
 msgid "Close the playlist"
-msgstr "بستن فهرست پخش"
+msgstr "بستن سیاههٔ پخش"
 
 #: src/gtk/playlist-view.ui:111
 msgid "Select all songs"
-msgstr "گزینش همهٔ آهنگ‌ها"
+msgstr "گزینش تمامی آهنگ‌ها"
 
 #: src/gtk/playlist-view.ui:124
 msgid "Remove selected songs"
-msgstr "برداشتن آهنگ‌های برگزیده شده"
-
-#: src/gtk/queue-row.ui:137
-msgid "Playing next"
-msgstr "در ادامه پخش می‌شود"
+msgstr "برداشتن آهنگ‌های برگزیده"
 
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
-msgstr "برای افزودن آهنگی به صف آن را به اینجا رها کنید"
+msgstr "برای افزودن آهنگی به صف، رهایش کنید"
 
 #: src/gtk/window.ui:48
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
 msgstr ""
-"برای افزودن آهنگ‌ها به فهرست پخش، یک پرونده یا شاخه را برگزینید یا پرونده‌ها را "
-"از مدیر پرونده‌تان به پنجرهٔ برنامه بکشید"
+"برای افزودن آهنگ‌ها به سیاههٔ پخش، پرونده یا شاخه‌ای را گزیده یا پرونده‌ها را از "
+"مدیر پرونده‌تان به پنجرهٔ برنامه بکشید"
 
 #: src/gtk/window.ui:57
 msgid "Add Folder"
@@ -263,93 +307,156 @@ msgstr "افزودن شاخه"
 msgid "Add File"
 msgstr "افزودن پرونده"
 
-#: src/application.rs:138
+#: src/application.rs:142
 msgid "Plays music and nothing else"
 msgstr "پخش آهنگ، و دیگر هیچ"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:144
+#: src/application.rs:148
 msgid "translator-credits"
 msgstr ""
+"دانیال بهزادی <dani.behzi@ubuntu.com>\n"
 "سید حسین موسوی فرد <shmf.mousavi1385@gmail.com>\n"
 "سید اسحاق مقیم شهیدانی <eshagh094@gmail.com>"
 
-#: src/window.rs:374
-msgid "_Add Song"
-msgstr "ا_فزودن آهنگ"
+#: src/playback_control.rs:157
+msgid "Repeat all tracks"
+msgstr "تکرار همهٔ قطعه‌ها"
 
-#: src/window.rs:375 src/window.rs:410
+#: src/playback_control.rs:161
+msgid "Repeat the current track"
+msgstr "تکرار قطعهٔ کنونی"
+
+#: src/window.rs:385
+msgid "_Add Song"
+msgstr "_افزودن آهنگ"
+
+#: src/window.rs:386 src/window.rs:420
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: src/window.rs:383
+#: src/window.rs:388
+msgid "Open File"
+msgstr "گشودن پرونده"
+
+#: src/window.rs:394
 msgid "Audio files"
 msgstr "پرونده‌های صوتی"
 
-#: src/window.rs:409
+#: src/window.rs:419
 msgid "_Add Folder"
-msgstr "ا_فزودن شاخه"
+msgstr "_افزودن شاخه"
+
+#: src/window.rs:422
+msgid "Open Folder"
+msgstr "گشودن شاخه"
+
+#: src/window.rs:439 src/window.rs:452
+msgid "No available song found"
+msgstr "هیچ آهنگی پیدا نشد"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:460
+#: src/window.rs:481
 msgid "“{}” is not a supported audio file"
-msgstr "پروندهٔ صوتی «{}» پشتیبانی شده نیست"
+msgstr "«{}» یک پروندهٔ صوتی پشتیبانی شده نیست"
 
-#: src/window.rs:498
+#: src/window.rs:493
+msgid "Added a new song"
+msgstr "آهنگی جدید اضافه شد"
+
+#: src/window.rs:494
+msgid "Play"
+msgstr "پخش"
+
+#: src/window.rs:537
 msgid "No songs found"
-msgstr "هیچ آهنگی یافت نشد"
+msgstr "هیچ آهنگی پیدا نشد"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:520
+#: src/window.rs:556 src/window.rs:935
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "{} آهنگ اضافه شد"
-msgstr[1] "یک آهنگ اضافه شد"
+msgstr[1] "۱ آهنگ اضافه شد"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:536
+#: src/window.rs:573
 msgid "Unrecognized file type for “{}”"
-msgstr "گونهٔ پروندهٔ «{}» شناسایی نشده است"
-
-#: src/window.rs:678
-msgid "Repeat all tracks"
-msgstr "تکرار همهٔ قطعه‌ها"
-
-#: src/window.rs:682
-msgid "Repeat the current track"
-msgstr "تکرار قطعهٔ کنونی"
+msgstr "گونهٔ پروندهٔ «{}» شناسایی نشده"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:927
+#: src/window.rs:971
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
-msgstr[0] "{} دقیقه باقی‌مانده"
-msgstr[1] "{} دقیقه باقی‌مانده"
+msgstr[0] "{} دقیقه مانده"
+msgstr[1] "۱ دقیقه مانده"
 
-#: src/window.rs:1047
+#: src/window.rs:1097
 msgid "No song selected"
-msgstr "هیچ آهنگی برگزیده نشده"
+msgstr "هیچ آهنگی گزیده نشده"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1052
+#: src/window.rs:1102
 msgid "{} song selected"
 msgid_plural "{} songs selected"
-msgstr[0] "{} آهنگ برگزیده شده"
-msgstr[1] "{} آهنگ برگزیده شده"
+msgstr[0] "{} آهنگ گزیده شده"
+msgstr[1] "۱ آهنگ گزیده شده"
 
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1099
+#: src/window.rs:1159
 msgid "Currently playing “{title}” by “{artist}”"
-msgstr "هم‌اکنون «{title}» از «{artist}» پخش می‌شود"
+msgstr "در حال پخش «{title}» از «{artist}»"
+
+#: src/window.rs:1186
+msgid "Amberol needs to run in the background to play music"
+msgstr "لازم است امبرول برای پخش آهنگ در پس‌زمینه اجرا شود"
+
+#: src/window.rs:1195
+msgid "Amberol is running in the background"
+msgstr "امبرول دارد در پس‌زمینه اجرا می‌شود"
+
+#: src/window.rs:1199
+msgid "Amberol cannot run in the background"
+msgstr "امبرول نتوانست در پس‌زمینه اجرا شود"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Songs Queue"
+#~ msgstr "صف آهنگ‌ها"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Queue a Song"
+#~ msgstr "افزودن یک آهنگ به صف"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Queue a Folder"
+#~ msgstr "افزودن یک شاخه به صف"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Clear"
+#~ msgstr "پاک‌سازی"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Previous Track"
+#~ msgstr "قطعهٔ قبلی"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Next Track"
+#~ msgstr "قطعهٔ بعدی"
+
+#~ msgid "Menu"
+#~ msgstr "فهرست"
+
+#~ msgid "Playing next"
+#~ msgstr "در ادامه پخش می‌شود"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Seek Backwards"

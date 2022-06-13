@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-25 22:02+0000\n"
-"PO-Revision-Date: 2022-05-26 12:52+0300\n"
+"POT-Creation-Date: 2022-06-08 10:13+0000\n"
+"PO-Revision-Date: 2022-06-08 21:59+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -261,7 +261,7 @@ msgstr "Очистить"
 
 #: src/gtk/playback-control.ui:212
 msgid "_Match Cover Art"
-msgstr "_Совпадающая обложка"
+msgstr "_Соответствовать обложке"
 
 #: src/gtk/playback-control.ui:218
 msgid "_Keyboard Shortcuts"
@@ -290,10 +290,6 @@ msgstr "Выбрать все песни"
 #: src/gtk/playlist-view.ui:124
 msgid "Remove selected songs"
 msgstr "Удалить выбранные песни"
-
-#: src/gtk/queue-row.ui:137
-msgid "Playing next"
-msgstr "Играет следующим"
 
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
@@ -332,48 +328,56 @@ msgstr "Повторить все дорожки"
 msgid "Repeat the current track"
 msgstr "Повтор текущей дорожки"
 
-#: src/window.rs:383
+#: src/window.rs:385
 msgid "_Add Song"
 msgstr "_Добавить песню"
 
-#: src/window.rs:384 src/window.rs:418
+#: src/window.rs:386 src/window.rs:420
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: src/window.rs:392
+#: src/window.rs:388
+msgid "Open File"
+msgstr "Открыть файл"
+
+#: src/window.rs:394
 msgid "Audio files"
 msgstr "Аудиофайлы"
 
-#: src/window.rs:417
+#: src/window.rs:419
 msgid "_Add Folder"
 msgstr "_Добавить папку"
 
-#: src/window.rs:437 src/window.rs:450
+#: src/window.rs:422
+msgid "Open Folder"
+msgstr "Открыть папку"
+
+#: src/window.rs:439 src/window.rs:452
 msgid "No available song found"
 msgstr "Доступных песен не найдено"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:479
+#: src/window.rs:481
 msgid "“{}” is not a supported audio file"
 msgstr "\"{}\" не является поддерживаемым аудиофайлом"
 
-#: src/window.rs:491
+#: src/window.rs:493
 msgid "Added a new song"
 msgstr "Добавлена новая песня"
 
-#: src/window.rs:492
+#: src/window.rs:494
 msgid "Play"
 msgstr "Воспроизвести"
 
-#: src/window.rs:526
+#: src/window.rs:537
 msgid "No songs found"
 msgstr "Песни не найдены"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:548 src/window.rs:931
+#: src/window.rs:556 src/window.rs:935
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Добавлена одна песня"
@@ -382,27 +386,27 @@ msgstr[2] "Добавлено {} песен"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:565
+#: src/window.rs:573
 msgid "Unrecognized file type for “{}”"
 msgstr "Нераспознанный тип файла для \"{}\""
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:967
+#: src/window.rs:971
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} минута осталась"
 msgstr[1] "{} минуты осталось"
 msgstr[2] "{} минут осталось"
 
-#: src/window.rs:1093
+#: src/window.rs:1097
 msgid "No song selected"
 msgstr "Не выбрана песня"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1098
+#: src/window.rs:1102
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} песня выбрана"
@@ -412,9 +416,24 @@ msgstr[2] "{} песен выбрано"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1155
+#: src/window.rs:1159
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Сейчас играет \"{title}\" от \"{artist}\""
+
+#: src/window.rs:1186
+msgid "Amberol needs to run in the background to play music"
+msgstr "Amberol должен работать в фоновом режиме для воспроизведения музыки"
+
+#: src/window.rs:1195
+msgid "Amberol is running in the background"
+msgstr "Amberol работает в фоновом режиме"
+
+#: src/window.rs:1199
+msgid "Amberol cannot run in the background"
+msgstr "Amberol не может работать в фоновом режиме"
+
+#~ msgid "Playing next"
+#~ msgstr "Играет следующим"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Songs Queue"

@@ -1,6 +1,7 @@
 # Amberol.
 # Copyright (C) 2022 Amberol COPYRIGHT HOLDER
 # This file is distributed under the same license as the Amberol package.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2022.
 # Seyed Eshag Moghim Shahidani <eshag094@gmail.com>, 2022.
 # Seyed Hosein Mousavi Fard <shmf.mosuavi1385@gmail.com>, 2022.
 #

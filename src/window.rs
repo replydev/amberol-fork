@@ -880,12 +880,12 @@ impl Window {
 
             win
                 .bind_property("playlist-selection", &row, "selection-mode")
-                .flags(glib::BindingFlags::DEFAULT)
+                .flags(glib::BindingFlags::DEFAULT | glib::BindingFlags::SYNC_CREATE)
                 .build();
 
             list_item
                 .bind_property("item", &row, "song")
-                .flags(glib::BindingFlags::DEFAULT)
+                .flags(glib::BindingFlags::DEFAULT | glib::BindingFlags::SYNC_CREATE)
                 .build();
 
             list_item

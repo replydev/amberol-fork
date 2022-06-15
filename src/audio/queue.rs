@@ -135,7 +135,7 @@ impl Queue {
         self.imp().current_pos.get()
     }
 
-    pub fn add_song(&self, song: &Song) {
+    pub fn add_song(&self, song: &Song) -> bool {
         if !song.equals(&Song::default()) {
             // Add song to the backing store
             let was_shuffled = self.imp().model.shuffled();
@@ -145,6 +145,9 @@ impl Queue {
                 self.imp().model.reshuffle(0);
             }
             self.notify("n-songs");
+            true
+        } else {
+            false
         }
     }
 

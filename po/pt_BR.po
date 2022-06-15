@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-05 12:54+0000\n"
-"PO-Revision-Date: 2022-06-06 21:25-0300\n"
+"POT-Creation-Date: 2022-06-08 10:13+0000\n"
+"PO-Revision-Date: 2022-06-15 05:47-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -100,7 +100,6 @@ msgid "General"
 msgstr "Geral"
 
 #: src/gtk/help-overlay.ui:14
-#| msgid "Toggle play"
 msgctxt "shortcut window"
 msgid "Toggle primary menu"
 msgstr "Mostra o menu primário"
@@ -121,31 +120,26 @@ msgid "Quit"
 msgstr "Sai"
 
 #: src/gtk/help-overlay.ui:40
-#| msgid "Playlist"
 msgctxt "shortcut window"
 msgid "Playlist"
 msgstr "Lista de reprodução"
 
 #: src/gtk/help-overlay.ui:43
-#| msgid "Select songs in the playlist"
 msgctxt "shortcut window"
 msgid "Add a song to the playlist"
 msgstr "Adiciona uma música à lista de reprodução"
 
 #: src/gtk/help-overlay.ui:49
-#| msgid "Shuffle the playlist"
 msgctxt "shortcut window"
 msgid "Add a folder to the playlist"
 msgstr "Adiciona uma pasta à lista de reprodução"
 
 #: src/gtk/help-overlay.ui:55
-#| msgid "Close the playlist"
 msgctxt "shortcut window"
 msgid "Clear the playlist"
 msgstr "Limpa a lista de reprodução"
 
 #: src/gtk/help-overlay.ui:61
-#| msgid "Toggle playlist"
 msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "Mostra o painel de lista de reprodução"
@@ -161,7 +155,6 @@ msgid "Toggle Play/Pause"
 msgstr "Alterna Reproduzir/Pausar"
 
 #: src/gtk/help-overlay.ui:78
-#| msgid "Play the previous song"
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Música anterior"
@@ -196,7 +189,6 @@ msgid "Play the previous song"
 msgstr "Reproduz a música anterior"
 
 #: src/gtk/playback-control.ui:69
-#| msgid "Skip backwards"
 msgctxt "a11y"
 msgid "Skip backwards"
 msgstr "Retroceder"
@@ -206,7 +198,6 @@ msgid "Toggle play"
 msgstr "Alternar reprodução"
 
 #: src/gtk/playback-control.ui:84
-#| msgid "Toggle play"
 msgctxt "a11y"
 msgid "Toggle play"
 msgstr "Alternar reprodução"
@@ -216,7 +207,6 @@ msgid "Play the next song"
 msgstr "Reproduz a próxima música"
 
 #: src/gtk/playback-control.ui:98
-#| msgid "Skip forward"
 msgctxt "a11y"
 msgid "Skip forward"
 msgstr "Avançar"
@@ -226,7 +216,6 @@ msgid "Toggle playlist"
 msgstr "Alternar lista de reprodução"
 
 #: src/gtk/playback-control.ui:126
-#| msgid "Toggle playlist"
 msgctxt "a11y"
 msgid "Toggle playlist"
 msgstr "Alternar lista de reprodução"
@@ -245,7 +234,6 @@ msgid "Enable repeat"
 msgstr "Habilita repetição"
 
 #: src/gtk/playback-control.ui:161
-#| msgid "Repeat mode"
 msgctxt "a11y"
 msgid "Repeat"
 msgstr "Repetir"
@@ -344,59 +332,56 @@ msgstr "Repetir todas as faixas"
 msgid "Repeat the current track"
 msgstr "Repetir a faixa atual"
 
-#: src/window.rs:383
+#: src/window.rs:385
 msgid "_Add Song"
 msgstr "_Adicionar música"
 
-#: src/window.rs:384 src/window.rs:418
+#: src/window.rs:386 src/window.rs:420
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/window.rs:386
+#: src/window.rs:388
 msgid "Open File"
 msgstr "Abrir arquivo"
 
-#: src/window.rs:392
+#: src/window.rs:394
 msgid "Audio files"
 msgstr "Arquivos de áudio"
 
-#: src/window.rs:417
+#: src/window.rs:419
 msgid "_Add Folder"
 msgstr "_Adicionar pasta"
 
-#: src/window.rs:420
-#| msgid "Add Folder"
+#: src/window.rs:422
 msgid "Open Folder"
 msgstr "Abrir pasta"
 
-#: src/window.rs:437 src/window.rs:450
+#: src/window.rs:439 src/window.rs:452
 msgid "No available song found"
 msgstr "Nenhuma música disponível encontrada"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:479
+#: src/window.rs:481
 msgid "“{}” is not a supported audio file"
 msgstr "“{}” não é um arquivo de áudio com suporte"
 
-#: src/window.rs:491
+#: src/window.rs:493
 msgid "Added a new song"
 msgstr "Adicionada uma nova música"
 
-#: src/window.rs:492
-#| msgid "Playlist"
+#: src/window.rs:494
 msgid "Play"
 msgstr "Reproduzir"
 
-#: src/window.rs:535
-#| msgid "No song selected"
+#: src/window.rs:537
 msgid "No songs found"
 msgstr "Nenhuma música encontrada"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:554 src/window.rs:933
+#: src/window.rs:556 src/window.rs:935
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Adicionada uma música"
@@ -404,26 +389,26 @@ msgstr[1] "Adicionadas {} músicas"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:571
+#: src/window.rs:573
 msgid "Unrecognized file type for “{}”"
 msgstr "Tipo de arquivo não reconhecido para “{}”"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:969
+#: src/window.rs:971
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuto restante"
 msgstr[1] "{} minutos restantes"
 
-#: src/window.rs:1095
+#: src/window.rs:1097
 msgid "No song selected"
 msgstr "Nenhuma música selecionada"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1100
+#: src/window.rs:1102
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} música selecionada"
@@ -432,9 +417,21 @@ msgstr[1] "{} músicas selecionadas"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1157
+#: src/window.rs:1159
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Atualmente reproduzindo “{title}” de “{artist}”"
+
+#: src/window.rs:1186
+msgid "Amberol needs to run in the background to play music"
+msgstr "Amberol precisa ser executado em segundo plano para reproduzir músicas"
+
+#: src/window.rs:1195
+msgid "Amberol is running in the background"
+msgstr "Amberol está sendo executado em segundo plano"
+
+#: src/window.rs:1199
+msgid "Amberol cannot run in the background"
+msgstr "Amberol não conseguiu ser executado em segundo plano"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Songs Queue"

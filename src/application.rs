@@ -34,16 +34,16 @@ mod imp {
 
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
 
-            // obj.set_accels_for_action("queue.add-song", &["s"]);
-            // obj.set_accels_for_action("queue.add-folder", &["a"]);
+            obj.set_accels_for_action("queue.add-song", &["<primary>s"]);
+            obj.set_accels_for_action("queue.add-folder", &["<primary>a"]);
             obj.set_accels_for_action("queue.clear", &["<primary>L"]);
             obj.set_accels_for_action("queue.toggle", &["F9"]);
 
             obj.set_accels_for_action("win.seek-backwards", &["<primary>Left"]);
             obj.set_accels_for_action("win.seek-forward", &["<primary>Right"]);
-            // obj.set_accels_for_action("win.previous", &["b"]);
-            // obj.set_accels_for_action("win.next", &["n"]);
-            // obj.set_accels_for_action("win.play", &["p"]);
+            obj.set_accels_for_action("win.previous", &["<primary>b"]);
+            obj.set_accels_for_action("win.next", &["<primary>n"]);
+            obj.set_accels_for_action("win.play", &["<primary>p"]);
             obj.set_accels_for_action("win.copy", &["<primary>c"]);
         }
     }

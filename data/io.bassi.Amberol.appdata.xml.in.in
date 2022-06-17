@@ -54,6 +54,20 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.8.0" date="2022-06-17">
+      <description>
+        <p>More features for less memory!</p>
+        <ul>
+          <li>You can now search for songs in the playlist: just start typing and Amberol will display the matching songs. Search also works when selecting songs</li>
+          <li>Album art is shared across songs from the same album, saving memory</li>
+          <li>Amberol can now run in the background using the appropriate sandbox portal</li>
+          <li>The window size is restored across sessions</li>
+          <li>You can now build and run Amberol on macOS</li>
+          <li>Lots of bug fixes and UI improvements</li>
+          <li>Lots of translation updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.7.0" date="2022-06-03">
       <description>
         <p>Lots of small UI fixes and stability improvements</p>

@@ -12,6 +12,49 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.8.0] - 2022-06-17
+
+### Added
+
+- Implement playlist search [#178]
+- Restore the window state [!79]
+- Support building and running on macOS [#179]
+- Add cover cache object [!74]
+- Allow running Amberol in the background [!72]
+- New translations
+  - Finnish
+  - Portuguese
+  - Nepali
+  
+### Changed
+
+- Flip the waveform channels [!76]
+- Notify the user when drag and drop gives us no files [#175]
+- Update the dependency on lofty [#172]
+- Translation updates
+  - Polish
+  - Ukrainian
+  - Swedish
+  - Hebrew
+  - Brazilian Portuguese
+  - German
+  - Basque
+  - Occitan
+  - Persian
+  - Russian
+  - Chinese (China)
+
+### Fixed
+
+- Reset the player state when removing its last song [#170]
+- Disable queue.clear action while adding songs [#163]
+- Mark file selection dialog titles for translation [#164]
+- Start playing when selecting the current row
+- Set min-height for the song details [#155]
+- Restore queue actions once loading ends [#160]
+
+### Removed
+
 ## [0.7.0] - 2022-06-03
 
 ### Added

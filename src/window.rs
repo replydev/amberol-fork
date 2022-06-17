@@ -857,6 +857,11 @@ impl Window {
 
             glib::signal::Inhibit(false)
         });
+
+        self.imp()
+            .playlist_view
+            .playlist_searchbar()
+            .set_key_capture_widget(Some(self.upcast_ref::<gtk::Widget>()));
     }
 
     // The initial state of the playback actions

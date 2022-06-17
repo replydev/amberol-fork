@@ -26,6 +26,10 @@ mod imp {
         pub queue_selected_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub playlist_progress: TemplateChild<gtk::ProgressBar>,
+        #[template_child]
+        pub playlist_searchbar: TemplateChild<gtk::SearchBar>,
+        #[template_child]
+        pub playlist_searchentry: TemplateChild<gtk::SearchEntry>,
     }
 
     #[glib::object_subclass]
@@ -53,6 +57,12 @@ mod imp {
                 child.unparent();
             }
         }
+
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
+
+            obj.setup_searchbar();
+        }
     }
 
     impl WidgetImpl for PlaylistView {}
@@ -73,6 +83,11 @@ impl Default for PlaylistView {
 impl PlaylistView {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    fn setup_searchbar(&self) {
+        let entry = self.imp().playlist_searchentry.get();
+        self.imp().playlist_searchbar.connect_entry(&entry);
     }
 
     pub fn back_button(&self) -> gtk::Button {
@@ -103,6 +118,14 @@ impl PlaylistView {
         self.imp().queue_length_label.get()
     }
 
+    pub fn playlist_searchbar(&self) -> gtk::SearchBar {
+        self.imp().playlist_searchbar.get()
+    }
+
+    pub fn playlist_searchentry(&self) -> gtk::SearchEntry {
+        self.imp().playlist_searchentry.get()
+    }
+
     pub fn begin_loading(&self) {
         self.imp().playlist_progress.set_fraction(0.0);
         self.imp().playlist_progress.set_visible(true);
@@ -115,5 +138,9 @@ impl PlaylistView {
     pub fn update_loading(&self, cur: u32, max: u32) {
         let step = cur as f64 / max as f64;
         self.imp().playlist_progress.set_fraction(step);
+    }
+
+    pub fn set_search(&self, search: bool) {
+        self.imp().playlist_searchbar.set_search_mode(search);
     }
 }

@@ -205,10 +205,10 @@ impl QueueRow {
             imp.row_stack.set_visible_child_name("selection-mode");
         } else if imp.playing.get() {
             imp.row_stack.set_visible_child_name("song-details");
-            imp.song_playing_image.set_visible(true);
+            imp.song_playing_image.set_opacity(1.0);
         } else {
             imp.row_stack.set_visible_child_name("song-details");
-            imp.song_playing_image.set_visible(false);
+            imp.song_playing_image.set_opacity(0.0);
         }
     }
 

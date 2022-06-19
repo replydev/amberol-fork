@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-12 20:06+0000\n"
-"PO-Revision-Date: 2022-06-16 22:47+0200\n"
+"POT-Creation-Date: 2022-06-17 13:20+0000\n"
+"PO-Revision-Date: 2022-06-19 19:54+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Occitan <totenoc@gmail.com>\n"
 "Language: oc\n"
@@ -272,18 +272,22 @@ msgid "Playlist"
 msgstr "Lista de lectura"
 
 #: src/gtk/playlist-view.ui:49
+msgid "Search songs in the playlist"
+msgstr "Cercar de cançons dins la lista de lectura"
+
+#: src/gtk/playlist-view.ui:61
 msgid "Select songs in the playlist"
 msgstr "Seleccionar de cançons dins la lista de lectura"
 
-#: src/gtk/playlist-view.ui:62
+#: src/gtk/playlist-view.ui:74
 msgid "Close the playlist"
 msgstr "Tampar la lista de lectura"
 
-#: src/gtk/playlist-view.ui:111
+#: src/gtk/playlist-view.ui:132
 msgid "Select all songs"
 msgstr "Seleccionar totas las cançons"
 
-#: src/gtk/playlist-view.ui:124
+#: src/gtk/playlist-view.ui:145
 msgid "Remove selected songs"
 msgstr "Suprimir las cançons seleccionadas"
 
@@ -325,56 +329,56 @@ msgstr "Repetir totas las pistas"
 msgid "Repeat the current track"
 msgstr "Repetir la pista actuala"
 
-#: src/window.rs:385
+#: src/window.rs:408
 msgid "_Add Song"
 msgstr "Apondre una _cançon"
 
-#: src/window.rs:386 src/window.rs:420
+#: src/window.rs:409 src/window.rs:443
 msgid "_Cancel"
 msgstr "_Anullar"
 
-#: src/window.rs:388
+#: src/window.rs:411
 msgid "Open File"
 msgstr "Dobrir fichièr"
 
-#: src/window.rs:394
+#: src/window.rs:417
 msgid "Audio files"
 msgstr "Fichièrs àudio"
 
-#: src/window.rs:419
+#: src/window.rs:442
 msgid "_Add Folder"
 msgstr "Apondre un _dossièr"
 
-#: src/window.rs:422
+#: src/window.rs:445
 msgid "Open Folder"
 msgstr "Dobrir dossièr"
 
-#: src/window.rs:439 src/window.rs:452 src/window.rs:922
+#: src/window.rs:462 src/window.rs:475 src/window.rs:1017
 msgid "No available song found"
 msgstr "Cap de cançon disponibla pas trobada"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:481
+#: src/window.rs:504
 msgid "“{}” is not a supported audio file"
 msgstr "« {} » es pas un format àudio pres en carga"
 
-#: src/window.rs:493
+#: src/window.rs:515
 msgid "Added a new song"
 msgstr "Una cançon novèla aponduda"
 
-#: src/window.rs:494
+#: src/window.rs:516
 msgid "Play"
 msgstr "lectura"
 
-#: src/window.rs:537
+#: src/window.rs:559
 msgid "No songs found"
 msgstr "Cap de cançon pas trobada"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:556 src/window.rs:940
+#: src/window.rs:578 src/window.rs:1035
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Una cançon aponduda"
@@ -382,26 +386,26 @@ msgstr[1] "{} cançons apondudas"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:573
+#: src/window.rs:595
 msgid "Unrecognized file type for “{}”"
 msgstr "Tipe de fichièr pas reconegut per « {} »"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:976
+#: src/window.rs:1071
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuta restanta"
 msgstr[1] "{} minutas restantas"
 
-#: src/window.rs:1102
+#: src/window.rs:1197
 msgid "No song selected"
 msgstr "Cap de cançon pas seleccionada"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1107
+#: src/window.rs:1202
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} cançon seleccionada"
@@ -410,19 +414,19 @@ msgstr[1] "{} cançons seleccionadas"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1158
+#: src/window.rs:1253
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "« {title} » per « {artist} » actualament en lectura"
 
-#: src/window.rs:1185
+#: src/window.rs:1281
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol deu s’executar en rèireplan per legir de musica"
 
-#: src/window.rs:1194
+#: src/window.rs:1290
 msgid "Amberol is running in the background"
 msgstr "Amberol s’executa en rèireplan"
 
-#: src/window.rs:1198
+#: src/window.rs:1294
 msgid "Amberol cannot run in the background"
 msgstr "Amberol pòt pas s’executar en rèireplan"
 

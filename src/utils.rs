@@ -388,17 +388,19 @@ fn load_files_from_folder_internal(folder: &gio::File, recursive: bool) -> Vec<g
         let parent_basename_b = parent_b.basename().unwrap();
         let basename_a = a.basename().unwrap();
         let basename_b = b.basename().unwrap();
-        let key_a = format!(
-            "{}-{}",
-            parent_basename_a.to_string_lossy(),
-            basename_a.to_string_lossy()
-        );
-        let key_b = format!(
-            "{}-{}",
-            parent_basename_b.to_string_lossy(),
-            basename_b.to_string_lossy()
-        );
-        key_a.partial_cmp(&key_b).unwrap()
+
+        let parent_key_a = glib::FilenameCollationKey::from(parent_basename_a.to_string_lossy());
+        let parent_key_b = glib::FilenameCollationKey::from(parent_basename_b.to_string_lossy());
+        let mut order = parent_key_a.partial_cmp(&parent_key_b).unwrap();
+
+        if order.is_eq() {
+            let key_a = glib::FilenameCollationKey::from(basename_a.to_string_lossy());
+            let key_b = glib::FilenameCollationKey::from(basename_b.to_string_lossy());
+
+            order = key_a.partial_cmp(&key_b).unwrap();
+        }
+
+        order
     });
 
     files

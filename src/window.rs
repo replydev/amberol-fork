@@ -1328,7 +1328,7 @@ impl Window {
         {
             Ok(response) => {
                 debug!("Background request successful: {:?}", response);
-                self.add_toast(i18n("Amberol is running in the background"));
+                self.application().unwrap().hold()
             }
             Err(err) => {
                 warn!("Background request denied: {}", err);

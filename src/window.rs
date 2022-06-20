@@ -9,7 +9,7 @@ use std::{
 use adw::subclass::prelude::*;
 #[cfg(target_os = "linux")]
 use ashpd::{desktop::background, WindowIdentifier};
-use glib::{clone, closure_local, FromVariant, Receiver};
+use glib::{clone, closure_local, FromVariant};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
 use gtk_macros::stateful_action;
 use log::{debug, warn};
@@ -26,10 +26,6 @@ use crate::{
     utils,
     waveform_view::WaveformView,
 };
-
-pub enum WindowAction {
-    Present,
-}
 
 pub enum WindowMode {
     InitialView,
@@ -65,9 +61,7 @@ mod imp {
         #[template_child]
         pub add_folder_button: TemplateChild<gtk::Button>,
 
-        pub player: Rc<AudioPlayer>,
         pub provider: gtk::CssProvider,
-        pub receiver: RefCell<Option<Receiver<WindowAction>>>,
         pub waveform: WaveformGenerator,
         pub settings: gio::Settings,
 
@@ -90,27 +84,27 @@ mod imp {
 
             klass.install_action("win.play", None, move |win, _, _| {
                 debug!("Window::win.play()");
-                win.imp().player.toggle_play();
+                win.player().toggle_play();
             });
             klass.install_action("win.seek-backwards", None, move |win, _, _| {
                 debug!("Window::win.seek-backwards");
-                win.imp().player.seek_backwards();
+                win.player().seek_backwards();
             });
             klass.install_action("win.seek-forward", None, move |win, _, _| {
                 debug!("Window::win.seek-forward");
-                win.imp().player.seek_forward();
+                win.player().seek_forward();
             });
             klass.install_action("win.previous", None, move |win, _, _| {
                 debug!("Window::win.previous()");
-                win.imp().player.skip_previous();
+                win.player().skip_previous();
             });
             klass.install_action("win.next", None, move |win, _, _| {
                 debug!("Window::win.next()");
-                win.imp().player.skip_next();
+                win.player().skip_next();
             });
             klass.install_action("queue.repeat-mode", None, move |win, _, _| {
                 debug!("Window::queue.repeat()");
-                win.imp().player.toggle_repeat_mode();
+                win.player().toggle_repeat_mode();
             });
             klass.install_action("queue.add-song", None, move |win, _, _| {
                 debug!("Window::win.add-song()");
@@ -135,8 +129,8 @@ mod imp {
 
             klass.install_action("win.skip-to", Some("u"), move |win, _, param| {
                 if let Some(pos) = param.and_then(u32::from_variant) {
-                    win.imp().player.skip_to(pos);
-                    win.imp().player.play();
+                    win.player().skip_to(pos);
+                    win.player().play();
                 }
             });
         }
@@ -146,9 +140,6 @@ mod imp {
         }
 
         fn new() -> Self {
-            let (sender, r) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
-            let receiver = RefCell::new(Some(r));
-
             Self {
                 song_details: TemplateChild::default(),
                 queue_revealer: TemplateChild::default(),
@@ -164,11 +155,9 @@ mod imp {
                 playlist_selection: Cell::new(false),
                 playlist_search: Cell::new(false),
                 playlist_filtermodel: RefCell::default(),
-                player: AudioPlayer::new(sender),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
                 settings: utils::settings_manager(),
-                receiver,
             }
         }
     }
@@ -180,21 +169,6 @@ mod imp {
             if APPLICATION_ID.ends_with("Devel") {
                 obj.add_css_class("devel");
             }
-
-            obj.setup_channel();
-            obj.setup_waveform();
-            obj.setup_actions();
-            obj.set_initial_state();
-            obj.bind_state();
-            obj.bind_queue();
-            obj.connect_signals();
-            obj.setup_playlist();
-            obj.setup_drop_target();
-            obj.setup_provider();
-            obj.restore_window_state();
-
-            #[cfg(target_os = "linux")]
-            obj.request_background();
         }
 
         fn properties() -> &'static [ParamSpec] {
@@ -256,7 +230,33 @@ glib::wrapper! {
 
 impl Window {
     pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
-        glib::Object::new(&[("application", application)]).expect("Failed to create Window")
+        let win = glib::Object::new::<Window>(&[("application", application)])
+            .expect("Failed to create Window");
+
+        win.setup_waveform();
+        win.setup_actions();
+        win.setup_playlist();
+        win.setup_drop_target();
+        win.setup_provider();
+        win.bind_state();
+        win.bind_queue();
+        win.connect_signals();
+        win.restore_window_state();
+        win.set_initial_state();
+
+        #[cfg(target_os = "linux")]
+        win.request_background();
+
+        win
+    }
+
+    fn player(&self) -> Rc<AudioPlayer> {
+        self.application()
+            .unwrap()
+            .downcast::<crate::application::Application>()
+            .unwrap()
+            .player()
+            .clone()
     }
 
     fn setup_actions(&self) {
@@ -279,27 +279,10 @@ impl Window {
         );
     }
 
-    fn setup_channel(&self) {
-        let receiver = self.imp().receiver.borrow_mut().take().unwrap();
-        receiver.attach(
-            None,
-            clone!(@strong self as this => move |action| this.process_action(action)),
-        );
-    }
-
-    fn process_action(&self, action: WindowAction) -> glib::Continue {
-        match action {
-            WindowAction::Present => self.present(),
-            // _ => debug!("Received action {:?}", action),
-        }
-
-        glib::Continue(true)
-    }
-
     fn setup_waveform(&self) {
         self.imp().waveform.connect_notify_local(
             Some("has-peaks"),
-            clone!(@strong self as win => move |gen, _| {
+            clone!(@weak self as win => move |gen, _| {
                 let peaks = gen.peaks();
                 win.imp().playback_control.waveform_view().set_peaks(peaks);
             }),
@@ -322,7 +305,7 @@ impl Window {
     }
 
     fn clear_queue(&self) {
-        self.imp().player.clear_queue();
+        self.player().clear_queue();
     }
 
     fn playlist_visible(&self) -> bool {
@@ -344,15 +327,16 @@ impl Window {
         let imp = self.imp();
 
         if shuffled != imp.playlist_shuffled.replace(shuffled) {
-            let queue = imp.player.queue();
-            let state = imp.player.state();
+            let player = self.player();
+            let queue = player.queue();
+            let state = player.state();
 
             let reset_song = queue.is_first_song() && !state.playing();
 
-            queue.set_shuffle(shuffled);
+            queue.set_shuffled(shuffled);
 
             if reset_song {
-                imp.player.skip_to(0);
+                self.player().skip_to(0);
             }
 
             self.notify("playlist-shuffled");
@@ -368,7 +352,8 @@ impl Window {
 
         if selection != imp.playlist_selection.replace(selection) {
             if !selection {
-                let queue = imp.player.queue();
+                let player = self.player();
+                let queue = player.queue();
                 queue.unselect_all_songs();
             }
 
@@ -486,7 +471,8 @@ impl Window {
 
     pub fn add_file_to_queue(&self, file: &gio::File, toast: bool) {
         use std::time::Instant;
-        let queue = self.imp().player.queue();
+        let player = self.player();
+        let queue = player.queue();
         let was_empty = queue.is_empty();
 
         if let Ok(info) = file.query_info(
@@ -558,7 +544,8 @@ impl Window {
                                 let msg = if songs.is_empty() {
                                     i18n("No songs found")
                                 } else {
-                                    let queue =  win.imp().player.queue();
+                                    let player = win.player();
+                                    let queue =  player.queue();
                                     let was_empty = queue.is_empty();
 
                                     win.imp().playlist_view.end_loading();
@@ -568,7 +555,7 @@ impl Window {
 
                                     debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
                                     if was_empty {
-                                        win.imp().player.skip_to(0);
+                                        win.player().skip_to(0);
                                     }
 
                                     ni18n_f(
@@ -599,85 +586,61 @@ impl Window {
         }
 
         if !queue.is_empty() && was_empty {
-            self.imp().player.skip_to(0);
+            self.player().skip_to(0);
         }
     }
 
     // Bind the PlayerState to the UI
     fn bind_state(&self) {
         let imp = self.imp();
-        let state = imp.player.state();
+        let player = self.player();
+        let state = player.state();
 
         // Use the PlayerState:playing property to control the play/pause button
+        self.update_play_button();
         state.connect_notify_local(
             Some("playing"),
-            clone!(@weak self as win => move |state, _| {
+            clone!(@weak self as win => move |_, _| {
                 win.set_playlist_selection(false);
-                let play_button = win.imp().playback_control.play_button();
-                if state.playing() {
-                    play_button.set_icon_name("media-playback-pause-symbolic");
-                } else {
-                    play_button.set_icon_name("media-playback-start-symbolic");
-                }
+                win.update_play_button();
             }),
         );
-        // Update the position label
+        // Update the position labels
+        self.update_position_labels();
         state.connect_notify_local(
             Some("position"),
-            clone!(@weak self as win => move |state, _| {
-                if state.current_song().is_some() {
-                    let elapsed = state.position();
-                    let duration = state.duration();
-                    let remaining = duration.checked_sub(elapsed).unwrap_or_default();
-                    win.imp().playback_control.set_elapsed(Some(elapsed));
-                    win.imp().playback_control.set_remaining(Some(remaining));
-
-                    let position = state.position() as f64 / state.duration() as f64;
-                    win.imp().playback_control.set_position(position);
-                } else {
-                    win.imp().playback_control.set_elapsed(None);
-                    win.imp().playback_control.set_remaining(None);
-                    win.imp().playback_control.set_position(0.0);
-                }
+            clone!(@weak self as win => move |_, _| {
+                win.update_position_labels();
             }),
         );
-        // Update the playlist time
+        // Update the UI
+        self.update_song();
         state.connect_notify_local(
             Some("song"),
-            clone!(@weak self as win => move |state, _| {
-                win.scroll_playlist_to_song();
-                win.update_playlist_time();
-                win.update_title(state.current_song().as_ref());
-                win.update_waveform(state.current_song().as_ref());
-                win.update_style(state.current_song().as_ref());
+            clone!(@weak self as win => move |_, _| {
+                win.update_song();
             }),
         );
         // Update the cover, if any is available
+        self.update_cover();
         state.connect_notify_local(
             Some("cover"),
-            clone!(@weak self as win => move |state, _| {
-                let song_details = win.imp().song_details.get();
-                if let Some(cover) = state.cover() {
-                    song_details.album_image().set_cover(Some(&cover));
-                    song_details.show_cover_image(true);
-                } else {
-                    song_details.album_image().set_cover(None);
-                    song_details.show_cover_image(false);
-                }
+            clone!(@weak self as win => move |_, _| {
+                win.update_cover();
             }),
         );
         // Bind the song properties to the UI
         state
             .bind_property("title", &imp.song_details.get().title_label(), "label")
-            .flags(glib::BindingFlags::DEFAULT)
+            .flags(glib::BindingFlags::DEFAULT | glib::BindingFlags::SYNC_CREATE)
             .build();
         state
             .bind_property("artist", &imp.song_details.get().artist_label(), "label")
-            .flags(glib::BindingFlags::DEFAULT)
+            .flags(glib::BindingFlags::DEFAULT | glib::BindingFlags::SYNC_CREATE)
             .build();
         state
             .bind_property("album", &imp.song_details.get().album_label(), "label")
-            .flags(glib::BindingFlags::DEFAULT)
+            .flags(glib::BindingFlags::DEFAULT | glib::BindingFlags::SYNC_CREATE)
             .build();
         state
             .bind_property(
@@ -685,13 +648,14 @@ impl Window {
                 &imp.playback_control.get().volume_control(),
                 "volume",
             )
-            .flags(glib::BindingFlags::DEFAULT)
+            .flags(glib::BindingFlags::DEFAULT | glib::BindingFlags::SYNC_CREATE)
             .build();
     }
 
     // Bind the Queue to the UI
     fn bind_queue(&self) {
-        let queue = self.imp().player.queue();
+        let player = self.player();
+        let queue = player.queue();
 
         queue.connect_notify_local(
             Some("n-songs"),
@@ -710,7 +674,7 @@ impl Window {
                 }
 
                 if queue.n_songs() == 1 {
-                    win.imp().player.skip_next();
+                    win.player().skip_next();
                 }
 
                 win.update_playlist_time();
@@ -763,7 +727,7 @@ impl Window {
         volume_control.connect_notify_local(
             Some("volume"),
             clone!(@weak self as win => move |control, _| {
-                win.imp().player.set_volume(control.volume());
+                win.player().set_volume(control.volume());
             }),
         );
 
@@ -771,12 +735,13 @@ impl Window {
         waveform_view.connect_closure(
             "position-changed",
             false,
-            closure_local!(@strong self as this => move |_view: WaveformView, position: f64| {
+            closure_local!(@watch self as win => move |_wv: WaveformView, position: f64| {
                 debug!("New position: {}", position);
-                let state = this.imp().player.state();
+                let player = win.player();
+                let state = player.state();
                 if state.current_song().is_some() {
-                    this.imp().player.seek_position_rel(position);
-                    this.imp().player.play();
+                    win.player().seek_position_rel(position);
+                    win.player().play();
                 }
             }),
         );
@@ -794,7 +759,8 @@ impl Window {
                         }
                     }
                 } else {
-                    let queue = win.imp().player.queue();
+                    let player = win.player();
+                    let queue = player.queue();
                     for idx in 0..queue.n_songs() {
                         let song = queue.song_at(idx).unwrap();
                         song.set_selected(true);
@@ -806,7 +772,8 @@ impl Window {
             .playlist_view
             .queue_remove_button()
             .connect_clicked(clone!(@weak self as win => move |_| {
-                let queue = win.imp().player.queue();
+                let player = win.player();
+                let queue = player.queue();
                 let mut remove_songs: Vec<Song> = Vec::new();
                 // Collect all songs to be removed first, since we can't
                 // remove objects from the model while we're iterating it
@@ -834,9 +801,10 @@ impl Window {
 
         self.imp().settings.connect_changed(
             Some("enable-recoloring"),
-            clone!(@strong self as this => move |settings, _| {
+            clone!(@weak self as this => move |settings, _| {
                 debug!("GSettings:enable-recoloring: {}", settings.boolean("enable-recoloring"));
-                let state = this.imp().player.state();
+                let player = this.player();
+                let state = player.state();
                 this.update_style(state.current_song().as_ref());
             }),
         );
@@ -866,26 +834,39 @@ impl Window {
 
     // The initial state of the playback actions
     fn set_initial_state(&self) {
-        self.action_set_enabled("win.play", false);
-        self.action_set_enabled("win.previous", false);
-        self.action_set_enabled("win.next", false);
+        let player = self.player();
 
-        self.action_set_enabled("queue.toggle", false);
-        self.action_set_enabled("queue.shuffle", false);
+        let queue = player.queue();
+        self.action_set_enabled("win.play", !queue.is_empty());
+        self.action_set_enabled("win.previous", !queue.is_empty());
+        self.action_set_enabled("win.next", !queue.is_last_song());
+
+        self.action_set_enabled("queue.toggle", !queue.is_empty());
+        self.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
+
+        self.imp()
+            .playback_control
+            .set_repeat_mode(queue.repeat_mode());
+        self.set_playlist_shuffled(queue.is_shuffled());
 
         // Manually update the icon on the initial empty state
         // to avoid generating the UI definition file at build
         // time
         self.imp().status_page.set_icon_name(Some(APPLICATION_ID));
 
-        self.switch_mode(WindowMode::InitialView);
+        let state = player.state();
+        if state.playing() || !queue.is_empty() {
+            self.switch_mode(WindowMode::MainView);
+        } else {
+            self.switch_mode(WindowMode::InitialView);
+        }
     }
 
     fn setup_playlist(&self) {
         let imp = self.imp();
 
         let factory = gtk::SignalListItemFactory::new();
-        factory.connect_setup(clone!(@strong self as win => move |_, list_item| {
+        factory.connect_setup(clone!(@weak self as win => move |_, list_item| {
             let row = QueueRow::default();
             list_item.set_child(Some(&row));
 
@@ -931,7 +912,8 @@ impl Window {
             .queue_view()
             .set_factory(Some(&factory.upcast::<gtk::ListItemFactory>()));
 
-        let queue = imp.player.queue();
+        let player = self.player();
+        let queue = player.queue();
 
         fn search_string(song: Song) -> String {
             song.search_key()
@@ -963,7 +945,8 @@ impl Window {
                     .downcast::<Song>()
                     .unwrap();
 
-                let queue = win.imp().player.queue();
+                let player = win.player();
+                let queue = player.queue();
 
                 let mut real_pos = None;
                 for i in 0..queue.model().n_items() {
@@ -980,10 +963,10 @@ impl Window {
                     if win.playlist_selection() {
                         queue.select_song_at(real_pos);
                     } else if queue.current_song_index() != Some(real_pos) {
-                        win.imp().player.skip_to(real_pos);
-                        win.imp().player.play();
-                    } else if !win.imp().player.state().playing() {
-                        win.imp().player.play();
+                        win.player().skip_to(real_pos);
+                        win.player().play();
+                    } else if !win.player().state().playing() {
+                        win.player().play();
                     }
                 }
             }),
@@ -1011,7 +994,7 @@ impl Window {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
                     win.switch_mode(WindowMode::MainView);
 
-                    let n_songs = win.imp().player.queue().n_songs();
+                    let n_songs = win.player().queue().n_songs();
                     let n_files = file_list.files().len();
                     if n_files == 0 {
                         win.add_toast(i18n("No available song found"));
@@ -1022,7 +1005,7 @@ impl Window {
                         win.add_file_to_queue(&f, n_files == 1);
                     }
 
-                    let added_songs = win.imp().player.queue().n_songs() - n_songs;
+                    let added_songs = win.player().queue().n_songs() - n_songs;
 
                     // If we only added one song, add_file_to_queue() will deal
                     // with that; nevertheless, we want to reuse the same message
@@ -1051,8 +1034,63 @@ impl Window {
         self.imp().drag_overlay.set_drop_target(&drop_target);
     }
 
+    fn update_play_button(&self) {
+        let player = self.player();
+        let state = player.state();
+        let play_button = self.imp().playback_control.play_button();
+        if state.playing() {
+            play_button.set_icon_name("media-playback-pause-symbolic");
+        } else {
+            play_button.set_icon_name("media-playback-start-symbolic");
+        }
+    }
+
+    fn update_position_labels(&self) {
+        let imp = self.imp();
+        let player = self.player();
+        let state = player.state();
+        if state.current_song().is_some() {
+            let elapsed = state.position();
+            let duration = state.duration();
+            let remaining = duration.checked_sub(elapsed).unwrap_or_default();
+            imp.playback_control.set_elapsed(Some(elapsed));
+            imp.playback_control.set_remaining(Some(remaining));
+
+            let position = state.position() as f64 / state.duration() as f64;
+            imp.playback_control.set_position(position);
+        } else {
+            imp.playback_control.set_elapsed(None);
+            imp.playback_control.set_remaining(None);
+            imp.playback_control.set_position(0.0);
+        }
+    }
+
+    fn update_song(&self) {
+        let player = self.player();
+        let state = player.state();
+        self.scroll_playlist_to_song();
+        self.update_playlist_time();
+        self.update_title(state.current_song().as_ref());
+        self.update_waveform(state.current_song().as_ref());
+        self.update_style(state.current_song().as_ref());
+    }
+
+    fn update_cover(&self) {
+        let player = self.player();
+        let state = player.state();
+        let song_details = self.imp().song_details.get();
+        if let Some(cover) = state.cover() {
+            song_details.album_image().set_cover(Some(&cover));
+            song_details.show_cover_image(true);
+        } else {
+            song_details.album_image().set_cover(None);
+            song_details.show_cover_image(false);
+        }
+    }
+
     fn update_playlist_time(&self) {
-        let queue = self.imp().player.queue();
+        let player = self.player();
+        let queue = player.queue();
         let n_songs = queue.n_songs();
         if let Some(current) = queue.current_song_index() {
             let mut remaining_time = 0;
@@ -1085,7 +1123,7 @@ impl Window {
 
     fn scroll_playlist_to_song(&self) {
         let queue_view = self.imp().playlist_view.queue_view();
-        if let Some(current_idx) = self.imp().player.queue().current_song_index() {
+        if let Some(current_idx) = self.player().queue().current_song_index() {
             debug!("Scrolling playlist to {}", current_idx);
             queue_view
                 .upcast_ref::<gtk::Widget>()
@@ -1190,7 +1228,8 @@ impl Window {
     }
 
     fn update_selected_count(&self) {
-        let queue = self.imp().player.queue();
+        let player = self.player();
+        let queue = player.queue();
         let n_selected = queue.n_selected_songs();
 
         let selected_str = if n_selected == 0 {
@@ -1218,14 +1257,15 @@ impl Window {
 
         // If we successfully opened the file, start playing it immediately,
         // unless there's already a playlist set
-        let queue = self.imp().player.queue();
+        let player = self.player();
+        let queue = player.queue();
         if queue.n_songs() == 1 {
-            self.imp().player.play();
+            self.player().play();
         }
     }
 
     pub fn remove_song(&self, song: &Song) {
-        self.imp().player.remove_song(song);
+        self.player().remove_song(song);
         self.update_selected_count();
         self.update_playlist_time();
     }
@@ -1244,7 +1284,8 @@ impl Window {
     }
 
     fn copy_song(&self) {
-        let state = self.imp().player.state();
+        let player = self.player();
+        let state = player.state();
         if let Some(song) = state.current_song() {
             let s = i18n_k(
                 // Translators: `{title}` and `{artist}` must be left

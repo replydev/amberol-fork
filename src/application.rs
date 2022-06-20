@@ -1,35 +1,56 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::{cell::RefCell, rc::Rc};
+
 use adw::subclass::prelude::*;
-use glib::clone;
+use glib::{clone, Receiver};
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use gtk_macros::action;
 use log::debug;
 
 use crate::{
+    audio::AudioPlayer,
     config::{APPLICATION_ID, VERSION},
     i18n::i18n,
     window::Window,
 };
 
+pub enum ApplicationAction {
+    Present,
+}
+
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
-    pub struct Application {}
+    #[derive(Debug)]
+    pub struct Application {
+        pub player: Rc<AudioPlayer>,
+        pub receiver: RefCell<Option<Receiver<ApplicationAction>>>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Application {
         const NAME: &'static str = "AmberolApplication";
         type Type = super::Application;
         type ParentType = adw::Application;
+
+        fn new() -> Self {
+            let (sender, r) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+            let receiver = RefCell::new(Some(r));
+
+            Self {
+                player: AudioPlayer::new(sender),
+                receiver,
+            }
+        }
     }
 
     impl ObjectImpl for Application {
         fn constructed(&self, obj: &Self::Type) {
             self.parent_constructed(obj);
 
+            obj.setup_channel();
             obj.setup_gactions();
 
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
@@ -58,31 +79,18 @@ mod imp {
         fn activate(&self, application: &Self::Type) {
             debug!("Application::activate");
 
-            let window = if let Some(window) = application.active_window() {
-                window
-            } else {
-                let window = Window::new(application);
-                window.upcast()
-            };
-
-            window.present();
+            application.present_main_window();
         }
 
         fn open(&self, application: &Self::Type, files: &[gio::File], _hint: &str) {
             debug!("Application::open");
 
-            let window = if let Some(window) = application.active_window() {
-                window
-            } else {
-                let window = Window::new(application);
-                window.upcast()
-            };
-
-            for f in files {
-                window.downcast_ref::<Window>().unwrap().open_file(f);
+            application.present_main_window();
+            if let Some(window) = application.active_window() {
+                for f in files {
+                    window.downcast_ref::<Window>().unwrap().open_file(f);
+                }
             }
-
-            window.present();
         }
     }
 
@@ -112,6 +120,38 @@ impl Default for Application {
 impl Application {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn player(&self) -> Rc<AudioPlayer> {
+        self.imp().player.clone()
+    }
+
+    fn setup_channel(&self) {
+        let receiver = self.imp().receiver.borrow_mut().take().unwrap();
+        receiver.attach(
+            None,
+            clone!(@strong self as this => move |action| this.process_action(action)),
+        );
+    }
+
+    fn process_action(&self, action: ApplicationAction) -> glib::Continue {
+        match action {
+            ApplicationAction::Present => self.present_main_window(),
+            // _ => debug!("Received action {:?}", action),
+        }
+
+        glib::Continue(true)
+    }
+
+    fn present_main_window(&self) {
+        let window = if let Some(window) = self.active_window() {
+            window
+        } else {
+            let window = Window::new(self);
+            window.upcast()
+        };
+
+        window.present();
     }
 
     fn setup_gactions(&self) {

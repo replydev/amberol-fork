@@ -8,6 +8,7 @@ use log::{debug, error, warn};
 
 use crate::audio::{PlaybackAction, SeekDirection};
 
+#[derive(Debug)]
 pub struct GstBackend {
     sender: Sender<PlaybackAction>,
     gst_player: gst_player::Player,

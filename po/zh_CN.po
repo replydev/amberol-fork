@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-11 15:36+0000\n"
-"PO-Revision-Date: 2022-06-12 12:13+0800\n"
+"POT-Creation-Date: 2022-06-17 13:20+0000\n"
+"PO-Revision-Date: 2022-06-21 18:56+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -273,18 +273,22 @@ msgid "Playlist"
 msgstr "播放列表"
 
 #: src/gtk/playlist-view.ui:49
+msgid "Search songs in the playlist"
+msgstr "在播放列表中搜索歌曲"
+
+#: src/gtk/playlist-view.ui:61
 msgid "Select songs in the playlist"
 msgstr "选择播放列表中的歌曲"
 
-#: src/gtk/playlist-view.ui:62
+#: src/gtk/playlist-view.ui:74
 msgid "Close the playlist"
 msgstr "关闭播放列表"
 
-#: src/gtk/playlist-view.ui:111
+#: src/gtk/playlist-view.ui:132
 msgid "Select all songs"
 msgstr "选择全部歌曲"
 
-#: src/gtk/playlist-view.ui:124
+#: src/gtk/playlist-view.ui:145
 msgid "Remove selected songs"
 msgstr "移除选中的歌曲"
 
@@ -325,81 +329,81 @@ msgstr "重复全部曲目"
 msgid "Repeat the current track"
 msgstr "重复当前曲目"
 
-#: src/window.rs:385
+#: src/window.rs:408
 msgid "_Add Song"
 msgstr "添加歌曲(_A)"
 
-#: src/window.rs:386 src/window.rs:420
+#: src/window.rs:409 src/window.rs:443
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/window.rs:388
+#: src/window.rs:411
 msgid "Open File"
 msgstr "打开文件"
 
-#: src/window.rs:394
+#: src/window.rs:417
 msgid "Audio files"
 msgstr "音频文件"
 
-#: src/window.rs:419
+#: src/window.rs:442
 msgid "_Add Folder"
 msgstr "添加文件夹(_A)"
 
-#: src/window.rs:422
+#: src/window.rs:445
 msgid "Open Folder"
 msgstr "打开文件夹"
 
-#: src/window.rs:439 src/window.rs:452 src/window.rs:922
+#: src/window.rs:462 src/window.rs:475 src/window.rs:1017
 msgid "No available song found"
 msgstr "找不到可用歌曲"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:481
+#: src/window.rs:504
 msgid "“{}” is not a supported audio file"
 msgstr "“{}”不是受支持的音频文件"
 
-#: src/window.rs:493
+#: src/window.rs:515
 msgid "Added a new song"
 msgstr "已添加一首新歌曲"
 
-#: src/window.rs:494
+#: src/window.rs:516
 msgid "Play"
 msgstr "播放"
 
-#: src/window.rs:537
+#: src/window.rs:559
 msgid "No songs found"
 msgstr "找不到歌曲"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:556 src/window.rs:940
+#: src/window.rs:578 src/window.rs:1035
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "已添加 {} 首歌曲"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:573
+#: src/window.rs:595
 msgid "Unrecognized file type for “{}”"
 msgstr "无法识别“{}”的文件类型"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:976
+#: src/window.rs:1071
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "剩余 {} 分钟"
 
-#: src/window.rs:1102
+#: src/window.rs:1197
 msgid "No song selected"
 msgstr "未选择歌曲"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1107
+#: src/window.rs:1202
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "已选择 {} 首歌曲"
@@ -407,19 +411,19 @@ msgstr[0] "已选择 {} 首歌曲"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1158
+#: src/window.rs:1253
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "当前正在播放“{artist}”的“{title}”"
 
-#: src/window.rs:1185
+#: src/window.rs:1281
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol 需要在后台运行以播放音乐"
 
-#: src/window.rs:1194
+#: src/window.rs:1290
 msgid "Amberol is running in the background"
 msgstr "Amberol 正在后台运行"
 
-#: src/window.rs:1198
+#: src/window.rs:1294
 msgid "Amberol cannot run in the background"
 msgstr "Amberol 无法在后台运行"
 

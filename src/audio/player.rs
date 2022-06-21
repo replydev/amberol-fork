@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, fmt, rc::Rc};
 
 use glib::{clone, Receiver, Sender};
 use gtk::glib;
@@ -9,11 +9,11 @@ use gtk_macros::send;
 use log::{debug, error};
 
 use crate::{
+    application::ApplicationAction,
     audio::{
         Controller, CoverCache, GstBackend, InhibitController, MprisController, PlayerState, Queue,
         Song,
     },
-    window::WindowAction,
 };
 
 #[derive(Clone, Debug)]
@@ -67,7 +67,7 @@ pub enum SeekDirection {
 }
 
 pub struct AudioPlayer {
-    window_sender: Sender<WindowAction>,
+    app_sender: Sender<ApplicationAction>,
     receiver: RefCell<Option<Receiver<PlaybackAction>>>,
     backend: GstBackend,
     controllers: Vec<Box<dyn Controller>>,
@@ -75,8 +75,14 @@ pub struct AudioPlayer {
     state: PlayerState,
 }
 
+impl fmt::Debug for AudioPlayer {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("AudioPlayer").finish()
+    }
+}
+
 impl AudioPlayer {
-    pub fn new(window_sender: Sender<WindowAction>) -> Rc<Self> {
+    pub fn new(app_sender: Sender<ApplicationAction>) -> Rc<Self> {
         let (sender, r) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
         let receiver = RefCell::new(Some(r));
 
@@ -94,7 +100,7 @@ impl AudioPlayer {
         let state = PlayerState::default();
 
         let res = Rc::new(Self {
-            window_sender,
+            app_sender,
             receiver,
             backend,
             controllers,
@@ -436,7 +442,7 @@ impl AudioPlayer {
     }
 
     fn present(&self) {
-        send!(self.window_sender, WindowAction::Present);
+        send!(self.app_sender, ApplicationAction::Present);
     }
 
     pub fn clear_queue(&self) {

@@ -14,6 +14,7 @@ use crate::{
     config::APPLICATION_ID,
 };
 
+#[derive(Debug)]
 pub struct MprisController {
     sender: Sender<PlaybackAction>,
     mpris: Arc<MprisPlayer>,

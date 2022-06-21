@@ -19,6 +19,7 @@ mod imp {
         pub store: gio::ListStore,
         pub repeat_mode: Cell<RepeatMode>,
         pub current_pos: Cell<Option<u32>>,
+        pub shuffled: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -35,6 +36,7 @@ mod imp {
                 model,
                 repeat_mode: Cell::new(RepeatMode::default()),
                 current_pos: Cell::new(None),
+                shuffled: Cell::new(false),
             }
         }
     }
@@ -283,15 +285,21 @@ impl Queue {
         false
     }
 
-    pub fn set_shuffle(&self, _shuffle: bool) {
-        if _shuffle {
-            let current_pos = self.imp().current_pos.get().unwrap_or(0);
-            self.imp().model.reshuffle(current_pos);
-        } else {
-            let current_pos = self.current_song_index().unwrap_or(0);
-            let current_song = self.song_at(current_pos);
-            self.imp().model.unshuffle();
-            self.set_current_song(current_song);
+    pub fn is_shuffled(&self) -> bool {
+        self.imp().shuffled.get()
+    }
+
+    pub fn set_shuffled(&self, shuffled: bool) {
+        if shuffled != self.imp().shuffled.replace(shuffled) {
+            if shuffled {
+                let current_pos = self.imp().current_pos.get().unwrap_or(0);
+                self.imp().model.reshuffle(current_pos);
+            } else {
+                let current_pos = self.current_song_index().unwrap_or(0);
+                let current_song = self.song_at(current_pos);
+                self.imp().model.unshuffle();
+                self.set_current_song(current_song);
+            }
         }
     }
 

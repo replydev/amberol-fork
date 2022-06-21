@@ -68,6 +68,9 @@ fn main() {
 
     gst::init().expect("Failed to initialize gstreamer");
 
+    let ctx = glib::MainContext::default();
+    let _guard = ctx.acquire().unwrap();
+
     let app = Application::new();
     std::process::exit(app.run());
 }

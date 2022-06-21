@@ -357,7 +357,11 @@ pub fn color_distance(color_a: &gdk::RGBA, color_b: &gdk::RGBA) -> f32 {
     f32::sqrt(delta_l + delta_a + delta_b)
 }
 
-fn load_files_from_folder_internal(folder: &gio::File, recursive: bool) -> Vec<gio::File> {
+fn load_files_from_folder_internal(
+    base: &gio::File,
+    folder: &gio::File,
+    recursive: bool,
+) -> Vec<gio::File> {
     let mut enumerator = folder
         .enumerate_children(
             "standard::name,standard::type",
@@ -370,7 +374,7 @@ fn load_files_from_folder_internal(folder: &gio::File, recursive: bool) -> Vec<g
     while let Some(info) = enumerator.next().and_then(|s| s.ok()) {
         let child = enumerator.child(&info);
         if recursive && info.file_type() == gio::FileType::Directory {
-            let mut res = load_files_from_folder_internal(&child, recursive);
+            let mut res = load_files_from_folder_internal(&base, &child, recursive);
             files.append(&mut res);
         } else if info.file_type() == gio::FileType::Regular {
             files.push(child.clone());
@@ -385,8 +389,8 @@ fn load_files_from_folder_internal(folder: &gio::File, recursive: bool) -> Vec<g
     files.sort_by(|a, b| {
         let parent_a = a.parent().unwrap();
         let parent_b = b.parent().unwrap();
-        let parent_basename_a = parent_a.basename().unwrap();
-        let parent_basename_b = parent_b.basename().unwrap();
+        let parent_basename_a = base.relative_path(&parent_a).unwrap();
+        let parent_basename_b = base.relative_path(&parent_b).unwrap();
         let basename_a = a.basename().unwrap();
         let basename_b = b.basename().unwrap();
 
@@ -428,7 +432,7 @@ pub fn load_files_from_folder(folder: &gio::File, recursive: bool) -> Vec<gio::F
     use std::time::Instant;
 
     let now = Instant::now();
-    let res = load_files_from_folder_internal(folder, recursive);
+    let res = load_files_from_folder_internal(folder, folder, recursive);
     debug!(
         "Folder enumeration: {} us (recursive: {}), total files: {}",
         now.elapsed().as_micros(),

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-17 13:20+0000\n"
-"PO-Revision-Date: 2022-06-20 22:18+0100\n"
+"POT-Creation-Date: 2022-06-21 18:36+0000\n"
+"PO-Revision-Date: 2022-06-22 14:15+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -269,6 +269,10 @@ msgstr "_Teclas de atalho"
 msgid "_About Amberol"
 msgstr "_Acerca do Amberol"
 
+#: src/gtk/playback-control.ui:226
+msgid "_Quit"
+msgstr "_Sair"
+
 #: src/gtk/playlist-view.ui:19
 msgid "Playlist"
 msgstr "Lista reprodução"
@@ -314,12 +318,12 @@ msgstr "Adicionar pasta"
 msgid "Add File"
 msgstr "Adicionar ficheiro"
 
-#: src/application.rs:142
+#: src/application.rs:182
 msgid "Plays music and nothing else"
 msgstr "Reproduz música e nada mais"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:148
+#: src/application.rs:189
 msgid "translator-credits"
 msgstr "Hugo Carvalho <hugokarvalho@hotmail.com>"
 
@@ -331,56 +335,56 @@ msgstr "Repetir todas as faixas"
 msgid "Repeat the current track"
 msgstr "Repetir a faixa atual"
 
-#: src/window.rs:408
+#: src/window.rs:393
 msgid "_Add Song"
 msgstr "_Adicionar música"
 
-#: src/window.rs:409 src/window.rs:443
+#: src/window.rs:394 src/window.rs:428
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/window.rs:411
+#: src/window.rs:396
 msgid "Open File"
 msgstr "Abrir ficheiro"
 
-#: src/window.rs:417
+#: src/window.rs:402
 msgid "Audio files"
 msgstr "Ficheiros de áudio"
 
-#: src/window.rs:442
+#: src/window.rs:427
 msgid "_Add Folder"
 msgstr "_Adicionar pasta"
 
-#: src/window.rs:445
+#: src/window.rs:430
 msgid "Open Folder"
 msgstr "Abrir pasta"
 
-#: src/window.rs:462 src/window.rs:475 src/window.rs:1017
+#: src/window.rs:447 src/window.rs:460 src/window.rs:1000
 msgid "No available song found"
 msgstr "Nenhuma música disponível encontrada"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:504
+#: src/window.rs:490
 msgid "“{}” is not a supported audio file"
 msgstr "“{}” não é um ficheiro de áudio suportado"
 
-#: src/window.rs:515
+#: src/window.rs:501
 msgid "Added a new song"
 msgstr "Adicionada uma nova música"
 
-#: src/window.rs:516
+#: src/window.rs:502
 msgid "Play"
 msgstr "Reproduzir"
 
-#: src/window.rs:559
+#: src/window.rs:545
 msgid "No songs found"
 msgstr "Nenhuma música encontrada"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:578 src/window.rs:1035
+#: src/window.rs:565 src/window.rs:1018
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Adicionada uma música"
@@ -388,26 +392,26 @@ msgstr[1] "Adicionadas {} músicas"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:595
+#: src/window.rs:582
 msgid "Unrecognized file type for “{}”"
 msgstr "Tipo de ficheiro não reconhecido para “{}”"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1071
+#: src/window.rs:1109
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuto restante"
 msgstr[1] "{} minutos restantes"
 
-#: src/window.rs:1197
+#: src/window.rs:1236
 msgid "No song selected"
 msgstr "Nenhuma música selecionada"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1202
+#: src/window.rs:1241
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} música selecionada"
@@ -416,20 +420,19 @@ msgstr[1] "{} músicas selecionadas"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1253
+#: src/window.rs:1294
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Atualmente a reproduzir “{title}” de \"{artist}\"."
 
-#: src/window.rs:1281
+#: src/window.rs:1322
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 "O Amberol precisa de estar a ser executado em segundo plano para reproduzir "
 "música"
 
-#: src/window.rs:1290
-msgid "Amberol is running in the background"
-msgstr "O Amberol está a ser executado em segundo plano"
-
-#: src/window.rs:1294
+#: src/window.rs:1335
 msgid "Amberol cannot run in the background"
 msgstr "O Amberol não pode ser executado em segundo plano"
+
+#~ msgid "Amberol is running in the background"
+#~ msgstr "O Amberol está a ser executado em segundo plano"

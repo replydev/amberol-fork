@@ -389,8 +389,16 @@ fn load_files_from_folder_internal(
     files.sort_by(|a, b| {
         let parent_a = a.parent().unwrap();
         let parent_b = b.parent().unwrap();
-        let parent_basename_a = base.relative_path(&parent_a).unwrap();
-        let parent_basename_b = base.relative_path(&parent_b).unwrap();
+        let parent_basename_a = if let Some(path) = base.relative_path(&parent_a) {
+            path
+        } else {
+            parent_a.basename().unwrap()
+        };
+        let parent_basename_b = if let Some(path) = base.relative_path(&parent_b) {
+            path
+        } else {
+            parent_b.basename().unwrap()
+        };
         let basename_a = a.basename().unwrap();
         let basename_b = b.basename().unwrap();
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-17 13:20+0000\n"
-"PO-Revision-Date: 2022-06-17 20:52+0300\n"
+"POT-Creation-Date: 2022-06-21 18:36+0000\n"
+"PO-Revision-Date: 2022-06-22 08:53+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -272,12 +272,17 @@ msgstr "_Клавіатурні скорочення"
 msgid "_About Amberol"
 msgstr "_Про «Амберол»"
 
+#: src/gtk/playback-control.ui:226
+#| msgctxt "shortcut window"
+#| msgid "Quit"
+msgid "_Quit"
+msgstr "Ви_йти"
+
 #: src/gtk/playlist-view.ui:19
 msgid "Playlist"
 msgstr "Список відтворення"
 
 #: src/gtk/playlist-view.ui:49
-#| msgid "Select songs in the playlist"
 msgid "Search songs in the playlist"
 msgstr "Шукати композиції у списку відтворення"
 
@@ -317,12 +322,12 @@ msgstr "Додати теку"
 msgid "Add File"
 msgstr "Додати файл"
 
-#: src/application.rs:142
+#: src/application.rs:182
 msgid "Plays music and nothing else"
 msgstr "Відтворює музику, нічого більше"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:148
+#: src/application.rs:189
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2022"
 
@@ -334,56 +339,56 @@ msgstr "Повторити усі композиції"
 msgid "Repeat the current track"
 msgstr "Повторити поточну композицію"
 
-#: src/window.rs:408
+#: src/window.rs:393
 msgid "_Add Song"
 msgstr "_Додати композицію"
 
-#: src/window.rs:409 src/window.rs:443
+#: src/window.rs:394 src/window.rs:428
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/window.rs:411
+#: src/window.rs:396
 msgid "Open File"
 msgstr "Відкрити файл"
 
-#: src/window.rs:417
+#: src/window.rs:402
 msgid "Audio files"
 msgstr "файли звукових даних"
 
-#: src/window.rs:442
+#: src/window.rs:427
 msgid "_Add Folder"
 msgstr "_Додати теку"
 
-#: src/window.rs:445
+#: src/window.rs:430
 msgid "Open Folder"
 msgstr "Відкрити теку"
 
-#: src/window.rs:462 src/window.rs:475 src/window.rs:1017
+#: src/window.rs:447 src/window.rs:460 src/window.rs:1000
 msgid "No available song found"
 msgstr "Не знайдено доступних композицій"
 
 #. Translators: '{}' must be left unmodified; it
 #. will expand to a file name
-#: src/window.rs:504
+#: src/window.rs:490
 msgid "“{}” is not a supported audio file"
 msgstr "«{}» не є підтримуваним звуковим файлом"
 
-#: src/window.rs:515
+#: src/window.rs:501
 msgid "Added a new song"
 msgstr "Додано нову композицію"
 
-#: src/window.rs:516
+#: src/window.rs:502
 msgid "Play"
 msgstr "Відтворити"
 
-#: src/window.rs:559
+#: src/window.rs:545
 msgid "No songs found"
 msgstr "Композицій не знайдено"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:578 src/window.rs:1035
+#: src/window.rs:565 src/window.rs:1018
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Додано {} композицію"
@@ -393,14 +398,14 @@ msgstr[3] "Додано одну композицію"
 
 #. Translators: The '{}' must be left unmodified;
 #. it will expand to a file name
-#: src/window.rs:595
+#: src/window.rs:582
 msgid "Unrecognized file type for “{}”"
 msgstr "Нерозпізнаний тип файлів «{}»"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1071
+#: src/window.rs:1109
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Лишилася {} хвилина"
@@ -408,13 +413,13 @@ msgstr[1] "Лишилося {} хвилини"
 msgstr[2] "Лишилося {} хвилин"
 msgstr[3] "Лишилася хвилина"
 
-#: src/window.rs:1197
+#: src/window.rs:1236
 msgid "No song selected"
 msgstr "Не вибрано композиції"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1202
+#: src/window.rs:1241
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Вибрано {} композицію"
@@ -425,21 +430,20 @@ msgstr[3] "Вибрано {} композицію"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1253
+#: src/window.rs:1294
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Зараз відтворюємо «{title}», «{artist}»"
 
-#: src/window.rs:1281
+#: src/window.rs:1322
 msgid "Amberol needs to run in the background to play music"
 msgstr "«Амберол» має бути запущено у фоновому режимі для відтворення музики"
 
-#: src/window.rs:1290
-msgid "Amberol is running in the background"
-msgstr "«Амберол» запущено у фоновому режимі"
-
-#: src/window.rs:1294
+#: src/window.rs:1335
 msgid "Amberol cannot run in the background"
 msgstr "«Амберол» не може бути запущено у фоновому режимі"
+
+#~ msgid "Amberol is running in the background"
+#~ msgstr "«Амберол» запущено у фоновому режимі"
 
 #~ msgid "Playing next"
 #~ msgstr "Відтворення наступної"

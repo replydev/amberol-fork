@@ -398,7 +398,7 @@ impl WaveformView {
 
     fn setup_gesture(&self) {
         let click_gesture = gtk::GestureClick::new();
-        click_gesture.set_name("waveform-click");
+        click_gesture.set_name(Some("waveform-click"));
         click_gesture.set_button(0);
         click_gesture.connect_pressed(
             clone!(@strong self as this => move |gesture, n_press, x, _| {
@@ -421,7 +421,7 @@ impl WaveformView {
         self.add_controller(&click_gesture);
 
         let motion_gesture = gtk::EventControllerMotion::new();
-        motion_gesture.set_name("waveform-motion");
+        motion_gesture.set_name(Some("waveform-motion"));
         motion_gesture.connect_motion(clone!(@strong self as this => move |_, x, _| {
             let width = this.width() as f64;
             let position = x as f64 / width;
@@ -435,7 +435,7 @@ impl WaveformView {
         self.add_controller(&motion_gesture);
 
         let key_controller = gtk::EventControllerKey::new();
-        key_controller.set_name("waveform-key");
+        key_controller.set_name(Some("waveform-key"));
         key_controller.connect_key_released(
             clone!(@strong self as this => move |_, keyval, _, _| {
                 let delta = match keyval {

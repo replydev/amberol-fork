@@ -19,7 +19,7 @@ mod imp {
         #[template_child]
         pub volume_scale: TemplateChild<gtk::Scale>,
         #[template_child]
-        pub volume_high_image: TemplateChild<gtk::Scale>,
+        pub volume_high_image: TemplateChild<gtk::Image>,
     }
 
     #[glib::object_subclass]

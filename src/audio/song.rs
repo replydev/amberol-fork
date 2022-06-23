@@ -137,23 +137,29 @@ impl SongData {
             }
         };
 
-        let uuid = if let Some(basename) = file.basename() {
-            let mut hasher = Sha256::new();
-            hasher.update(basename.to_str().unwrap());
+        let uuid = match file.query_info(
+            "standard::name",
+            gio::FileQueryInfoFlags::NONE,
+            gio::Cancellable::NONE,
+        ) {
+            Ok(info) => {
+                let mut hasher = Sha256::new();
 
-            if let Some(ref artist) = artist {
-                hasher.update(&artist);
-            }
-            if let Some(ref title) = title {
-                hasher.update(&title);
-            }
-            if let Some(ref album) = album {
-                hasher.update(&album);
-            }
+                hasher.update(&info.display_name().as_str());
 
-            Some(format!("{:x}", hasher.finalize()))
-        } else {
-            None
+                if let Some(ref artist) = artist {
+                    hasher.update(&artist);
+                }
+                if let Some(ref title) = title {
+                    hasher.update(&title);
+                }
+                if let Some(ref album) = album {
+                    hasher.update(&album);
+                }
+
+                Some(format!("{:x}", hasher.finalize()))
+            }
+            _ => None,
         };
 
         let properties = lofty::AudioFile::properties(&tagged_file);

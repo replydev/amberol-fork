@@ -46,7 +46,7 @@
                     <property name="action-name">queue.search</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
-                    <property name="tooltip-text" translatable="yes">Search songs in the playlist</property>
+                    <property name="tooltip-text" translatable="yes">Search Songs in the Playlist</property>
                     <style>
                       <class name="flat"/>
                     </style>
@@ -58,7 +58,7 @@
                     <property name="action-name">queue.select</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
-                    <property name="tooltip-text" translatable="yes">Select songs in the playlist</property>
+                    <property name="tooltip-text" translatable="yes">Select Songs in the Playlist</property>
                     <style>
                       <class name="flat"/>
                     </style>
@@ -71,7 +71,7 @@
                     <property name="action-name">queue.toggle</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
-                    <property name="tooltip-text" translatable="yes">Close the playlist</property>
+                    <property name="tooltip-text" translatable="yes">Close the Playlist</property>
                     <style>
                       <class name="flat"/>
                     </style>
@@ -129,7 +129,7 @@
             <child>
               <object class="GtkButton" id="queue_select_all_button">
                 <property name="icon-name">edit-select-all-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Select all songs</property>
+                <property name="tooltip-text" translatable="yes">Select All Songs</property>
               </object>
             </child>
             <child type="center">
@@ -142,7 +142,7 @@
             <child type="end">
               <object class="GtkButton" id="queue_remove_button">
                 <property name="icon-name">app-remove-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Remove selected songs</property>
+                <property name="tooltip-text" translatable="yes">Remove Selected Songs</property>
               </object>
             </child>
           </object>

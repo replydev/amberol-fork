@@ -138,7 +138,7 @@ impl SongData {
         };
 
         let uuid = match file.query_info(
-            "standard::name",
+            "standard::display-name",
             gio::FileQueryInfoFlags::NONE,
             gio::Cancellable::NONE,
         ) {

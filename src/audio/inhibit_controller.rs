@@ -30,14 +30,12 @@ impl Controller for InhibitController {
             .unwrap();
         let win = app
             .active_window()
-            .unwrap()
-            .downcast::<gtk::Window>()
-            .unwrap();
+            .and_then(|win| Some(win.downcast::<gtk::Window>().unwrap()));
 
         if playback_state == &PlaybackState::Playing {
             if self.cookie.get() == 0 {
                 let cookie = app.inhibit(
-                    Some(&win),
+                    win.as_ref(),
                     gtk::ApplicationInhibitFlags::SUSPEND,
                     Some(&i18n("Playback in progress")),
                 );

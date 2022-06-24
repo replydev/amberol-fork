@@ -396,6 +396,7 @@ impl Window {
             .modal(true)
             .title(&i18n("Open File"))
             .action(gtk::FileChooserAction::Open)
+            .select_multiple(true)
             .transient_for(&win)
             .build();
 
@@ -430,6 +431,7 @@ impl Window {
             .modal(true)
             .title(&i18n("Open Folder"))
             .action(gtk::FileChooserAction::SelectFolder)
+            .select_multiple(true)
             .transient_for(&win)
             .build();
 

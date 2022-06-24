@@ -87,9 +87,7 @@ mod imp {
 
             application.present_main_window();
             if let Some(window) = application.active_window() {
-                for f in files {
-                    window.downcast_ref::<Window>().unwrap().open_file(f);
-                }
+                window.downcast_ref::<Window>().unwrap().open_files(files);
             }
         }
     }

@@ -4,6 +4,7 @@
 use std::{
     cell::{Cell, RefCell},
     rc::Rc,
+    time::Instant,
 };
 
 use adw::subclass::prelude::*;
@@ -18,7 +19,7 @@ use crate::{
     audio::{AudioPlayer, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
-    i18n::{i18n, i18n_f, i18n_k, ni18n_f},
+    i18n::{i18n, i18n_k, ni18n_f},
     playback_control::PlaybackControl,
     playlist_view::PlaylistView,
     queue_row::QueueRow,
@@ -435,159 +436,151 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
-                    win.add_folders_to_queue(&dialog.files());
+                    win.add_files_to_queue(&dialog.files());
                 }
             }),
         );
         dialog.show();
     }
 
-    fn add_folders_to_queue(&self, folders: &gio::ListModel) {
-        if folders.n_items() == 0 {
+    fn queue_songs(&self, queue: Vec<gio::File>) {
+        if queue.is_empty() {
             self.add_toast(i18n("No available song found"));
             return;
         }
 
         self.switch_mode(WindowMode::MainView);
-        for pos in 0..folders.n_items() {
-            let folder = folders.item(pos).unwrap().downcast::<gio::File>().unwrap();
-            self.add_file_to_queue(&folder, true);
-        }
-    }
 
-    fn add_files_to_queue(&self, files: &gio::ListModel) {
-        if files.n_items() == 0 {
-            self.add_toast(i18n("No available song found"));
-            return;
-        }
+        // Disable actions on the queue; loading is "atomic"
+        self.action_set_enabled("queue.add-song", false);
+        self.action_set_enabled("queue.add-folder", false);
+        self.action_set_enabled("queue.clear", false);
 
-        self.switch_mode(WindowMode::MainView);
-        for pos in 0..files.n_items() {
-            let file = files.item(pos).unwrap().downcast::<gio::File>().unwrap();
-            debug!("Adding {} to the queue", file.uri());
-            self.add_file_to_queue(&file, true);
-        }
-    }
+        self.set_playlist_visible(true);
 
-    pub fn add_file_to_queue(&self, file: &gio::File, toast: bool) {
-        use std::time::Instant;
-        let player = self.player();
-        let queue = player.queue();
-        let was_empty = queue.is_empty();
+        self.imp().playlist_view.begin_loading();
 
-        if let Ok(info) = file.query_info(
-            "standard::name,standard::display-name,standard::type,standard::content-type",
-            gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
-            gio::Cancellable::NONE,
-        ) {
-            if info.file_type() == gio::FileType::Regular {
-                if let Some(content_type) = info.content_type() {
-                    if !gio::content_type_is_mime_type(&content_type, "audio/*") {
-                        if toast {
-                            let msg = i18n_f(
-                                // Translators: '{}' must be left unmodified; it
-                                // will expand to a file name
-                                "“{}” is not a supported audio file",
-                                &[&info.display_name()],
-                            );
-                            self.add_toast(msg);
-                            return;
-                        }
-                    }
+        // Begin the trace
+        let now = Instant::now();
 
-                    let song = Song::new(&file.uri());
-                    if queue.add_song(&song) && toast {
-                        self.add_skip_to_toast(
-                            i18n("Added a new song"),
-                            i18n("Play"),
-                            queue.n_songs() - 1,
-                        );
-                    }
-                }
-            } else if info.file_type() == gio::FileType::Directory {
-                // Disable actions on the queue; loading is "atomic"
-                self.action_set_enabled("queue.add-song", false);
-                self.action_set_enabled("queue.add-folder", false);
-                self.action_set_enabled("queue.clear", false);
+        // Turn the list of files into songs one at a time into the main loop
+        let n_files = queue.len() as u32;
 
-                self.set_playlist_visible(true);
+        let mut files = queue.into_iter();
+        let mut songs = Vec::new();
+        let mut cur_file: u32 = 0;
 
-                self.imp().playlist_view.begin_loading();
-
-                let now = Instant::now();
-
-                let mut files = utils::load_files_from_folder(file, true).into_iter();
-                let mut songs = Vec::new();
-                let mut cur_file: u32 = 0;
-                let n_files = files.len() as u32;
-
-                glib::idle_add_local(
-                    clone!(@weak self as win => @default-return glib::Continue(false), move || {
-                        files.next()
-                            .map(|f| {
-                                win.imp().playlist_view.update_loading(cur_file, n_files);
-                                let s = Song::new(f.uri().as_str());
-                                if !s.equals(&Song::default()) {
-                                    songs.push(s);
+        glib::idle_add_local(
+            clone!(@weak self as win => @default-return glib::Continue(false), move || {
+                files.next()
+                    .map(|f| {
+                        win.imp().playlist_view.update_loading(cur_file, n_files);
+                        match Song::from_uri(f.uri().as_str()) {
+                            Ok(s) => {
+                                songs.push(s);
                                 cur_file += 1;
                             }
-                            })
-                            .map(|_| glib::Continue(true))
-                            .unwrap_or_else(|| {
-                                debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
+                            Err(_) => ()
+                        }
+                    })
+                    .map(|_| glib::Continue(true))
+                    .unwrap_or_else(|| {
+                        debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
 
-                                // Re-enable the actions
-                                win.action_set_enabled("queue.add-song", true);
-                                win.action_set_enabled("queue.add-folder", true);
-                                win.action_set_enabled("queue.clear", true);
+                        // Re-enable the actions
+                        win.action_set_enabled("queue.add-song", true);
+                        win.action_set_enabled("queue.add-folder", true);
+                        win.action_set_enabled("queue.clear", true);
 
-                                let msg = if songs.is_empty() {
-                                    i18n("No songs found")
+                        if songs.is_empty() {
+                            win.add_toast(i18n("No songs found"));
+                        } else {
+                            let player = win.player();
+                            let queue =  player.queue();
+                            let was_empty = queue.is_empty();
+
+                            win.imp().playlist_view.end_loading();
+
+                            // Bulk add to avoid hammering the UI with list model updates
+                            queue.add_songs(&songs);
+
+                            debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
+                            if was_empty {
+                                win.player().skip_to(0);
+                            }
+
+                            // Allow jumping to the song we just added
+                            if songs.len() == 1 {
+                                // If we added a single song, and the queue was empty, we
+                                // dispense with the pleasantries and we start playing
+                                // immediately; otherwise, we let the user choose whether
+                                // to jump to the newly added song
+                                if was_empty {
+                                    win.player().play()
                                 } else {
-                                    let player = win.player();
-                                    let queue =  player.queue();
-                                    let was_empty = queue.is_empty();
-
-                                    win.imp().playlist_view.end_loading();
-
-                                    // Bulk add to avoid hammering the UI with list model updates
-                                    queue.add_songs(&songs);
-
-                                    debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
-                                    if was_empty {
-                                        win.player().skip_to(0);
-                                    }
-
-                                    ni18n_f(
-                                        // Translators: the `{}` must be left unmodified;
-                                        // it will be expanded to the number of songs added
-                                        // to the playlist
-                                        "Added one song",
-                                        "Added {} songs",
-                                        songs.len() as u32,
-                                        &[&songs.len().to_string()],
-                                    )
-                                };
+                                    win.add_skip_to_toast(
+                                        i18n("Added a new song"),
+                                        i18n("Play"),
+                                        queue.n_songs() - 1,
+                                    );
+                                }
+                            } else {
+                                let msg = ni18n_f(
+                                    // Translators: the `{}` must be left unmodified;
+                                    // it will be expanded to the number of songs added
+                                    // to the playlist
+                                    "Added one song",
+                                    "Added {} songs",
+                                    songs.len() as u32,
+                                    &[&songs.len().to_string()],
+                                );
 
                                 win.add_toast(msg);
+                            }
+                        }
 
-                                glib::Continue(false)
-                            })
-                    }),
-                );
-            } else {
-                if toast {
-                    // Translators: The '{}' must be left unmodified;
-                    // it will expand to a file name
-                    let msg = i18n_f("Unrecognized file type for “{}”", &[&info.display_name()]);
-                    self.add_toast(msg);
+                        glib::Continue(false)
+                    })
+            }),
+        );
+    }
+
+    fn add_files_to_queue(&self, model: &gio::ListModel) {
+        if model.n_items() == 0 {
+            self.add_toast(i18n("No available song found"));
+            return;
+        }
+
+        let mut queue: Vec<gio::File> = vec![];
+
+        for pos in 0..model.n_items() {
+            let file = model.item(pos).unwrap().downcast::<gio::File>().unwrap();
+
+            if let Ok(info) = file.query_info(
+                "standard::name,standard::display-name,standard::type,standard::content-type",
+                gio::FileQueryInfoFlags::NOFOLLOW_SYMLINKS,
+                gio::Cancellable::NONE,
+            ) {
+                match info.file_type() {
+                    gio::FileType::Regular => {
+                        if let Some(content_type) = info.content_type() {
+                            if gio::content_type_is_mime_type(&content_type, "audio/*") {
+                                debug!("Adding file '{}' to the queue", file.uri());
+                                queue.push(file);
+                            }
+                        }
+                    }
+                    gio::FileType::Directory => {
+                        debug!("Adding folder '{}' to the queue", file.uri());
+                        let files = utils::load_files_from_folder(&file, true);
+                        queue.extend(files);
+                    }
+                    _ => (),
                 }
             }
         }
 
-        if !queue.is_empty() && was_empty {
-            self.player().skip_to(0);
-        }
+        self.queue_songs(queue);
     }
 
     // Bind the PlayerState to the UI
@@ -992,38 +985,11 @@ impl Window {
         drop_target.connect_drop(
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
-                    win.switch_mode(WindowMode::MainView);
-
-                    let n_songs = win.player().queue().n_songs();
-                    let n_files = file_list.files().len();
-                    if n_files == 0 {
-                        win.add_toast(i18n("No available song found"));
-                        return true;
-                    }
-
+                    let model = gio::ListStore::new(gio::File::static_type());
                     for f in file_list.files() {
-                        win.add_file_to_queue(&f, n_files == 1);
+                        model.append(&f);
                     }
-
-                    let added_songs = win.player().queue().n_songs() - n_songs;
-
-                    // If we only added one song, add_file_to_queue() will deal
-                    // with that; nevertheless, we want to reuse the same message
-                    // so we don't need multiple localisations
-                    if added_songs > 1 {
-                        let msg = ni18n_f(
-                            // Translators: the `{}` must be left unmodified;
-                            // it will be expanded to the number of songs added
-                            // to the playlist
-                            "Added one song",
-                            "Added {} songs",
-                            added_songs as u32,
-                            &[&added_songs.to_string()],
-                        );
-
-                        win.add_toast(msg);
-                    }
-
+                    win.add_files_to_queue(model.upcast_ref::<gio::ListModel>());
                     return true;
                 }
 
@@ -1251,17 +1217,12 @@ impl Window {
             .set_label(&selected_str);
     }
 
-    pub fn open_file(&self, file: &gio::File) {
-        self.switch_mode(WindowMode::MainView);
-        self.add_file_to_queue(file, true);
-
-        // If we successfully opened the file, start playing it immediately,
-        // unless there's already a playlist set
-        let player = self.player();
-        let queue = player.queue();
-        if queue.n_songs() == 1 {
-            self.player().play();
+    pub fn open_files(&self, files: &[gio::File]) {
+        let model = gio::ListStore::new(gio::File::static_type());
+        for f in files {
+            model.append(f);
         }
+        self.add_files_to_queue(model.upcast_ref::<gio::ListModel>());
     }
 
     pub fn remove_song(&self, song: &Song) {

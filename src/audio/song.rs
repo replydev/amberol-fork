@@ -293,6 +293,15 @@ impl Song {
         glib::Object::new::<Self>(&[("uri", &uri)]).expect("Failed to create Song object")
     }
 
+    pub fn from_uri(uri: &str) -> Result<Song, &'static str> {
+        let res = Song::new(uri);
+        if res.equals(&Song::default()) {
+            Err("Invalid song")
+        } else {
+            Ok(res)
+        }
+    }
+
     pub fn empty() -> Self {
         glib::Object::new::<Self>(&[]).expect("Failed to create an empty Song object")
     }

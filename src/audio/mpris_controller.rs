@@ -148,6 +148,7 @@ impl Controller for MprisController {
 
         match state {
             PlaybackState::Playing => self.mpris.set_playback_status(PlaybackStatus::Playing),
+            PlaybackState::Paused => self.mpris.set_playback_status(PlaybackStatus::Paused),
             _ => self.mpris.set_playback_status(PlaybackStatus::Stopped),
         };
     }

@@ -12,6 +12,39 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.8.1] - 2022-06-24
+
+### Added
+
+- New translations
+  - Danish
+
+### Changed
+
+- Use the appropriate wording and style for tooltips [!89]
+- Require version 0.4.8 of the gtk4 crate [!90]
+- Translation updates
+  - Ukrainian
+  - German
+  - Hebrew
+  - Russian
+  - Polish
+  - Swedish
+  - Occitan
+  - Portuguese
+  - Chinese (China)
+
+### Fixed
+
+- Allow selecting multiple files and folders [#71]
+- Fix improper MPRIS reporting when paused [#201]
+- Fix panic on playback state change with no window [!91]
+- Maintain the playlist panel's width [#190]
+- Use the display name as the song base UUID [#198]
+- Handle nested dist folders properly
+- Let Amberol run in the background without a window [!83]
+- Sort files like Nautilus when adding a folder [#187]
+
 ## [0.8.0] - 2022-06-17
 
 ### Added

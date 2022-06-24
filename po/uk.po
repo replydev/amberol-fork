@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-21 18:36+0000\n"
-"PO-Revision-Date: 2022-06-22 08:53+0300\n"
+"POT-Creation-Date: 2022-06-24 14:32+0000\n"
+"PO-Revision-Date: 2022-06-24 18:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -79,19 +79,19 @@ msgstr "Інтеграція із MPRIS"
 msgid "Emmanuele Bassi"
 msgstr "Emmanuele Bassi"
 
-#: src/audio/inhibit_controller.rs:42
+#: src/audio/inhibit_controller.rs:40
 msgid "Playback in progress"
 msgstr "Відбувається відтворення"
 
-#: src/audio/song.rs:309
+#: src/audio/song.rs:315
 msgid "Unknown artist"
 msgstr "Невідомий виконавець"
 
-#: src/audio/song.rs:316
+#: src/audio/song.rs:322
 msgid "Unknown title"
 msgstr "Невідома назва"
 
-#: src/audio/song.rs:323
+#: src/audio/song.rs:329
 msgid "Unknown album"
 msgstr "Невідомий альбом"
 
@@ -186,7 +186,8 @@ msgid "Remaining time"
 msgstr "Час, що залишився"
 
 #: src/gtk/playback-control.ui:64
-msgid "Play the previous song"
+#| msgid "Play the previous song"
+msgid "Play the Previous Song"
 msgstr "Відтворити попередню композицію"
 
 #: src/gtk/playback-control.ui:69
@@ -195,7 +196,8 @@ msgid "Skip backwards"
 msgstr "Перемотати назад"
 
 #: src/gtk/playback-control.ui:78
-msgid "Toggle play"
+#| msgid "Toggle play"
+msgid "Toggle Play"
 msgstr "Увімкнути або вимкнути відтворення"
 
 #: src/gtk/playback-control.ui:84
@@ -204,7 +206,8 @@ msgid "Toggle play"
 msgstr "Увімкнути або вимкнути відтворення"
 
 #: src/gtk/playback-control.ui:93
-msgid "Play the next song"
+#| msgid "Play the next song"
+msgid "Play the Next Song"
 msgstr "Відтворити наступну композицію"
 
 #: src/gtk/playback-control.ui:98
@@ -213,7 +216,8 @@ msgid "Skip forward"
 msgstr "Перемотати вперед"
 
 #: src/gtk/playback-control.ui:121
-msgid "Toggle playlist"
+#| msgid "Toggle playlist"
+msgid "Toggle Playlist"
 msgstr "Перемкнути список відтворення"
 
 #: src/gtk/playback-control.ui:126
@@ -222,7 +226,8 @@ msgid "Toggle playlist"
 msgstr "Перемкнути список відтворення"
 
 #: src/gtk/playback-control.ui:135
-msgid "Shuffle the playlist"
+#| msgid "Shuffle the playlist"
+msgid "Shuffle the Playlist"
 msgstr "Перемішати список відтворення"
 
 #: src/gtk/playback-control.ui:137
@@ -231,7 +236,8 @@ msgid "Shuffle"
 msgstr "Перемішати"
 
 #: src/gtk/playback-control.ui:156 src/playback_control.rs:153
-msgid "Enable repeat"
+#| msgid "Enable repeat"
+msgid "Enable Repeat"
 msgstr "Увімкнути повторення"
 
 #: src/gtk/playback-control.ui:161
@@ -239,42 +245,45 @@ msgctxt "a11y"
 msgid "Repeat"
 msgstr "Повторити"
 
-#: src/gtk/playback-control.ui:176
+#: src/gtk/playback-control.ui:172
+#| msgid "Menu"
+msgid "Main Menu"
+msgstr "Головне меню"
+
+#: src/gtk/playback-control.ui:177
 msgctxt "a11y"
 msgid "Primary menu"
 msgstr "Основне меню"
 
-#: src/gtk/playback-control.ui:192
+#: src/gtk/playback-control.ui:193
 msgid "Copy"
 msgstr "Копіювати"
 
-#: src/gtk/playback-control.ui:198
+#: src/gtk/playback-control.ui:199
 msgid "Add _Song"
 msgstr "Додати _композицію"
 
-#: src/gtk/playback-control.ui:202
+#: src/gtk/playback-control.ui:203
 msgid "Add _Folder"
 msgstr "Додати _теку"
 
-#: src/gtk/playback-control.ui:206
+#: src/gtk/playback-control.ui:207
 msgid "Clear"
 msgstr "Очистити"
 
-#: src/gtk/playback-control.ui:212
+#: src/gtk/playback-control.ui:213
 msgid "_Match Cover Art"
 msgstr "_Колір обкладинки"
 
-#: src/gtk/playback-control.ui:218
+#: src/gtk/playback-control.ui:219
 msgid "_Keyboard Shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: src/gtk/playback-control.ui:222
+#: src/gtk/playback-control.ui:223
 msgid "_About Amberol"
 msgstr "_Про «Амберол»"
 
-#: src/gtk/playback-control.ui:226
-#| msgctxt "shortcut window"
-#| msgid "Quit"
+#: src/gtk/playback-control.ui:227
 msgid "_Quit"
 msgstr "Ви_йти"
 
@@ -283,23 +292,28 @@ msgid "Playlist"
 msgstr "Список відтворення"
 
 #: src/gtk/playlist-view.ui:49
-msgid "Search songs in the playlist"
+#| msgid "Search songs in the playlist"
+msgid "Search Songs in the Playlist"
 msgstr "Шукати композиції у списку відтворення"
 
 #: src/gtk/playlist-view.ui:61
-msgid "Select songs in the playlist"
+#| msgid "Select songs in the playlist"
+msgid "Select Songs in the Playlist"
 msgstr "Вибрати композиції у списку відтворення"
 
 #: src/gtk/playlist-view.ui:74
-msgid "Close the playlist"
+#| msgid "Close the playlist"
+msgid "Close the Playlist"
 msgstr "Закрити список відтворення"
 
 #: src/gtk/playlist-view.ui:132
-msgid "Select all songs"
+#| msgid "Select all songs"
+msgid "Select All Songs"
 msgstr "Позначити усі композиції"
 
 #: src/gtk/playlist-view.ui:145
-msgid "Remove selected songs"
+#| msgid "Remove selected songs"
+msgid "Remove Selected Songs"
 msgstr "Вилучити позначені композиції"
 
 #: src/gtk/window.ui:12
@@ -332,11 +346,13 @@ msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2022"
 
 #: src/playback_control.rs:157
-msgid "Repeat all tracks"
+#| msgid "Repeat all tracks"
+msgid "Repeat All Tracks"
 msgstr "Повторити усі композиції"
 
 #: src/playback_control.rs:161
-msgid "Repeat the current track"
+#| msgid "Repeat the current track"
+msgid "Repeat the Current Track"
 msgstr "Повторити поточну композицію"
 
 #: src/window.rs:393
@@ -471,9 +487,6 @@ msgstr "«Амберол» не може бути запущено у фонов
 #~ msgctxt "shortcut window"
 #~ msgid "Next Track"
 #~ msgstr "Наступна композиція"
-
-#~ msgid "Menu"
-#~ msgstr "Меню"
 
 #~| msgid "Choose a folder"
 #~ msgid "Choose a file"

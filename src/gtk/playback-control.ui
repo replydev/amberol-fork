@@ -61,7 +61,7 @@
               <property name="icon-name">media-skip-backward-symbolic</property>
               <property name="action-name">win.previous</property>
               <property name="valign">center</property>
-              <property name="tooltip-text" translatable="yes">Play the previous song</property>
+              <property name="tooltip-text" translatable="yes">Play the Previous Song</property>
               <style>
                 <class name="circular"/>
               </style>
@@ -75,7 +75,7 @@
               <property name="icon-name">media-playback-start-symbolic</property>
               <property name="action-name">win.play</property>
               <property name="valign">center</property>
-              <property name="tooltip-text" translatable="yes">Toggle play</property>
+              <property name="tooltip-text" translatable="yes">Toggle Play</property>
               <style>
                 <class name="circular"/>
                 <class name="large"/>
@@ -90,7 +90,7 @@
               <property name="icon-name">media-skip-forward-symbolic</property>
               <property name="action-name">win.next</property>
               <property name="valign">center</property>
-              <property name="tooltip-text" translatable="yes">Play the next song</property>
+              <property name="tooltip-text" translatable="yes">Play the Next Song</property>
               <style>
                 <class name="circular"/>
               </style>
@@ -118,7 +118,7 @@
                   <property name="icon-name">view-queue-symbolic</property>
                   <property name="action-name">queue.toggle</property>
                   <property name="valign">center</property>
-                  <property name="tooltip-text" translatable="yes">Toggle playlist</property>
+                  <property name="tooltip-text" translatable="yes">Toggle Playlist</property>
                   <style>
                     <class name="circular"/>
                   </style>
@@ -132,7 +132,7 @@
                   <property name="icon-name">media-playlist-shuffle-symbolic</property>
                   <property name="action-name">queue.shuffle</property>
                   <property name="valign">center</property>
-                  <property name="tooltip-text" translatable="yes">Shuffle the playlist</property>
+                  <property name="tooltip-text" translatable="yes">Shuffle the Playlist</property>
                   <accessibility>
                     <property name="label" translatable="yes" context="a11y">Shuffle</property>
                   </accessibility>
@@ -153,7 +153,7 @@
                   <property name="icon-name">media-playlist-consecutive-symbolic</property>
                   <property name="action-name">queue.repeat-mode</property>
                   <property name="valign">center</property>
-                  <property name="tooltip-text" translatable="yes">Enable repeat</property>
+                  <property name="tooltip-text" translatable="yes">Enable Repeat</property>
                   <style>
                     <class name="circular"/>
                   </style>
@@ -169,6 +169,7 @@
                   <property name="primary">true</property>
                   <property name="halign">end</property>
                   <property name="valign">center</property>
+                  <property name="tooltip-text" translatable="yes">Main Menu</property>
                   <style>
                     <class name="circular"/>
                   </style>

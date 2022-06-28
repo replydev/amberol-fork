@@ -62,6 +62,12 @@
                 <property name="action-name">queue.toggle</property>
               </object>
             </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Toggle shuffling songs</property>
+                <property name="action-name">queue.shuffle</property>
+              </object>
+            </child>
           </object>
         </child>
         <child>

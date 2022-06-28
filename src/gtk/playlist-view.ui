@@ -126,6 +126,9 @@
         <child>
           <object class="GtkActionBar" id="queue_actionbar">
             <property name="revealed">false</property>
+            <style>
+              <class name="flat"/>
+            </style>
             <child>
               <object class="GtkButton" id="queue_select_all_button">
                 <property name="icon-name">edit-select-all-symbolic</property>

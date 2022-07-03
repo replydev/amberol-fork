@@ -386,35 +386,45 @@ fn load_files_from_folder_internal(
     // implicit order; if anything, this will queue songs in the same
     // order in which they appear in the directory when browsing its
     // contents
-    files.sort_by(|a, b| {
-        let parent_a = a.parent().unwrap();
-        let parent_b = b.parent().unwrap();
-        let parent_basename_a = if let Some(path) = base.relative_path(&parent_a) {
+    files.sort_by(|a, b| cmp_two_files(Some(base), a, b));
+
+    files
+}
+
+pub fn cmp_two_files(base: Option<&gio::File>, a: &gio::File, b: &gio::File) -> Ordering {
+    let parent_a = a.parent().unwrap();
+    let parent_b = b.parent().unwrap();
+    let parent_basename_a = if let Some(base) = base {
+        if let Some(path) = base.relative_path(&parent_a) {
             path
         } else {
             parent_a.basename().unwrap()
-        };
-        let parent_basename_b = if let Some(path) = base.relative_path(&parent_b) {
+        }
+    } else {
+        parent_a.basename().unwrap()
+    };
+    let parent_basename_b = if let Some(base) = base {
+        if let Some(path) = base.relative_path(&parent_b) {
             path
         } else {
             parent_b.basename().unwrap()
-        };
-        let basename_a = a.basename().unwrap();
-        let basename_b = b.basename().unwrap();
-
-        let mut order = cmp_like_nautilus(
-            &parent_basename_a.to_string_lossy(),
-            &parent_basename_b.to_string_lossy(),
-        );
-
-        if order.is_eq() {
-            order = cmp_like_nautilus(&basename_a.to_string_lossy(), &basename_b.to_string_lossy());
         }
+    } else {
+        parent_b.basename().unwrap()
+    };
+    let basename_a = a.basename().unwrap();
+    let basename_b = b.basename().unwrap();
 
-        order
-    });
+    let mut order = cmp_like_nautilus(
+        &parent_basename_a.to_string_lossy(),
+        &parent_basename_b.to_string_lossy(),
+    );
 
-    files
+    if order.is_eq() {
+        order = cmp_like_nautilus(&basename_a.to_string_lossy(), &basename_b.to_string_lossy());
+    }
+
+    order
 }
 
 fn cmp_like_nautilus(filename_a: &str, filename_b: &str) -> Ordering {

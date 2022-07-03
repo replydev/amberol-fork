@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-24 18:45+0000\n"
-"PO-Revision-Date: 2022-06-26 14:48+0200\n"
+"POT-Creation-Date: 2022-06-29 11:03+0000\n"
+"PO-Revision-Date: 2022-07-03 15:05+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -143,32 +143,37 @@ msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "Przełączenie panelu listy odtwarzania"
 
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle shuffling songs"
+msgstr "Przełączenie mieszania utworów"
+
+#: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Odtwarzanie"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle Play/Pause"
 msgstr "Przełączenie odtwarzania/wstrzymania"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Poprzedni utwór"
 
-#: src/gtk/help-overlay.ui:84
+#: src/gtk/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Następny utwór"
 
-#: src/gtk/help-overlay.ui:90
+#: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
 msgstr "Przewinięcie do tyłu w obecnym utworze"
 
-#: src/gtk/help-overlay.ui:96
+#: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
 msgstr "Przewinięcie do przodu w obecnym utworze"
@@ -294,11 +299,11 @@ msgstr "Zaznacza utwory na liście odtwarzania"
 msgid "Close the Playlist"
 msgstr "Zamyka listę odtwarzania"
 
-#: src/gtk/playlist-view.ui:132
+#: src/gtk/playlist-view.ui:135
 msgid "Select All Songs"
 msgstr "Zaznacza wszystkie utwory"
 
-#: src/gtk/playlist-view.ui:145
+#: src/gtk/playlist-view.ui:148
 msgid "Remove Selected Songs"
 msgstr "Usuwa zaznaczone utwory"
 
@@ -322,12 +327,12 @@ msgstr "Dodaj katalog"
 msgid "Add File"
 msgstr "Dodaj plik"
 
-#: src/application.rs:180
+#: src/application.rs:181
 msgid "Plays music and nothing else"
 msgstr "Odtwarza muzykę i nic ponadto"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:187
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2022\n"

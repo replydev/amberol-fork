@@ -16,6 +16,7 @@
                 <property name="child">
 
                   <object class="GtkStack" id="main_stack">
+                    <property name="transition-type">crossfade</property>
                     <child>
                       <object class="GtkStackPage">
                         <property name="name">initial-view</property>

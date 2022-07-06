@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-24 18:45+0000\n"
-"PO-Revision-Date: 2022-06-24 21:56+0200\n"
+"POT-Creation-Date: 2022-06-29 11:03+0000\n"
+"PO-Revision-Date: 2022-06-29 17:29+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -140,32 +140,37 @@ msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "Visa/dölj spellistepanelen"
 
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle shuffling songs"
+msgstr "Växla blandning av låtar"
+
+#: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Uppspelning"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle Play/Pause"
 msgstr "Växla uppspelning/paus"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Föregående låt"
 
-#: src/gtk/help-overlay.ui:84
+#: src/gtk/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Nästa låt"
 
-#: src/gtk/help-overlay.ui:90
+#: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
 msgstr "Spola bakåt i aktuell låt"
 
-#: src/gtk/help-overlay.ui:96
+#: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
 msgstr "Spola framåt i aktuell låt"
@@ -291,11 +296,11 @@ msgstr "Välj låtar i spellistan"
 msgid "Close the Playlist"
 msgstr "Stäng spellistan"
 
-#: src/gtk/playlist-view.ui:132
+#: src/gtk/playlist-view.ui:135
 msgid "Select All Songs"
 msgstr "Markera alla låtar"
 
-#: src/gtk/playlist-view.ui:145
+#: src/gtk/playlist-view.ui:148
 msgid "Remove Selected Songs"
 msgstr "Ta bort markerade låtar"
 
@@ -319,12 +324,12 @@ msgstr "Lägg till mapp"
 msgid "Add File"
 msgstr "Lägg till fil"
 
-#: src/application.rs:180
+#: src/application.rs:181
 msgid "Plays music and nothing else"
 msgstr "Spelar upp musik helt enkelt"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:187
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>\n"

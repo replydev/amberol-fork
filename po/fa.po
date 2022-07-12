@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-24 18:45+0000\n"
-"PO-Revision-Date: 2022-06-28 15:42+0430\n"
-"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
+"POT-Creation-Date: 2022-07-08 15:25+0000\n"
+"PO-Revision-Date: 2022-07-11 10:30+0430\n"
+"Last-Translator: eshagh <eshagh094@gmail.com>\n"
 "Language-Team: Farsi\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3 data/io.bassi.Amberol.appdata.xml.in.in:6
 msgid "Amberol"
@@ -64,7 +64,7 @@ msgstr "پشتیبانی از کشیدن و رها کردن برای صف کرد
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:19
 msgid "shuffle and repeat"
-msgstr "بر زدن و تکرار"
+msgstr "بُر زدن و تکرار"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:20
 msgid "MPRIS integration"
@@ -133,39 +133,44 @@ msgstr "افزودن شاخه‌ای به سیاههٔ پخش"
 #: src/gtk/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Clear the playlist"
-msgstr "پاک سازی سیاههٔ پخش"
+msgstr "پاک‌سازی سیاههٔ پخش"
 
 #: src/gtk/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "تغییر وضعیت قاب سیاههٔ پخش"
 
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle shuffling songs"
+msgstr "تغییر وضعیت بُر زدن آهنگ‌ها"
+
+#: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "پخش"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle Play/Pause"
 msgstr "تغییر وضعیت پخش/مکث"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "آهنگ پیشین"
 
-#: src/gtk/help-overlay.ui:84
+#: src/gtk/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "آهنگ بعدی"
 
-#: src/gtk/help-overlay.ui:90
+#: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
 msgstr "عقب رفتن در آهنگ کنونی"
 
-#: src/gtk/help-overlay.ui:96
+#: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
 msgstr "جلو رفتن در آهنگ کنونی"
@@ -223,7 +228,7 @@ msgstr "بُر زدن سیاههٔ پخش"
 #: src/gtk/playback-control.ui:137
 msgctxt "a11y"
 msgid "Shuffle"
-msgstr "بر زدن"
+msgstr "بُر زدن"
 
 #: src/gtk/playback-control.ui:156 src/playback_control.rs:153
 msgid "Enable Repeat"
@@ -274,7 +279,7 @@ msgstr "_دربارهٔ امبرول"
 
 #: src/gtk/playback-control.ui:227
 msgid "_Quit"
-msgstr "_ترک"
+msgstr "_خروج"
 
 #: src/gtk/playlist-view.ui:19
 msgid "Playlist"
@@ -292,11 +297,11 @@ msgstr "گزینش آهنگ‌های سیاههٔ پخش"
 msgid "Close the Playlist"
 msgstr "بستن سیاههٔ پخش"
 
-#: src/gtk/playlist-view.ui:132
+#: src/gtk/playlist-view.ui:135
 msgid "Select All Songs"
 msgstr "گزینش تمامی آهنگ‌ها"
 
-#: src/gtk/playlist-view.ui:145
+#: src/gtk/playlist-view.ui:148
 msgid "Remove Selected Songs"
 msgstr "برداشتن آهنگ‌های برگزیده"
 
@@ -320,12 +325,12 @@ msgstr "افزودن شاخه"
 msgid "Add File"
 msgstr "افزودن پرونده"
 
-#: src/application.rs:180
+#: src/application.rs:181
 msgid "Plays music and nothing else"
 msgstr "پخش آهنگ، و دیگر هیچ"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:187
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "دانیال بهزادی <dani.behzi@ubuntu.com>\n"

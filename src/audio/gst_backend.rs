@@ -2,16 +2,64 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::{clone, Sender};
+use gst::prelude::*;
 use gtk::{glib, prelude::*};
 use gtk_macros::send;
 use log::{debug, error, warn};
 
-use crate::audio::{PlaybackAction, SeekDirection};
+use crate::audio::{PlaybackAction, ReplayGainMode, SeekDirection};
 
 #[derive(Debug)]
 pub struct GstBackend {
     sender: Sender<PlaybackAction>,
     gst_player: gst_player::Player,
+    replaygain: Option<GstReplayGain>,
+}
+
+#[derive(Debug)]
+pub struct GstReplayGain {
+    rg_filter_bin: gst::Element,
+    rg_volume: gst::Element,
+}
+
+impl GstReplayGain {
+    pub fn new() -> Result<GstReplayGain, Box<dyn std::error::Error>> {
+        let rg_volume = gst::ElementFactory::make("rgvolume", Some("rg volume"))?;
+        let rg_limiter = gst::ElementFactory::make("rglimiter", Some("rg limiter"))?;
+
+        let filter_bin = gst::Bin::new(Some("filter bin"));
+        filter_bin.add(&rg_volume)?;
+        filter_bin.add(&rg_limiter)?;
+        rg_volume.link(&rg_limiter)?;
+
+        let pad_src = rg_limiter.static_pad("src").unwrap();
+        pad_src.set_active(true).unwrap();
+        let ghost_src = gst::GhostPad::with_target(Some("src"), &pad_src)?;
+        filter_bin.add_pad(&ghost_src)?;
+
+        let pad_sink = rg_volume.static_pad("sink").unwrap();
+        pad_sink.set_active(true).unwrap();
+        let ghost_sink = gst::GhostPad::with_target(Some("sink"), &pad_sink)?;
+        filter_bin.add_pad(&ghost_sink)?;
+
+        Ok(Self {
+            rg_filter_bin: filter_bin.upcast(),
+            rg_volume,
+        })
+    }
+
+    pub fn set_mode(&self, playbin: gst::Element, replaygain: ReplayGainMode) {
+        let identity = gst::ElementFactory::make("identity", Some("identity")).unwrap();
+
+        let (filter, album_mode) = match replaygain {
+            ReplayGainMode::Album => (self.rg_filter_bin.as_ref(), true),
+            ReplayGainMode::Track => (self.rg_filter_bin.as_ref(), false),
+            ReplayGainMode::Off => (&identity, true),
+        };
+
+        self.rg_volume.set_property("album-mode", album_mode);
+        playbin.set_property("audio-filter", filter);
+    }
 }
 
 impl GstBackend {
@@ -27,7 +75,11 @@ impl GstBackend {
         config.set_position_update_interval(250);
         gst_player.set_config(config).unwrap();
 
-        let res = Self { sender, gst_player };
+        let res = Self {
+            sender,
+            gst_player,
+            replaygain: GstReplayGain::new().ok(),
+        };
 
         res.setup_signals();
 
@@ -121,5 +173,15 @@ impl GstBackend {
         );
         debug!("Setting volume to: {}", &linear_volume);
         self.gst_player.set_volume(linear_volume);
+    }
+
+    pub fn set_replaygain(&self, replaygain: ReplayGainMode) {
+        self.replaygain
+            .as_ref()
+            .map(|r| r.set_mode(self.gst_player.pipeline(), replaygain));
+    }
+
+    pub fn replaygain_available(&self) -> bool {
+        self.replaygain.is_some()
     }
 }

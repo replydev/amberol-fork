@@ -60,6 +60,17 @@ impl Default for RepeatMode {
     }
 }
 
+#[derive(Clone, Copy, Debug, glib::Enum, PartialEq)]
+#[enum_type(name = "AmberolReplayGainMode")]
+pub enum ReplayGainMode {
+    #[enum_value(name = "album")]
+    Album,
+    #[enum_value(name = "track")]
+    Track,
+    #[enum_value(name = "off")]
+    Off,
+}
+
 #[derive(Debug)]
 pub enum SeekDirection {
     Forward,
@@ -464,5 +475,13 @@ impl AudioPlayer {
         if self.queue.is_empty() {
             self.state.set_current_song(None);
         }
+    }
+
+    pub fn set_replaygain(&self, replaygain: ReplayGainMode) {
+        self.backend.set_replaygain(replaygain);
+    }
+
+    pub fn replaygain_available(&self) -> bool {
+        self.backend.replaygain_available()
     }
 }

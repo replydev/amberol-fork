@@ -16,7 +16,7 @@ use gtk_macros::stateful_action;
 use log::{debug, warn};
 
 use crate::{
-    audio::{AudioPlayer, Song, WaveformGenerator},
+    audio::{AudioPlayer, ReplayGainMode, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
     i18n::{i18n, i18n_k, ni18n_f},
@@ -34,7 +34,7 @@ pub enum WindowMode {
 }
 
 mod imp {
-    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};
+    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecEnum, Type, Value};
     use once_cell::sync::Lazy;
 
     use super::*;
@@ -70,6 +70,7 @@ mod imp {
         pub playlist_visible: Cell<bool>,
         pub playlist_selection: Cell<bool>,
         pub playlist_search: Cell<bool>,
+        pub replaygain_mode: Cell<ReplayGainMode>,
 
         pub playlist_filtermodel: RefCell<Option<gio::ListModel>>,
     }
@@ -127,6 +128,7 @@ mod imp {
             klass.install_property_action("queue.shuffle", "playlist-shuffled");
             klass.install_property_action("queue.select", "playlist-selection");
             klass.install_property_action("queue.search", "playlist-search");
+            klass.install_property_action("win.replaygain", "replaygain-mode");
 
             klass.install_action("win.skip-to", Some("u"), move |win, _, param| {
                 if let Some(pos) = param.and_then(u32::from_variant) {
@@ -156,6 +158,7 @@ mod imp {
                 playlist_selection: Cell::new(false),
                 playlist_search: Cell::new(false),
                 playlist_filtermodel: RefCell::default(),
+                replaygain_mode: Cell::new(ReplayGainMode::Album),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
                 settings: utils::settings_manager(),
@@ -191,6 +194,14 @@ mod imp {
                         ParamFlags::READWRITE,
                     ),
                     ParamSpecBoolean::new("playlist-search", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecEnum::new(
+                        "replaygain-mode",
+                        "",
+                        "",
+                        ReplayGainMode::static_type(),
+                        0,
+                        ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -202,6 +213,7 @@ mod imp {
                 "playlist-visible" => obj.set_playlist_visible(value.get::<bool>().unwrap()),
                 "playlist-selection" => obj.set_playlist_selection(value.get::<bool>().unwrap()),
                 "playlist-search" => obj.set_playlist_search(value.get::<bool>().unwrap()),
+                "replaygain-mode" => obj.set_replaygain(value.get::<ReplayGainMode>().unwrap()),
                 _ => unimplemented!(),
             }
         }
@@ -212,6 +224,7 @@ mod imp {
                 "playlist-visible" => obj.playlist_visible().to_value(),
                 "playlist-selection" => obj.playlist_selection().to_value(),
                 "playlist-search" => obj.playlist_search().to_value(),
+                "replaygain-mode" => obj.replaygain().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -838,6 +851,13 @@ impl Window {
 
         self.action_set_enabled("queue.toggle", !queue.is_empty());
         self.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
+        self.action_set_enabled("win.replaygain", self.player().replaygain_available());
+
+        self.set_replaygain(if self.player().replaygain_available() {
+            ReplayGainMode::Album
+        } else {
+            ReplayGainMode::Off
+        });
 
         self.imp()
             .playback_control
@@ -1273,6 +1293,20 @@ impl Window {
                 self.set_default_widget(Some(&self.imp().playback_control.play_button()));
             }
         };
+    }
+
+    pub fn set_replaygain(&self, replaygain: ReplayGainMode) {
+        let imp = self.imp();
+
+        if replaygain != imp.replaygain_mode.replace(replaygain) {
+            self.player().set_replaygain(replaygain);
+
+            self.notify("replaygain-mode");
+        }
+    }
+
+    pub fn replaygain(&self) -> ReplayGainMode {
+        self.imp().replaygain_mode.get()
     }
 
     #[cfg(target_os = "linux")]

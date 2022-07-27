@@ -10,7 +10,6 @@ stages:
 
 flatpak:
   extends: ".flatpak"
-  image: "registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:master"
   variables:
     APP_ID: "io.bassi.Amberol.Devel"
     BUNDLE: "io.bassi.Amberol.Devel.flatpak"

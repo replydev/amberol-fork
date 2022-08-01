@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-24 18:45+0000\n"
-"PO-Revision-Date: 2022-06-24 22:44+0200\n"
+"POT-Creation-Date: 2022-07-08 15:25+0000\n"
+"PO-Revision-Date: 2022-07-08 19:51+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -66,7 +66,7 @@ msgstr "Unterstützung von Ziehen-und-Ablegen für Warteschlangen"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:19
 msgid "shuffle and repeat"
-msgstr "Zufallswiedergabe und Wiederholen"
+msgstr "Durchmischen und Wiederholen"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:20
 msgid "MPRIS integration"
@@ -142,32 +142,37 @@ msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "Leiste der Wiedergabeliste ein-/ausblenden"
 
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle shuffling songs"
+msgstr "Titel durchmischen ein-/ausschalten"
+
+#: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Wiedergeben"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle Play/Pause"
 msgstr "Abspielen/Pausieren umschalten"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Vorheriger Titel"
 
-#: src/gtk/help-overlay.ui:84
+#: src/gtk/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Nächster Titel"
 
-#: src/gtk/help-overlay.ui:90
+#: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
 msgstr "Im aktuellen Titel rückwärts springen"
 
-#: src/gtk/help-overlay.ui:96
+#: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
 msgstr "Im aktuellen Titel vorwärts springen"
@@ -293,11 +298,11 @@ msgstr "Titel in der Wiedergabeliste auswählen"
 msgid "Close the Playlist"
 msgstr "Wiedergabeliste schließen"
 
-#: src/gtk/playlist-view.ui:132
+#: src/gtk/playlist-view.ui:135
 msgid "Select All Songs"
 msgstr "Alle Titel auswählen"
 
-#: src/gtk/playlist-view.ui:145
+#: src/gtk/playlist-view.ui:148
 msgid "Remove Selected Songs"
 msgstr "Ausgewählte Titel entfernen"
 
@@ -322,12 +327,12 @@ msgstr "Ordner hinzufügen"
 msgid "Add File"
 msgstr "Datei hinzufügen"
 
-#: src/application.rs:180
+#: src/application.rs:181
 msgid "Plays music and nothing else"
 msgstr "Spielt Musik ab und sonst nichts"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:187
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "Jürgen Benvenuti <gastornis@posteo.org>, 2022.\n"
@@ -368,11 +373,11 @@ msgstr "Ordner öffnen"
 
 #: src/window.rs:450 src/window.rs:552
 msgid "No available song found"
-msgstr "Kein vorhandenes Lied gefunden"
+msgstr "Kein vorhandener Titel gefunden"
 
 #: src/window.rs:498
 msgid "No songs found"
-msgstr "Keine Lieder gefunden"
+msgstr "Keine Titel gefunden"
 
 #: src/window.rs:524
 msgid "Added a new song"

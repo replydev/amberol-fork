@@ -408,7 +408,12 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
-                    win.add_files_to_queue(&dialog.files());
+                    let files = dialog.files();
+                    if files.n_items() == 0 {
+                        win.add_toast(i18n("Unable to access files"));
+                    } else {
+                        win.add_files_to_queue(&files);
+                    }
                 }
             }),
         );
@@ -438,7 +443,12 @@ impl Window {
         dialog.connect_response(
             clone!(@strong dialog, @weak self as win => move |_, response| {
                 if response == gtk::ResponseType::Accept {
-                    win.add_files_to_queue(&dialog.files());
+                    let files = dialog.files();
+                    if files.n_items() == 0 {
+                        win.add_toast(i18n("Unable to access folders"));
+                    } else {
+                        win.add_files_to_queue(&dialog.files());
+                    }
                 }
             }),
         );
@@ -548,11 +558,6 @@ impl Window {
     }
 
     fn add_files_to_queue(&self, model: &gio::ListModel) {
-        if model.n_items() == 0 {
-            self.add_toast(i18n("No available song found"));
-            return;
-        }
-
         let mut queue: Vec<gio::File> = vec![];
 
         for pos in 0..model.n_items() {
@@ -987,6 +992,11 @@ impl Window {
         drop_target.connect_drop(
             clone!(@weak self as win => @default-return false, move |_, value, _, _| {
                 if let Ok(file_list) = value.get::<gdk::FileList>() {
+                    if file_list.files().is_empty() {
+                        win.add_toast(i18n("Unable to access dropped files"));
+                        return false;
+                    }
+
                     let model = gio::ListStore::new(gio::File::static_type());
                     for f in file_list.files() {
                         model.append(&f);
@@ -1220,6 +1230,11 @@ impl Window {
     }
 
     pub fn open_files(&self, files: &[gio::File]) {
+        if files.is_empty() {
+            self.add_toast(i18n("Unable to access files"));
+            return;
+        }
+
         let model = gio::ListStore::new(gio::File::static_type());
         for f in files {
             model.append(f);

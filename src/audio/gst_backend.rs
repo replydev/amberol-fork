@@ -3,7 +3,7 @@
 
 use glib::{clone, Sender};
 use gst::prelude::*;
-use gtk::{glib, prelude::*};
+use gtk::glib;
 use gtk_macros::send;
 use log::{debug, error, warn};
 

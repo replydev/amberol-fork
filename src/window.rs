@@ -34,7 +34,7 @@ pub enum WindowMode {
 }
 
 mod imp {
-    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecEnum, Type, Value};
+    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecEnum, Value};
     use once_cell::sync::Lazy;
 
     use super::*;

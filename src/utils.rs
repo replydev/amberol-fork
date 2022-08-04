@@ -5,7 +5,6 @@ use core::cmp::Ordering;
 use std::path::PathBuf;
 
 use color_thief::{get_palette, ColorFormat};
-use gst::prelude::*;
 use gtk::{gdk, gio, glib, prelude::*};
 use log::{debug, warn};
 

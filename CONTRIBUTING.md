@@ -67,6 +67,11 @@ an actionable proposal, and list:
  0. prior art, in other applications
  0. design and theming changes
 
+When in doubt, you should open an issue to discuss your changes and ask
+questions before opening your code editor and hacking away; this way you'll get
+feedback from the project maintainers, if they have any, and you will avoid
+spending unnecessary effort.
+
 ## Your first contribution
 
 ### Prerequisites

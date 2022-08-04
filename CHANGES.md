@@ -6,9 +6,38 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add key shortcut for toggling playlist shuffle [!94]
+- New translations
+  - Catalan
+  - Lithuanian
+  - Georgian
+  - Italian
+
 ### Changed
 
+- Only list audio MIME types supported by lofty
+- Update the version of lofty we depend on
+- Translation updates
+  - Swedish
+  - Portuguese
+  - Basque
+  - Russian
+  - Polish
+  - Persian
+  - Ukrainian
+  - Dutch
+  - German
+  - Indonesian
+  - Chinese (China)
+  - Hebrew
+  - Brazilian Portuguese
+  - Occitan
+  - Finnish
+
 ### Fixed
+
+- Add the directory MIME type to the list of supported typs [#202]
+- Explicitly remove action bar background [!95]
 
 ### Removed
 

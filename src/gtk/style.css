@@ -137,3 +137,8 @@ scrolledwindow undershoot.top {
 .main-window scale slider {
   background-color: white;
 }
+
+actionbar.flat > revealer > box {
+  background: none;
+  box-shadow: inset 0 1px @borders;
+}

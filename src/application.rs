@@ -59,6 +59,7 @@ mod imp {
             obj.set_accels_for_action("queue.add-folder", &["<primary>a"]);
             obj.set_accels_for_action("queue.clear", &["<primary>L"]);
             obj.set_accels_for_action("queue.toggle", &["F9"]);
+            obj.set_accels_for_action("queue.shuffle", &["<primary>r"]);
 
             obj.set_accels_for_action("win.seek-backwards", &["<primary>Left"]);
             obj.set_accels_for_action("win.seek-forward", &["<primary>Right"]);

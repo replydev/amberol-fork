@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-17 13:20+0000\n"
-"PO-Revision-Date: 2022-06-21 18:56+0800\n"
+"POT-Creation-Date: 2022-07-08 15:25+0000\n"
+"PO-Revision-Date: 2022-07-10 10:28+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -75,19 +75,19 @@ msgstr "MPRIS 集成"
 msgid "Emmanuele Bassi"
 msgstr "Emmanuele Bassi"
 
-#: src/audio/inhibit_controller.rs:42
+#: src/audio/inhibit_controller.rs:40
 msgid "Playback in progress"
 msgstr "播放正在进行"
 
-#: src/audio/song.rs:309
+#: src/audio/song.rs:324
 msgid "Unknown artist"
 msgstr "未知艺术家"
 
-#: src/audio/song.rs:316
+#: src/audio/song.rs:331
 msgid "Unknown title"
 msgstr "未知标题"
 
-#: src/audio/song.rs:323
+#: src/audio/song.rs:338
 msgid "Unknown album"
 msgstr "未知专辑"
 
@@ -141,32 +141,37 @@ msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "切换播放列表窗格"
 
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle shuffling songs"
+msgstr "切换乱序歌曲"
+
+#: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "播放"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle Play/Pause"
 msgstr "切换播放/暂停"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "上一首歌曲"
 
-#: src/gtk/help-overlay.ui:84
+#: src/gtk/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "下一首歌曲"
 
-#: src/gtk/help-overlay.ui:90
+#: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
 msgstr "在当前歌曲中快退"
 
-#: src/gtk/help-overlay.ui:96
+#: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
 msgstr "在当前歌曲中快进"
@@ -182,7 +187,7 @@ msgid "Remaining time"
 msgstr "剩余时间"
 
 #: src/gtk/playback-control.ui:64
-msgid "Play the previous song"
+msgid "Play the Previous Song"
 msgstr "播放上一首歌曲"
 
 #: src/gtk/playback-control.ui:69
@@ -191,7 +196,7 @@ msgid "Skip backwards"
 msgstr "快退"
 
 #: src/gtk/playback-control.ui:78
-msgid "Toggle play"
+msgid "Toggle Play"
 msgstr "切换播放"
 
 #: src/gtk/playback-control.ui:84
@@ -200,7 +205,7 @@ msgid "Toggle play"
 msgstr "切换播放"
 
 #: src/gtk/playback-control.ui:93
-msgid "Play the next song"
+msgid "Play the Next Song"
 msgstr "播放下一首歌曲"
 
 #: src/gtk/playback-control.ui:98
@@ -209,7 +214,7 @@ msgid "Skip forward"
 msgstr "快进"
 
 #: src/gtk/playback-control.ui:121
-msgid "Toggle playlist"
+msgid "Toggle Playlist"
 msgstr "切换播放列表"
 
 #: src/gtk/playback-control.ui:126
@@ -218,7 +223,7 @@ msgid "Toggle playlist"
 msgstr "切换播放列表"
 
 #: src/gtk/playback-control.ui:135
-msgid "Shuffle the playlist"
+msgid "Shuffle the Playlist"
 msgstr "乱序播放列表"
 
 #: src/gtk/playback-control.ui:137
@@ -227,7 +232,7 @@ msgid "Shuffle"
 msgstr "乱序"
 
 #: src/gtk/playback-control.ui:156 src/playback_control.rs:153
-msgid "Enable repeat"
+msgid "Enable Repeat"
 msgstr "启用重复"
 
 #: src/gtk/playback-control.ui:161
@@ -235,62 +240,70 @@ msgctxt "a11y"
 msgid "Repeat"
 msgstr "重复"
 
-#: src/gtk/playback-control.ui:176
+#: src/gtk/playback-control.ui:172
+msgid "Main Menu"
+msgstr "主菜单"
+
+#: src/gtk/playback-control.ui:177
 msgctxt "a11y"
 msgid "Primary menu"
 msgstr "主菜单"
 
-#: src/gtk/playback-control.ui:192
+#: src/gtk/playback-control.ui:193
 msgid "Copy"
 msgstr "复制"
 
-#: src/gtk/playback-control.ui:198
+#: src/gtk/playback-control.ui:199
 msgid "Add _Song"
 msgstr "添加歌曲(_S)"
 
-#: src/gtk/playback-control.ui:202
+#: src/gtk/playback-control.ui:203
 msgid "Add _Folder"
 msgstr "添加文件夹(_F)"
 
-#: src/gtk/playback-control.ui:206
+#: src/gtk/playback-control.ui:207
 msgid "Clear"
 msgstr "清除"
 
-#: src/gtk/playback-control.ui:212
+#: src/gtk/playback-control.ui:213
 msgid "_Match Cover Art"
 msgstr "匹配封面(_M)"
 
-#: src/gtk/playback-control.ui:218
+#: src/gtk/playback-control.ui:219
 msgid "_Keyboard Shortcuts"
 msgstr "键盘快捷键(_K)"
 
-#: src/gtk/playback-control.ui:222
+#: src/gtk/playback-control.ui:223
 msgid "_About Amberol"
 msgstr "关于 Amberol(_A)"
+
+#: src/gtk/playback-control.ui:227
+msgid "_Quit"
+msgstr "退出(_Q)"
 
 #: src/gtk/playlist-view.ui:19
 msgid "Playlist"
 msgstr "播放列表"
 
 #: src/gtk/playlist-view.ui:49
-msgid "Search songs in the playlist"
+msgid "Search Songs in the Playlist"
 msgstr "在播放列表中搜索歌曲"
 
 #: src/gtk/playlist-view.ui:61
-msgid "Select songs in the playlist"
+msgid "Select Songs in the Playlist"
 msgstr "选择播放列表中的歌曲"
 
 #: src/gtk/playlist-view.ui:74
-msgid "Close the playlist"
+msgid "Close the Playlist"
 msgstr "关闭播放列表"
 
-#: src/gtk/playlist-view.ui:132
-msgid "Select all songs"
+#: src/gtk/playlist-view.ui:135
+msgid "Select All Songs"
 msgstr "选择全部歌曲"
 
-#: src/gtk/playlist-view.ui:145
-msgid "Remove selected songs"
-msgstr "移除选中的歌曲"
+#: src/gtk/playlist-view.ui:148
+msgid "Remove Selected Songs"
+msgstr "移除选中歌曲"
 
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
@@ -312,98 +325,88 @@ msgstr "添加文件夹"
 msgid "Add File"
 msgstr "添加文件"
 
-#: src/application.rs:142
+#: src/application.rs:181
 msgid "Plays music and nothing else"
 msgstr "播放音乐，别无其他"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:148
+#: src/application.rs:188
 msgid "translator-credits"
-msgstr "D <afecr@foxmail.com>, 2022."
+msgstr ""
+"D <afecr@foxmail.com>, 2022.\n"
+"lumingzh <lumingzh@qq.com>, 2022."
 
 #: src/playback_control.rs:157
-msgid "Repeat all tracks"
+msgid "Repeat All Tracks"
 msgstr "重复全部曲目"
 
 #: src/playback_control.rs:161
-msgid "Repeat the current track"
+msgid "Repeat the Current Track"
 msgstr "重复当前曲目"
 
-#: src/window.rs:408
+#: src/window.rs:394
 msgid "_Add Song"
 msgstr "添加歌曲(_A)"
 
-#: src/window.rs:409 src/window.rs:443
+#: src/window.rs:395 src/window.rs:430
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/window.rs:411
+#: src/window.rs:397
 msgid "Open File"
 msgstr "打开文件"
 
-#: src/window.rs:417
+#: src/window.rs:404
 msgid "Audio files"
 msgstr "音频文件"
 
-#: src/window.rs:442
+#: src/window.rs:429
 msgid "_Add Folder"
 msgstr "添加文件夹(_A)"
 
-#: src/window.rs:445
+#: src/window.rs:432
 msgid "Open Folder"
 msgstr "打开文件夹"
 
-#: src/window.rs:462 src/window.rs:475 src/window.rs:1017
+#: src/window.rs:450 src/window.rs:552
 msgid "No available song found"
 msgstr "找不到可用歌曲"
 
-#. Translators: '{}' must be left unmodified; it
-#. will expand to a file name
-#: src/window.rs:504
-msgid "“{}” is not a supported audio file"
-msgstr "“{}”不是受支持的音频文件"
+#: src/window.rs:498
+msgid "No songs found"
+msgstr "找不到歌曲"
 
-#: src/window.rs:515
+#: src/window.rs:524
 msgid "Added a new song"
 msgstr "已添加一首新歌曲"
 
-#: src/window.rs:516
+#: src/window.rs:525
 msgid "Play"
 msgstr "播放"
-
-#: src/window.rs:559
-msgid "No songs found"
-msgstr "找不到歌曲"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:578 src/window.rs:1035
+#: src/window.rs:534
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "已添加 {} 首歌曲"
 
-#. Translators: The '{}' must be left unmodified;
-#. it will expand to a file name
-#: src/window.rs:595
-msgid "Unrecognized file type for “{}”"
-msgstr "无法识别“{}”的文件类型"
-
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1071
+#: src/window.rs:1077
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "剩余 {} 分钟"
 
-#: src/window.rs:1197
+#: src/window.rs:1204
 msgid "No song selected"
 msgstr "未选择歌曲"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1202
+#: src/window.rs:1209
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "已选择 {} 首歌曲"
@@ -411,21 +414,26 @@ msgstr[0] "已选择 {} 首歌曲"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1253
+#: src/window.rs:1257
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "当前正在播放“{artist}”的“{title}”"
 
-#: src/window.rs:1281
+#: src/window.rs:1285
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol 需要在后台运行以播放音乐"
 
-#: src/window.rs:1290
-msgid "Amberol is running in the background"
-msgstr "Amberol 正在后台运行"
-
-#: src/window.rs:1294
+#: src/window.rs:1298
 msgid "Amberol cannot run in the background"
 msgstr "Amberol 无法在后台运行"
+
+#~ msgid "“{}” is not a supported audio file"
+#~ msgstr "“{}”不是受支持的音频文件"
+
+#~ msgid "Unrecognized file type for “{}”"
+#~ msgstr "无法识别“{}”的文件类型"
+
+#~ msgid "Amberol is running in the background"
+#~ msgstr "Amberol 正在后台运行"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Songs Queue"
@@ -450,9 +458,6 @@ msgstr "Amberol 无法在后台运行"
 #~ msgctxt "shortcut window"
 #~ msgid "Next Track"
 #~ msgstr "下一曲目"
-
-#~ msgid "Menu"
-#~ msgstr "菜单"
 
 #~ msgid "Playing next"
 #~ msgstr "接下来播放"

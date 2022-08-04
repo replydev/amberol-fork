@@ -916,11 +916,6 @@ impl Window {
             song.search_key()
         }
 
-        let song_key_expression = gtk::ClosureExpression::new::<String, &[gtk::Expression], _>(
-            &[],
-            closure_local!(|song: Option<Song>| { song.map(search_string).unwrap_or_default() }),
-        );
-
         let filter = FuzzyFilter::new();
         let filter_model = gtk::FilterListModel::new(Some(queue.model()), Some(&filter));
         let sorter = FuzzySorter::new();

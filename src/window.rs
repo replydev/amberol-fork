@@ -912,10 +912,6 @@ impl Window {
         let player = self.player();
         let queue = player.queue();
 
-        fn search_string(song: Song) -> String {
-            song.search_key()
-        }
-
         let filter = FuzzyFilter::new();
         let filter_model = gtk::FilterListModel::new(Some(queue.model()), Some(&filter));
         let sorter = FuzzySorter::new();

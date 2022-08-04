@@ -853,11 +853,12 @@ impl Window {
         self.action_set_enabled("queue.shuffle", queue.n_songs() > 1);
         self.action_set_enabled("win.replaygain", self.player().replaygain_available());
 
-        self.set_replaygain(if self.player().replaygain_available() {
-            ReplayGainMode::Album
-        } else {
-            ReplayGainMode::Off
-        });
+        let replaygain = self.imp().settings.enum_("replay-gain").into();
+        self.set_replaygain(replaygain);
+
+        // Manually set player state, because set_replaygain
+        // only updates player state when the value changes.
+        self.player().set_replaygain(replaygain);
 
         self.imp()
             .playback_control
@@ -1300,6 +1301,10 @@ impl Window {
 
         if replaygain != imp.replaygain_mode.replace(replaygain) {
             self.player().set_replaygain(replaygain);
+            self.imp()
+                .settings
+                .set_enum("replay-gain", replaygain.into())
+                .expect("Unable to store setting");
 
             self.notify("replaygain-mode");
         }

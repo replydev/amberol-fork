@@ -71,6 +71,27 @@ pub enum ReplayGainMode {
     Off,
 }
 
+impl From<i32> for ReplayGainMode {
+    fn from(value: i32) -> Self {
+        match value {
+            0 => Self::Album,
+            1 => Self::Track,
+            2 => Self::Off,
+            _ => panic!("invalid ReplayGainMode enum key"),
+        }
+    }
+}
+
+impl From<ReplayGainMode> for i32 {
+    fn from(value: ReplayGainMode) -> Self {
+        match value {
+            ReplayGainMode::Album => 0,
+            ReplayGainMode::Track => 1,
+            ReplayGainMode::Off => 2,
+        }
+    }
+}
+
 #[derive(Debug)]
 pub enum SeekDirection {
     Forward,

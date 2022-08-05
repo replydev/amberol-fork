@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.9.0] - 2022-08-05
+
+### Added
+
 - Add key shortcut for toggling playlist shuffle [!94]
 - Add fuzzy search to the playlist [!96]
 - New translations
@@ -42,6 +52,8 @@ All notable changes to this project will be documented in this file.
 - Make sure to maintain aspect ratio of cover art pixbuf [#208]
 
 ### Removed
+
+- Remove MIME type associations for unsupported file types
 
 ## [0.8.1] - 2022-06-24
 

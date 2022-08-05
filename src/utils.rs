@@ -36,13 +36,9 @@ const COVER_SIZE: i32 = 256 * 2;
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
 
-    if let Ok(pixbuf) = gdk_pixbuf::Pixbuf::from_stream_at_scale(
-        &stream,
-        -1,
-        -1,
-        true,
-        gio::Cancellable::NONE,
-    ) {
+    if let Ok(pixbuf) =
+        gdk_pixbuf::Pixbuf::from_stream_at_scale(&stream, -1, -1, true, gio::Cancellable::NONE)
+    {
         let width = pixbuf.width();
         let height = pixbuf.height();
         let ratio = width as f32 / height as f32;

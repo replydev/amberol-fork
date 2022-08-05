@@ -158,7 +158,7 @@ mod imp {
                 playlist_selection: Cell::new(false),
                 playlist_search: Cell::new(false),
                 playlist_filtermodel: RefCell::default(),
-                replaygain_mode: Cell::new(ReplayGainMode::Album),
+                replaygain_mode: Cell::new(ReplayGainMode::default()),
                 waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
                 settings: utils::settings_manager(),
@@ -199,7 +199,7 @@ mod imp {
                         "",
                         "",
                         ReplayGainMode::static_type(),
-                        0,
+                        ReplayGainMode::default() as i32,
                         ParamFlags::READWRITE,
                     ),
                 ]

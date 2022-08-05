@@ -71,6 +71,12 @@ pub enum ReplayGainMode {
     Off,
 }
 
+impl Default for ReplayGainMode {
+    fn default() -> Self {
+        Self::Off
+    }
+}
+
 impl From<i32> for ReplayGainMode {
     fn from(value: i32) -> Self {
         match value {

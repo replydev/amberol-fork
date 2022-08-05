@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Add key shortcut for toggling playlist shuffle [!94]
+- Add fuzzy search to the playlist [!96]
 - New translations
   - Catalan
   - Lithuanian
@@ -38,6 +39,7 @@ All notable changes to this project will be documented in this file.
 
 - Add the directory MIME type to the list of supported typs [#202]
 - Explicitly remove action bar background [!95]
+- Make sure to maintain aspect ratio of cover art pixbuf [#208]
 
 ### Removed
 

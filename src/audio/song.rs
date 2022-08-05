@@ -182,6 +182,10 @@ impl SongData {
     pub fn uri(&self) -> String {
         self.file.uri().to_string()
     }
+
+    pub fn file(&self) -> gio::File {
+        self.file.clone()
+    }
 }
 
 impl Default for SongData {
@@ -391,6 +395,10 @@ impl Song {
 
     pub fn search_key(&self) -> String {
         format!("{} {} {}", self.artist(), self.album(), self.title())
+    }
+
+    pub fn file(&self) -> gio::File {
+        self.imp().data.borrow().file()
     }
 }
 

@@ -23,7 +23,9 @@ use crate::{
     playback_control::PlaybackControl,
     playlist_view::PlaylistView,
     queue_row::QueueRow,
+    search::FuzzyFilter,
     song_details::SongDetails,
+    sort::FuzzySorter,
     utils,
     waveform_view::WaveformView,
 };
@@ -910,24 +912,11 @@ impl Window {
         let player = self.player();
         let queue = player.queue();
 
-        fn search_string(song: Song) -> String {
-            song.search_key()
-        }
-
-        let song_key_expression = gtk::ClosureExpression::new::<String, &[gtk::Expression], _>(
-            &[],
-            closure_local!(|song: Option<Song>| { song.map(search_string).unwrap_or_default() }),
-        );
-
-        let filter = gtk::StringFilter::builder()
-            .match_mode(gtk::StringFilterMatchMode::Substring)
-            .expression(&song_key_expression)
-            .ignore_case(true)
-            .build();
-
+        let filter = FuzzyFilter::new();
         let filter_model = gtk::FilterListModel::new(Some(queue.model()), Some(&filter));
-
-        let selection = gtk::NoSelection::new(Some(&filter_model));
+        let sorter = FuzzySorter::new();
+        let sorter_model = gtk::SortListModel::new(Some(&filter_model), Some(&sorter));
+        let selection = gtk::NoSelection::new(Some(&sorter_model));
         imp.playlist_view
             .queue_view()
             .set_model(Some(selection.upcast_ref::<gtk::SelectionModel>()));
@@ -968,11 +957,17 @@ impl Window {
         );
 
         imp.playlist_filtermodel
-            .replace(Some(filter_model.upcast::<gio::ListModel>()));
+            .replace(Some(sorter_model.upcast::<gio::ListModel>()));
 
         imp.playlist_view
             .playlist_searchentry()
             .bind_property("text", &filter, "search")
+            .flags(glib::BindingFlags::SYNC_CREATE)
+            .build();
+
+        imp.playlist_view
+            .playlist_searchentry()
+            .bind_property("text", &sorter, "search")
             .flags(glib::BindingFlags::SYNC_CREATE)
             .build();
     }

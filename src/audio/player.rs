@@ -60,6 +60,44 @@ impl Default for RepeatMode {
     }
 }
 
+#[derive(Clone, Copy, Debug, glib::Enum, PartialEq)]
+#[enum_type(name = "AmberolReplayGainMode")]
+pub enum ReplayGainMode {
+    #[enum_value(name = "album")]
+    Album,
+    #[enum_value(name = "track")]
+    Track,
+    #[enum_value(name = "off")]
+    Off,
+}
+
+impl Default for ReplayGainMode {
+    fn default() -> Self {
+        Self::Off
+    }
+}
+
+impl From<i32> for ReplayGainMode {
+    fn from(value: i32) -> Self {
+        match value {
+            0 => Self::Album,
+            1 => Self::Track,
+            2 => Self::Off,
+            _ => panic!("invalid ReplayGainMode enum key"),
+        }
+    }
+}
+
+impl From<ReplayGainMode> for i32 {
+    fn from(value: ReplayGainMode) -> Self {
+        match value {
+            ReplayGainMode::Album => 0,
+            ReplayGainMode::Track => 1,
+            ReplayGainMode::Off => 2,
+        }
+    }
+}
+
 #[derive(Debug)]
 pub enum SeekDirection {
     Forward,
@@ -464,5 +502,13 @@ impl AudioPlayer {
         if self.queue.is_empty() {
             self.state.set_current_song(None);
         }
+    }
+
+    pub fn set_replaygain(&self, replaygain: ReplayGainMode) {
+        self.backend.set_replaygain(replaygain);
+    }
+
+    pub fn replaygain_available(&self) -> bool {
+        self.backend.replaygain_available()
     }
 }

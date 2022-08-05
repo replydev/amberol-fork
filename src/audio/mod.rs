@@ -58,7 +58,9 @@ mod song;
 mod state;
 mod waveform_generator;
 
-pub use player::{AudioPlayer, PlaybackAction, PlaybackState, RepeatMode, SeekDirection};
+pub use player::{
+    AudioPlayer, PlaybackAction, PlaybackState, RepeatMode, ReplayGainMode, SeekDirection,
+};
 pub use queue::Queue;
 pub use shuffle::ShuffleListModel;
 pub use song::Song;

@@ -36,18 +36,31 @@ const COVER_SIZE: i32 = 256 * 2;
 pub fn load_cover_texture(buffer: &glib::Bytes) -> Option<gdk_pixbuf::Pixbuf> {
     let stream = gio::MemoryInputStream::from_bytes(buffer);
 
-    match gdk_pixbuf::Pixbuf::from_stream_at_scale(
+    if let Ok(pixbuf) = gdk_pixbuf::Pixbuf::from_stream_at_scale(
         &stream,
-        COVER_SIZE,
-        COVER_SIZE,
+        -1,
+        -1,
         true,
         gio::Cancellable::NONE,
     ) {
-        Ok(pixbuf) => Some(pixbuf),
-        Err(err) => {
-            warn!("Unable to load cover art: {}", err);
-            None
+        let width = pixbuf.width();
+        let height = pixbuf.height();
+        let ratio = width as f32 / height as f32;
+
+        let w: i32;
+        let h: i32;
+        if ratio > 1.0 {
+            w = COVER_SIZE.into();
+            h = (COVER_SIZE as f32 / ratio) as i32;
+        } else {
+            w = (COVER_SIZE as f32 / ratio) as i32;
+            h = COVER_SIZE.into();
         }
+
+        pixbuf.scale_simple(w, h, gdk_pixbuf::InterpType::Bilinear)
+    } else {
+        warn!("Unable to load cover art");
+        None
     }
 }
 

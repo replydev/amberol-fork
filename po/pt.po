@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-29 11:03+0000\n"
-"PO-Revision-Date: 2022-07-07 11:57+0100\n"
+"POT-Creation-Date: 2022-08-05 18:10+0000\n"
+"PO-Revision-Date: 2022-08-06 23:28+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -80,15 +80,15 @@ msgstr "Emmanuele Bassi"
 msgid "Playback in progress"
 msgstr "Reprodução em curso"
 
-#: src/audio/song.rs:324
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "Artista desconhecido"
 
-#: src/audio/song.rs:331
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "Titulo desconhecido"
 
-#: src/audio/song.rs:338
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "Álbum desconhecido"
 
@@ -271,14 +271,30 @@ msgid "_Match Cover Art"
 msgstr "Co_mbinar arte da capa"
 
 #: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "Ganho de repetição"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "Álbum"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "Faixa"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "Desligado"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_Teclas de atalho"
 
-#: src/gtk/playback-control.ui:223
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "_Acerca do Amberol"
 
-#: src/gtk/playback-control.ui:227
+#: src/gtk/playback-control.ui:247
 msgid "_Quit"
 msgstr "_Sair"
 
@@ -310,7 +326,7 @@ msgstr "Remove as músicas selecionadas"
 msgid "Drop a song to add it to the queue"
 msgstr "Largar uma música para adicionar à fila"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -319,11 +335,11 @@ msgstr ""
 "ficheiros para a janela da aplicação para adicionar músicas à lista de "
 "reprodução"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "Adicionar pasta"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Adicionar ficheiro"
 
@@ -344,50 +360,50 @@ msgstr "Repetir todas as faixas"
 msgid "Repeat the Current Track"
 msgstr "Repetir a faixa atual"
 
-#: src/window.rs:394
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "_Adicionar música"
 
-#: src/window.rs:395 src/window.rs:430
+#: src/window.rs:410 src/window.rs:445
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/window.rs:397
+#: src/window.rs:412
 msgid "Open File"
 msgstr "Abrir ficheiro"
 
-#: src/window.rs:404
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "Ficheiros de áudio"
 
-#: src/window.rs:429
+#: src/window.rs:444
 msgid "_Add Folder"
 msgstr "_Adicionar pasta"
 
-#: src/window.rs:432
+#: src/window.rs:447
 msgid "Open Folder"
 msgstr "Abrir pasta"
 
-#: src/window.rs:450 src/window.rs:552
+#: src/window.rs:465 src/window.rs:567
 msgid "No available song found"
 msgstr "Nenhuma música disponível encontrada"
 
-#: src/window.rs:498
+#: src/window.rs:513
 msgid "No songs found"
 msgstr "Nenhuma música encontrada"
 
-#: src/window.rs:524
+#: src/window.rs:539
 msgid "Added a new song"
 msgstr "Adicionada uma nova música"
 
-#: src/window.rs:525
+#: src/window.rs:540
 msgid "Play"
 msgstr "Reproduzir"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:534
+#: src/window.rs:549
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Adicionada uma música"
@@ -396,19 +412,19 @@ msgstr[1] "Adicionadas {} músicas"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1077
+#: src/window.rs:1093
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuto restante"
 msgstr[1] "{} minutos restantes"
 
-#: src/window.rs:1204
+#: src/window.rs:1220
 msgid "No song selected"
 msgstr "Nenhuma música selecionada"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1209
+#: src/window.rs:1225
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} música selecionada"
@@ -417,17 +433,17 @@ msgstr[1] "{} músicas selecionadas"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1257
+#: src/window.rs:1273
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Atualmente a reproduzir “{title}” de \"{artist}\"."
 
-#: src/window.rs:1285
+#: src/window.rs:1319
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 "O Amberol precisa de estar a ser executado em segundo plano para reproduzir "
 "música"
 
-#: src/window.rs:1298
+#: src/window.rs:1332
 msgid "Amberol cannot run in the background"
 msgstr "O Amberol não pode ser executado em segundo plano"
 

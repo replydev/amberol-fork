@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-06-29 11:03+0000\n"
-"PO-Revision-Date: 2022-06-29 15:18+0300\n"
+"POT-Creation-Date: 2022-08-05 18:10+0000\n"
+"PO-Revision-Date: 2022-08-06 13:34+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -82,15 +82,15 @@ msgstr "Emmanuele Bassi"
 msgid "Playback in progress"
 msgstr "Идет воспроизведение"
 
-#: src/audio/song.rs:324
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "Неизвестный исполнитель"
 
-#: src/audio/song.rs:331
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "Неизвестное название"
 
-#: src/audio/song.rs:338
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "Неизвестный альбом"
 
@@ -273,14 +273,30 @@ msgid "_Match Cover Art"
 msgstr "_Соответствовать обложке"
 
 #: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "_Выравнивание громкости"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "_Альбом"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "_Дорожка"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "_Выключить"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_Комбинации клавиш"
 
-#: src/gtk/playback-control.ui:223
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "_О Amberol"
 
-#: src/gtk/playback-control.ui:227
+#: src/gtk/playback-control.ui:247
 msgid "_Quit"
 msgstr "_Выйти"
 
@@ -312,7 +328,7 @@ msgstr "Удалить выбранные песни"
 msgid "Drop a song to add it to the queue"
 msgstr "Перетащите песню, чтобы добавить ее в очередь"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -320,11 +336,11 @@ msgstr ""
 "Выберите файл или папку, или перетащите файлы из файлового менеджера в окно "
 "приложения, чтобы добавить песни в список воспроизведения"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "Добавить папку"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Добавить файл"
 
@@ -345,50 +361,50 @@ msgstr "Повторить все дорожки"
 msgid "Repeat the Current Track"
 msgstr "Повтор текущей дорожки"
 
-#: src/window.rs:394
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "_Добавить песню"
 
-#: src/window.rs:395 src/window.rs:430
+#: src/window.rs:410 src/window.rs:445
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: src/window.rs:397
+#: src/window.rs:412
 msgid "Open File"
 msgstr "Открыть файл"
 
-#: src/window.rs:404
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "Аудиофайлы"
 
-#: src/window.rs:429
+#: src/window.rs:444
 msgid "_Add Folder"
 msgstr "_Добавить папку"
 
-#: src/window.rs:432
+#: src/window.rs:447
 msgid "Open Folder"
 msgstr "Открыть папку"
 
-#: src/window.rs:450 src/window.rs:552
+#: src/window.rs:465 src/window.rs:567
 msgid "No available song found"
 msgstr "Доступных песен не найдено"
 
-#: src/window.rs:498
+#: src/window.rs:513
 msgid "No songs found"
 msgstr "Песни не найдены"
 
-#: src/window.rs:524
+#: src/window.rs:539
 msgid "Added a new song"
 msgstr "Добавлена новая песня"
 
-#: src/window.rs:525
+#: src/window.rs:540
 msgid "Play"
 msgstr "Воспроизвести"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:534
+#: src/window.rs:549
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Добавлена одна песня"
@@ -398,20 +414,20 @@ msgstr[2] "Добавлено {} песен"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1077
+#: src/window.rs:1093
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} минута осталась"
 msgstr[1] "{} минуты осталось"
 msgstr[2] "{} минут осталось"
 
-#: src/window.rs:1204
+#: src/window.rs:1220
 msgid "No song selected"
 msgstr "Не выбрана песня"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1209
+#: src/window.rs:1225
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} песня выбрана"
@@ -421,15 +437,15 @@ msgstr[2] "{} песен выбрано"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1257
+#: src/window.rs:1273
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Сейчас играет \"{title}\" от \"{artist}\""
 
-#: src/window.rs:1285
+#: src/window.rs:1319
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol должен работать в фоновом режиме для воспроизведения музыки"
 
-#: src/window.rs:1298
+#: src/window.rs:1332
 msgid "Amberol cannot run in the background"
 msgstr "Amberol не может работать в фоновом режиме"
 
@@ -464,10 +480,6 @@ msgstr "Amberol не может работать в фоновом режиме"
 #~ msgctxt "shortcut window"
 #~ msgid "Previous Track"
 #~ msgstr "Предыдущая дорожка"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Next Track"
-#~ msgstr "Следующая дорожка"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Seek Backwards"

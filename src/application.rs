@@ -181,7 +181,7 @@ impl Application {
             .version(VERSION)
             .developers(vec!["Emmanuele Bassi".into()])
             .copyright("© 2022 Emmanuele Bassi")
-            .website("https://gitlab.gnome.org/World/amberol")
+            .website("https://apps.gnome.org/app/io.bassi.Amberol/")
             .issue_url("https://gitlab.gnome.org/World/amberol/-/issues/new")
             .license_type(gtk::License::Gpl30)
             // Translators: Replace "translator-credits" with your names, one name per line

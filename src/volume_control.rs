@@ -3,7 +3,7 @@
 
 use adw::subclass::prelude::*;
 use glib::{clone, ParamFlags, ParamSpec, ParamSpecDouble, Value};
-use gtk::{gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use gtk::{gio, glib, prelude::*, CompositeTemplate};
 use log::debug;
 use once_cell::sync::Lazy;
 

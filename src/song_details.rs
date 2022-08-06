@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::subclass::prelude::*;
-use gtk::{glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use gtk::{glib, prelude::*, CompositeTemplate};
 
 use crate::cover_picture::CoverPicture;
 

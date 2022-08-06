@@ -5,7 +5,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use adw::subclass::prelude::*;
 use glib::{clone, Receiver};
-use gtk::{gio, glib, prelude::*, subclass::prelude::*};
+use gtk::{gio, glib, prelude::*};
 use gtk_macros::action;
 use log::debug;
 

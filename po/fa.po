@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-07-08 15:25+0000\n"
-"PO-Revision-Date: 2022-07-11 10:30+0430\n"
-"Last-Translator: eshagh <eshagh094@gmail.com>\n"
+"POT-Creation-Date: 2022-08-05 18:10+0000\n"
+"PO-Revision-Date: 2022-08-07 04:04+0430\n"
+"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Farsi\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3 data/io.bassi.Amberol.appdata.xml.in.in:6
 msgid "Amberol"
@@ -78,15 +78,15 @@ msgstr "امانوئل باسی"
 msgid "Playback in progress"
 msgstr "پخش در حال انجام"
 
-#: src/audio/song.rs:324
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "هنرمند ناشناس"
 
-#: src/audio/song.rs:331
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "عنوان ناشناس"
 
-#: src/audio/song.rs:338
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "آلبوم ناشناس"
 
@@ -270,14 +270,30 @@ msgid "_Match Cover Art"
 msgstr "انطباق با تصویر جلد"
 
 #: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "-بهرهٔ بازپخش"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "_آلبوم"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "_قطعه"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "_خاموش"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_میان‌برهای صفحه‌کلید"
 
-#: src/gtk/playback-control.ui:223
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "_دربارهٔ امبرول"
 
-#: src/gtk/playback-control.ui:227
+#: src/gtk/playback-control.ui:247
 msgid "_Quit"
 msgstr "_خروج"
 
@@ -309,7 +325,7 @@ msgstr "برداشتن آهنگ‌های برگزیده"
 msgid "Drop a song to add it to the queue"
 msgstr "برای افزودن آهنگی به صف، رهایش کنید"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -317,11 +333,11 @@ msgstr ""
 "برای افزودن آهنگ‌ها به سیاههٔ پخش، پرونده یا شاخه‌ای را گزیده یا پرونده‌ها را از "
 "مدیر پرونده‌تان به پنجرهٔ برنامه بکشید"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "افزودن شاخه"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "افزودن پرونده"
 
@@ -345,50 +361,50 @@ msgstr "تکرار همهٔ قطعه‌ها"
 msgid "Repeat the Current Track"
 msgstr "تکرار قطعهٔ کنونی"
 
-#: src/window.rs:394
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "_افزودن آهنگ"
 
-#: src/window.rs:395 src/window.rs:430
+#: src/window.rs:410 src/window.rs:445
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: src/window.rs:397
+#: src/window.rs:412
 msgid "Open File"
 msgstr "گشودن پرونده"
 
-#: src/window.rs:404
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "پرونده‌های صوتی"
 
-#: src/window.rs:429
+#: src/window.rs:444
 msgid "_Add Folder"
 msgstr "_افزودن شاخه"
 
-#: src/window.rs:432
+#: src/window.rs:447
 msgid "Open Folder"
 msgstr "گشودن شاخه"
 
-#: src/window.rs:450 src/window.rs:552
+#: src/window.rs:465 src/window.rs:567
 msgid "No available song found"
 msgstr "هیچ آهنگی پیدا نشد"
 
-#: src/window.rs:498
+#: src/window.rs:513
 msgid "No songs found"
 msgstr "هیچ آهنگی پیدا نشد"
 
-#: src/window.rs:524
+#: src/window.rs:539
 msgid "Added a new song"
 msgstr "آهنگی جدید اضافه شد"
 
-#: src/window.rs:525
+#: src/window.rs:540
 msgid "Play"
 msgstr "پخش"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:534
+#: src/window.rs:549
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "{} آهنگ اضافه شد"
@@ -397,19 +413,19 @@ msgstr[1] "۱ آهنگ اضافه شد"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1077
+#: src/window.rs:1093
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} دقیقه مانده"
 msgstr[1] "۱ دقیقه مانده"
 
-#: src/window.rs:1204
+#: src/window.rs:1220
 msgid "No song selected"
 msgstr "هیچ آهنگی گزیده نشده"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1209
+#: src/window.rs:1225
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} آهنگ گزیده شده"
@@ -418,15 +434,15 @@ msgstr[1] "۱ آهنگ گزیده شده"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1257
+#: src/window.rs:1273
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "در حال پخش «{title}» از «{artist}»"
 
-#: src/window.rs:1285
+#: src/window.rs:1319
 msgid "Amberol needs to run in the background to play music"
 msgstr "لازم است امبرول برای پخش آهنگ در پس‌زمینه اجرا شود"
 
-#: src/window.rs:1298
+#: src/window.rs:1332
 msgid "Amberol cannot run in the background"
 msgstr "امبرول نتوانست در پس‌زمینه اجرا شود"
 
@@ -458,10 +474,6 @@ msgstr "امبرول نتوانست در پس‌زمینه اجرا شود"
 #~ msgctxt "shortcut window"
 #~ msgid "Previous Track"
 #~ msgstr "قطعهٔ قبلی"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Next Track"
-#~ msgstr "قطعهٔ بعدی"
 
 #~ msgid "Playing next"
 #~ msgstr "در ادامه پخش می‌شود"

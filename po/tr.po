@@ -1,4 +1,5 @@
 # Turkish translation for amberol.
+#
 # Copyright (C) 2022 amberol's COPYRIGHT HOLDER
 # This file is distributed under the same license as the amberol package.
 #
@@ -9,16 +10,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-05-26 21:22+0000\n"
-"PO-Revision-Date: 2022-05-28 19:22+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"POT-Creation-Date: 2022-08-05 18:10+0000\n"
+"PO-Revision-Date: 2022-08-08 02:33+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
+"X-Project-Style: gnome\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -79,19 +81,19 @@ msgstr "MPRIS tümleşimi"
 msgid "Emmanuele Bassi"
 msgstr "Emmanuele Bassi"
 
-#: src/audio/inhibit_controller.rs:42
+#: src/audio/inhibit_controller.rs:40
 msgid "Playback in progress"
 msgstr "Çalıyor"
 
-#: src/audio/song.rs:366
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "Bilinmeyen sanatçı"
 
-#: src/audio/song.rs:373
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "Bilinmeyen başlık"
 
-#: src/audio/song.rs:380
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "Bilinmeyen albüm"
 
@@ -146,32 +148,37 @@ msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
 msgstr "Çalma listesi bölmesini aç/kapat"
 
-#: src/gtk/help-overlay.ui:69
+#: src/gtk/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle shuffling songs"
+msgstr "Şarkı karıştırmayı aç/kapat"
+
+#: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Çal"
 
-#: src/gtk/help-overlay.ui:72
+#: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle Play/Pause"
 msgstr "Çalma/Bekleme arasında geçiş yap"
 
-#: src/gtk/help-overlay.ui:78
+#: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Önceki şarkı"
 
-#: src/gtk/help-overlay.ui:84
+#: src/gtk/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Sonraki şarkı"
 
-#: src/gtk/help-overlay.ui:90
+#: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
 msgstr "Geçerli şarkıdan önceki şarkıya atla"
 
-#: src/gtk/help-overlay.ui:96
+#: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
 msgstr "Geçerli şarkıdan sonraki şarkıya atla"
@@ -187,8 +194,8 @@ msgid "Remaining time"
 msgstr "Kalan süre"
 
 #: src/gtk/playback-control.ui:64
-msgid "Play the previous song"
-msgstr "Önceki şarkıyı çal"
+msgid "Play the Previous Song"
+msgstr "Önceki Şarkıyı Çal"
 
 #: src/gtk/playback-control.ui:69
 msgctxt "a11y"
@@ -197,8 +204,8 @@ msgstr "Geriye atla"
 
 # Düğme altında görünecek ipucu metni.
 #: src/gtk/playback-control.ui:78
-msgid "Toggle play"
-msgstr "Çal veya durdur"
+msgid "Toggle Play"
+msgstr "Çal veya Durdur"
 
 # Düğme altında görünecek ipucu metni.
 #: src/gtk/playback-control.ui:84
@@ -207,8 +214,8 @@ msgid "Toggle play"
 msgstr "Çal veya durdur"
 
 #: src/gtk/playback-control.ui:93
-msgid "Play the next song"
-msgstr "Sonraki şarkıyı çal"
+msgid "Play the Next Song"
+msgstr "Sonraki Şarkıyı Çal"
 
 #: src/gtk/playback-control.ui:98
 msgctxt "a11y"
@@ -216,8 +223,8 @@ msgid "Skip forward"
 msgstr "İleriye atla"
 
 #: src/gtk/playback-control.ui:121
-msgid "Toggle playlist"
-msgstr "Çalma listesini aç/kapat"
+msgid "Toggle Playlist"
+msgstr "Çalma Listesini Aç/Kapat"
 
 #: src/gtk/playback-control.ui:126
 msgctxt "a11y"
@@ -225,8 +232,8 @@ msgid "Toggle playlist"
 msgstr "Çalma listesini aç/kapat"
 
 #: src/gtk/playback-control.ui:135
-msgid "Shuffle the playlist"
-msgstr "Çalma listesini karıştır"
+msgid "Shuffle the Playlist"
+msgstr "Çalma Listesini Karıştır"
 
 #: src/gtk/playback-control.ui:137
 msgctxt "a11y"
@@ -234,77 +241,100 @@ msgid "Shuffle"
 msgstr "Karıştır"
 
 #: src/gtk/playback-control.ui:156 src/playback_control.rs:153
-msgid "Enable repeat"
-msgstr "Yinelemeyi etkinleştir"
+msgid "Enable Repeat"
+msgstr "Yinelemeyi Etkinleştir"
 
 #: src/gtk/playback-control.ui:161
 msgctxt "a11y"
 msgid "Repeat"
 msgstr "Yinele"
 
-#: src/gtk/playback-control.ui:176
+#: src/gtk/playback-control.ui:172
+msgid "Main Menu"
+msgstr "Ana Menü"
+
+#: src/gtk/playback-control.ui:177
 msgctxt "a11y"
 msgid "Primary menu"
 msgstr "Ana menü"
 
-#: src/gtk/playback-control.ui:192
+#: src/gtk/playback-control.ui:193
 msgid "Copy"
 msgstr "Kopyala"
 
-#: src/gtk/playback-control.ui:198
+#: src/gtk/playback-control.ui:199
 msgid "Add _Song"
 msgstr "Şarkı _Ekle"
 
-#: src/gtk/playback-control.ui:202
+#: src/gtk/playback-control.ui:203
 msgid "Add _Folder"
 msgstr "_Klasör Ekle"
 
-#: src/gtk/playback-control.ui:206
+#: src/gtk/playback-control.ui:207
 msgid "Clear"
 msgstr "Temizle"
 
-#: src/gtk/playback-control.ui:212
+#: src/gtk/playback-control.ui:213
 msgid "_Match Cover Art"
 msgstr "_Albüm Kapağıyla Eşleştir"
 
-#: src/gtk/playback-control.ui:218
+#: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "_ReplayGain"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "_Albüm"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "_Parça"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "_Kapalı"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavye Kısayolları"
 
-#: src/gtk/playback-control.ui:222
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "Amberol _Hakkında"
+
+#: src/gtk/playback-control.ui:247
+msgid "_Quit"
+msgstr "_Çık"
 
 #: src/gtk/playlist-view.ui:19
 msgid "Playlist"
 msgstr "Çalma Listesi"
 
 #: src/gtk/playlist-view.ui:49
-msgid "Select songs in the playlist"
-msgstr "Çalma listesindeki şarkıları seç"
+msgid "Search Songs in the Playlist"
+msgstr "Çalma Listesindeki Şarkıları Ara"
 
-#: src/gtk/playlist-view.ui:62
-msgid "Close the playlist"
-msgstr "Çalma listesini kapat"
+#: src/gtk/playlist-view.ui:61
+msgid "Select Songs in the Playlist"
+msgstr "Çalma Listesindeki Şarkıları Seç"
 
-#: src/gtk/playlist-view.ui:111
-msgid "Select all songs"
-msgstr "Tüm şarkıları seç"
+#: src/gtk/playlist-view.ui:74
+msgid "Close the Playlist"
+msgstr "Çalma Listesini Kapat"
 
-#: src/gtk/playlist-view.ui:124
-msgid "Remove selected songs"
-msgstr "Seçili şarkıları kaldır"
+#: src/gtk/playlist-view.ui:135
+msgid "Select All Songs"
+msgstr "Tüm Şarkıları Seç"
 
-# Şarkı vurgusu eklendi
-#: src/gtk/queue-row.ui:137
-msgid "Playing next"
-msgstr "Sıradaki şarkı"
+#: src/gtk/playlist-view.ui:148
+msgid "Remove Selected Songs"
+msgstr "Seçili Şarkıları Kaldır"
 
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
 msgstr "Sıraya konacak şarkı bırak"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -312,100 +342,96 @@ msgstr ""
 "Çalma listesine şarkı eklemek için dosya veya klasör seç ya da dosyaları "
 "dosya yöneticisinden uygulama penceresine sürükle"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "Klasör Ekle"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Dosya Ekle"
 
-#: src/application.rs:142
+#: src/application.rs:181
 msgid "Plays music and nothing else"
 msgstr "Müzik çalar, daha çoğu değil"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.rs:148
+#: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Sabri Ünal <libreajans@gmail.com>"
 
 #: src/playback_control.rs:157
-msgid "Repeat all tracks"
-msgstr "Tüm parçaları yinele"
+msgid "Repeat All Tracks"
+msgstr "Tüm Parçaları Yinele"
 
 #: src/playback_control.rs:161
-msgid "Repeat the current track"
-msgstr "Geçerli parçayı yinele"
+msgid "Repeat the Current Track"
+msgstr "Geçerli Parçayı Yinele"
 
-#: src/window.rs:383
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "Şarkı _Ekle"
 
-#: src/window.rs:384 src/window.rs:418
+#: src/window.rs:410 src/window.rs:445
 msgid "_Cancel"
 msgstr "_Vazgeç"
 
-#: src/window.rs:392
+#: src/window.rs:412
+msgid "Open File"
+msgstr "Dosya Aç"
+
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "Ses dosyaları"
 
-#: src/window.rs:417
+#: src/window.rs:444
 msgid "_Add Folder"
 msgstr "_Klasör Ekle"
 
-#: src/window.rs:437 src/window.rs:450
+#: src/window.rs:447
+msgid "Open Folder"
+msgstr "Klasör Aç"
+
+#: src/window.rs:465 src/window.rs:567
 msgid "No available song found"
 msgstr "Kullanılabilir şarkı bulunamadı"
 
-#. Translators: '{}' must be left unmodified; it
-#. will expand to a file name
-#: src/window.rs:479
-msgid "“{}” is not a supported audio file"
-msgstr "“{}” desteklenen ses dosyası değil"
+#: src/window.rs:513
+msgid "No songs found"
+msgstr "Şarkı bulunamadı"
 
-#: src/window.rs:491
+#: src/window.rs:539
 msgid "Added a new song"
 msgstr "Yeni şarkı eklendi"
 
-#: src/window.rs:492
+#: src/window.rs:540
 msgid "Play"
 msgstr "Çal"
-
-#: src/window.rs:526
-msgid "No songs found"
-msgstr "Şarkı bulunamadı"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:548 src/window.rs:931
+#: src/window.rs:549
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] " {} şarkı eklendi"
 
-#. Translators: The '{}' must be left unmodified;
-#. it will expand to a file name
-#: src/window.rs:565
-msgid "Unrecognized file type for “{}”"
-msgstr "Tanınmayan dosya türü “{}”"
-
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:967
+#: src/window.rs:1093
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} dakika kaldı"
 
-#: src/window.rs:1093
+#: src/window.rs:1220
 msgid "No song selected"
 msgstr "Şarkı seçilmedi"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1098
+#: src/window.rs:1225
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} şarkı seçildi"
@@ -413,6 +439,20 @@ msgstr[0] "{} şarkı seçildi"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1155
+#: src/window.rs:1273
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "“{artist}”, “{title}” çalıyor"
+
+#: src/window.rs:1319
+msgid "Amberol needs to run in the background to play music"
+msgstr "Amberol, müzik çalmak için arka planda çalışmalıdır"
+
+#: src/window.rs:1332
+msgid "Amberol cannot run in the background"
+msgstr "Amberol arka planda çalışamaz"
+
+#~ msgid "“{}” is not a supported audio file"
+#~ msgstr "“{}” desteklenen ses dosyası değil"
+
+#~ msgid "Unrecognized file type for “{}”"
+#~ msgstr "Tanınmayan dosya türü “{}”"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-07-29 19:02+0000\n"
-"PO-Revision-Date: 2022-07-30 10:09+0200\n"
+"POT-Creation-Date: 2022-08-05 18:10+0000\n"
+"PO-Revision-Date: 2022-08-06 14:20+0200\n"
 "Last-Translator: NicKoehler <grillinicolavocal@gmail.com>\n"
 "Language-Team: Italian <https://l10n.gnome.org/teams/it/>\n"
 "Language: it\n"
@@ -77,15 +77,15 @@ msgstr "Emmanuele Bassi"
 msgid "Playback in progress"
 msgstr "Riproduzione in corso"
 
-#: src/audio/song.rs:324
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "Artista sconosciuto"
 
-#: src/audio/song.rs:331
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "Titolo sconosciuto"
 
-#: src/audio/song.rs:338
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "Album sconosciuto"
 
@@ -268,14 +268,30 @@ msgid "_Match Cover Art"
 msgstr "_Abbina alla copertina"
 
 #: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "_ReplayGain"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "_Album"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "_Brano"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "_Spento"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_Scorciatoie da tastiera"
 
-#: src/gtk/playback-control.ui:223
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "_Informazioni su Amberol"
 
-#: src/gtk/playback-control.ui:227
+#: src/gtk/playback-control.ui:247
 msgid "_Quit"
 msgstr "_Esci"
 
@@ -307,7 +323,7 @@ msgstr "Rimuovi i brani selezionati"
 msgid "Drop a song to add it to the queue"
 msgstr "Rilascia un brano per aggiungerlo alla coda"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -315,11 +331,11 @@ msgstr ""
 "Selezionare un file o una cartella oppure trascinare i file dal file manager "
 "alla finestra dell'applicazione per aggiungere i brani alla playlist"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "Aggiungi cartella"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Aggiungi file"
 
@@ -340,50 +356,50 @@ msgstr "Ripeti tutti i brani"
 msgid "Repeat the Current Track"
 msgstr "Ripeti il brano corrente"
 
-#: src/window.rs:394
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "_Aggiungi brano"
 
-#: src/window.rs:395 src/window.rs:430
+#: src/window.rs:410 src/window.rs:445
 msgid "_Cancel"
 msgstr "_Annulla"
 
-#: src/window.rs:397
+#: src/window.rs:412
 msgid "Open File"
 msgstr "Apri file"
 
-#: src/window.rs:404
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "File audio"
 
-#: src/window.rs:429
+#: src/window.rs:444
 msgid "_Add Folder"
 msgstr "_Aggiungi cartella"
 
-#: src/window.rs:432
+#: src/window.rs:447
 msgid "Open Folder"
 msgstr "Apri cartella"
 
-#: src/window.rs:450 src/window.rs:552
+#: src/window.rs:465 src/window.rs:567
 msgid "No available song found"
 msgstr "Nessun brano trovato"
 
-#: src/window.rs:498
+#: src/window.rs:513
 msgid "No songs found"
 msgstr "Nessun brano trovato"
 
-#: src/window.rs:524
+#: src/window.rs:539
 msgid "Added a new song"
 msgstr "Aggiunto un nuovo brano"
 
-#: src/window.rs:525
+#: src/window.rs:540
 msgid "Play"
 msgstr "Riproduci"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:534
+#: src/window.rs:549
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Aggiunto un brano"
@@ -392,19 +408,19 @@ msgstr[1] "Aggiunti {} brani"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1077
+#: src/window.rs:1093
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuto rimanente"
 msgstr[1] "{} minuti rimanenti"
 
-#: src/window.rs:1204
+#: src/window.rs:1220
 msgid "No song selected"
 msgstr "Nessun brano selezionato"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1209
+#: src/window.rs:1225
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} brano selezionato"
@@ -413,16 +429,16 @@ msgstr[1] "{} brani selezionati"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1257
+#: src/window.rs:1273
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "“{title}” di “{artist}” in riproduzione"
 
-#: src/window.rs:1285
+#: src/window.rs:1319
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 "Amberol necessita di essere eseguito in background per riprodurre musica"
 
-#: src/window.rs:1298
+#: src/window.rs:1332
 msgid "Amberol cannot run in the background"
 msgstr "Amberol non può essere eseguito in background"
 
@@ -445,10 +461,6 @@ msgstr "Amberol non può essere eseguito in background"
 #~ msgctxt "shortcut window"
 #~ msgid "Previous Track"
 #~ msgstr "Brano precedente"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Next Track"
-#~ msgstr "Brano successivo"
 
 #~ msgid "Playing next"
 #~ msgstr "Prossimi brani"

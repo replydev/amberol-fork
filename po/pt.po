@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-05 18:10+0000\n"
-"PO-Revision-Date: 2022-08-06 23:28+0100\n"
+"POT-Creation-Date: 2022-08-08 14:52+0000\n"
+"PO-Revision-Date: 2022-08-08 23:36+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -364,7 +364,7 @@ msgstr "Repetir a faixa atual"
 msgid "_Add Song"
 msgstr "_Adicionar música"
 
-#: src/window.rs:410 src/window.rs:445
+#: src/window.rs:410 src/window.rs:450
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -376,55 +376,95 @@ msgstr "Abrir ficheiro"
 msgid "Audio files"
 msgstr "Ficheiros de áudio"
 
-#: src/window.rs:444
+#: src/window.rs:428 src/window.rs:1282
+msgid "Unable to access files"
+msgstr "Impossibilidade de acesso aos ficheiros"
+
+#: src/window.rs:449
 msgid "_Add Folder"
 msgstr "_Adicionar pasta"
 
-#: src/window.rs:447
+#: src/window.rs:452
 msgid "Open Folder"
 msgstr "Abrir pasta"
 
-#: src/window.rs:465 src/window.rs:567
+#: src/window.rs:463
+msgid "Unable to access folders"
+msgstr "Impossibilidade de acesso a pastas"
+
+#: src/window.rs:475
 msgid "No available song found"
 msgstr "Nenhuma música disponível encontrada"
 
-#: src/window.rs:513
+#: src/window.rs:523
 msgid "No songs found"
 msgstr "Nenhuma música encontrada"
 
-#: src/window.rs:539
+#: src/window.rs:549
 msgid "Added a new song"
 msgstr "Adicionada uma nova música"
 
-#: src/window.rs:540
+#: src/window.rs:550
 msgid "Play"
 msgstr "Reproduzir"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Adicionada uma música"
 msgstr[1] "Adicionadas {} músicas"
 
+#: src/window.rs:1012
+msgid "Unable to access dropped files"
+msgstr "Impossibilidade de acesso a ficheiros largados"
+
+#. Translators: the `{}` must be left unmodified, and
+#. it will be replaced by the number of hours remaining
+#. in the playlist
+#: src/window.rs:1106
+msgid "{} hour"
+msgid_plural "{} hours"
+msgstr[0] "{} horas"
+msgstr[1] "{} horas"
+
+#. Translators: the `{}` must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
+#: src/window.rs:1115
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuto"
+msgstr[1] "{} minutos"
+
+#. Translators: `{hours}` and `{minutes}` must be left
+#. unmodified, and they will be replaced by the translated
+#. strings with the hours and minutes remaining in the
+#. playlist, respectively
+#: src/window.rs:1125
+#| msgid "{} minute remaining"
+#| msgid_plural "{} minutes remaining"
+msgid "{hours} {minutes} remaining"
+msgstr "{hours} {minutes} restantes"
+
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1093
+#: src/window.rs:1133
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuto restante"
 msgstr[1] "{} minutos restantes"
 
-#: src/window.rs:1220
+#: src/window.rs:1262
 msgid "No song selected"
 msgstr "Nenhuma música selecionada"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1225
+#: src/window.rs:1267
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} música selecionada"
@@ -433,17 +473,17 @@ msgstr[1] "{} músicas selecionadas"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1273
+#: src/window.rs:1320
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Atualmente a reproduzir “{title}” de \"{artist}\"."
 
-#: src/window.rs:1319
+#: src/window.rs:1366
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 "O Amberol precisa de estar a ser executado em segundo plano para reproduzir "
 "música"
 
-#: src/window.rs:1332
+#: src/window.rs:1379
 msgid "Amberol cannot run in the background"
 msgstr "O Amberol não pode ser executado em segundo plano"
 

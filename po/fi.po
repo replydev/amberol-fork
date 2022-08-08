@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-07-08 15:25+0000\n"
-"PO-Revision-Date: 2022-07-29 22:01+0300\n"
+"POT-Creation-Date: 2022-08-05 18:10+0000\n"
+"PO-Revision-Date: 2022-08-08 11:27+0300\n"
 "Last-Translator: \n"
 "Language-Team: Finnish <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -79,15 +79,15 @@ msgstr "Emmanuele Bassi"
 msgid "Playback in progress"
 msgstr "Toisto meneillään"
 
-#: src/audio/song.rs:324
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "Tuntematon esittäjä"
 
-#: src/audio/song.rs:331
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "Tuntematon kappale"
 
-#: src/audio/song.rs:338
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "Tuntematon albumi"
 
@@ -144,7 +144,7 @@ msgstr "Näytä/piilota soittolista"
 #: src/gtk/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle shuffling songs"
-msgstr ""
+msgstr "Kappaleiden sekoitus päälle/pois"
 
 #: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
@@ -270,14 +270,30 @@ msgid "_Match Cover Art"
 msgstr "_Täsmää kansikuvitukseen"
 
 #: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "_ReplayGain"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "_Albumi"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "_Kappale"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "_Pois"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_Pikanäppäimet"
 
-#: src/gtk/playback-control.ui:223
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "_Tietoja - Amberol"
 
-#: src/gtk/playback-control.ui:227
+#: src/gtk/playback-control.ui:247
 msgid "_Quit"
 msgstr "_Lopeta"
 
@@ -309,7 +325,7 @@ msgstr "Poista valitut kappaleet"
 msgid "Drop a song to add it to the queue"
 msgstr "Raahaa kappale lisätäksesi sen jonoon"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -317,11 +333,11 @@ msgstr ""
 "Valitse tiedosto tai kansio, tai vedä tiedostoja tiedostonhallinnasta "
 "sovelluksen ikkunaan lisätäksesi kappaleet soittolistaan"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "Lisää kansio"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Lisää tiedosto"
 
@@ -342,50 +358,50 @@ msgstr "Kertaa kaikki kappaleet"
 msgid "Repeat the Current Track"
 msgstr "Kertaa nykyinen kappale"
 
-#: src/window.rs:394
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "_Lisää kappale"
 
-#: src/window.rs:395 src/window.rs:430
+#: src/window.rs:410 src/window.rs:445
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: src/window.rs:397
+#: src/window.rs:412
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: src/window.rs:404
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "Äänitiedostot"
 
-#: src/window.rs:429
+#: src/window.rs:444
 msgid "_Add Folder"
 msgstr "_Lisää kansio"
 
-#: src/window.rs:432
+#: src/window.rs:447
 msgid "Open Folder"
 msgstr "Avaa kansio"
 
-#: src/window.rs:450 src/window.rs:552
+#: src/window.rs:465 src/window.rs:567
 msgid "No available song found"
 msgstr "Saatavilla olevaa kappaletta ei löytynyt"
 
-#: src/window.rs:498
+#: src/window.rs:513
 msgid "No songs found"
 msgstr "Kappaleita ei löytynyt"
 
-#: src/window.rs:524
+#: src/window.rs:539
 msgid "Added a new song"
 msgstr "Lisättiin uusi kappale"
 
-#: src/window.rs:525
+#: src/window.rs:540
 msgid "Play"
 msgstr "Toista"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:534
+#: src/window.rs:549
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Lisättiin yksi kappale"
@@ -394,19 +410,19 @@ msgstr[1] "Lisättiin {} kappaletta"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1077
+#: src/window.rs:1093
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuutti jäljellä"
 msgstr[1] "{} minuuttia jäljellä"
 
-#: src/window.rs:1204
+#: src/window.rs:1220
 msgid "No song selected"
 msgstr "Kappaletta ei ole valittu"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1209
+#: src/window.rs:1225
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} kappale valittu"
@@ -415,15 +431,15 @@ msgstr[1] "{} kappaletta valittu"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1257
+#: src/window.rs:1273
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Toistetaan kappale “{title}” esittäjältä “{artist}”"
 
-#: src/window.rs:1285
+#: src/window.rs:1319
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberolin tulee olla käynnissä taustalla toistaakseen musiikkia"
 
-#: src/window.rs:1298
+#: src/window.rs:1332
 msgid "Amberol cannot run in the background"
 msgstr "Amberol ei voi olla käynnissä taustalla"
 

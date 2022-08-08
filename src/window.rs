@@ -1095,20 +1095,52 @@ impl Window {
                 }
             }
 
-            let remaining_min = (remaining_time / 60) as u32;
-            let remaining_str = &ni18n_f(
-                // Translators: the '{}' must be left unmodified, and
-                // it will be replaced by the number of minutes remaining
-                // in the playlist
-                "{} minute remaining",
-                "{} minutes remaining",
-                remaining_min,
-                &[&remaining_min.to_string()],
-            );
+            let remaining_min = ((remaining_time - (remaining_time % 60)) / 60) as u32;
+            let remaining_hrs = ((remaining_min - (remaining_min % 60)) / 60) as u32;
+
+            let remaining_str = if remaining_hrs > 0 {
+                let hours = &ni18n_f(
+                    // Translators: the `{}` must be left unmodified, and
+                    // it will be replaced by the number of hours remaining
+                    // in the playlist
+                    "{} hour",
+                    "{} hours",
+                    remaining_hrs,
+                    &[&remaining_hrs.to_string()],
+                );
+                let minutes = &ni18n_f(
+                    // Translators: the `{}` must be left unmodified, and
+                    // it will be replaced by the number of minutes remaining
+                    // in the playlist
+                    "{} minute",
+                    "{} minutes",
+                    remaining_min % 60,
+                    &[&(remaining_min % 60).to_string()],
+                );
+                i18n_k(
+                    // Translators: `{hours}` and `{minutes}` must be left
+                    // unmodified, and they will be replaced by the translated
+                    // strings with the hours and minutes remaining in the
+                    // playlist, respectively
+                    "{hours} {minutes} remaining",
+                    &[("hours", &hours), ("minutes", &minutes)],
+                )
+            } else {
+                ni18n_f(
+                    // Translators: the '{}' must be left unmodified, and
+                    // it will be replaced by the number of minutes remaining
+                    // in the playlist
+                    "{} minute remaining",
+                    "{} minutes remaining",
+                    remaining_min,
+                    &[&remaining_min.to_string()],
+                )
+            };
+
             self.imp()
                 .playlist_view
                 .queue_length_label()
-                .set_label(remaining_str);
+                .set_label(&remaining_str);
             self.imp().playlist_view.queue_length_label().show();
         } else {
             self.imp().playlist_view.queue_length_label().hide();

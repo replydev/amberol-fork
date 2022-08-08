@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-05 18:10+0000\n"
-"PO-Revision-Date: 2022-08-07 04:04+0430\n"
+"POT-Creation-Date: 2022-08-08 14:52+0000\n"
+"PO-Revision-Date: 2022-08-08 21:54+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Farsi\n"
 "Language: fa\n"
@@ -365,7 +365,7 @@ msgstr "تکرار قطعهٔ کنونی"
 msgid "_Add Song"
 msgstr "_افزودن آهنگ"
 
-#: src/window.rs:410 src/window.rs:445
+#: src/window.rs:410 src/window.rs:450
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -377,55 +377,93 @@ msgstr "گشودن پرونده"
 msgid "Audio files"
 msgstr "پرونده‌های صوتی"
 
-#: src/window.rs:444
+#: src/window.rs:428 src/window.rs:1282
+msgid "Unable to access files"
+msgstr "ناتوان در دسترسی به پرونده‌ها"
+
+#: src/window.rs:449
 msgid "_Add Folder"
 msgstr "_افزودن شاخه"
 
-#: src/window.rs:447
+#: src/window.rs:452
 msgid "Open Folder"
 msgstr "گشودن شاخه"
 
-#: src/window.rs:465 src/window.rs:567
+#: src/window.rs:463
+msgid "Unable to access folders"
+msgstr "ناتوان در دسترسی به شاخه‌ها"
+
+#: src/window.rs:475
 msgid "No available song found"
 msgstr "هیچ آهنگی پیدا نشد"
 
-#: src/window.rs:513
+#: src/window.rs:523
 msgid "No songs found"
 msgstr "هیچ آهنگی پیدا نشد"
 
-#: src/window.rs:539
+#: src/window.rs:549
 msgid "Added a new song"
 msgstr "آهنگی جدید اضافه شد"
 
-#: src/window.rs:540
+#: src/window.rs:550
 msgid "Play"
 msgstr "پخش"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "{} آهنگ اضافه شد"
 msgstr[1] "۱ آهنگ اضافه شد"
 
+#: src/window.rs:1012
+msgid "Unable to access dropped files"
+msgstr "ناتوان در دسترسی به پرونده‌های رها شده"
+
+#. Translators: the `{}` must be left unmodified, and
+#. it will be replaced by the number of hours remaining
+#. in the playlist
+#: src/window.rs:1106
+msgid "{} hour"
+msgid_plural "{} hours"
+msgstr[0] "۱ ساعت"
+msgstr[1] "{} ساعت"
+
+#. Translators: the `{}` must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
+#: src/window.rs:1115
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "۱ دقیقه"
+msgstr[1] "{} دقیقه"
+
+#. Translators: `{hours}` and `{minutes}` must be left
+#. unmodified, and they will be replaced by the translated
+#. strings with the hours and minutes remaining in the
+#. playlist, respectively
+#: src/window.rs:1125
+msgid "{hours} {minutes} remaining"
+msgstr "{} ساعت و {} دقیقه مانده"
+
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1093
+#: src/window.rs:1133
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} دقیقه مانده"
 msgstr[1] "۱ دقیقه مانده"
 
-#: src/window.rs:1220
+#: src/window.rs:1262
 msgid "No song selected"
 msgstr "هیچ آهنگی گزیده نشده"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1225
+#: src/window.rs:1267
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} آهنگ گزیده شده"
@@ -434,15 +472,15 @@ msgstr[1] "۱ آهنگ گزیده شده"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1273
+#: src/window.rs:1320
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "در حال پخش «{title}» از «{artist}»"
 
-#: src/window.rs:1319
+#: src/window.rs:1366
 msgid "Amberol needs to run in the background to play music"
 msgstr "لازم است امبرول برای پخش آهنگ در پس‌زمینه اجرا شود"
 
-#: src/window.rs:1332
+#: src/window.rs:1379
 msgid "Amberol cannot run in the background"
 msgstr "امبرول نتوانست در پس‌زمینه اجرا شود"
 

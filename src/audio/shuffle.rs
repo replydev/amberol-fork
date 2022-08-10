@@ -79,9 +79,8 @@ mod imp {
                     if let Some(shuffled_pos) = shuffle.get(position as usize) {
                         return model.item(*shuffled_pos);
                     }
-                } else {
-                    return model.item(position);
                 }
+                return model.item(position);
             }
 
             None
@@ -118,10 +117,11 @@ impl ShuffleListModel {
                     if let Some(ref shuffle) = *this.imp().shuffle.borrow() {
                         if let Some(shuffled_pos) = shuffle.get(position as usize) {
                             this.items_changed(*shuffled_pos, removed, added);
+                            return;
                         }
-                    } else {
-                        this.items_changed(position, removed, added);
                     }
+
+                    this.items_changed(position, removed, added);
                 }),
             );
         } else {
@@ -157,7 +157,6 @@ impl ShuffleListModel {
             } else {
                 let mut before: Vec<u32> = (0..anchor).collect();
                 let mut after: Vec<u32> = (anchor + 1..n_songs).collect();
-                before.shuffle(&mut rng);
                 after.shuffle(&mut rng);
 
                 before.push(anchor);

@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Stabilise the shuffling behaviour [!104, #207]
+
 ### Fixed
 
 ### Removed

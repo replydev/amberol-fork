@@ -140,12 +140,7 @@ impl Queue {
     pub fn add_song(&self, song: &Song) -> bool {
         if !song.equals(&Song::default()) {
             // Add song to the backing store
-            let was_shuffled = self.imp().model.shuffled();
-            self.imp().model.unshuffle();
             self.imp().store.append(song);
-            if was_shuffled {
-                self.imp().model.reshuffle(0);
-            }
             self.notify("n-songs");
             true
         } else {
@@ -154,17 +149,9 @@ impl Queue {
     }
 
     pub fn add_songs(&self, songs: &[impl IsA<glib::Object>]) {
-        let was_shuffled = self.imp().model.shuffled();
-        self.imp().model.unshuffle();
-
         self.imp()
             .store
             .splice(self.imp().model.n_items(), 0, songs);
-
-        if was_shuffled {
-            self.imp().model.reshuffle(0);
-        }
-
         self.notify("n-songs");
     }
 

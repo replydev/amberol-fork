@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-07-08 15:25+0000\n"
-"PO-Revision-Date: 2022-07-11 10:46+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2022-08-08 14:52+0000\n"
+"PO-Revision-Date: 2022-08-11 10:55+0700\n"
+"Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -79,15 +79,15 @@ msgstr "Emmanuele Bassi"
 msgid "Playback in progress"
 msgstr "Pemutaran sedang berlangsung"
 
-#: src/audio/song.rs:324
+#: src/audio/song.rs:328
 msgid "Unknown artist"
 msgstr "Artis tak dikenal"
 
-#: src/audio/song.rs:331
+#: src/audio/song.rs:335
 msgid "Unknown title"
 msgstr "Judul tak dikenal"
 
-#: src/audio/song.rs:338
+#: src/audio/song.rs:342
 msgid "Unknown album"
 msgstr "Album tak dikenal"
 
@@ -169,12 +169,12 @@ msgstr "Lagu berikutnya"
 #: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
-msgstr ""
+msgstr "Lewati ke belakang di lagu saat ini"
 
 #: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
-msgstr ""
+msgstr "Lewati ke depan di lagu saat ini"
 
 #: src/gtk/playback-control.ui:30
 msgctxt "a11y"
@@ -191,8 +191,6 @@ msgid "Play the Previous Song"
 msgstr "Putar Lagu Sebelumnya"
 
 #: src/gtk/playback-control.ui:69
-#, fuzzy
-#| msgid "Skip backwards"
 msgctxt "a11y"
 msgid "Skip backwards"
 msgstr "Lewati ke belakang"
@@ -211,8 +209,6 @@ msgid "Play the Next Song"
 msgstr "Putar Lagu Berikutnya"
 
 #: src/gtk/playback-control.ui:98
-#, fuzzy
-#| msgid "Skip forward"
 msgctxt "a11y"
 msgid "Skip forward"
 msgstr "Lewati ke depan"
@@ -274,14 +270,30 @@ msgid "_Match Cover Art"
 msgstr "Cocokkan Sampul Albu_m"
 
 #: src/gtk/playback-control.ui:219
+msgid "_ReplayGain"
+msgstr "_ReplayGain"
+
+#: src/gtk/playback-control.ui:221
+msgid "_Album"
+msgstr "_Album"
+
+#: src/gtk/playback-control.ui:226
+msgid "_Track"
+msgstr "_Trek"
+
+#: src/gtk/playback-control.ui:231
+msgid "_Off"
+msgstr "_Matikan"
+
+#: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "Pintasan Papan Ti_k"
 
-#: src/gtk/playback-control.ui:223
+#: src/gtk/playback-control.ui:243
 msgid "_About Amberol"
 msgstr "Tent_ang Amberol"
 
-#: src/gtk/playback-control.ui:227
+#: src/gtk/playback-control.ui:247
 msgid "_Quit"
 msgstr "_Keluar"
 
@@ -313,7 +325,7 @@ msgstr "Hapus Lagu yang Dipilih"
 msgid "Drop a song to add it to the queue"
 msgstr "Jatuhkan lagu untuk menambahkannya ke antrean"
 
-#: src/gtk/window.ui:48
+#: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
@@ -321,11 +333,11 @@ msgstr ""
 "Pilih berkas atau folder, atau seret berkas dari pengelola berkas Anda ke "
 "jendela aplikasi untuk menambahkan lagu ke daftar putar"
 
-#: src/gtk/window.ui:57
+#: src/gtk/window.ui:58
 msgid "Add Folder"
 msgstr "Tambah Folder"
 
-#: src/gtk/window.ui:67
+#: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Tambah Berkas"
 
@@ -348,69 +360,105 @@ msgstr "Ulangi Semua Trek"
 msgid "Repeat the Current Track"
 msgstr "Ulangi Trek Saat Ini"
 
-#: src/window.rs:394
+#: src/window.rs:409
 msgid "_Add Song"
 msgstr "T_ambah Lagu"
 
-#: src/window.rs:395 src/window.rs:430
+#: src/window.rs:410 src/window.rs:450
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: src/window.rs:397
+#: src/window.rs:412
 msgid "Open File"
 msgstr "Buka Berkas"
 
-#: src/window.rs:404
+#: src/window.rs:419
 msgid "Audio files"
 msgstr "Berkas suara"
 
-#: src/window.rs:429
+#: src/window.rs:428 src/window.rs:1282
+msgid "Unable to access files"
+msgstr "Tak bisa mengakses berkas"
+
+#: src/window.rs:449
 msgid "_Add Folder"
 msgstr "T_ambah Folder"
 
-#: src/window.rs:432
+#: src/window.rs:452
 msgid "Open Folder"
 msgstr "Buka Folder"
 
-#: src/window.rs:450 src/window.rs:552
+#: src/window.rs:463
+msgid "Unable to access folders"
+msgstr "Tak bisa mengakses folder"
+
+#: src/window.rs:475
 msgid "No available song found"
 msgstr "Tidak ada lagu yang tersedia"
 
-#: src/window.rs:498
+#: src/window.rs:523
 msgid "No songs found"
 msgstr "Tidak ada lagu yang ditemukan"
 
-#: src/window.rs:524
+#: src/window.rs:549
 msgid "Added a new song"
 msgstr "Menambahkan lagu baru"
 
-#: src/window.rs:525
+#: src/window.rs:550
 msgid "Play"
 msgstr "Putar"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:534
+#: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Menambahkan satu lagu"
 
+#: src/window.rs:1012
+msgid "Unable to access dropped files"
+msgstr "Tak bisa mengakses berkas yang dijatuhkan"
+
+#. Translators: the `{}` must be left unmodified, and
+#. it will be replaced by the number of hours remaining
+#. in the playlist
+#: src/window.rs:1106
+msgid "{} hour"
+msgid_plural "{} hours"
+msgstr[0] "{} jam"
+
+#. Translators: the `{}` must be left unmodified, and
+#. it will be replaced by the number of minutes remaining
+#. in the playlist
+#: src/window.rs:1115
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} menit"
+
+#. Translators: `{hours}` and `{minutes}` must be left
+#. unmodified, and they will be replaced by the translated
+#. strings with the hours and minutes remaining in the
+#. playlist, respectively
+#: src/window.rs:1125
+msgid "{hours} {minutes} remaining"
+msgstr "{hours} {minutes} tersisa"
+
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1077
+#: src/window.rs:1133
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} menit tersisa"
 
-#: src/window.rs:1204
+#: src/window.rs:1262
 msgid "No song selected"
 msgstr "Tidak ada lagu yang dipilih"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1209
+#: src/window.rs:1267
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} lagu dipilih"
@@ -418,15 +466,15 @@ msgstr[0] "{} lagu dipilih"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1257
+#: src/window.rs:1320
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Sedang memutar \"{title}\" oleh \"{artist}\""
 
-#: src/window.rs:1285
+#: src/window.rs:1366
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol perlu berjalan di latar belakang untuk memutar musik"
 
-#: src/window.rs:1298
+#: src/window.rs:1379
 msgid "Amberol cannot run in the background"
 msgstr "Amberol tidak dapat berjalan di latar belakang"
 
@@ -449,10 +497,6 @@ msgstr "Amberol tidak dapat berjalan di latar belakang"
 #~ msgctxt "shortcut window"
 #~ msgid "Previous Track"
 #~ msgstr "Trek Sebelumnya"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Next Track"
-#~ msgstr "Trek Selanjutnya"
 
 #~ msgid "Playing next"
 #~ msgstr "Memutar berikutnya"

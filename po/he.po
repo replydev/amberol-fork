@@ -418,8 +418,8 @@ msgstr "ניגון"
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "נוסף שיר אחד"
-msgstr[1] "נוספו שני שירים"
-msgstr[2] "נוספו {} שירים"
+msgstr[1] "נוספו {} שירים"
+msgstr[2] "נוספו שני שירים"
 msgstr[3] "נוספו {} שירים"
 
 #: src/window.rs:1012
@@ -433,8 +433,8 @@ msgstr "לא ניתן לגשת לקבצים שנזרקו"
 msgid "{} hour"
 msgid_plural "{} hours"
 msgstr[0] "שעה"
-msgstr[1] "שעתיים"
-msgstr[2] "{} שעות"
+msgstr[1] "{} שעות"
+msgstr[2] "שעתיים"
 msgstr[3] "{} שעות"
 
 #. Translators: the `{}` must be left unmodified, and
@@ -446,8 +446,8 @@ msgstr[3] "{} שעות"
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה"
-msgstr[1] "שתי דקות"
-msgstr[2] "{} דקות"
+msgstr[1] "{} דקות"
+msgstr[2] "שתי דקות"
 msgstr[3] "נותרו {} דקות{} דקות"
 
 #. Translators: `{hours}` and `{minutes}` must be left

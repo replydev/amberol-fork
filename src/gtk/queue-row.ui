@@ -131,6 +131,15 @@
                     </child>
                   </object>
                 </child>
+                <child type="end">
+                  <object class="GtkImage" id="selection_playing_image">
+                    <property name="icon-name">audio-only-symbolic</property>
+                    <property name="pixel-size">16</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="opacity">0</property>
+                  </object>
+                </child>
                 <style>
                   <class name="song-details"/>
                 </style>

@@ -37,6 +37,8 @@ mod imp {
         pub selection_artist_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub selected_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub selection_playing_image: TemplateChild<gtk::Image>,
 
         pub song: RefCell<Option<Song>>,
         pub playing: Cell<bool>,
@@ -203,12 +205,12 @@ impl QueueRow {
         let imp = self.imp();
         if imp.selection_mode.get() {
             imp.row_stack.set_visible_child_name("selection-mode");
-        } else if imp.playing.get() {
-            imp.row_stack.set_visible_child_name("song-details");
-            imp.song_playing_image.set_opacity(1.0);
+            let opacity = if imp.playing.get() { 1.0 } else { 0.0 };
+            imp.selection_playing_image.set_opacity(opacity);
         } else {
             imp.row_stack.set_visible_child_name("song-details");
-            imp.song_playing_image.set_opacity(0.0);
+            let opacity = if imp.playing.get() { 1.0 } else { 0.0 };
+            imp.song_playing_image.set_opacity(opacity);
         }
     }
 

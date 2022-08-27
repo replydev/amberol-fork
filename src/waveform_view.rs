@@ -122,6 +122,12 @@ mod imp {
                 (gtk::accessible::Property::ValueNow(0.0)),
             ]);
         }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            if let Some(tick_id) = self.tick_id.replace(None) {
+                tick_id.remove();
+            }
+        }
     }
 
     impl WidgetImpl for WaveformView {
@@ -486,31 +492,34 @@ impl WaveformView {
                 self.imp().factor.set(Some(0.0));
                 self.imp().first_frame_time.set(None);
 
-                self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
-                    let frame_time = clock.frame_time();
-                    if let Some(first_frame_time) = this.imp().first_frame_time.get() {
-                        if frame_time < first_frame_time {
-                            warn!("Frame clock going backwards");
-                            return glib::Continue(true);
-                        }
+                let tick_id =
+                    self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
+                        let frame_time = clock.frame_time();
+                        if let Some(first_frame_time) = this.imp().first_frame_time.get() {
+                            if frame_time < first_frame_time {
+                                warn!("Frame clock going backwards");
+                                return glib::Continue(true);
+                            }
 
-                        let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
-                        let delta = ease_out_cubic(progress);
-                        if delta > 1.0 {
-                            debug!("Animation complete");
-                            this.imp().factor.replace(None);
-                            this.imp().tick_id.replace(None);
-                            return glib::Continue(false);
+                            let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
+                            let delta = ease_out_cubic(progress);
+                            if delta > 1.0 {
+                                debug!("Animation complete");
+                                this.imp().factor.replace(None);
+                                this.imp().tick_id.replace(None);
+                                return glib::Continue(false);
+                            } else {
+                                this.imp().factor.replace(Some(delta));
+                                this.queue_draw();
+                            }
                         } else {
-                            this.imp().factor.replace(Some(delta));
-                            this.queue_draw();
+                            this.imp().first_frame_time.replace(Some(frame_time));
                         }
-                    } else {
-                        this.imp().first_frame_time.replace(Some(frame_time));
-                    }
 
-                    glib::Continue(true)
-                }));
+                        glib::Continue(true)
+                    }));
+
+                self.imp().tick_id.replace(Some(tick_id));
             }
         } else {
             self.imp().peaks.replace(None);

@@ -6,13 +6,38 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add ReplayGain support [#75]
+- Add hours to the playlist time
+- Support external cover art files [#14]
+- Add playing indicator in selection mode [#227]
+- New translations
+  - Serbian
+
 ### Changed
 
 - Stabilise the shuffling behaviour [!104, #207]
+- Update the version of lofty [#216]
+- Translation updates
+  - Russian
+  - Portuguese
+  - Persian
+  - Polish
+  - Ukrainian
+  - Basque
+  - Turkish
+  - Italian
+  - Finnish
 
 ### Fixed
 
+- Clarify the notification text for unavailable files [#215]
+- Increase specificity of the cover art UUID
+- Make the playlist side bar narrower [#230]
+- Check for unsigned overflow [#223]
+
 ### Removed
+
+- Remove the "sound" keyword from the desktop file [#224]
 
 ## [0.9.0] - 2022-08-05
 

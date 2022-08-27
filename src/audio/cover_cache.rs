@@ -124,6 +124,10 @@ impl CoverCache {
             } else if let Some(artist) = track_artist {
                 hasher.update(&artist);
             }
+
+            if let Some(parent) = path.parent() {
+                hasher.update(parent.to_str().unwrap());
+            }
         } else {
             hasher.update(path.to_str().unwrap());
         }

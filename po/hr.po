@@ -31,7 +31,7 @@ msgstr "Glazbeni reproduktor"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
 msgid "music;player;media;audio;playlist;"
-msgstr "glazba;zvuk;reproduktor;medij;zvuk;popis izvođenja;"
+msgstr "glazba;reproduktor;medij;zvuk;popis izvođenja;"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"

@@ -265,8 +265,12 @@ impl Queue {
     }
 
     pub fn is_last_song(&self) -> bool {
+        let n_items = self.imp().model.n_items();
+
         if let Some(current_pos) = self.imp().current_pos.get() {
-            return current_pos == self.imp().model.n_items() - 1;
+            if n_items > 0 {
+                return current_pos == n_items - 1;
+            }
         }
 
         false

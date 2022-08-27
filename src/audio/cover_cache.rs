@@ -7,7 +7,7 @@ use std::{
     sync::Mutex,
 };
 
-use gtk::{gdk, glib};
+use gtk::{gdk, gio, glib, prelude::*};
 use log::debug;
 use once_cell::sync::OnceCell;
 use sha2::{Digest, Sha256};
@@ -64,8 +64,7 @@ impl CoverCache {
         self.entries.get(uuid)
     }
 
-    fn load_cover_art(&self, tag: &lofty::Tag) -> Option<glib::Bytes> {
-        // TODO: Load cover art from the cache directory
+    fn load_cover_art(&self, tag: &lofty::Tag, path: Option<&Path>) -> Option<glib::Bytes> {
         if let Some(picture) = tag.get_picture_type(lofty::PictureType::CoverFront) {
             debug!("Found CoverFront");
             return Some(glib::Bytes::from(picture.data()));
@@ -85,6 +84,35 @@ impl CoverCache {
                 }
             }
         }
+
+        // We always favour the cover art in the song metadata because it's going
+        // to be in a hot cache; looking for a separate file will blow a bunch of
+        // caches out of the water, which will slow down loading the song into the
+        // playlist model
+        match path {
+            Some(p) => {
+                let mut cover_file = PathBuf::from(p);
+                cover_file.push("cover.jpg");
+                debug!("Looking for external JPEG cover file: {:?}", &cover_file);
+
+                let f = gio::File::for_path(&cover_file);
+                if let Ok((res, _)) = f.load_bytes(None::<&gio::Cancellable>) {
+                    debug!("Loading cover from external JPEG cover file");
+                    return Some(res);
+                }
+
+                cover_file = PathBuf::from(p);
+                cover_file.push("cover.png");
+                debug!("Looking for external PNG cover file: {:?}", &cover_file);
+
+                let f = gio::File::for_path(&cover_file);
+                if let Ok((res, _)) = f.load_bytes(None::<&gio::Cancellable>) {
+                    debug!("Loading cover from external PNG cover file");
+                    return Some(res);
+                }
+            }
+            None => (),
+        };
 
         debug!("No cover art");
 
@@ -142,7 +170,7 @@ impl CoverCache {
             None => {
                 debug!("Loading cover art for UUID: {}", &uuid);
 
-                let cover_art = self.load_cover_art(tag);
+                let cover_art = self.load_cover_art(tag, path.parent());
 
                 // The pixel buffer for the cover art
                 let cover_pixbuf = if let Some(ref cover_art) = cover_art {

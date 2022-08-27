@@ -19,7 +19,7 @@ use crate::{
     audio::{AudioPlayer, ReplayGainMode, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
-    i18n::{i18n, i18n_k, ni18n_f},
+    i18n::{i18n, i18n_k, ni18n_f, ni18n_k},
     playback_control::PlaybackControl,
     playlist_view::PlaylistView,
     queue_row::QueueRow,
@@ -1099,31 +1099,17 @@ impl Window {
             let remaining_hrs = ((remaining_min - (remaining_min % 60)) / 60) as u32;
 
             let remaining_str = if remaining_hrs > 0 {
-                let hours = &ni18n_f(
-                    // Translators: the `{}` must be left unmodified, and
-                    // it will be replaced by the number of hours remaining
-                    // in the playlist
-                    "{} hour",
-                    "{} hours",
+                // Translators: `{hours}` and `{minutes}` must be left
+                // unmodified, and they will be replaced by number of
+                // hours and minutes remaining, respectively
+                ni18n_k(
+                    "{hours} hour {minutes} minutes remaining",
+                    "{hours} hours {minutes} minutes remaining",
                     remaining_hrs,
-                    &[&remaining_hrs.to_string()],
-                );
-                let minutes = &ni18n_f(
-                    // Translators: the `{}` must be left unmodified, and
-                    // it will be replaced by the number of minutes remaining
-                    // in the playlist
-                    "{} minute",
-                    "{} minutes",
-                    remaining_min % 60,
-                    &[&(remaining_min % 60).to_string()],
-                );
-                i18n_k(
-                    // Translators: `{hours}` and `{minutes}` must be left
-                    // unmodified, and they will be replaced by the translated
-                    // strings with the hours and minutes remaining in the
-                    // playlist, respectively
-                    "{hours} {minutes} remaining",
-                    &[("hours", &hours), ("minutes", &minutes)],
+                    &[
+                        ("hours", &remaining_hrs.to_string()),
+                        ("minutes", &(remaining_min % 60).to_string()),
+                    ],
                 )
             } else {
                 ni18n_f(

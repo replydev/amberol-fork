@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
 "POT-Creation-Date: 2022-08-27 15:23+0000\n"
-"PO-Revision-Date: 2022-08-28 14:39+0100\n"
+"PO-Revision-Date: 2022-08-28 14:45+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
-msgstr "Toca música, e nada mais"
+msgstr "Toca música e nada mais"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:9
 msgid ""

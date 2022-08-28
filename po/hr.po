@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-27 15:23+0000\n"
-"PO-Revision-Date: 2022-08-28 00:12+0200\n"
+"POT-Creation-Date: 2022-08-28 17:48+0000\n"
+"PO-Revision-Date: 2022-08-29 00:16+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -378,7 +378,7 @@ msgstr "Otvori datoteku"
 msgid "Audio files"
 msgstr "Glazbene datoteke"
 
-#: src/window.rs:428 src/window.rs:1268
+#: src/window.rs:428 src/window.rs:1276
 msgid "Unable to access files"
 msgstr "Nemoguć pristup datotekama"
 
@@ -425,29 +425,36 @@ msgid "Unable to access dropped files"
 msgstr "Nemoguć pristup ispuštenim datotekama"
 
 #: src/window.rs:1106
-msgid "{hours} hour {minutes} minutes remaining"
-msgid_plural "{hours} hours {minutes} minutes remaining"
-msgstr[0] "{hours} sat {minutes} minuta preostalo"
-msgstr[1] "{hours} sata {minutes} minuta preostalo"
-msgstr[2] "{hours} sati {minutes} minuta preostalo"
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuta"
+msgstr[1] "{} minute"
+msgstr[2] "{} minuta"
+
+#: src/window.rs:1117
+msgid "{hours} hour {minutes} remaining"
+msgid_plural "{hours} hours {minutes} remaining"
+msgstr[0] "{hours} sat {minutes} preostalo"
+msgstr[1] "{hours} sata {minutes} preostalo"
+msgstr[2] "{hours} sati {minutes} preostalo"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1119
+#: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuta preostala"
 msgstr[1] "{} minute preostale"
 msgstr[2] "{} minuta preostalo"
 
-#: src/window.rs:1248
+#: src/window.rs:1256
 msgid "No song selected"
 msgstr "Nema odabranih pjesama"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1253
+#: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} pjesma odabrana"
@@ -457,16 +464,16 @@ msgstr[2] "{} pjesama odabrano"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1306
+#: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Trenutno slušate “{title}” od “{artist}”"
 
-#: src/window.rs:1352
+#: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 "Amberol treba biti pokrenut u pozadini kako bi mogao reproducirati glazbu"
 
-#: src/window.rs:1365
+#: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "Amberol se nemože pokrenuti u pozadini"
 
@@ -475,9 +482,3 @@ msgstr "Amberol se nemože pokrenuti u pozadini"
 #~ msgstr[0] "{} sat"
 #~ msgstr[1] "{} sata"
 #~ msgstr[2] "{} sata"
-
-#~ msgid "{} minute"
-#~ msgid_plural "{} minutes"
-#~ msgstr[0] "{} minuta"
-#~ msgstr[1] "{} minute"
-#~ msgstr[2] "{} minuta"

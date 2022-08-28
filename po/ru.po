@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-08 14:52+0000\n"
-"PO-Revision-Date: 2022-08-08 23:48+0300\n"
+"POT-Creation-Date: 2022-08-28 17:48+0000\n"
+"PO-Revision-Date: 2022-08-28 22:14+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -30,10 +30,10 @@ msgstr "Музыкальный проигрыватель"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-msgid "music;sound;player;media;audio;playlist;"
+msgid "music;player;media;audio;playlist;"
 msgstr ""
-"music;sound;player;media;audio;playlist;музыка;звук;проигрыватель;медиа;"
-"аудио;список воспроизведения;"
+"music;player;media;audio;playlist;музыка;проигрыватель;медиа;аудио;список "
+"воспроизведения;"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
@@ -377,7 +377,7 @@ msgstr "Открыть файл"
 msgid "Audio files"
 msgstr "Аудиофайлы"
 
-#: src/window.rs:428 src/window.rs:1282
+#: src/window.rs:428 src/window.rs:1276
 msgid "Unable to access files"
 msgstr "Невозможно получить доступ к файлам"
 
@@ -423,51 +423,37 @@ msgstr[2] "Добавлено {} песен"
 msgid "Unable to access dropped files"
 msgstr "Невозможно получить доступ к сброшенным файлам"
 
-#. Translators: the `{}` must be left unmodified, and
-#. it will be replaced by the number of hours remaining
-#. in the playlist
 #: src/window.rs:1106
-msgid "{} hour"
-msgid_plural "{} hours"
-msgstr[0] "{} час"
-msgstr[1] "{} часа"
-msgstr[2] "{} часов"
-
-#. Translators: the `{}` must be left unmodified, and
-#. it will be replaced by the number of minutes remaining
-#. in the playlist
-#: src/window.rs:1115
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минута"
 msgstr[1] "{} минуты"
 msgstr[2] "{} минут"
 
-#. Translators: `{hours}` and `{minutes}` must be left
-#. unmodified, and they will be replaced by the translated
-#. strings with the hours and minutes remaining in the
-#. playlist, respectively
-#: src/window.rs:1125
-msgid "{hours} {minutes} remaining"
-msgstr "Осталось {hours} {minutes}"
+#: src/window.rs:1117
+msgid "{hours} hour {minutes} remaining"
+msgid_plural "{hours} hours {minutes} remaining"
+msgstr[0] "Осталось {hours} час {minutes}"
+msgstr[1] "Осталось {hours} часа {minutes}"
+msgstr[2] "Осталось {hours} часов {minutes}"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1133
+#: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} минута осталась"
 msgstr[1] "{} минуты осталось"
 msgstr[2] "{} минут осталось"
 
-#: src/window.rs:1262
+#: src/window.rs:1256
 msgid "No song selected"
 msgstr "Не выбрана песня"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1267
+#: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} песня выбрана"
@@ -477,17 +463,23 @@ msgstr[2] "{} песен выбрано"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1320
+#: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Сейчас играет \"{title}\" от \"{artist}\""
 
-#: src/window.rs:1366
+#: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol должен работать в фоновом режиме для воспроизведения музыки"
 
-#: src/window.rs:1379
+#: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "Amberol не может работать в фоновом режиме"
+
+#~ msgid "{} hour"
+#~ msgid_plural "{} hours"
+#~ msgstr[0] "{} час"
+#~ msgstr[1] "{} часа"
+#~ msgstr[2] "{} часов"
 
 #~ msgid "“{}” is not a supported audio file"
 #~ msgstr "\"{}\" не является поддерживаемым аудиофайлом"

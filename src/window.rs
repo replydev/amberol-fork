@@ -1099,17 +1099,25 @@ impl Window {
             let remaining_hrs = ((remaining_min - (remaining_min % 60)) / 60) as u32;
 
             let remaining_str = if remaining_hrs > 0 {
+                // Translators: the `{}` must be left unmodified, and
+                // it will be replaced by the number of minutes remaining
+                // in the string "N hours M minutes remaining"
+                let minutes = ni18n_f(
+                    "{} minute",
+                    "{} minutes",
+                    remaining_min % 60,
+                    &[&(remaining_min % 60).to_string()],
+                );
+
                 // Translators: `{hours}` and `{minutes}` must be left
                 // unmodified, and they will be replaced by number of
-                // hours and minutes remaining, respectively
+                // hours and by the translated number of minutes
+                // remaining, respectively
                 ni18n_k(
-                    "{hours} hour {minutes} minutes remaining",
-                    "{hours} hours {minutes} minutes remaining",
+                    "{hours} hour {minutes} remaining",
+                    "{hours} hours {minutes} remaining",
                     remaining_hrs,
-                    &[
-                        ("hours", &remaining_hrs.to_string()),
-                        ("minutes", &(remaining_min % 60).to_string()),
-                    ],
+                    &[("hours", &remaining_hrs.to_string()), ("minutes", &minutes)],
                 )
             } else {
                 ni18n_f(

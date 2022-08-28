@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-08 14:52+0000\n"
-"PO-Revision-Date: 2022-08-08 23:36+0100\n"
+"POT-Creation-Date: 2022-08-27 15:23+0000\n"
+"PO-Revision-Date: 2022-08-28 14:39+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -29,7 +29,7 @@ msgstr "Reprodutor de música"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-msgid "music;sound;player;media;audio;playlist;"
+msgid "music;player;media;audio;playlist;"
 msgstr ""
 "música;músicas;music;som;reprodutor;leitor;player;multimédia;áudio;audio;"
 "lista de reprodução;playlist;"
@@ -376,7 +376,7 @@ msgstr "Abrir ficheiro"
 msgid "Audio files"
 msgstr "Ficheiros de áudio"
 
-#: src/window.rs:428 src/window.rs:1282
+#: src/window.rs:428 src/window.rs:1268
 msgid "Unable to access files"
 msgstr "Impossibilidade de acesso aos ficheiros"
 
@@ -421,50 +421,28 @@ msgstr[1] "Adicionadas {} músicas"
 msgid "Unable to access dropped files"
 msgstr "Impossibilidade de acesso a ficheiros largados"
 
-#. Translators: the `{}` must be left unmodified, and
-#. it will be replaced by the number of hours remaining
-#. in the playlist
 #: src/window.rs:1106
-msgid "{} hour"
-msgid_plural "{} hours"
-msgstr[0] "{} horas"
-msgstr[1] "{} horas"
-
-#. Translators: the `{}` must be left unmodified, and
-#. it will be replaced by the number of minutes remaining
-#. in the playlist
-#: src/window.rs:1115
-msgid "{} minute"
-msgid_plural "{} minutes"
-msgstr[0] "{} minuto"
-msgstr[1] "{} minutos"
-
-#. Translators: `{hours}` and `{minutes}` must be left
-#. unmodified, and they will be replaced by the translated
-#. strings with the hours and minutes remaining in the
-#. playlist, respectively
-#: src/window.rs:1125
-#| msgid "{} minute remaining"
-#| msgid_plural "{} minutes remaining"
-msgid "{hours} {minutes} remaining"
-msgstr "{hours} {minutes} restantes"
+msgid "{hours} hour {minutes} minutes remaining"
+msgid_plural "{hours} hours {minutes} minutes remaining"
+msgstr[0] "{hours} hora {minutes} minutos restantes"
+msgstr[1] "{hours} horas {minutes} minutos restantes"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1133
+#: src/window.rs:1119
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuto restante"
 msgstr[1] "{} minutos restantes"
 
-#: src/window.rs:1262
+#: src/window.rs:1248
 msgid "No song selected"
 msgstr "Nenhuma música selecionada"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1267
+#: src/window.rs:1253
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} música selecionada"
@@ -473,19 +451,29 @@ msgstr[1] "{} músicas selecionadas"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1320
+#: src/window.rs:1306
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Atualmente a reproduzir “{title}” de \"{artist}\"."
 
-#: src/window.rs:1366
+#: src/window.rs:1352
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 "O Amberol precisa de estar a ser executado em segundo plano para reproduzir "
 "música"
 
-#: src/window.rs:1379
+#: src/window.rs:1365
 msgid "Amberol cannot run in the background"
 msgstr "O Amberol não pode ser executado em segundo plano"
+
+#~ msgid "{} hour"
+#~ msgid_plural "{} hours"
+#~ msgstr[0] "{} horas"
+#~ msgstr[1] "{} horas"
+
+#~ msgid "{} minute"
+#~ msgid_plural "{} minutes"
+#~ msgstr[0] "{} minuto"
+#~ msgstr[1] "{} minutos"
 
 #~ msgid "“{}” is not a supported audio file"
 #~ msgstr "“{}” não é um ficheiro de áudio suportado"

@@ -22,10 +22,10 @@
   </description>
   <screenshots>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-1.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-2.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-2.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-1.png</image>
     </screenshot>
     <screenshot>
       <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-3.png</image>
@@ -54,6 +54,20 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.9.1" date="2022-08-30">
+      <description>
+        <p>Small paper cuts, and ReplayGain</p>
+        <ul>
+          <li>Add support ReplayGain metadata in the audio files</li>
+          <li>Add support external cover art files for albums</li>
+          <li>Improve the reliability of the playlist shuffle</li>
+          <li>Tweak the playlist side bar to better fit on mobile form factors</li>
+          <li>New translation: Serbian</li>
+          <li>Translation updates</li>
+          <li>Bug fixes and performance improvements</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.9.0" date="2022-08-05">
       <description>
         <p>Searchings deserves to be fuzzy</p>

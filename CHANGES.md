@@ -6,8 +6,18 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.9.1] - 2022-08-30
+
+### Added
+
 - Add ReplayGain support [#75]
-- Add hours to the playlist time
+- Show hours to the playlist time
 - Support external cover art files [#14]
 - Add playing indicator in selection mode [#227]
 - New translations
@@ -27,6 +37,8 @@ All notable changes to this project will be documented in this file.
   - Turkish
   - Italian
   - Finnish
+  - Croatian
+  - Occitan
 
 ### Fixed
 
@@ -34,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - Increase specificity of the cover art UUID
 - Make the playlist side bar narrower [#230]
 - Check for unsigned overflow [#223]
+- Properly mark playlist remaining time for translation [#225]
 
 ### Removed
 

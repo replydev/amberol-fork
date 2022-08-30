@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-05 18:10+0000\n"
-"PO-Revision-Date: 2022-08-08 11:27+0300\n"
+"POT-Creation-Date: 2022-08-28 17:48+0000\n"
+"PO-Revision-Date: 2022-08-30 19:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: Finnish <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -29,9 +29,8 @@ msgstr "Musiikkisoitin"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-msgid "music;sound;player;media;audio;playlist;"
-msgstr ""
-"music;sound;player;media;audio;playlist;musiikki;ääni;soitin;soittolista;"
+msgid "music;player;media;audio;playlist;"
+msgstr "music;player;media;audio;playlist;musiikki;ääni;soitin;soittolista;"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
@@ -362,7 +361,7 @@ msgstr "Kertaa nykyinen kappale"
 msgid "_Add Song"
 msgstr "_Lisää kappale"
 
-#: src/window.rs:410 src/window.rs:445
+#: src/window.rs:410 src/window.rs:450
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -374,55 +373,81 @@ msgstr "Avaa tiedosto"
 msgid "Audio files"
 msgstr "Äänitiedostot"
 
-#: src/window.rs:444
+#: src/window.rs:428 src/window.rs:1276
+msgid "Unable to access files"
+msgstr "Ei pääsyä tiedostoihin"
+
+#: src/window.rs:449
 msgid "_Add Folder"
 msgstr "_Lisää kansio"
 
-#: src/window.rs:447
+#: src/window.rs:452
 msgid "Open Folder"
 msgstr "Avaa kansio"
 
-#: src/window.rs:465 src/window.rs:567
+#: src/window.rs:463
+msgid "Unable to access folders"
+msgstr "Ei pääsyä kansioihin"
+
+#: src/window.rs:475
 msgid "No available song found"
 msgstr "Saatavilla olevaa kappaletta ei löytynyt"
 
-#: src/window.rs:513
+#: src/window.rs:523
 msgid "No songs found"
 msgstr "Kappaleita ei löytynyt"
 
-#: src/window.rs:539
+#: src/window.rs:549
 msgid "Added a new song"
 msgstr "Lisättiin uusi kappale"
 
-#: src/window.rs:540
+#: src/window.rs:550
 msgid "Play"
 msgstr "Toista"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Lisättiin yksi kappale"
 msgstr[1] "Lisättiin {} kappaletta"
 
+#: src/window.rs:1012
+msgid "Unable to access dropped files"
+msgstr "Ei pääsyä pudotettuihin tiedostoihin"
+
+#: src/window.rs:1106
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuutti"
+msgstr[1] "{} minuuttia"
+
+#: src/window.rs:1117
+#| msgid "{} minute remaining"
+#| msgid_plural "{} minutes remaining"
+msgid "{hours} hour {minutes} remaining"
+msgid_plural "{hours} hours {minutes} remaining"
+msgstr[0] "{hours} tunti {minutes} jäljellä"
+msgstr[1] "{hours} tuntia {minutes} jäljellä"
+
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1093
+#: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "{} minuutti jäljellä"
 msgstr[1] "{} minuuttia jäljellä"
 
-#: src/window.rs:1220
+#: src/window.rs:1256
 msgid "No song selected"
 msgstr "Kappaletta ei ole valittu"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1225
+#: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} kappale valittu"
@@ -431,15 +456,15 @@ msgstr[1] "{} kappaletta valittu"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1273
+#: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Toistetaan kappale “{title}” esittäjältä “{artist}”"
 
-#: src/window.rs:1319
+#: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberolin tulee olla käynnissä taustalla toistaakseen musiikkia"
 
-#: src/window.rs:1332
+#: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "Amberol ei voi olla käynnissä taustalla"
 

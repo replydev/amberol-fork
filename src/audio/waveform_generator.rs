@@ -30,6 +30,16 @@ mod imp {
     }
 
     impl ObjectImpl for WaveformGenerator {
+        fn dispose(&self, _obj: &Self::Type) {
+            if let Some(pipeline) = self.pipeline.take() {
+                pipeline.send_event(gst::event::Eos::new());
+                match pipeline.set_state(gst::State::Null) {
+                    Ok(_) => {}
+                    Err(err) => warn!("Unable to set existing pipeline to Null state: {}", err),
+                }
+            }
+        }
+
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
                 vec![ParamSpecBoolean::new(

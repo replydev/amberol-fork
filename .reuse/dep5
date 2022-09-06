@@ -11,6 +11,10 @@ Files: .gitlab-ci.yml
 Copyright: 2022  Emmanuele Bassi
 License: CC0-1.0
 
+Files: amberol.doap
+Copyright: 2022  Sophie Herold
+License: CC0-1.0
+
 Files: Cargo.lock
 Copyright: 2022  Emmanuele Bassi
 License: GPL-3.0-or-later

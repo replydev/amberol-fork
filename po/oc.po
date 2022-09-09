@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-28 17:48+0000\n"
-"PO-Revision-Date: 2022-08-29 23:27+0200\n"
+"POT-Creation-Date: 2022-08-29 21:27+0000\n"
+"PO-Revision-Date: 2022-09-09 18:24+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Occitan <totenoc@gmail.com>\n"
 "Language: oc\n"
@@ -270,7 +270,7 @@ msgstr "_Assortir la cobertura"
 
 #: src/gtk/playback-control.ui:219
 msgid "_ReplayGain"
-msgstr ""
+msgstr "_Volum recomandat"
 
 #: src/gtk/playback-control.ui:221
 msgid "_Album"
@@ -331,7 +331,7 @@ msgid ""
 msgstr ""
 "Seleccionatz un fichièr, un dossièr o lisatz depausatz de fichièr del "
 "gestionari de fichièrs estant cap a la fenèstra de l’aplicacion per apondre "
-"las cançon a la lista de lectura"
+"las cançons a la lista de lectura"
 
 #: src/gtk/window.ui:58
 msgid "Add Folder"

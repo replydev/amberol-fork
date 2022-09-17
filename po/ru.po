@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-28 17:48+0000\n"
-"PO-Revision-Date: 2022-08-28 22:14+0300\n"
+"POT-Creation-Date: 2022-08-28 19:35+0000\n"
+"PO-Revision-Date: 2022-09-17 14:40+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -433,7 +433,7 @@ msgstr[2] "{} минут"
 #: src/window.rs:1117
 msgid "{hours} hour {minutes} remaining"
 msgid_plural "{hours} hours {minutes} remaining"
-msgstr[0] "Осталось {hours} час {minutes}"
+msgstr[0] "Остался {hours} час {minutes}"
 msgstr[1] "Осталось {hours} часа {minutes}"
 msgstr[2] "Осталось {hours} часов {minutes}"
 
@@ -443,22 +443,22 @@ msgstr[2] "Осталось {hours} часов {minutes}"
 #: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
-msgstr[0] "{} минута осталась"
-msgstr[1] "{} минуты осталось"
-msgstr[2] "{} минут осталось"
+msgstr[0] "Осталась {} минута"
+msgstr[1] "Осталось {} минуты"
+msgstr[2] "Осталось {} минут"
 
 #: src/window.rs:1256
 msgid "No song selected"
-msgstr "Не выбрана песня"
+msgstr "Не выбрана ни одна песня"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
 #: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
-msgstr[0] "{} песня выбрана"
-msgstr[1] "{} песни выбраны"
-msgstr[2] "{} песен выбрано"
+msgstr[0] "Выбрана {} песня"
+msgstr[1] "Выбрано {} песни"
+msgstr[2] "Выбрано {} песен"
 
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and

@@ -3,23 +3,24 @@
 # This file is distributed under the same license as the amberol package.
 #
 # Matej Urbančič <mateju@src.gnome.org>, 2022–.
+# Martin Srebotnjak <miles@filmsi.net>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-09-09 16:24+0000\n"
-"PO-Revision-Date: 2022-09-09 21:28+0200\n"
-"Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
+"POT-Creation-Date: 2022-09-09 19:29+0000\n"
+"PO-Revision-Date: 2022-09-19 09:10+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
-"n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -39,7 +40,7 @@ msgstr ""
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
-msgstr ""
+msgstr "Predvaja glasbo in nič drugega"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:9
 msgid ""
@@ -47,6 +48,9 @@ msgid ""
 "play music available on your local system then Amberol is the music player "
 "you are looking for."
 msgstr ""
+"Amberol je predvajalnik glasbe brez zablod o svoji veličini. Če želite "
+"predvajati glasbo, ki je na voljo v krajevnem sistemu, je Amberol "
+"predvajalnik glasbe, ki ga iščete."
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:14
 msgid "Current features:"
@@ -62,7 +66,7 @@ msgstr "prebarvanje vmesnika z uporabo oblikovanja albuma"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:18
 msgid "drag and drop support to queue songs"
-msgstr ""
+msgstr "podpora povleci-in-spusti za pesmi v čakalni vrsti"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:19
 msgid "shuffle and repeat"
@@ -78,7 +82,7 @@ msgstr "Emmanuele Bassi"
 
 #: src/audio/inhibit_controller.rs:40
 msgid "Playback in progress"
-msgstr ""
+msgstr "Predvajanje v teku"
 
 #: src/audio/song.rs:328
 msgid "Unknown artist"
@@ -188,11 +192,8 @@ msgid "Remaining time"
 msgstr "Preostali čas"
 
 #: src/gtk/playback-control.ui:64
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Previous song"
 msgid "Play the Previous Song"
-msgstr "Skoči na predhodno skladbo"
+msgstr "Predvajaj predhodno pesem"
 
 #: src/gtk/playback-control.ui:69
 msgctxt "a11y"
@@ -227,11 +228,8 @@ msgid "Toggle playlist"
 msgstr "Preklopi seznam predvajanja"
 
 #: src/gtk/playback-control.ui:135
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Clear the playlist"
 msgid "Shuffle the Playlist"
-msgstr "Počisti seznam predvajanja"
+msgstr "Premešaj seznam predvajanja"
 
 #: src/gtk/playback-control.ui:137
 msgctxt "a11y"
@@ -274,11 +272,11 @@ msgstr "Počisti"
 
 #: src/gtk/playback-control.ui:213
 msgid "_Match Cover Art"
-msgstr ""
+msgstr "_Ujemanje naslovnice albuma"
 
 #: src/gtk/playback-control.ui:219
 msgid "_ReplayGain"
-msgstr ""
+msgstr "Normaliziraj po _ReplayGain"
 
 #: src/gtk/playback-control.ui:221
 msgid "_Album"
@@ -313,11 +311,8 @@ msgid "Search Songs in the Playlist"
 msgstr "Poišči skladbe v seznamu predvajanja"
 
 #: src/gtk/playlist-view.ui:61
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Add a song to the playlist"
 msgid "Select Songs in the Playlist"
-msgstr "Dodaja posnetek na seznam predvajanja"
+msgstr "Izberite pesmi na seznamu predvajanja"
 
 #: src/gtk/playlist-view.ui:74
 msgid "Close the Playlist"
@@ -325,7 +320,7 @@ msgstr "Zapri seznam predvajanja"
 
 #: src/gtk/playlist-view.ui:135
 msgid "Select All Songs"
-msgstr ""
+msgstr "Izberi vse pesmi"
 
 #: src/gtk/playlist-view.ui:148
 msgid "Remove Selected Songs"
@@ -333,13 +328,15 @@ msgstr "Odstrani izbrane posnetke"
 
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
-msgstr ""
+msgstr "Spustite pesem, da jo dodate v čakalno vrstico"
 
 #: src/gtk/window.ui:49
 msgid ""
 "Select a file or a folder, or drag files from your file manager to the "
 "application window to add songs to the playlist"
 msgstr ""
+"Izberite datoteko ali mapo ali povlecite datoteke iz upravitelja datotek v "
+"okno programa, da dodate pesmi na seznam predvajanja"
 
 #: src/gtk/window.ui:58
 msgid "Add Folder"
@@ -351,7 +348,7 @@ msgstr "Dodaj datoteko"
 
 #: src/application.rs:181
 msgid "Plays music and nothing else"
-msgstr ""
+msgstr "Predvaja glasbo in nič drugega"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
@@ -384,7 +381,7 @@ msgstr "Zvokovne datoteke"
 
 #: src/window.rs:428 src/window.rs:1276
 msgid "Unable to access files"
-msgstr ""
+msgstr "Dostop do datotek ni možen"
 
 #: src/window.rs:449
 msgid "_Add Folder"
@@ -396,7 +393,7 @@ msgstr "Odpri mapo"
 
 #: src/window.rs:463
 msgid "Unable to access folders"
-msgstr ""
+msgstr "Dostop do map ni možen"
 
 #: src/window.rs:475
 msgid "No available song found"
@@ -408,7 +405,7 @@ msgstr "Ni najdenih posnetkov"
 
 #: src/window.rs:549
 msgid "Added a new song"
-msgstr ""
+msgstr "Dodana nova pesem"
 
 #: src/window.rs:550
 msgid "Play"
@@ -420,30 +417,30 @@ msgstr "Predvajaj"
 #: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Dodana {} pesem"
+msgstr[1] "Dodani {} pesmi"
+msgstr[2] "Dodane {} pesmi"
+msgstr[3] "Dodanih {} pesmi"
 
 #: src/window.rs:1012
 msgid "Unable to access dropped files"
-msgstr ""
+msgstr "Dostop do opuščenih datotek ni možen"
 
 #: src/window.rs:1106
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{} minuta"
+msgstr[1] "{} minuti"
+msgstr[2] "{} minute"
+msgstr[3] "{} minut"
 
 #: src/window.rs:1117
 msgid "{hours} hour {minutes} remaining"
 msgid_plural "{hours} hours {minutes} remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Preostali čas: {hours} ur {minutes} min"
+msgstr[1] "Preostali čas: {hours} ura {minutes} min"
+msgstr[2] "Preostali čas: {hours} uri {minutes} min"
+msgstr[3] "Preostali čas: {hours} ure {minutes} min"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
@@ -451,10 +448,10 @@ msgstr[3] ""
 #: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Preostali čas: {} minut"
+msgstr[1] "Preostali čas: {} minuta"
+msgstr[2] "Preostali čas: {} minuti"
+msgstr[3] "Preostali čas: {} minute"
 
 #: src/window.rs:1256
 msgid "No song selected"
@@ -465,22 +462,22 @@ msgstr "Ni izbranih posnetkov"
 #: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{} izbranih pesmi"
+msgstr[1] "{} izbrana pesem"
+msgstr[2] "{} izbrani pesmi"
+msgstr[3] "{} izbrane pesmi"
 
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
 #: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
-msgstr ""
+msgstr "Trenutno predvaja »{title}« ({artist})"
 
 #: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
-msgstr ""
+msgstr "Amberol se mora za predvajanje glasbe izvajati v ozadju"
 
 #: src/window.rs:1373
 msgid "Amberol cannot run in the background"
-msgstr ""
+msgstr "Amberol se ne more izvajati v ozadju"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-05 18:10+0000\n"
-"PO-Revision-Date: 2022-08-07 05:58+0200\n"
+"POT-Creation-Date: 2022-08-28 17:48+0000\n"
+"PO-Revision-Date: 2022-09-11 13:13+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolić@rocketmail.com>\n"
 "Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
 "Language: sr\n"
@@ -30,10 +30,9 @@ msgstr "Програм за пуштање музике"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-msgid "music;sound;player;media;audio;playlist;"
-msgstr ""
-"музика;звук;пуштач;медија;аудио;списак;music;sound;player;media;audio;"
-"playlist;"
+#| msgid "music;sound;player;media;audio;playlist;"
+msgid "music;player;media;audio;playlist;"
+msgstr "музика;пуштач;медија;аудио;списак;music;player;media;audio;playlist;"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
@@ -367,7 +366,7 @@ msgstr "Понови текућу нумеру"
 msgid "_Add Song"
 msgstr "_Додај песму"
 
-#: src/window.rs:410 src/window.rs:445
+#: src/window.rs:410 src/window.rs:450
 msgid "_Cancel"
 msgstr "_Откажи"
 
@@ -379,34 +378,42 @@ msgstr "Отвори датотеку"
 msgid "Audio files"
 msgstr "Аудио датотеке"
 
-#: src/window.rs:444
+#: src/window.rs:428 src/window.rs:1276
+msgid "Unable to access files"
+msgstr "Не могу да приступим датотекама"
+
+#: src/window.rs:449
 msgid "_Add Folder"
 msgstr "_Додај фасциклу"
 
-#: src/window.rs:447
+#: src/window.rs:452
 msgid "Open Folder"
 msgstr "Отворите фасциклу"
 
-#: src/window.rs:465 src/window.rs:567
+#: src/window.rs:463
+msgid "Unable to access folders"
+msgstr "Не могу да приступим фасциклама"
+
+#: src/window.rs:475
 msgid "No available song found"
 msgstr "Нисам нашао доступних песама"
 
-#: src/window.rs:513
+#: src/window.rs:523
 msgid "No songs found"
 msgstr "Нисам нашао ниједну песму"
 
-#: src/window.rs:539
+#: src/window.rs:549
 msgid "Added a new song"
 msgstr "Додата је нова песма"
 
-#: src/window.rs:540
+#: src/window.rs:550
 msgid "Play"
 msgstr "Пусти"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Додата је {} песма"
@@ -414,10 +421,34 @@ msgstr[1] "Додате су {} песме"
 msgstr[2] "Додато је {} песама"
 msgstr[3] "Додата је једна песма"
 
+#: src/window.rs:1012
+msgid "Unable to access dropped files"
+msgstr "Не могу да приступим убаченим датотекама"
+
+#: src/window.rs:1106
+#| msgid "{} minute remaining"
+#| msgid_plural "{} minutes remaining"
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} минут"
+msgstr[1] "{} минута"
+msgstr[2] "{} минута"
+msgstr[3] "Један минут"
+
+#: src/window.rs:1117
+#| msgid "{} minute remaining"
+#| msgid_plural "{} minutes remaining"
+msgid "{hours} hour {minutes} remaining"
+msgid_plural "{hours} hours {minutes} remaining"
+msgstr[0] "Преостаје {} минут"
+msgstr[1] "Преостало време: {hours} {minutes}"
+msgstr[2] "Преостало време: {hours} {minutes}"
+msgstr[3] "Преостало време: {hours} {minutes}"
+
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1093
+#: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Преостаје {} минут"
@@ -425,13 +456,13 @@ msgstr[1] "Преостају {} минута"
 msgstr[2] "Преостаје {} минута"
 msgstr[3] "Преостаје један минут"
 
-#: src/window.rs:1220
+#: src/window.rs:1256
 msgid "No song selected"
 msgstr "Није изабрана ниједна песма"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1225
+#: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Изабрана је {} песма"
@@ -442,14 +473,14 @@ msgstr[3] "Изабрана је једна песма"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1273
+#: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Тренутно пуштам „{title}“ коју изводи {artist}"
 
-#: src/window.rs:1319
+#: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
 msgstr "Амберол мора да ради у позадини да би пуштао музику"
 
-#: src/window.rs:1332
+#: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "Амберол не може да ради у позадини"

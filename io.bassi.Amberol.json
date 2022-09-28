@@ -1,5 +1,5 @@
 {
-    "app-id" : "io.bassi.Amberol",
+    "app-id" : "io.bassi.Amberol.Devel",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "master",
     "sdk" : "org.gnome.Sdk",
@@ -43,6 +43,9 @@
             "name" : "amberol",
             "builddir" : true,
             "buildsystem" : "meson",
+            "config-opts": [
+                "-Dprofile=development"
+            ],
             "sources" : [
                 {
                     "type" : "git",

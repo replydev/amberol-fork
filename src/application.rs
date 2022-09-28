@@ -5,7 +5,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use adw::subclass::prelude::*;
 use glib::{clone, Receiver};
-use gtk::{gio, glib, prelude::*, subclass::prelude::*};
+use gtk::{gio, glib, prelude::*};
 use gtk_macros::action;
 use log::debug;
 
@@ -173,16 +173,16 @@ impl Application {
 
     fn show_about(&self) {
         let window = self.active_window().unwrap();
-        let dialog = gtk::AboutDialog::builder()
+        let dialog = adw::AboutWindow::builder()
             .transient_for(&window)
-            .modal(true)
-            .logo_icon_name(APPLICATION_ID)
-            .program_name("Amberol")
-            .comments(&i18n("Plays music and nothing else"))
+            .application_icon(APPLICATION_ID)
+            .application_name("Amberol")
+            .developer_name("Emmanuele Bassi")
             .version(VERSION)
-            .authors(vec!["Emmanuele Bassi".into()])
+            .developers(vec!["Emmanuele Bassi".into()])
             .copyright("© 2022 Emmanuele Bassi")
-            .website("https://gitlab.gnome.org/World/amberol")
+            .website("https://apps.gnome.org/app/io.bassi.Amberol/")
+            .issue_url("https://gitlab.gnome.org/World/amberol/-/issues/new")
             .license_type(gtk::License::Gpl30)
             // Translators: Replace "translator-credits" with your names, one name per line
             .translator_credits(&i18n("translator-credits"))

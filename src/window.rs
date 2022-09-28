@@ -11,7 +11,7 @@ use adw::subclass::prelude::*;
 #[cfg(target_os = "linux")]
 use ashpd::{desktop::background, WindowIdentifier};
 use glib::{clone, closure_local, FromVariant};
-use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*, CompositeTemplate};
+use gtk::{gdk, gio, glib, prelude::*, CompositeTemplate};
 use gtk_macros::stateful_action;
 use log::{debug, warn};
 

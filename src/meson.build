@@ -18,7 +18,7 @@ conf.set_quoted('PKGDATADIR', pkgdatadir)
 conf.set_quoted('APPLICATION_ID', application_id)
 conf.set_quoted('PROFILE', get_option('profile'))
 
-configure_file(
+config_rs = configure_file(
   input: 'config.rs.in',
   output: 'config.rs',
   configuration: conf
@@ -27,59 +27,39 @@ configure_file(
 # Copy the config.rs output to the source directory.
 run_command(
   'cp',
-  join_paths(meson.project_build_root(), 'src', 'config.rs'),
-  join_paths(meson.project_source_root(), 'src', 'config.rs'),
+  meson.project_build_root() / 'src' / 'config.rs',
+  meson.project_source_root() / 'src' / 'config.rs',
   check: true,
 )
 
-rust_sources = files(
-  'application.rs',
-  'audio/controller.rs',
-  'audio/cover_cache.rs',
-  'audio/gst_backend.rs',
-  'audio/inhibit_controller.rs',
-  'audio/mod.rs',
-  'audio/mpris_controller.rs',
-  'audio/player.rs',
-  'audio/queue.rs',
-  'audio/shuffle.rs',
-  'audio/song.rs',
-  'audio/state.rs',
-  'audio/waveform_generator.rs',
-  'config.rs',
-  'cover_picture.rs',
-  'drag_overlay.rs',
-  'i18n.rs',
-  'main.rs',
-  'playback_control.rs',
-  'playlist_view.rs',
-  'queue_row.rs',
-  'search.rs',
-  'song_details.rs',
-  'sort.rs',
-  'utils.rs',
-  'volume_control.rs',
-  'waveform_view.rs',
-  'window.rs',
-)
+cargo_options = [ '--manifest-path', meson.project_source_root() / 'Cargo.toml' ]
+cargo_options += [ '--target-dir', meson.project_build_root() / 'src' ]
 
-sources = [cargo_sources, rust_sources]
+if get_option('profile') == 'default'
+  cargo_options += [ '--release' ]
+  rust_target = 'release'
+  message('Building in release mode')
+else
+  rust_target = 'debug'
+  message('Building in debug mode')
+endif
 
-cargo_script = find_program(meson.project_source_root() / 'build-aux/cargo.sh')
+cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]
+
 cargo_release = custom_target(
   'cargo-build',
   build_by_default: true,
-  input: sources,
+  build_always_stale: true,
   output: meson.project_name(),
   console: true,
   install: true,
   install_dir: get_option('bindir'),
   command: [
-    cargo_script,
-    meson.project_build_root(),
-    meson.project_source_root(),
-    '@OUTPUT@',
-    get_option('buildtype'),
-    meson.project_name(),
+    'env',
+    cargo_env,
+    cargo, 'build',
+    cargo_options,
+    '&&',
+    'cp', 'src' / rust_target / meson.project_name(), '@OUTPUT@',
   ],
 )

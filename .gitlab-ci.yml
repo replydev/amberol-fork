@@ -14,7 +14,7 @@ flatpak:
     APP_ID: "io.bassi.Amberol.Devel"
     BUNDLE: "io.bassi.Amberol.Devel.flatpak"
     FLATPAK_MODULE: "amberol"
-    MANIFEST_PATH: "io.bassi.Amberol.Devel.json"
+    MANIFEST_PATH: "io.bassi.Amberol.json"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
 
 rust-fmt:

@@ -31,7 +31,7 @@ cargo_sources = files(
 if get_option('profile') == 'development'
   profile = '.Devel'
   if fs.is_dir('.git')
-    vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+    vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD', check: true).stdout().strip()
     if vcs_tag == ''
       version_suffix = '-devel'
     else

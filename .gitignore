@@ -1,3 +1,5 @@
 *.json~
 
 src/config.rs
+
+target

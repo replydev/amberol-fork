@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-29 21:27+0000\n"
-"PO-Revision-Date: 2022-09-09 18:24+0200\n"
+"POT-Creation-Date: 2022-09-28 20:25+0000\n"
+"PO-Revision-Date: 2022-10-05 21:42+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Occitan <totenoc@gmail.com>\n"
 "Language: oc\n"
@@ -52,7 +52,7 @@ msgstr "Foncionalitats actualas :"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:16
 msgid "adaptive UI"
-msgstr "Interfàcia grafica adaptativa"
+msgstr "interfàcia grafica adaptativa"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:17
 msgid "UI recoloring using the album art"
@@ -201,7 +201,7 @@ msgstr "Bascular la lectura"
 #: src/gtk/playback-control.ui:84
 msgctxt "a11y"
 msgid "Toggle play"
-msgstr "Bascular la lectura"
+msgstr "Alternar la lectura"
 
 #: src/gtk/playback-control.ui:93
 msgid "Play the Next Song"
@@ -282,7 +282,7 @@ msgstr "_Pista"
 
 #: src/gtk/playback-control.ui:231
 msgid "_Off"
-msgstr "_Desactivart"
+msgstr "_Desactivat"
 
 #: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
@@ -340,10 +340,6 @@ msgstr "Apondre un dossièr"
 #: src/gtk/window.ui:68
 msgid "Add File"
 msgstr "Apondre un fichièr"
-
-#: src/application.rs:181
-msgid "Plays music and nothing else"
-msgstr "Legís de musica, e pas res mai"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
@@ -404,7 +400,7 @@ msgstr "Una cançon novèla aponduda"
 
 #: src/window.rs:550
 msgid "Play"
-msgstr "lectura"
+msgstr "Lectura"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
@@ -466,6 +462,9 @@ msgstr "Amberol deu s’executar en rèireplan per legir de musica"
 #: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "Amberol pòt pas s’executar en rèireplan"
+
+#~ msgid "Plays music and nothing else"
+#~ msgstr "Legís de musica, e pas res mai"
 
 #~ msgid "{} hour"
 #~ msgid_plural "{} hours"

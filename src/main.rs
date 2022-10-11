@@ -23,12 +23,16 @@ use std::env;
 use config::{APPLICATION_ID, GETTEXT_PACKAGE, LOCALEDIR, PKGDATADIR, PROFILE};
 use gettextrs::{bind_textdomain_codeset, bindtextdomain, setlocale, textdomain, LocaleCategory};
 use gtk::{gio, glib, prelude::*};
-use log::{debug, error};
+use log::{debug, error, LevelFilter};
 
 use self::application::Application;
 
 fn main() {
-    pretty_env_logger::init();
+    let mut builder = pretty_env_logger::formatted_builder();
+    if APPLICATION_ID.ends_with("Devel") {
+        builder.filter(Some("amberol"), LevelFilter::Debug);
+    }
+    builder.init();
 
     // Set up gettext translations
     debug!("Setting up locale data");

@@ -91,24 +91,18 @@ impl CoverCache {
         // playlist model
         match path {
             Some(p) => {
-                let mut cover_file = PathBuf::from(p);
-                cover_file.push("cover.jpg");
-                debug!("Looking for external JPEG cover file: {:?}", &cover_file);
+                let ext_covers = vec!["Cover.jpg", "Cover.png", "cover.jpg", "cover.png"];
 
-                let f = gio::File::for_path(&cover_file);
-                if let Ok((res, _)) = f.load_bytes(None::<&gio::Cancellable>) {
-                    debug!("Loading cover from external JPEG cover file");
-                    return Some(res);
-                }
+                for name in ext_covers {
+                    let mut cover_file = PathBuf::from(p);
+                    cover_file.push(name);
+                    debug!("Looking for external cover file: {:?}", &cover_file);
 
-                cover_file = PathBuf::from(p);
-                cover_file.push("cover.png");
-                debug!("Looking for external PNG cover file: {:?}", &cover_file);
-
-                let f = gio::File::for_path(&cover_file);
-                if let Ok((res, _)) = f.load_bytes(None::<&gio::Cancellable>) {
-                    debug!("Loading cover from external PNG cover file");
-                    return Some(res);
+                    let f = gio::File::for_path(&cover_file);
+                    if let Ok((res, _)) = f.load_bytes(None::<&gio::Cancellable>) {
+                        debug!("Loading cover from external cover file");
+                        return Some(res);
+                    }
                 }
             }
             None => (),

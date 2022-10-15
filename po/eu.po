@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-05 18:10+0000\n"
-"PO-Revision-Date: 2022-08-07 20:28+0000\n"
+"POT-Creation-Date: 2022-09-28 20:25+0000\n"
+"PO-Revision-Date: 2022-10-15 20:28+0000\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -27,8 +27,8 @@ msgstr "Musika-erreproduzigailua"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-msgid "music;sound;player;media;audio;playlist;"
-msgstr "musika;soinua;erreproduzigailua;multimedia;audioa;erreprodukzio-zerrenda"
+msgid "music;player;media;audio;playlist;"
+msgstr "musika;erreproduzigailua;multimedia;audioa;erreprodukzio-zerrenda"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
 msgid "Plays music, and nothing else"
@@ -333,10 +333,6 @@ msgstr "Gehitu karpeta"
 msgid "Add File"
 msgstr "Gehitu fitxategia"
 
-#: src/application.rs:181
-msgid "Plays music and nothing else"
-msgstr "Musika erreproduzitzen du, besterik ez"
-
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
 msgid "translator-credits"
@@ -354,7 +350,7 @@ msgstr "Errepikatu uneko pista"
 msgid "_Add Song"
 msgstr "_Gehitu abestia"
 
-#: src/window.rs:410 src/window.rs:445
+#: src/window.rs:410 src/window.rs:450
 msgid "_Cancel"
 msgstr "_Utzi"
 
@@ -366,55 +362,79 @@ msgstr "Ireki fitxategia"
 msgid "Audio files"
 msgstr "Audio-fitxategiak"
 
-#: src/window.rs:444
+#: src/window.rs:428 src/window.rs:1276
+msgid "Unable to access files"
+msgstr "Ezin dira fitxategiak atzitu"
+
+#: src/window.rs:449
 msgid "_Add Folder"
 msgstr "_Gehitu karpeta"
 
-#: src/window.rs:447
+#: src/window.rs:452
 msgid "Open Folder"
 msgstr "Ireki karpeta"
 
-#: src/window.rs:465 src/window.rs:567
+#: src/window.rs:463
+msgid "Unable to access folders"
+msgstr "Ezin dira karpetak atzitu"
+
+#: src/window.rs:475
 msgid "No available song found"
 msgstr "Ez da aurkitu bat datorren abestirik"
 
-#: src/window.rs:513
+#: src/window.rs:523
 msgid "No songs found"
 msgstr "Ez da abestirik aurkitu"
 
-#: src/window.rs:539
+#: src/window.rs:549
 msgid "Added a new song"
 msgstr "Beste abesti bat gehitu da"
 
-#: src/window.rs:540
+#: src/window.rs:550
 msgid "Play"
 msgstr "Erreproduzitu"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Abesti bat gehitu da"
 msgstr[1] "{} abesti gehitu dira"
 
+#: src/window.rs:1012
+msgid "Unable to access dropped files"
+msgstr "Ezin dira jaregindako fitxategiak atzitu"
+
+#: src/window.rs:1106
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "Minutu {}"
+msgstr[1] "{} minutu"
+
+#: src/window.rs:1117
+msgid "{hours} hour {minutes} remaining"
+msgid_plural "{hours} hours {minutes} remaining"
+msgstr[0] "Ordu {hours} eta {minutes} minutu geratzen dira"
+msgstr[1] "{hours} ordu eta {minutes} minutu geratzen dira"
+
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1093
+#: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Minutu {} geratzen da"
 msgstr[1] "{} minutu geratzen dira"
 
-#: src/window.rs:1220
+#: src/window.rs:1256
 msgid "No song selected"
 msgstr "Ez da abestirik hautatu"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1225
+#: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "Abesti {} hautatu da"
@@ -423,17 +443,20 @@ msgstr[1] "{} abesti hautatu dira"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1273
+#: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Orain erreproduzitzen: “{title}”, egilea: “{artist}”"
 
-#: src/window.rs:1319
+#: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol atzeko planoan exekutatu behar da musika erreproduzitu ahal izateko"
 
-#: src/window.rs:1332
+#: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "Amberol ezin da atzeko planoan exekutatu"
+
+#~ msgid "Plays music and nothing else"
+#~ msgstr "Musika erreproduzitzen du, besterik ez"
 
 #~ msgid "“{}” is not a supported audio file"
 #~ msgstr "“{}” ez da onartutako audio-fitxategi bat"

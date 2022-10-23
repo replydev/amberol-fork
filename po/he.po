@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-28 17:48+0000\n"
-"PO-Revision-Date: 2022-09-11 07:42+0300\n"
+"POT-Creation-Date: 2022-09-28 20:25+0000\n"
+"PO-Revision-Date: 2022-10-23 20:11+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
 "2 : 3)\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 42.0\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -30,7 +30,6 @@ msgstr "נגן מוזיקה"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-#| msgid "music;sound;player;media;audio;playlist;"
 msgid "music;player;media;audio;playlist;"
 msgstr ""
 "מוזיקה;מוסיקה;שמע;צליל;נגן;מדיה;אודיו;רשימת השמעה;רשימות השמעה;פליליסט;"
@@ -342,17 +341,12 @@ msgstr "הוספת תיקייה"
 msgid "Add File"
 msgstr "הוספת קובץ"
 
-#: src/application.rs:181
-msgid "Plays music and nothing else"
-msgstr "ניגון מוזיקה ושום דבר מעבר לכך"
-
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
 msgid "translator-credits"
 msgstr ""
 "יוסף אור בוצ׳קו <yoseforb@gmail.com>\n"
-"\n"
-"<a href=\"https://l10n.gnome.org/teams/he/\">מיזם תרגום GNOME לעברית</a>"
+"מיזם תרגום GNOME לעברית https://l10n.gnome.org/teams/he/"
 
 #: src/playback_control.rs:157
 msgid "Repeat All Tracks"
@@ -434,7 +428,6 @@ msgstr[2] "שתי דקות"
 msgstr[3] "נותרו {} דקות{} דקות"
 
 #: src/window.rs:1117
-#| msgid "{hours} {minutes} remaining"
 msgid "{hours} hour {minutes} remaining"
 msgid_plural "{hours} hours {minutes} remaining"
 msgstr[0] "נותרו {hours} ו־{minutes}"
@@ -481,6 +474,9 @@ msgstr "אמברול צריך לפעול ברקע על מנת לנגן מוזי�
 #: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr "אמברול לא יכול לפעול ברקע"
+
+#~ msgid "Plays music and nothing else"
+#~ msgstr "ניגון מוזיקה ושום דבר מעבר לכך"
 
 #~ msgid "{} hour"
 #~ msgid_plural "{} hours"

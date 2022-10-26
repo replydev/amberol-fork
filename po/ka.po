@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-08-11 03:56+0000\n"
-"PO-Revision-Date: 2022-08-12 06:15+0200\n"
+"POT-Creation-Date: 2022-09-28 20:25+0000\n"
+"PO-Revision-Date: 2022-10-26 05:20+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -29,7 +29,7 @@ msgstr "მედია დამკვრელი"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/io.bassi.Amberol.desktop.in.in:12
-msgid "music;sound;player;media;audio;playlist;"
+msgid "music;player;media;audio;playlist;"
 msgstr "music;sound;player;media;audio;playlist;"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:7
@@ -271,15 +271,15 @@ msgstr ""
 
 #: src/gtk/playback-control.ui:221
 msgid "_Album"
-msgstr ""
+msgstr "_ალბომი"
 
 #: src/gtk/playback-control.ui:226
 msgid "_Track"
-msgstr ""
+msgstr "_ტრეკი"
 
 #: src/gtk/playback-control.ui:231
 msgid "_Off"
-msgstr ""
+msgstr "_გამორთ"
 
 #: src/gtk/playback-control.ui:239
 msgid "_Keyboard Shortcuts"
@@ -299,7 +299,7 @@ msgstr "დასაკრავი სია"
 
 #: src/gtk/playlist-view.ui:49
 msgid "Search Songs in the Playlist"
-msgstr ""
+msgstr "დასაკრავ სიაში სიმღერების მოძებნა"
 
 #: src/gtk/playlist-view.ui:61
 msgid "Select Songs in the Playlist"
@@ -335,10 +335,6 @@ msgstr "საქაღალდის დამატება"
 msgid "Add File"
 msgstr "ფაილის დამატება"
 
-#: src/application.rs:181
-msgid "Plays music and nothing else"
-msgstr "დაუკარით მუსიკა და არაფერი სხვა"
-
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
 msgid "translator-credits"
@@ -368,9 +364,9 @@ msgstr "ფაილის გახსნა"
 msgid "Audio files"
 msgstr "აუდიო ფაილები"
 
-#: src/window.rs:428 src/window.rs:1282
+#: src/window.rs:428 src/window.rs:1276
 msgid "Unable to access files"
-msgstr ""
+msgstr "ფაილებთან წვდომის შეცდომა"
 
 #: src/window.rs:449
 msgid "_Add Folder"
@@ -382,7 +378,7 @@ msgstr "საქაღალდის გახსნა"
 
 #: src/window.rs:463
 msgid "Unable to access folders"
-msgstr ""
+msgstr "საქაღალდეებთან წვდომის შეცდომა"
 
 #: src/window.rs:475
 msgid "No available song found"
@@ -413,48 +409,35 @@ msgstr[1] "დაემატა {} სიმღერა"
 msgid "Unable to access dropped files"
 msgstr ""
 
-#. Translators: the `{}` must be left unmodified, and
-#. it will be replaced by the number of hours remaining
-#. in the playlist
 #: src/window.rs:1106
-msgid "{} hour"
-msgid_plural "{} hours"
-msgstr[0] "{} საათი"
-msgstr[1] "{} საათი"
-
-#. Translators: the `{}` must be left unmodified, and
-#. it will be replaced by the number of minutes remaining
-#. in the playlist
-#: src/window.rs:1115
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} წუთი"
 msgstr[1] "{} წუთი"
 
-#. Translators: `{hours}` and `{minutes}` must be left
-#. unmodified, and they will be replaced by the translated
-#. strings with the hours and minutes remaining in the
-#. playlist, respectively
-#: src/window.rs:1125
-msgid "{hours} {minutes} remaining"
-msgstr "დარჩენილია {} წუთი"
+#: src/window.rs:1117
+#| msgid "{hours} {minutes} remaining"
+msgid "{hours} hour {minutes} remaining"
+msgid_plural "{hours} hours {minutes} remaining"
+msgstr[0] "დარჩენილია {hours} საათი და {minutes} წუთი"
+msgstr[1] "დარჩენილია {hours} საათი და {minutes} წუთი"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1133
+#: src/window.rs:1127
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "დარჩენილია {} წუთი"
 msgstr[1] "დარჩენილია {} წუთი"
 
-#: src/window.rs:1262
+#: src/window.rs:1256
 msgid "No song selected"
 msgstr "სიმღერა არჩეული არაა"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1267
+#: src/window.rs:1261
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "მონიშნულია {} სიმღერა"
@@ -463,14 +446,22 @@ msgstr[1] "მონიშნულია {} სიმღერა"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1320
+#: src/window.rs:1314
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr ""
 
-#: src/window.rs:1366
+#: src/window.rs:1360
 msgid "Amberol needs to run in the background to play music"
 msgstr ""
 
-#: src/window.rs:1379
+#: src/window.rs:1373
 msgid "Amberol cannot run in the background"
 msgstr ""
+
+#~ msgid "Plays music and nothing else"
+#~ msgstr "დაუკარით მუსიკა და არაფერი სხვა"
+
+#~ msgid "{} hour"
+#~ msgid_plural "{} hours"
+#~ msgstr[0] "{} საათი"
+#~ msgstr[1] "{} საათი"

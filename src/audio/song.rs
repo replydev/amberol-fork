@@ -89,7 +89,7 @@ impl SongData {
         let file = gio::File::for_uri(uri);
         let path = file.path().expect("Unable to find file");
 
-        let tagged_file = match lofty::read_from_path(&path, true) {
+        let tagged_file = match lofty::read_from_path(&path) {
             Ok(f) => f,
             Err(e) => {
                 warn!("Unable to open file {:?}: {}", path, e);

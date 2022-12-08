@@ -1370,7 +1370,6 @@ impl Window {
             }
             Err(err) => {
                 warn!("Background request denied: {}", err);
-                self.add_toast(i18n("Amberol cannot run in the background"));
             }
         }
     }

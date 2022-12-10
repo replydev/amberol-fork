@@ -403,28 +403,28 @@ impl WaveformView {
     }
 
     fn setup_gesture(&self) {
-        let click_gesture = gtk::GestureClick::new();
-        click_gesture.set_name(Some("waveform-click"));
-        click_gesture.set_button(0);
-        click_gesture.connect_pressed(
-            clone!(@strong self as this => move |gesture, n_press, x, _| {
+        let drag_gesture = gtk::GestureDrag::new();
+        drag_gesture.set_name(Some("waveform-drag"));
+        drag_gesture.set_button(0);
+        drag_gesture.connect_drag_begin(
+            clone!(@strong self as this => move |gesture, start_x, _| {
                 if !this.has_focus() {
                     this.grab_focus();
                 }
-
-                if n_press == 1 {
-                    gesture.set_state(gtk::EventSequenceState::Claimed);
-                    let width = this.width();
-                    let position = match this.direction() {
-                        gtk::TextDirection::Rtl => 1.0 - (x as f64 / width as f64),
-                        _ => x as f64 / width as f64,
-                    };
-                    debug!("Button press at {} (width: {}, position: {})", x, width, position);
-                    this.emit_by_name::<()>("position-changed", &[&position]);
-                }
+                gesture.set_state(gtk::EventSequenceState::Claimed);
+                this.seek_to_coord(start_x);
             }),
         );
-        self.add_controller(&click_gesture);
+        drag_gesture.connect_drag_update(
+            clone!(@strong self as this => move |gesture, offset_x, _| {
+                if !this.has_focus() {
+                    this.grab_focus();
+                }
+                gesture.set_state(gtk::EventSequenceState::Claimed);
+                this.seek_to_coord(gesture.start_point().unwrap().0 + offset_x);
+            }),
+        );
+        self.add_controller(&drag_gesture);
 
         let motion_gesture = gtk::EventControllerMotion::new();
         motion_gesture.set_name(Some("waveform-motion"));
@@ -455,6 +455,19 @@ impl WaveformView {
             }),
         );
         self.add_controller(&key_controller);
+    }
+
+    fn seek_to_coord(&self, pos: f64) {
+        let width = self.width();
+        let position = match self.direction() {
+            gtk::TextDirection::Rtl => 1.0 - (pos as f64 / width as f64),
+            _ => pos as f64 / width as f64,
+        };
+        debug!(
+            "Seeking to coord {} (width: {}, position: {})",
+            pos, width, position
+        );
+        self.emit_by_name::<()>("position-changed", &[&position]);
     }
 
     fn normalize_peaks(&self, peaks: Vec<(f64, f64)>) -> Vec<PeakPair> {

@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.9.2] - 2022-12-10
+
+### Added
+
 - Allow continuous seeking on the waveform widget [#99]
 - New translations
   - Icelanding
@@ -46,8 +56,6 @@ All notable changes to this project will be documented in this file.
 - Force the direction of the primary menu
 - Remove toast for failed background portal requests
 - Fully animate waveform between tracks [#254]
-
-### Removed
 
 ## [0.9.1] - 2022-08-30
 

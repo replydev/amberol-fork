@@ -6,9 +6,44 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- New translations
+  - Icelanding
+  - Hungarian
+  - British English
+  - Greek
+
 ### Changed
 
+- Use new about window from libadwaita
+- Update build to use Cargo directly without a wrapper
+- Update the dependency on lofty to 0.9.0
+- Translation updates
+  - Finnish
+  - Persian
+  - Portuguese
+  - Turkish
+  - Chinese (China)
+  - Italian
+  - Swedish
+  - Brazilian Portuguese
+  - Danish
+  - Occitan
+  - Slovenian
+  - Hebrew
+  - Indonesian
+  - German
+  - Russian
+  - Serbian
+  - Basque
+  - Georgian
+  - Dutch
+
 ### Fixed
+
+- Recolor the folded playlist background
+- Check for more file names for external covers [#247]
+- Force the direction of the primary menu
+- Remove toast for failed background portal requests
 
 ### Removed
 

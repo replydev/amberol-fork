@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Allow continuous seeking on the waveform widget [#99]
 - New translations
   - Icelanding
   - Hungarian
@@ -44,6 +45,7 @@ All notable changes to this project will be documented in this file.
 - Check for more file names for external covers [#247]
 - Force the direction of the primary menu
 - Remove toast for failed background portal requests
+- Fully animate waveform between tracks [#254]
 
 ### Removed
 

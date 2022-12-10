@@ -488,6 +488,7 @@ impl WaveformView {
             .map(|p| PeakPair::new(p.0 / max_left, p.1 / max_right))
             .collect();
 
+        debug!("Peaks: {}", normalized.len());
         normalized
     }
 
@@ -496,47 +497,51 @@ impl WaveformView {
             tick_id.remove();
         }
 
-        if let Some(peaks) = peaks {
-            let peak_pairs = self.normalize_peaks(peaks);
-            debug!("Peaks: {}", peak_pairs.len());
-            self.imp().peaks.replace(Some(peak_pairs));
+        let peak_pairs = match peaks {
+            Some(p) => Some(self.normalize_peaks(p)),
+            None => None
+        };
 
-            if self.settings().is_gtk_enable_animations() {
-                self.imp().factor.set(Some(0.0));
-                self.imp().first_frame_time.set(None);
-
-                let tick_id =
-                    self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
-                        let frame_time = clock.frame_time();
-                        if let Some(first_frame_time) = this.imp().first_frame_time.get() {
-                            if frame_time < first_frame_time {
-                                warn!("Frame clock going backwards");
-                                return glib::Continue(true);
-                            }
-
-                            let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
-                            let delta = ease_out_cubic(progress);
-                            if delta > 1.0 {
-                                debug!("Animation complete");
-                                this.imp().factor.replace(None);
-                                this.imp().tick_id.replace(None);
-                                return glib::Continue(false);
-                            } else {
-                                this.imp().factor.replace(Some(delta));
-                                this.queue_draw();
-                            }
-                        } else {
-                            this.imp().first_frame_time.replace(Some(frame_time));
-                        }
-
-                        glib::Continue(true)
-                    }));
-
-                self.imp().tick_id.replace(Some(tick_id));
-            }
-        } else {
-            self.imp().peaks.replace(None);
+        let enable_animations = self.settings().is_gtk_enable_animations();
+        if !enable_animations {
+            self.imp().peaks.replace(peak_pairs);
+            self.queue_resize();
+            return;
         }
+
+        self.imp().peaks.replace(peak_pairs);
+
+        self.imp().factor.set(Some(0.0));
+        self.imp().first_frame_time.set(None);
+
+        let tick_id =
+            self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
+                let frame_time = clock.frame_time();
+                if let Some(first_frame_time) = this.imp().first_frame_time.get() {
+                    if frame_time < first_frame_time {
+                        warn!("Frame clock going backwards");
+                        return glib::Continue(true);
+                    }
+
+                    let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
+                    let delta = ease_out_cubic(progress);
+                    if delta >= 1.0 {
+                        debug!("Animation complete");
+                        this.imp().factor.replace(None);
+                        this.imp().tick_id.replace(None);
+                        return glib::Continue(false);
+                    } else {
+                        this.imp().factor.replace(Some(delta));
+                        this.queue_draw();
+                    }
+                } else {
+                    this.imp().first_frame_time.replace(Some(frame_time));
+                }
+
+                glib::Continue(true)
+            }));
+
+        self.imp().tick_id.replace(Some(tick_id));
         self.queue_resize();
     }
 
@@ -547,3 +552,4 @@ impl WaveformView {
         self.queue_draw();
     }
 }
+

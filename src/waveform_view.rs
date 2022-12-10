@@ -500,7 +500,7 @@ impl WaveformView {
 
         let peak_pairs = match peaks {
             Some(p) => Some(self.normalize_peaks(p)),
-            None => None
+            None => None,
         };
 
         let enable_animations = self.settings().is_gtk_enable_animations();
@@ -514,65 +514,64 @@ impl WaveformView {
         self.imp().factor.set(None);
         self.imp().first_frame_time.set(None);
 
-        let tick_id =
-            self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
-                let frame_time = clock.frame_time();
-                if let Some(first_frame_time) = this.imp().first_frame_time.get() {
-                    if frame_time < first_frame_time {
-                        warn!("Frame clock going backwards");
-                        return glib::Continue(true);
-                    }
+        let tick_id = self.add_tick_callback(clone!(@strong self as this => move |_, clock| {
+            let frame_time = clock.frame_time();
+            if let Some(first_frame_time) = this.imp().first_frame_time.get() {
+                if frame_time < first_frame_time {
+                    warn!("Frame clock going backwards");
+                    return glib::Continue(true);
+                }
 
-                    let has_peaks = match *this.imp().peaks.borrow() {
-                        Some(_) => true,
-                        None => false,
-                    };
+                let has_peaks = match *this.imp().peaks.borrow() {
+                    Some(_) => true,
+                    None => false,
+                };
 
-                    let has_next_peaks = match *this.imp().next_peaks.borrow() {
-                        Some(_) => true,
-                        None => false,
-                    };
+                let has_next_peaks = match *this.imp().next_peaks.borrow() {
+                    Some(_) => true,
+                    None => false,
+                };
 
-                    if has_peaks && has_next_peaks {
-                        // Animate the existing peaks to zero
-                        let progress = 1.0 - ((frame_time - first_frame_time) as f64 / ANIMATION_USECS);
-                        let delta = ease_out_cubic(progress);
-                        if delta < 0.0 {
-                            this.imp().peaks.replace(None);
-                        } else {
-                            this.imp().factor.replace(Some(delta));
-                            this.queue_draw();
-                        }
-                    } else if has_peaks && !has_next_peaks {
-                        // Animate the peaks from zero
-                        let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
-                        let delta = ease_out_cubic(progress);
-                        if delta > 1.0 {
-                            // Animation complete
-                            this.imp().factor.replace(None);
-                            this.imp().tick_id.replace(None);
-                            return glib::Continue(false);
-                        } else {
-                            this.imp().factor.replace(Some(delta));
-                            this.queue_draw();
-                        }
-                    } else if !has_peaks && has_next_peaks {
-                        // Swap peaks
-                        let next_peaks = this.imp().next_peaks.take();
-                        this.imp().peaks.replace(next_peaks);
-                        this.imp().factor.replace(None);
-                        this.imp().first_frame_time.replace(None);
+                if has_peaks && has_next_peaks {
+                    // Animate the existing peaks to zero
+                    let progress = 1.0 - ((frame_time - first_frame_time) as f64 / ANIMATION_USECS);
+                    let delta = ease_out_cubic(progress);
+                    if delta < 0.0 {
+                        this.imp().peaks.replace(None);
                     } else {
-                        // No peaks
+                        this.imp().factor.replace(Some(delta));
+                        this.queue_draw();
+                    }
+                } else if has_peaks && !has_next_peaks {
+                    // Animate the peaks from zero
+                    let progress = (frame_time - first_frame_time) as f64 / ANIMATION_USECS;
+                    let delta = ease_out_cubic(progress);
+                    if delta > 1.0 {
+                        // Animation complete
                         this.imp().factor.replace(None);
                         this.imp().tick_id.replace(None);
                         return glib::Continue(false);
+                    } else {
+                        this.imp().factor.replace(Some(delta));
+                        this.queue_draw();
                     }
+                } else if !has_peaks && has_next_peaks {
+                    // Swap peaks
+                    let next_peaks = this.imp().next_peaks.take();
+                    this.imp().peaks.replace(next_peaks);
+                    this.imp().factor.replace(None);
+                    this.imp().first_frame_time.replace(None);
                 } else {
-                    this.imp().first_frame_time.replace(Some(frame_time));
+                    // No peaks
+                    this.imp().factor.replace(None);
+                    this.imp().tick_id.replace(None);
+                    return glib::Continue(false);
                 }
-                glib::Continue(true)
-            }));
+            } else {
+                this.imp().first_frame_time.replace(Some(frame_time));
+            }
+            glib::Continue(true)
+        }));
 
         self.imp().tick_id.replace(Some(tick_id));
         self.queue_resize();
@@ -585,4 +584,3 @@ impl WaveformView {
         self.queue_draw();
     }
 }
-

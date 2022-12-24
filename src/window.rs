@@ -16,7 +16,7 @@ use gtk_macros::stateful_action;
 use log::{debug, warn};
 
 use crate::{
-    audio::{AudioPlayer, ReplayGainMode, Song, WaveformGenerator},
+    audio::{AudioPlayer, RepeatMode, ReplayGainMode, Song, WaveformGenerator},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
     i18n::{i18n, i18n_k, ni18n_f, ni18n_k},
@@ -705,7 +705,14 @@ impl Window {
             Some("current"),
             clone!(@weak self as win => move |queue, _| {
                 if queue.is_last_song() {
-                    win.action_set_enabled("win.next", false);
+                    match queue.repeat_mode() {
+                        RepeatMode::Consecutive => {
+                            win.action_set_enabled("win.next", false);
+                        },
+                        _ => {
+                            win.action_set_enabled("win.next", true);
+                        }
+                    }
                 } else {
                     win.action_set_enabled("win.next", true);
                 }

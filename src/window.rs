@@ -523,7 +523,7 @@ impl Window {
                             win.add_toast(i18n("No songs found"));
                         } else {
                             let player = win.player();
-                            let queue =  player.queue();
+                            let queue = player.queue();
                             let was_empty = queue.is_empty();
 
                             win.imp().playlist_view.end_loading();

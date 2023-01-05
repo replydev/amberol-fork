@@ -9,18 +9,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-09-09 19:29+0000\n"
-"PO-Revision-Date: 2022-09-19 09:10+0200\n"
+"POT-Creation-Date: 2023-01-05 10:55+0000\n"
+"PO-Revision-Date: 2023-01-05 19:37+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -249,56 +249,56 @@ msgstr "Ponovi"
 msgid "Main Menu"
 msgstr "Glavni meni"
 
-#: src/gtk/playback-control.ui:177
+#: src/gtk/playback-control.ui:178
 msgctxt "a11y"
 msgid "Primary menu"
 msgstr "Osnovni meni"
 
-#: src/gtk/playback-control.ui:193
+#: src/gtk/playback-control.ui:194
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: src/gtk/playback-control.ui:199
+#: src/gtk/playback-control.ui:200
 msgid "Add _Song"
 msgstr "Dodaja _posnetek"
 
-#: src/gtk/playback-control.ui:203
+#: src/gtk/playback-control.ui:204
 msgid "Add _Folder"
 msgstr "Dodaj _mapo"
 
-#: src/gtk/playback-control.ui:207
+#: src/gtk/playback-control.ui:208
 msgid "Clear"
 msgstr "Počisti"
 
-#: src/gtk/playback-control.ui:213
+#: src/gtk/playback-control.ui:214
 msgid "_Match Cover Art"
 msgstr "_Ujemanje naslovnice albuma"
 
-#: src/gtk/playback-control.ui:219
+#: src/gtk/playback-control.ui:220
 msgid "_ReplayGain"
 msgstr "Normaliziraj po _ReplayGain"
 
-#: src/gtk/playback-control.ui:221
+#: src/gtk/playback-control.ui:222
 msgid "_Album"
 msgstr "_Album"
 
-#: src/gtk/playback-control.ui:226
+#: src/gtk/playback-control.ui:227
 msgid "_Track"
 msgstr "_Sled"
 
-#: src/gtk/playback-control.ui:231
+#: src/gtk/playback-control.ui:232
 msgid "_Off"
 msgstr "_Onemogočeno"
 
-#: src/gtk/playback-control.ui:239
+#: src/gtk/playback-control.ui:240
 msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
-#: src/gtk/playback-control.ui:243
+#: src/gtk/playback-control.ui:244
 msgid "_About Amberol"
 msgstr "_O programu"
 
-#: src/gtk/playback-control.ui:247
+#: src/gtk/playback-control.ui:248
 msgid "_Quit"
 msgstr "_Končaj"
 
@@ -343,12 +343,8 @@ msgid "Add Folder"
 msgstr "Dodaj mapo"
 
 #: src/gtk/window.ui:68
-msgid "Add File"
-msgstr "Dodaj datoteko"
-
-#: src/application.rs:181
-msgid "Plays music and nothing else"
-msgstr "Predvaja glasbo in nič drugega"
+msgid "Add Song"
+msgstr "Dodaj pesem"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
@@ -379,7 +375,7 @@ msgstr "Odpri datoteko"
 msgid "Audio files"
 msgstr "Zvokovne datoteke"
 
-#: src/window.rs:428 src/window.rs:1276
+#: src/window.rs:428 src/window.rs:1293
 msgid "Unable to access files"
 msgstr "Dostop do datotek ni možen"
 
@@ -399,22 +395,22 @@ msgstr "Dostop do map ni možen"
 msgid "No available song found"
 msgstr "Ni najdenih skladb"
 
-#: src/window.rs:523
+#: src/window.rs:532
 msgid "No songs found"
 msgstr "Ni najdenih posnetkov"
 
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added a new song"
 msgstr "Dodana nova pesem"
 
-#: src/window.rs:550
+#: src/window.rs:560
 msgid "Play"
 msgstr "Predvajaj"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:559
+#: src/window.rs:569
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "Dodana {} pesem"
@@ -422,11 +418,11 @@ msgstr[1] "Dodani {} pesmi"
 msgstr[2] "Dodane {} pesmi"
 msgstr[3] "Dodanih {} pesmi"
 
-#: src/window.rs:1012
+#: src/window.rs:1029
 msgid "Unable to access dropped files"
 msgstr "Dostop do opuščenih datotek ni možen"
 
-#: src/window.rs:1106
+#: src/window.rs:1123
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
@@ -434,7 +430,7 @@ msgstr[1] "{} minuti"
 msgstr[2] "{} minute"
 msgstr[3] "{} minut"
 
-#: src/window.rs:1117
+#: src/window.rs:1134
 msgid "{hours} hour {minutes} remaining"
 msgid_plural "{hours} hours {minutes} remaining"
 msgstr[0] "Preostali čas: {hours} ur {minutes} min"
@@ -445,7 +441,7 @@ msgstr[3] "Preostali čas: {hours} ure {minutes} min"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1127
+#: src/window.rs:1144
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "Preostali čas: {} minut"
@@ -453,13 +449,13 @@ msgstr[1] "Preostali čas: {} minuta"
 msgstr[2] "Preostali čas: {} minuti"
 msgstr[3] "Preostali čas: {} minute"
 
-#: src/window.rs:1256
+#: src/window.rs:1273
 msgid "No song selected"
 msgstr "Ni izbranih posnetkov"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1261
+#: src/window.rs:1278
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "{} izbranih pesmi"
@@ -470,14 +466,10 @@ msgstr[3] "{} izbrane pesmi"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1314
+#: src/window.rs:1331
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "Trenutno predvaja »{title}« ({artist})"
 
-#: src/window.rs:1360
+#: src/window.rs:1377
 msgid "Amberol needs to run in the background to play music"
 msgstr "Amberol se mora za predvajanje glasbe izvajati v ozadju"
-
-#: src/window.rs:1373
-msgid "Amberol cannot run in the background"
-msgstr "Amberol se ne more izvajati v ozadju"

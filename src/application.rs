@@ -8,7 +8,7 @@ use adw::subclass::prelude::*;
 use ashpd::{desktop::background::BackgroundResponse, WindowIdentifier};
 use glib::{clone, Receiver};
 use gtk::{gio, glib, prelude::*};
-use gtk_macros::action;
+use gtk_macros::{action, stateful_action};
 use log::{debug, warn};
 
 use crate::{
@@ -30,7 +30,7 @@ mod imp {
     pub struct Application {
         pub player: Rc<AudioPlayer>,
         pub receiver: RefCell<Option<Receiver<ApplicationAction>>>,
-        pub background_play: RefCell<Option<ApplicationHoldGuard>>,
+        pub background_hold: RefCell<Option<ApplicationHoldGuard>>,
         pub settings: gio::Settings,
     }
 
@@ -47,7 +47,7 @@ mod imp {
             Self {
                 player: AudioPlayer::new(sender),
                 receiver,
-                background_play: RefCell::default(),
+                background_hold: RefCell::default(),
                 settings: utils::settings_manager(),
             }
         }
@@ -60,6 +60,7 @@ mod imp {
             let obj = self.obj();
             obj.setup_channel();
             obj.setup_gactions();
+            obj.setup_settings();
 
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
 
@@ -131,6 +132,23 @@ impl Application {
         self.imp().player.clone()
     }
 
+    fn setup_settings(&self) {
+        self.imp().settings.connect_changed(
+            Some("background-play"),
+            clone!(@weak self as this => move |settings, _| {
+                let background_play = settings.boolean("background-play");
+                debug!("GSettings:background-play: {background_play}");
+                if background_play {
+                    this.request_background();
+                } else {
+                    this.imp().background_hold.replace(None);
+                }
+            }),
+        );
+
+        let _dummy = self.imp().settings.boolean("background-play");
+    }
+
     fn setup_channel(&self) {
         let receiver = self.imp().receiver.borrow_mut().take().unwrap();
         receiver.attach(
@@ -156,11 +174,8 @@ impl Application {
             window.upcast()
         };
 
-        let background_play = true;
-        if background_play {
-            #[cfg(target_os = "linux")]
-            self.request_background();
-        }
+        #[cfg(target_os = "linux")]
+        self.request_background();
 
         window.present();
     }
@@ -179,6 +194,24 @@ impl Application {
             "about",
             clone!(@weak self as app => move |_, _| {
                 app.show_about();
+            })
+        );
+
+        let background_play = self.imp().settings.boolean("background-play");
+        stateful_action!(
+            self,
+            "background-play",
+            background_play,
+            clone!(@weak self as this => move |action, _| {
+                let state = action.state().unwrap();
+                let action_state: bool = state.get().unwrap();
+                let background_play = !action_state;
+                action.set_state(&background_play.to_variant());
+
+                this.imp()
+                    .settings
+                    .set_boolean("background-play", background_play)
+                    .expect("Unable to store background-play setting");
             })
         );
     }
@@ -217,10 +250,14 @@ impl Application {
             match request.build().await {
                 Ok(response) => {
                     debug!("Background request successful: {:?}", response);
-                    self.imp().background_play.replace(Some(self.hold()));
+                    self.imp().background_hold.replace(Some(self.hold()));
                 }
                 Err(err) => {
                     warn!("Background request denied: {}", err);
+                    self.imp()
+                        .settings
+                        .set_boolean("background-play", false)
+                        .expect("Unable to set background-play settings key");
                 }
             }
         }
@@ -228,9 +265,12 @@ impl Application {
 
     #[cfg(target_os = "linux")]
     fn request_background(&self) {
-        let ctx = glib::MainContext::default();
-        ctx.spawn_local(clone!(@weak self as app => async move {
-            app.portal_request_background().await
-        }));
+        let background_play = self.imp().settings.boolean("background-play");
+        if background_play {
+            let ctx = glib::MainContext::default();
+            ctx.spawn_local(clone!(@weak self as app => async move {
+                app.portal_request_background().await
+            }));
+        }
     }
 }

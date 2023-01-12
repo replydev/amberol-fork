@@ -4,15 +4,18 @@
 use std::{cell::RefCell, rc::Rc};
 
 use adw::subclass::prelude::*;
+#[cfg(target_os = "linux")]
+use ashpd::{desktop::background::BackgroundResponse, WindowIdentifier};
 use glib::{clone, Receiver};
 use gtk::{gio, glib, prelude::*};
 use gtk_macros::action;
-use log::debug;
+use log::{debug, warn};
 
 use crate::{
     audio::AudioPlayer,
     config::{APPLICATION_ID, VERSION},
     i18n::i18n,
+    utils,
     window::Window,
 };
 
@@ -27,6 +30,8 @@ mod imp {
     pub struct Application {
         pub player: Rc<AudioPlayer>,
         pub receiver: RefCell<Option<Receiver<ApplicationAction>>>,
+        pub background_play: RefCell<Option<ApplicationHoldGuard>>,
+        pub settings: gio::Settings,
     }
 
     #[glib::object_subclass]
@@ -42,14 +47,17 @@ mod imp {
             Self {
                 player: AudioPlayer::new(sender),
                 receiver,
+                background_play: RefCell::default(),
+                settings: utils::settings_manager(),
             }
         }
     }
 
     impl ObjectImpl for Application {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
 
+            let obj = self.obj();
             obj.setup_channel();
             obj.setup_gactions();
 
@@ -71,21 +79,22 @@ mod imp {
     }
 
     impl ApplicationImpl for Application {
-        fn startup(&self, application: &Self::Type) {
-            self.parent_startup(application);
+        fn startup(&self) {
+            self.parent_startup();
 
             gtk::Window::set_default_icon_name(APPLICATION_ID);
         }
 
-        fn activate(&self, application: &Self::Type) {
+        fn activate(&self) {
             debug!("Application::activate");
 
-            application.present_main_window();
+            self.obj().present_main_window();
         }
 
-        fn open(&self, application: &Self::Type, files: &[gio::File], _hint: &str) {
+        fn open(&self, files: &[gio::File], _hint: &str) {
             debug!("Application::open");
 
+            let application = self.obj();
             application.present_main_window();
             if let Some(window) = application.active_window() {
                 window.downcast_ref::<Window>().unwrap().open_files(files);
@@ -105,14 +114,11 @@ glib::wrapper! {
 
 impl Default for Application {
     fn default() -> Self {
-        glib::Object::new(&[
-            ("application-id", &APPLICATION_ID),
-            ("flags", &gio::ApplicationFlags::HANDLES_OPEN),
-            // We don't change the resource path depending on the
-            // profile, so we need to specify the base path ourselves
-            ("resource-base-path", &"/io/bassi/Amberol"),
-        ])
-        .expect("Failed to create Application")
+        glib::Object::builder::<Application>()
+            .property("application-id", &APPLICATION_ID)
+            .property("flags", gio::ApplicationFlags::HANDLES_OPEN)
+            .property("resource-base-path", &"/io/bassi/Amberol")
+            .build()
     }
 }
 
@@ -149,6 +155,12 @@ impl Application {
             let window = Window::new(self);
             window.upcast()
         };
+
+        let background_play = true;
+        if background_play {
+            #[cfg(target_os = "linux")]
+            self.request_background();
+        }
 
         window.present();
     }
@@ -189,5 +201,36 @@ impl Application {
             .build();
 
         dialog.present();
+    }
+
+    #[cfg(target_os = "linux")]
+    async fn portal_request_background(&self) {
+        if let Some(window) = self.active_window() {
+            let root = window.native().unwrap();
+            let identifier = WindowIdentifier::from_native(&root).await;
+            let request = BackgroundResponse::builder()
+                .identifier(identifier)
+                .reason(&*i18n(
+                    "Amberol needs to run in the background to play music",
+                ));
+
+            match request.build().await {
+                Ok(response) => {
+                    debug!("Background request successful: {:?}", response);
+                    self.imp().background_play.replace(Some(self.hold()));
+                }
+                Err(err) => {
+                    warn!("Background request denied: {}", err);
+                }
+            }
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn request_background(&self) {
+        let ctx = glib::MainContext::default();
+        ctx.spawn_local(clone!(@weak self as app => async move {
+            app.portal_request_background().await
+        }));
     }
 }

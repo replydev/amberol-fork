@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-01-05 10:55+0000\n"
-"PO-Revision-Date: 2023-01-05 14:51+0300\n"
+"POT-Creation-Date: 2023-01-16 13:52+0000\n"
+"PO-Revision-Date: 2023-01-16 21:16+0300\n"
 "Last-Translator: Yuras Shumovich <shumovichy@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
@@ -108,7 +108,7 @@ msgstr "Скапіяваць у буфер абмену звесткі песн�
 
 #: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "Паказаць спалучэнні клавіш"
 
 #: src/gtk/help-overlay.ui:32
@@ -153,7 +153,7 @@ msgstr "Прайграванне"
 
 #: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
+msgid "Toggle play/pause"
 msgstr "Прайграванне/паўза"
 
 #: src/gtk/help-overlay.ui:84

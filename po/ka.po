@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-01-05 10:55+0000\n"
-"PO-Revision-Date: 2023-01-08 06:25+0100\n"
+"POT-Creation-Date: 2023-01-16 13:52+0000\n"
+"PO-Revision-Date: 2023-01-16 21:49+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -56,11 +56,11 @@ msgstr "მორგებადი ინტერფეისი"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:17
 msgid "UI recoloring using the album art"
-msgstr ""
+msgstr "UI-ის  ფერების შეცვლა ყდის სურათის გამოყენებით"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:18
 msgid "drag and drop support to queue songs"
-msgstr ""
+msgstr "რიგში ფაილების გადათრევის მხაარდაჭერა"
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:19
 msgid "shuffle and repeat"
@@ -103,11 +103,11 @@ msgstr "ძირითადი მენიუს ჩართ/გამორ
 #: src/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Copy song details to the clipboard"
-msgstr ""
+msgstr "სიმღერის დეტალების ბუფერში კოპირება"
 
 #: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "მალსახმობების ჩვენება"
 
 #: src/gtk/help-overlay.ui:32
@@ -123,12 +123,12 @@ msgstr "დასაკრავი სია"
 #: src/gtk/help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Add a song to the playlist"
-msgstr ""
+msgstr "სიმღერის დასაკრავ სიაში ჩამატება"
 
 #: src/gtk/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Add a folder to the playlist"
-msgstr ""
+msgstr "საქაღალდის დასაკრავ სიაში ჩამატება"
 
 #: src/gtk/help-overlay.ui:55
 msgctxt "shortcut window"
@@ -138,12 +138,12 @@ msgstr "დასაკრავი სიის გასუფთავებ�
 #: src/gtk/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Toggle the playlist pane"
-msgstr ""
+msgstr "დასაკრავი სიის პანელის გადართვა"
 
 #: src/gtk/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle shuffling songs"
-msgstr ""
+msgstr "სიმღერების შემთხვევით დაკვრის გადართვა"
 
 #: src/gtk/help-overlay.ui:75
 msgctxt "shortcut window"
@@ -152,8 +152,8 @@ msgstr "დაკვრა"
 
 #: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
-msgstr ""
+msgid "Toggle play/pause"
+msgstr "დაკვრა/გაჩერების გადართვა"
 
 #: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
@@ -168,12 +168,12 @@ msgstr "შემდეგი სიმღერა"
 #: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
-msgstr ""
+msgstr "მიმდინარე სიმღერის უკან გადახვევა"
 
 #: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
-msgstr ""
+msgstr "მიმდინარე სიმღერის წინ გადახვევა"
 
 #: src/gtk/playback-control.ui:30
 msgctxt "a11y"
@@ -196,12 +196,12 @@ msgstr "უკან გამოტოვება"
 
 #: src/gtk/playback-control.ui:78
 msgid "Toggle Play"
-msgstr "მედიის დაკვრა/გაჩერების გადართვა"
+msgstr "მედიის დაკვრის გადართვა"
 
 #: src/gtk/playback-control.ui:84
 msgctxt "a11y"
 msgid "Toggle play"
-msgstr "მედიის დაკვრა/გაჩერების გადართვა"
+msgstr "მედიის დაკვრის გადართვა"
 
 #: src/gtk/playback-control.ui:93
 msgid "Play the Next Song"
@@ -266,7 +266,7 @@ msgstr "გაწმენდა"
 
 #: src/gtk/playback-control.ui:214
 msgid "_Match Cover Art"
-msgstr ""
+msgstr "_ყდის სურათის დამთხვევა"
 
 #: src/gtk/playback-control.ui:220
 msgid "_ReplayGain"

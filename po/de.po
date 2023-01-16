@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-01-05 10:55+0000\n"
-"PO-Revision-Date: 2023-01-05 16:22+0100\n"
+"POT-Creation-Date: 2023-01-16 13:52+0000\n"
+"PO-Revision-Date: 2023-01-16 16:52+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -110,7 +110,7 @@ msgstr "Titel-Details in die Zwischenablage kopieren"
 
 #: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "Tastenkombinationen anzeigen"
 
 #: src/gtk/help-overlay.ui:32
@@ -155,7 +155,7 @@ msgstr "Wiedergabe"
 
 #: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
+msgid "Toggle play/pause"
 msgstr "Abspielen/Pausieren umschalten"
 
 #: src/gtk/help-overlay.ui:84

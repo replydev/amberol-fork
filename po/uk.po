@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-01-05 10:55+0000\n"
-"PO-Revision-Date: 2023-01-05 14:04+0200\n"
+"POT-Creation-Date: 2023-01-16 13:52+0000\n"
+"PO-Revision-Date: 2023-01-17 14:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -111,9 +111,11 @@ msgid "Copy song details to the clipboard"
 msgstr "Скопіювати параметри композиції до буфера обміну"
 
 #: src/gtk/help-overlay.ui:26
+#| msgctxt "shortcut window"
+#| msgid "Show Shortcuts"
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "Показати клавіатурні скорочення"
+msgid "Show shortcuts"
+msgstr "Показати скорочення"
 
 #: src/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
@@ -156,8 +158,10 @@ msgid "Playback"
 msgstr "Відтворення"
 
 #: src/gtk/help-overlay.ui:78
+#| msgctxt "shortcut window"
+#| msgid "Toggle Play/Pause"
 msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
+msgid "Toggle play/pause"
 msgstr "Перемкнути відтворення/призупинення"
 
 #: src/gtk/help-overlay.ui:84
@@ -342,7 +346,6 @@ msgid "Add Folder"
 msgstr "Додати теку"
 
 #: src/gtk/window.ui:68
-#| msgid "_Add Song"
 msgid "Add Song"
 msgstr "Додати композицію"
 

@@ -1,14 +1,14 @@
 # Hebrew translation for amberol.
 # Copyright (C) 2022 amberol's COPYRIGHT HOLDER
 # This file is distributed under the same license as the amberol package.
-# Yosef Or Boczko <yoseforb@gmail.com>, 2022.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2022-09-28 20:25+0000\n"
-"PO-Revision-Date: 2022-10-23 20:11+0300\n"
+"POT-Creation-Date: 2023-01-16 13:52+0000\n"
+"PO-Revision-Date: 2023-01-20 11:53+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -108,7 +108,7 @@ msgstr "העתקת פרטי שיר ללוח הגזירים"
 
 #: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "הצגת צירופי מקשים"
 
 #: src/gtk/help-overlay.ui:32
@@ -153,7 +153,7 @@ msgstr "ניגון"
 
 #: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
+msgid "Toggle play/pause"
 msgstr "ניגון/השהייה"
 
 #: src/gtk/help-overlay.ui:84
@@ -244,56 +244,56 @@ msgstr "חזרה"
 msgid "Main Menu"
 msgstr "תפריט ראשי"
 
-#: src/gtk/playback-control.ui:177
+#: src/gtk/playback-control.ui:178
 msgctxt "a11y"
 msgid "Primary menu"
 msgstr "תפריט עיקרי"
 
-#: src/gtk/playback-control.ui:193
+#: src/gtk/playback-control.ui:194
 msgid "Copy"
 msgstr "העתקה"
 
-#: src/gtk/playback-control.ui:199
+#: src/gtk/playback-control.ui:200
 msgid "Add _Song"
 msgstr "הוספת _שיר"
 
-#: src/gtk/playback-control.ui:203
+#: src/gtk/playback-control.ui:204
 msgid "Add _Folder"
 msgstr "הוספת _תיקייה"
 
-#: src/gtk/playback-control.ui:207
+#: src/gtk/playback-control.ui:208
 msgid "Clear"
 msgstr "ניקוי"
 
-#: src/gtk/playback-control.ui:213
+#: src/gtk/playback-control.ui:214
 msgid "_Match Cover Art"
 msgstr "ה_תאמת כיסוי אלבום"
 
-#: src/gtk/playback-control.ui:219
+#: src/gtk/playback-control.ui:220
 msgid "_ReplayGain"
 msgstr "_ReplayGain"
 
-#: src/gtk/playback-control.ui:221
+#: src/gtk/playback-control.ui:222
 msgid "_Album"
 msgstr "_אלבום"
 
-#: src/gtk/playback-control.ui:226
+#: src/gtk/playback-control.ui:227
 msgid "_Track"
 msgstr "_רצועה"
 
-#: src/gtk/playback-control.ui:231
+#: src/gtk/playback-control.ui:232
 msgid "_Off"
 msgstr "_כיבוי"
 
-#: src/gtk/playback-control.ui:239
+#: src/gtk/playback-control.ui:240
 msgid "_Keyboard Shortcuts"
 msgstr "_צירופי מקשים"
 
-#: src/gtk/playback-control.ui:243
+#: src/gtk/playback-control.ui:244
 msgid "_About Amberol"
 msgstr "_על אמברול"
 
-#: src/gtk/playback-control.ui:247
+#: src/gtk/playback-control.ui:248
 msgid "_Quit"
 msgstr "_יציאה"
 
@@ -338,8 +338,8 @@ msgid "Add Folder"
 msgstr "הוספת תיקייה"
 
 #: src/gtk/window.ui:68
-msgid "Add File"
-msgstr "הוספת קובץ"
+msgid "Add Song"
+msgstr "הוספת שיר"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/application.rs:188
@@ -372,7 +372,7 @@ msgstr "פתיחת קבוץ"
 msgid "Audio files"
 msgstr "קובצי שמע"
 
-#: src/window.rs:428 src/window.rs:1276
+#: src/window.rs:428 src/window.rs:1293
 msgid "Unable to access files"
 msgstr "לא ניתן לגשת לקבצים"
 
@@ -392,22 +392,22 @@ msgstr "לא ניתן לגשת לתיקיות"
 msgid "No available song found"
 msgstr "לא נמצא שיר זמין"
 
-#: src/window.rs:523
+#: src/window.rs:532
 msgid "No songs found"
 msgstr "לא נמצאו שירים"
 
-#: src/window.rs:549
+#: src/window.rs:559
 msgid "Added a new song"
 msgstr "נוסף שיר חדש"
 
-#: src/window.rs:550
+#: src/window.rs:560
 msgid "Play"
 msgstr "ניגון"
 
 #. Translators: the `{}` must be left unmodified;
 #. it will be expanded to the number of songs added
 #. to the playlist
-#: src/window.rs:559
+#: src/window.rs:569
 msgid "Added one song"
 msgid_plural "Added {} songs"
 msgstr[0] "נוסף שיר אחד"
@@ -415,11 +415,11 @@ msgstr[1] "נוספו {} שירים"
 msgstr[2] "נוספו שני שירים"
 msgstr[3] "נוספו {} שירים"
 
-#: src/window.rs:1012
+#: src/window.rs:1029
 msgid "Unable to access dropped files"
 msgstr "לא ניתן לגשת לקבצים שנזרקו"
 
-#: src/window.rs:1106
+#: src/window.rs:1123
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה"
@@ -427,7 +427,7 @@ msgstr[1] "{} דקות"
 msgstr[2] "שתי דקות"
 msgstr[3] "נותרו {} דקות{} דקות"
 
-#: src/window.rs:1117
+#: src/window.rs:1134
 msgid "{hours} hour {minutes} remaining"
 msgid_plural "{hours} hours {minutes} remaining"
 msgstr[0] "נותרו {hours} ו־{minutes}"
@@ -438,7 +438,7 @@ msgstr[3] "נותרו {hours} ו־{minutes}"
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining
 #. in the playlist
-#: src/window.rs:1127
+#: src/window.rs:1144
 msgid "{} minute remaining"
 msgid_plural "{} minutes remaining"
 msgstr[0] "נותרה דקה אחת"
@@ -446,13 +446,13 @@ msgstr[1] "נותרו {} דקות"
 msgstr[2] "נותרו שתי דקות"
 msgstr[3] "נותרו {} דקות"
 
-#: src/window.rs:1256
+#: src/window.rs:1273
 msgid "No song selected"
 msgstr "לא נבחרו שירים"
 
 #. Translators: The '{}' must be left unmodified, and
 #. it is expanded to the number of songs selected
-#: src/window.rs:1261
+#: src/window.rs:1278
 msgid "{} song selected"
 msgid_plural "{} songs selected"
 msgstr[0] "נבחר שיר אחד"
@@ -463,17 +463,19 @@ msgstr[3] "נבחרו {} שירים"
 #. Translators: `{title}` and `{artist}` must be left
 #. untranslated; they will expand to the title and
 #. artist of the currently playing song, respectively
-#: src/window.rs:1314
+#: src/window.rs:1331
 msgid "Currently playing “{title}” by “{artist}”"
 msgstr "מתנגן כעת „{title}” בביצוע „{artist}”"
 
-#: src/window.rs:1360
+#: src/window.rs:1377
 msgid "Amberol needs to run in the background to play music"
 msgstr "אמברול צריך לפעול ברקע על מנת לנגן מוזיקה"
 
-#: src/window.rs:1373
-msgid "Amberol cannot run in the background"
-msgstr "אמברול לא יכול לפעול ברקע"
+#~ msgid "Add File"
+#~ msgstr "הוספת קובץ"
+
+#~ msgid "Amberol cannot run in the background"
+#~ msgstr "אמברול לא יכול לפעול ברקע"
 
 #~ msgid "Plays music and nothing else"
 #~ msgstr "ניגון מוזיקה ושום דבר מעבר לכך"

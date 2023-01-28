@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-01-05 15:51+0000\n"
-"PO-Revision-Date: 2023-01-06 16:23+0900\n"
-"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
+"POT-Creation-Date: 2023-01-16 13:52+0000\n"
+"PO-Revision-Date: 2023-01-27 02:39+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgstr "곡 세부 정보를 클립보드에 복사"
 
 #: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "바로 가기 키 표시"
 
 #: src/gtk/help-overlay.ui:32
@@ -154,7 +154,7 @@ msgstr "재생"
 
 #: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
-msgid "Toggle Play/Pause"
+msgid "Toggle play/pause"
 msgstr "재생/일시정지 전환"
 
 #: src/gtk/help-overlay.ui:84

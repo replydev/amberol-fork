@@ -54,9 +54,9 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
+        fn property(&self, _id: usize, pspec: &ParamSpec) -> Value {
             match pspec.name() {
-                "has-peaks" => obj.peaks().is_some().to_value(),
+                "has-peaks" => self.obj().peaks().is_some().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -69,7 +69,7 @@ glib::wrapper! {
 
 impl Default for WaveformGenerator {
     fn default() -> Self {
-        glib::Object::new(&[]).expect("Failed to create WaveformGenerator")
+        glib::Object::new::<Self>(&[])
     }
 }
 

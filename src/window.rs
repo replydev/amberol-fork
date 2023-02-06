@@ -8,12 +8,10 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
-#[cfg(target_os = "linux")]
-use ashpd::{desktop::background, WindowIdentifier};
 use glib::{clone, closure_local, FromVariant};
 use gtk::{gdk, gio, glib, prelude::*, CompositeTemplate};
 use gtk_macros::stateful_action;
-use log::{debug, warn};
+use log::debug;
 
 use crate::{
     audio::{AudioPlayer, RepeatMode, ReplayGainMode, Song, WaveformGenerator},
@@ -36,7 +34,7 @@ pub enum WindowMode {
 }
 
 mod imp {
-    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecEnum, Value};
+    use glib::{ParamSpec, ParamSpecBoolean, ParamSpecEnum, Value};
     use once_cell::sync::Lazy;
 
     use super::*;
@@ -169,47 +167,33 @@ mod imp {
     }
 
     impl ObjectImpl for Window {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
 
             if APPLICATION_ID.ends_with("Devel") {
-                obj.add_css_class("devel");
+                self.obj().add_css_class("devel");
             }
         }
 
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
                 vec![
-                    ParamSpecBoolean::new(
-                        "playlist-shuffled",
-                        "",
-                        "",
-                        false,
-                        ParamFlags::READWRITE,
-                    ),
-                    ParamSpecBoolean::new("playlist-visible", "", "", false, ParamFlags::READWRITE),
-                    ParamSpecBoolean::new(
-                        "playlist-selection",
-                        "",
-                        "",
-                        false,
-                        ParamFlags::READWRITE,
-                    ),
-                    ParamSpecBoolean::new("playlist-search", "", "", false, ParamFlags::READWRITE),
-                    ParamSpecEnum::new(
+                    ParamSpecBoolean::builder("playlist-shuffled").build(),
+                    ParamSpecBoolean::builder("playlist-visible").build(),
+                    ParamSpecBoolean::builder("playlist-selection").build(),
+                    ParamSpecBoolean::builder("playlist-search").build(),
+                    ParamSpecEnum::builder::<ReplayGainMode>(
                         "replaygain-mode",
-                        "",
-                        "",
-                        ReplayGainMode::static_type(),
-                        ReplayGainMode::default() as i32,
-                        ParamFlags::READWRITE,
-                    ),
+                        ReplayGainMode::default(),
+                    )
+                    .build(),
                 ]
             });
             PROPERTIES.as_ref()
         }
 
-        fn set_property(&self, obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+        fn set_property(&self, _id: usize, value: &Value, pspec: &ParamSpec) {
+            let obj = self.obj();
             match pspec.name() {
                 "playlist-shuffled" => obj.set_playlist_shuffled(value.get::<bool>().unwrap()),
                 "playlist-visible" => obj.set_playlist_visible(value.get::<bool>().unwrap()),
@@ -220,7 +204,8 @@ mod imp {
             }
         }
 
-        fn property(&self, obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
+        fn property(&self, _id: usize, pspec: &ParamSpec) -> Value {
+            let obj = self.obj();
             match pspec.name() {
                 "playlist-shuffled" => obj.playlist_shuffled().to_value(),
                 "playlist-visible" => obj.playlist_visible().to_value(),
@@ -246,8 +231,9 @@ glib::wrapper! {
 
 impl Window {
     pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
-        let win = glib::Object::new::<Window>(&[("application", application)])
-            .expect("Failed to create Window");
+        let win = glib::Object::builder::<Window>()
+            .property("application", application)
+            .build();
 
         win.setup_waveform();
         win.setup_actions();
@@ -259,9 +245,6 @@ impl Window {
         win.connect_signals();
         win.restore_window_state();
         win.set_initial_state();
-
-        #[cfg(target_os = "linux")]
-        win.request_background();
 
         win
     }
@@ -906,8 +889,9 @@ impl Window {
         let imp = self.imp();
 
         let factory = gtk::SignalListItemFactory::new();
-        factory.connect_setup(clone!(@weak self as win => move |_, list_item| {
+        factory.connect_setup(clone!(@weak self as win => move |_, item| {
             let row = QueueRow::default();
+            let list_item = item.downcast_ref::<gtk::ListItem>().unwrap();
             list_item.set_child(Some(&row));
 
             row.connect_notify_local(
@@ -1365,37 +1349,5 @@ impl Window {
 
     pub fn replaygain(&self) -> ReplayGainMode {
         self.imp().replaygain_mode.get()
-    }
-
-    #[cfg(target_os = "linux")]
-    async fn portal_request_background(&self) {
-        let root = self.native().unwrap();
-        let identifier = WindowIdentifier::from_native(&root).await;
-
-        match background::request(
-            &identifier,
-            &i18n("Amberol needs to run in the background to play music"),
-            false,
-            None::<&[&str]>,
-            true,
-        )
-        .await
-        {
-            Ok(response) => {
-                debug!("Background request successful: {:?}", response);
-                self.application().unwrap().hold()
-            }
-            Err(err) => {
-                warn!("Background request denied: {}", err);
-            }
-        }
-    }
-
-    #[cfg(target_os = "linux")]
-    fn request_background(&self) {
-        let ctx = glib::MainContext::default();
-        ctx.spawn_local(clone!(@weak self as win => async move {
-            win.portal_request_background().await
-        }));
     }
 }

@@ -61,6 +61,8 @@ mod imp {
         pub playlist_view: TemplateChild<PlaylistView>,
         #[template_child]
         pub add_folder_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub restore_playlist_button: TemplateChild<gtk::Button>,
 
         pub provider: gtk::CssProvider,
         pub waveform: WaveformGenerator,
@@ -116,6 +118,10 @@ mod imp {
                 debug!("Window::win.add-folder()");
                 win.add_folder();
             });
+            klass.install_action("queue.restore-playlist", None, move |win, _, _| {
+                debug!("Window::queue.restore-playlist()");
+                win.restore_playlist();
+            });
             klass.install_action("win.copy", None, move |win, _, _| {
                 debug!("Window::win.copy()");
                 win.copy_song();
@@ -152,6 +158,7 @@ mod imp {
                 main_stack: TemplateChild::default(),
                 status_page: TemplateChild::default(),
                 add_folder_button: TemplateChild::default(),
+                restore_playlist_button: TemplateChild::default(),
                 playlist_view: TemplateChild::default(),
                 playlist_shuffled: Cell::new(false),
                 playlist_visible: Cell::new(true),
@@ -453,6 +460,12 @@ impl Window {
         dialog.show();
     }
 
+    fn restore_playlist(&self) {
+        if let Some(songs) = utils::load_cached_songs() {
+            self.queue_songs(songs);
+        }
+    }
+
     fn queue_songs(&self, queue: Vec<gio::File>) {
         if queue.is_empty() {
             self.add_toast(i18n("No available song found"));
@@ -523,6 +536,9 @@ impl Window {
 
                             // Bulk add to avoid hammering the UI with list model updates
                             queue.add_songs(&songs);
+
+                            // Store the current state of the playlist
+                            utils::store_playlist(&queue);
 
                             debug!("Queue was empty: {}, new size: {}", was_empty, queue.n_songs());
                             if was_empty {
@@ -802,6 +818,9 @@ impl Window {
                 for song in remove_songs {
                     win.remove_song(&song);
                 }
+
+                // Store the current state of the playlist
+                utils::store_playlist(&queue);
             }));
 
         self.imp()
@@ -876,6 +895,16 @@ impl Window {
         // to avoid generating the UI definition file at build
         // time
         self.imp().status_page.set_icon_name(Some(APPLICATION_ID));
+
+        if utils::has_cached_playlist() {
+            self.imp().restore_playlist_button.set_visible(true);
+            self.imp().restore_playlist_button.add_css_class("suggested-action");
+            self.imp().add_folder_button.remove_css_class("suggested-action");
+        } else {
+            self.imp().restore_playlist_button.set_visible(false);
+            self.imp().restore_playlist_button.remove_css_class("suggested-action");
+            self.imp().add_folder_button.add_css_class("suggested-action");
+        }
 
         let state = player.state();
         if state.playing() || !queue.is_empty() {

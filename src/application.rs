@@ -275,5 +275,5 @@ impl Application {
     }
 
     #[cfg(not(target_os = "linux"))]
-    fn request_background(&self) { }
+    fn request_background(&self) {}
 }

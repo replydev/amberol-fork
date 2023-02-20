@@ -897,12 +897,20 @@ impl Window {
 
         if utils::has_cached_playlist() {
             self.imp().restore_playlist_button.set_visible(true);
-            self.imp().restore_playlist_button.add_css_class("suggested-action");
-            self.imp().add_folder_button.remove_css_class("suggested-action");
+            self.imp()
+                .restore_playlist_button
+                .add_css_class("suggested-action");
+            self.imp()
+                .add_folder_button
+                .remove_css_class("suggested-action");
         } else {
             self.imp().restore_playlist_button.set_visible(false);
-            self.imp().restore_playlist_button.remove_css_class("suggested-action");
-            self.imp().add_folder_button.add_css_class("suggested-action");
+            self.imp()
+                .restore_playlist_button
+                .remove_css_class("suggested-action");
+            self.imp()
+                .add_folder_button
+                .add_css_class("suggested-action");
         }
 
         let state = player.state();

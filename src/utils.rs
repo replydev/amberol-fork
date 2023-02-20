@@ -5,12 +5,14 @@ use core::cmp::Ordering;
 use std::path::PathBuf;
 
 use color_thief::{get_palette, ColorFormat};
-use gtk::{gdk, gio, glib, prelude::*};
 use glib::clone;
+use gtk::{gdk, gio, glib, prelude::*};
 use log::{debug, warn};
 
-use crate::audio::{Queue, Song};
-use crate::config::APPLICATION_ID;
+use crate::{
+    audio::{Queue, Song},
+    config::APPLICATION_ID,
+};
 
 pub fn settings_manager() -> gio::Settings {
     // We ship a single schema for both default and development profiles
@@ -517,7 +519,7 @@ pub fn load_cached_songs() -> Option<Vec<gio::File>> {
         Err(e) => {
             debug!("Unable to load current playlist: {e}");
             return None;
-        },
+        }
         Ok(_) => (),
     }
 
@@ -531,7 +533,7 @@ pub fn load_cached_songs() -> Option<Vec<gio::File>> {
     for i in 0..n_entries {
         match pls.value("playlist", &format!("File{i}")) {
             Ok(p) => res.push(gio::File::for_path(p)),
-            Err(e) => debug!("Skipping File{i}: {e}"),
+            Err(e) => debug!("Skipping File{i} from playlist: {e}"),
         }
     }
 

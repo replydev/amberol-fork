@@ -997,6 +997,14 @@ impl Window {
             .bind_property("text", &sorter, "search")
             .flags(glib::BindingFlags::SYNC_CREATE)
             .build();
+
+        imp.playlist_view
+            .playlist_searchentry()
+            .connect_search_changed(clone!(@weak self as win => move |_| {
+                if let Some(adjustment) = win.imp().playlist_view.queue_view().vadjustment() {
+                    adjustment.set_value(0.0);
+                }
+            }));
     }
 
     fn setup_drop_target(&self) {

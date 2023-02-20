@@ -14,7 +14,7 @@ use gtk_macros::stateful_action;
 use log::debug;
 
 use crate::{
-    audio::{AudioPlayer, RepeatMode, ReplayGainMode, Song, WaveformGenerator},
+    audio::{AudioPlayer, RepeatMode, ReplayGainMode, Song},
     config::APPLICATION_ID,
     drag_overlay::DragOverlay,
     i18n::{i18n, i18n_k, ni18n_f, ni18n_k},
@@ -65,7 +65,6 @@ mod imp {
         pub restore_playlist_button: TemplateChild<gtk::Button>,
 
         pub provider: gtk::CssProvider,
-        pub waveform: WaveformGenerator,
         pub settings: gio::Settings,
 
         pub playlist_shuffled: Cell<bool>,
@@ -166,7 +165,6 @@ mod imp {
                 playlist_search: Cell::new(false),
                 playlist_filtermodel: RefCell::default(),
                 replaygain_mode: Cell::new(ReplayGainMode::default()),
-                waveform: WaveformGenerator::default(),
                 provider: gtk::CssProvider::new(),
                 settings: utils::settings_manager(),
             }
@@ -286,7 +284,8 @@ impl Window {
     }
 
     fn setup_waveform(&self) {
-        self.imp().waveform.connect_notify_local(
+        let player = self.player();
+        player.waveform_generator().connect_notify_local(
             Some("has-peaks"),
             clone!(@weak self as win => move |gen, _| {
                 let peaks = gen.peaks();
@@ -306,7 +305,7 @@ impl Window {
         self.set_playlist_visible(false);
         self.set_playlist_shuffled(false);
         self.set_playlist_selection(false);
-        self.update_waveform(None);
+        self.update_waveform();
         self.update_style(None);
     }
 
@@ -1094,8 +1093,8 @@ impl Window {
         let state = player.state();
         self.scroll_playlist_to_song();
         self.update_playlist_time();
+        self.update_waveform();
         self.update_title(state.current_song().as_ref());
-        self.update_waveform(state.current_song().as_ref());
         self.update_style(state.current_song().as_ref());
     }
 
@@ -1256,17 +1255,9 @@ impl Window {
         self.action_set_enabled("win.enable-recoloring", false);
     }
 
-    fn update_waveform(&self, song: Option<&Song>) {
-        let imp = self.imp();
-
+    fn update_waveform(&self) {
         // Reset the widget
-        imp.playback_control.waveform_view().set_peaks(None);
-
-        if let Some(song) = song {
-            imp.waveform.set_song(Some(song.clone()));
-        } else {
-            imp.waveform.set_song(None);
-        }
+        self.imp().playback_control.waveform_view().set_peaks(None);
     }
 
     fn update_title(&self, song: Option<&Song>) {

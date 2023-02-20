@@ -13,10 +13,14 @@
           <property name="spacing">2</property>
           <property name="margin-bottom">6</property>
           <child>
-            <object class="AmberolWaveformView" id="waveform_view">
+            <object class="GtkBox">
+              <property name="hexpand">true</property>
               <property name="halign">center</property>
-              <property name="valign">center</property>
-              <property name="can-focus">true</property>
+              <child>
+                <object class="AmberolWaveformView" id="waveform_view">
+                  <property name="can-focus">true</property>
+                </object>
+              </child>
             </object>
           </child>
           <child>

@@ -305,7 +305,6 @@ impl Window {
         self.set_playlist_visible(false);
         self.set_playlist_shuffled(false);
         self.set_playlist_selection(false);
-        self.update_waveform();
         self.update_style(None);
     }
 
@@ -1101,7 +1100,6 @@ impl Window {
         let state = player.state();
         self.scroll_playlist_to_song();
         self.update_playlist_time();
-        self.update_waveform();
         self.update_title(state.current_song().as_ref());
         self.update_style(state.current_song().as_ref());
     }
@@ -1261,11 +1259,6 @@ impl Window {
         imp.provider.load_from_data(&[]);
         imp.main_stack.remove_css_class("main-window");
         self.action_set_enabled("win.enable-recoloring", false);
-    }
-
-    fn update_waveform(&self) {
-        // Reset the widget
-        self.imp().playback_control.waveform_view().set_peaks(None);
     }
 
     fn update_title(&self, song: Option<&Song>) {

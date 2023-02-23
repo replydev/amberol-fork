@@ -10,7 +10,6 @@ use std::{
 use adw::subclass::prelude::*;
 use glib::{clone, closure_local, FromVariant};
 use gtk::{gdk, gio, glib, prelude::*, CompositeTemplate};
-use gtk_macros::stateful_action;
 use log::debug;
 
 use crate::{
@@ -187,11 +186,7 @@ mod imp {
                     ParamSpecBoolean::builder("playlist-visible").build(),
                     ParamSpecBoolean::builder("playlist-selection").build(),
                     ParamSpecBoolean::builder("playlist-search").build(),
-                    ParamSpecEnum::builder::<ReplayGainMode>(
-                        "replaygain-mode",
-                        ReplayGainMode::default(),
-                    )
-                    .build(),
+                    ParamSpecEnum::builder::<ReplayGainMode>("replaygain-mode").build(),
                 ]
             });
             PROPERTIES.as_ref()
@@ -265,22 +260,20 @@ impl Window {
 
     fn setup_actions(&self) {
         let enable_recoloring = self.imp().settings.boolean("enable-recoloring");
-        stateful_action!(
-            self,
-            "enable-recoloring",
-            enable_recoloring,
-            clone!(@weak self as this => move |action, _| {
+        self.add_action_entries([gio::ActionEntry::builder("enable-recoloring")
+            .state(enable_recoloring.to_variant())
+            .activate(|this: &Window, action, _| {
                 let state = action.state().unwrap();
                 let action_state: bool = state.get().unwrap();
                 let enable_recoloring = !action_state;
-                action.set_state(&enable_recoloring.to_variant());
+                action.set_state(enable_recoloring.to_variant());
 
                 this.imp()
                     .settings
                     .set_boolean("enable-recoloring", enable_recoloring)
                     .expect("Unable to store setting");
             })
-        );
+            .build()])
     }
 
     fn setup_waveform(&self) {
@@ -975,10 +968,11 @@ impl Window {
         let queue = player.queue();
 
         let filter = FuzzyFilter::new();
-        let filter_model = gtk::FilterListModel::new(Some(queue.model()), Some(&filter));
+        let filter_model =
+            gtk::FilterListModel::new(Some(queue.model().clone()), Some(filter.clone()));
         let sorter = FuzzySorter::new();
-        let sorter_model = gtk::SortListModel::new(Some(&filter_model), Some(&sorter));
-        let selection = gtk::NoSelection::new(Some(&sorter_model));
+        let sorter_model = gtk::SortListModel::new(Some(filter_model), Some(sorter.clone()));
+        let selection = gtk::NoSelection::new(Some(sorter_model.clone()));
         imp.playlist_view
             .queue_view()
             .set_model(Some(selection.upcast_ref::<gtk::SelectionModel>()));
@@ -1206,7 +1200,7 @@ impl Window {
         let imp = self.imp();
 
         if !imp.settings.boolean("enable-recoloring") {
-            imp.provider.load_from_data(&[]);
+            imp.provider.load_from_data("");
             imp.main_stack.remove_css_class("main-window");
             return;
         }
@@ -1253,7 +1247,7 @@ impl Window {
                     ));
                 }
 
-                imp.provider.load_from_data(css.as_bytes());
+                imp.provider.load_from_data(&css);
                 if !imp.main_stack.has_css_class("main-window") {
                     imp.main_stack.add_css_class("main-window");
                 }
@@ -1264,7 +1258,7 @@ impl Window {
             }
         }
 
-        imp.provider.load_from_data(&[]);
+        imp.provider.load_from_data("");
         imp.main_stack.remove_css_class("main-window");
         self.action_set_enabled("win.enable-recoloring", false);
     }
@@ -1322,7 +1316,7 @@ impl Window {
 
     pub fn add_toast(&self, msg: String) {
         let toast = adw::Toast::new(&msg);
-        self.imp().toast_overlay.add_toast(&toast);
+        self.imp().toast_overlay.add_toast(toast);
     }
 
     pub fn add_skip_to_toast(&self, msg: String, button: String, pos: u32) {
@@ -1330,7 +1324,7 @@ impl Window {
         toast.set_button_label(Some(&button));
         toast.set_action_name(Some("win.skip-to"));
         toast.set_action_target_value(Some(&pos.to_variant()));
-        self.imp().toast_overlay.add_toast(&toast);
+        self.imp().toast_overlay.add_toast(toast);
     }
 
     fn copy_song(&self) {

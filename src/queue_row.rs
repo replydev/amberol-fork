@@ -157,7 +157,7 @@ glib::wrapper! {
 
 impl Default for QueueRow {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 

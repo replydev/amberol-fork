@@ -69,7 +69,7 @@ glib::wrapper! {
 
 impl Default for WaveformGenerator {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 

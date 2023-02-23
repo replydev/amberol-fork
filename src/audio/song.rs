@@ -316,7 +316,7 @@ impl Song {
     }
 
     pub fn empty() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 
     pub fn equals(&self, other: &Self) -> bool {

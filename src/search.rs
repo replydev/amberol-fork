@@ -76,7 +76,7 @@ glib::wrapper! {
 
 impl FuzzyFilter {
     pub fn new() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 
     pub fn search(&self) -> Option<String> {

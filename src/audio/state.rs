@@ -191,6 +191,6 @@ impl PlayerState {
 
 impl Default for PlayerState {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }

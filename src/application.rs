@@ -5,10 +5,9 @@ use std::{cell::RefCell, rc::Rc};
 
 use adw::subclass::prelude::*;
 #[cfg(target_os = "linux")]
-use ashpd::{desktop::background::BackgroundResponse, WindowIdentifier};
+use ashpd::{desktop::background::Background, WindowIdentifier};
 use glib::{clone, Receiver};
 use gtk::{gio, glib, prelude::*};
-use gtk_macros::{action, stateful_action};
 use log::{debug, warn};
 
 use crate::{
@@ -181,39 +180,34 @@ impl Application {
     }
 
     fn setup_gactions(&self) {
-        action!(
-            self,
-            "quit",
-            clone!(@weak self as app => move |_, _| {
-                app.quit();
-            })
-        );
-
-        action!(
-            self,
-            "about",
-            clone!(@weak self as app => move |_, _| {
-                app.show_about();
-            })
-        );
+        self.add_action_entries([
+            gio::ActionEntry::builder("quit")
+                .activate(|app: &Application, _, _| {
+                    app.quit();
+                })
+                .build(),
+            gio::ActionEntry::builder("about")
+                .activate(|app: &Application, _, _| {
+                    app.show_about();
+                })
+                .build(),
+        ]);
 
         let background_play = self.imp().settings.boolean("background-play");
-        stateful_action!(
-            self,
-            "background-play",
-            background_play,
-            clone!(@weak self as this => move |action, _| {
+        self.add_action_entries([gio::ActionEntry::builder("background-play")
+            .state(background_play.to_variant())
+            .activate(|this: &Application, action, _| {
                 let state = action.state().unwrap();
                 let action_state: bool = state.get().unwrap();
                 let background_play = !action_state;
-                action.set_state(&background_play.to_variant());
+                action.set_state(background_play.to_variant());
 
                 this.imp()
                     .settings
                     .set_boolean("background-play", background_play)
                     .expect("Unable to store background-play setting");
             })
-        );
+            .build()]);
     }
 
     fn show_about(&self) {
@@ -224,7 +218,7 @@ impl Application {
             .application_name("Amberol")
             .developer_name("Emmanuele Bassi")
             .version(VERSION)
-            .developers(vec!["Emmanuele Bassi".into()])
+            .developers(vec!["Emmanuele Bassi"])
             .copyright("© 2022 Emmanuele Bassi")
             .website("https://apps.gnome.org/app/io.bassi.Amberol/")
             .issue_url("https://gitlab.gnome.org/World/amberol/-/issues/new")
@@ -241,11 +235,9 @@ impl Application {
         if let Some(window) = self.active_window() {
             let root = window.native().unwrap();
             let identifier = WindowIdentifier::from_native(&root).await;
-            let request = BackgroundResponse::builder()
-                .identifier(identifier)
-                .reason(&*i18n(
-                    "Amberol needs to run in the background to play music",
-                ));
+            let request = Background::builder().identifier(identifier).reason(&*i18n(
+                "Amberol needs to run in the background to play music",
+            ));
 
             match request.build().await {
                 Ok(response) => {

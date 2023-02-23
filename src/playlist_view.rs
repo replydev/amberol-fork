@@ -76,7 +76,7 @@ glib::wrapper! {
 
 impl Default for PlaylistView {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 

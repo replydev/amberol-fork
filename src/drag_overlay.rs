@@ -98,7 +98,7 @@ glib::wrapper! {
 
 impl Default for DragOverlay {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 
@@ -125,7 +125,7 @@ impl DragOverlay {
         );
         priv_.handler_id.replace(Some(handler_id));
 
-        self.add_controller(drop_target);
+        self.add_controller(drop_target.clone());
         priv_.drop_target.replace(Some(drop_target.clone()));
         self.notify("drop-target");
     }

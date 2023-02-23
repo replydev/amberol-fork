@@ -66,7 +66,7 @@ mod imp {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
                 vec![
                     ParamSpecObject::builder::<gdk::Texture>("cover").build(),
-                    ParamSpecEnum::builder::<CoverSize>("cover-size", CoverSize::default()).build(),
+                    ParamSpecEnum::builder::<CoverSize>("cover-size").build(),
                 ]
             });
             PROPERTIES.as_ref()
@@ -141,7 +141,7 @@ glib::wrapper! {
 
 impl Default for CoverPicture {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 

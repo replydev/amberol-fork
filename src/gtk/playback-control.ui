@@ -228,17 +228,17 @@
       <submenu>
         <attribute name="label" translatable="yes">_ReplayGain</attribute>
         <item>
-          <attribute name="label" translatable="yes">_Album</attribute>
+          <attribute name="label" translatable="yes" context="replaygain-menu">_Album</attribute>
           <attribute name="action">win.replaygain</attribute>
           <attribute name="target">album</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">_Track</attribute>
+          <attribute name="label" translatable="yes" context="replaygain-menu">_Track</attribute>
           <attribute name="action">win.replaygain</attribute>
           <attribute name="target">track</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">_Off</attribute>
+          <attribute name="label" translatable="yes" context="replaygain-menu">_Disabled</attribute>
           <attribute name="action">win.replaygain</attribute>
           <attribute name="target">off</attribute>
         </item>

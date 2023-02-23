@@ -11,7 +11,7 @@ use log::{debug, warn};
 use crate::audio::{Controller, PlaybackState, RepeatMode, Song};
 
 mod imp {
-    use glib::{ParamFlags, ParamSpec, ParamSpecBoolean, Value};
+    use glib::{ParamSpec, ParamSpecBoolean, Value};
     use once_cell::sync::Lazy;
 
     use super::*;
@@ -41,15 +41,8 @@ mod imp {
         }
 
         fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecBoolean::new(
-                    "has-peaks",
-                    "",
-                    "",
-                    false,
-                    ParamFlags::READABLE,
-                )]
-            });
+            static PROPERTIES: Lazy<Vec<ParamSpec>> =
+                Lazy::new(|| vec![ParamSpecBoolean::builder("has-peaks").read_only().build()]);
 
             PROPERTIES.as_ref()
         }

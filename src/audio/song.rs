@@ -8,9 +8,7 @@ use std::{
     time::Instant,
 };
 
-use glib::{
-    ParamFlags, ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, ParamSpecUInt, Value,
-};
+use glib::{ParamSpec, ParamSpecBoolean, ParamSpecObject, ParamSpecString, ParamSpecUInt, Value};
 use gtk::{gdk, gio, glib, prelude::*, subclass::prelude::*};
 use lofty::{Accessor, TaggedFileExt};
 use log::{debug, warn};
@@ -228,26 +226,16 @@ mod imp {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
                 vec![
-                    ParamSpecString::new(
-                        "uri",
-                        "",
-                        "",
-                        None,
-                        ParamFlags::READWRITE | ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    ParamSpecString::new("artist", "", "", None, ParamFlags::READABLE),
-                    ParamSpecString::new("title", "", "", None, ParamFlags::READABLE),
-                    ParamSpecString::new("album", "", "", None, ParamFlags::READABLE),
-                    ParamSpecUInt::new("duration", "", "", 0, u32::MAX, 0, ParamFlags::READABLE),
-                    ParamSpecObject::new(
-                        "cover",
-                        "",
-                        "",
-                        gdk::Texture::static_type(),
-                        ParamFlags::READABLE,
-                    ),
-                    ParamSpecBoolean::new("playing", "", "", false, ParamFlags::READWRITE),
-                    ParamSpecBoolean::new("selected", "", "", false, ParamFlags::READWRITE),
+                    ParamSpecString::builder("uri").construct_only().build(),
+                    ParamSpecString::builder("artist").read_only().build(),
+                    ParamSpecString::builder("title").read_only().build(),
+                    ParamSpecString::builder("album").read_only().build(),
+                    ParamSpecUInt::builder("duration").read_only().build(),
+                    ParamSpecObject::builder::<gdk::Texture>("cover")
+                        .read_only()
+                        .build(),
+                    ParamSpecBoolean::builder("playing").build(),
+                    ParamSpecBoolean::builder("selected").build(),
                 ]
             });
             PROPERTIES.as_ref()

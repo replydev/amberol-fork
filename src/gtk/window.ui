@@ -126,6 +126,11 @@
                                       <class name="main-box"/>
                                     </style>
 
+                                    <!-- Song cover -->
+                                    <child>
+                                      <object class="AmberolSongCover" id="song_cover"/>
+                                    </child>
+
                                     <!-- Song details -->
                                     <child>
                                       <object class="AmberolSongDetails" id="song_details"/>

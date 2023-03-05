@@ -21,6 +21,7 @@ use crate::{
     playlist_view::PlaylistView,
     queue_row::QueueRow,
     search::FuzzyFilter,
+    song_cover::SongCover,
     song_details::SongDetails,
     sort::FuzzySorter,
     utils,
@@ -50,6 +51,8 @@ mod imp {
         pub main_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
+        pub song_cover: TemplateChild<SongCover>,
         #[template_child]
         pub song_details: TemplateChild<SongDetails>,
         #[template_child]
@@ -149,6 +152,7 @@ mod imp {
         fn new() -> Self {
             Self {
                 song_details: TemplateChild::default(),
+                song_cover: TemplateChild::default(),
                 queue_revealer: TemplateChild::default(),
                 toast_overlay: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
@@ -1109,13 +1113,13 @@ impl Window {
     fn update_cover(&self) {
         let player = self.player();
         let state = player.state();
-        let song_details = self.imp().song_details.get();
+        let song_cover = self.imp().song_cover.get();
         if let Some(cover) = state.cover() {
-            song_details.album_image().set_cover(Some(&cover));
-            song_details.show_cover_image(true);
+            song_cover.album_image().set_cover(Some(&cover));
+            song_cover.show_cover_image(true);
         } else {
-            song_details.album_image().set_cover(None);
-            song_details.show_cover_image(false);
+            song_cover.album_image().set_cover(None);
+            song_cover.show_cover_image(false);
         }
     }
 

@@ -128,7 +128,59 @@
 
                                     <!-- Song cover -->
                                     <child>
-                                      <object class="AmberolSongCover" id="song_cover"/>
+                                      <object class="AmberolSongCover" id="song_cover">
+                                      </object>
+                                    </child>
+
+                                    <!-- Song position -->
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">2</property>
+                                        <property name="margin-bottom">12</property>
+                                        <property name="width-request">256</property>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="halign">center</property>
+                                            <child>
+                                              <object class="AmberolWaveformView" id="waveform_view">
+                                                <property name="can-focus">true</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCenterBox">
+                                            <property name="orientation">horizontal</property>
+                                            <property name="width-request">256</property>
+                                            <property name="halign">center</property>
+                                            <child type="start">
+                                              <object class="GtkLabel" id="elapsed_label">
+                                                <property name="label">0:00</property>
+                                                <accessibility>
+                                                  <property name="label" translatable="yes" context="a11y">Elapsed time</property>
+                                                </accessibility>
+                                                <style>
+                                                  <class name="caption"/>
+                                                  <class name="numeric"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                            <child type="end">
+                                              <object class="GtkLabel" id="remaining_label">
+                                                <property name="label">0:00</property>
+                                                <accessibility>
+                                                  <property name="label" translatable="yes" context="a11y">Remaining time</property>
+                                                </accessibility>
+                                                <style>
+                                                  <class name="caption"/>
+                                                  <class name="numeric"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
                                     </child>
 
                                     <!-- Song details -->

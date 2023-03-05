@@ -4,10 +4,7 @@
 use adw::subclass::prelude::*;
 use gtk::{gio, glib, prelude::*, CompositeTemplate};
 
-use crate::{
-    audio::RepeatMode, i18n::i18n, utils, volume_control::VolumeControl,
-    waveform_view::WaveformView,
-};
+use crate::{audio::RepeatMode, i18n::i18n, volume_control::VolumeControl};
 
 mod imp {
     use super::*;
@@ -22,14 +19,6 @@ mod imp {
         pub center_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub end_box: TemplateChild<gtk::Box>,
-
-        #[template_child]
-        pub waveform_view: TemplateChild<WaveformView>,
-
-        #[template_child]
-        pub elapsed_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub remaining_label: TemplateChild<gtk::Label>,
 
         #[template_child]
         pub previous_button: TemplateChild<gtk::Button>,
@@ -115,34 +104,6 @@ impl PlaybackControl {
 
     pub fn volume_control(&self) -> VolumeControl {
         self.imp().volume_control.get()
-    }
-
-    pub fn waveform_view(&self) -> WaveformView {
-        self.imp().waveform_view.get()
-    }
-
-    pub fn set_remaining(&self, remaining: Option<u64>) {
-        if let Some(remaining) = remaining {
-            self.imp()
-                .remaining_label
-                .set_text(&utils::format_remaining_time(remaining as i64));
-        } else {
-            self.imp().remaining_label.set_text("0:00");
-        }
-    }
-
-    pub fn set_elapsed(&self, elapsed: Option<u64>) {
-        if let Some(elapsed) = elapsed {
-            self.imp()
-                .elapsed_label
-                .set_text(&utils::format_time(elapsed as i64));
-        } else {
-            self.imp().elapsed_label.set_text("0:00");
-        }
-    }
-
-    pub fn set_position(&self, position: f64) {
-        self.imp().waveform_view.set_position(position);
     }
 
     pub fn set_repeat_mode(&self, repeat_mode: RepeatMode) {

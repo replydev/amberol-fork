@@ -11,7 +11,25 @@ button.large {
   margin-right: 24px;
 }
 
+songcover {
+  padding-bottom: 24px;
+}
+
+songcover picture.cover,
+songcover image.card {
+  box-shadow: 0px 1px 6px rgba(0,0,0,0.3),
+              0px 2px 12px rgba(0,0,0,0.15),
+              0px 6px 32px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  margin: 6px;
+}
+
+.main-window songcover picture.cover {
+  background: linear-gradient(to bottom, @background_color_0, @background_color_1);
+}
+
 songdetails {
+  padding-top: 12px;
   padding-bottom: 24px;
 }
 
@@ -29,21 +47,12 @@ songdetails label.song-album {
   min-height: 1.5em;
 }
 
-songdetails picture.cover,
-songdetails image.card {
-  box-shadow: 0px 1px 6px rgba(0,0,0,0.3),
-              0px 2px 12px rgba(0,0,0,0.15),
-              0px 6px 32px rgba(0,0,0,0.1);
-  border-radius: 12px;
-  margin: 6px;
-}
-
-.main-window songdetails picture.cover {
-  background: linear-gradient(to bottom, @background_color_0, @background_color_1);
-}
-
 waveformview {
   padding-bottom: 6px;
+}
+
+playbackcontrol {
+  padding-bottom: 12px;
 }
 
 queuerow .currently-playing {
@@ -141,10 +150,6 @@ scrolledwindow undershoot.top {
 .main-window progressbar progress {
   background: currentColor;
   color: inherit;
-}
-
-.main-window scale slider {
-  background-color: white;
 }
 
 actionbar.flat > revealer > box {

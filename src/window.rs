@@ -56,6 +56,12 @@ mod imp {
         #[template_child]
         pub song_details: TemplateChild<SongDetails>,
         #[template_child]
+        pub waveform_view: TemplateChild<WaveformView>,
+        #[template_child]
+        pub elapsed_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub remaining_label: TemplateChild<gtk::Label>,
+        #[template_child]
         pub playback_control: TemplateChild<PlaybackControl>,
         #[template_child]
         pub queue_revealer: TemplateChild<adw::Flap>,
@@ -157,6 +163,9 @@ mod imp {
                 toast_overlay: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
                 playback_control: TemplateChild::default(),
+                waveform_view: TemplateChild::default(),
+                elapsed_label: TemplateChild::default(),
+                remaining_label: TemplateChild::default(),
                 main_stack: TemplateChild::default(),
                 status_page: TemplateChild::default(),
                 add_folder_button: TemplateChild::default(),
@@ -286,7 +295,7 @@ impl Window {
             Some("has-peaks"),
             clone!(@weak self as win => move |gen, _| {
                 let peaks = gen.peaks();
-                win.imp().playback_control.waveform_view().set_peaks(peaks);
+                win.imp().waveform_view.set_peaks(peaks);
             }),
         );
     }
@@ -757,8 +766,7 @@ impl Window {
             }),
         );
 
-        let waveform_view = self.imp().playback_control.waveform_view();
-        waveform_view.connect_closure(
+        self.imp().waveform_view.connect_closure(
             "position-changed",
             false,
             closure_local!(@watch self as win => move |_wv: WaveformView, position: f64| {
@@ -1082,22 +1090,19 @@ impl Window {
     }
 
     fn update_position_labels(&self) {
-        let imp = self.imp();
         let player = self.player();
         let state = player.state();
         if state.current_song().is_some() {
             let elapsed = state.position();
             let duration = state.duration();
             let remaining = duration.checked_sub(elapsed).unwrap_or_default();
-            imp.playback_control.set_elapsed(Some(elapsed));
-            imp.playback_control.set_remaining(Some(remaining));
+            self.set_song_time(Some(elapsed), Some(remaining));
 
             let position = state.position() as f64 / state.duration() as f64;
-            imp.playback_control.set_position(position);
+            self.set_song_position(position);
         } else {
-            imp.playback_control.set_elapsed(None);
-            imp.playback_control.set_remaining(None);
-            imp.playback_control.set_position(0.0);
+            self.set_song_time(None, None);
+            self.set_song_position(0.0);
         }
     }
 
@@ -1376,5 +1381,27 @@ impl Window {
 
     pub fn replaygain(&self) -> ReplayGainMode {
         self.imp().replaygain_mode.get()
+    }
+
+    pub fn set_song_time(&self, elapsed: Option<u64>, remaining: Option<u64>) {
+        if let Some(elapsed) = elapsed {
+            self.imp()
+                .elapsed_label
+                .set_text(&utils::format_time(elapsed as i64));
+        } else {
+            self.imp().elapsed_label.set_text("0:00");
+        }
+
+        if let Some(remaining) = remaining {
+            self.imp()
+                .remaining_label
+                .set_text(&utils::format_remaining_time(remaining as i64));
+        } else {
+            self.imp().remaining_label.set_text("0:00");
+        }
+    }
+
+    pub fn set_song_position(&self, position: f64) {
+        self.imp().waveform_view.set_position(position);
     }
 }

@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-02-22 13:07+0000\n"
-"PO-Revision-Date: 2023-02-28 01:55+0100\n"
+"POT-Creation-Date: 2023-02-28 00:56+0000\n"
+"PO-Revision-Date: 2023-03-25 01:10+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
-"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
+"Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -153,7 +153,7 @@ msgstr "Lejátszás"
 #: src/gtk/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Toggle play/pause"
-msgstr "Lejátszás és szüneteltetés átkapcsolása"
+msgstr "Lejátszás vagy szüneteltetés"
 
 #: src/gtk/help-overlay.ui:84
 msgctxt "shortcut window"
@@ -196,12 +196,12 @@ msgstr "Kihagyás vissza"
 
 #: src/gtk/playback-control.ui:83
 msgid "Toggle Play"
-msgstr "Lejátszás be- és kikapcsolása"
+msgstr "Lejátszás be/ki"
 
 #: src/gtk/playback-control.ui:89
 msgctxt "a11y"
 msgid "Toggle play"
-msgstr "Lejátszás be- és kikapcsolása"
+msgstr "Lejátszás be/ki"
 
 #: src/gtk/playback-control.ui:98
 msgid "Play the Next Song"
@@ -266,7 +266,7 @@ msgstr "Törlés"
 
 #: src/gtk/playback-control.ui:219
 msgid "_Match Cover Art"
-msgstr "_Borító illesztése"
+msgstr "_Borító színeinek használata"
 
 #: src/gtk/playback-control.ui:223
 msgid "_Background Playback"
@@ -274,7 +274,7 @@ msgstr "_Lejátszás a háttérben"
 
 #: src/gtk/playback-control.ui:229
 msgid "_ReplayGain"
-msgstr "Erősítés _ismétlése"
+msgstr "Ha_ngerő-korrekció"
 
 #: src/gtk/playback-control.ui:231
 msgid "_Album"
@@ -326,7 +326,7 @@ msgstr "Kijelölt dalok eltávolítása"
 
 #: src/gtk/window.ui:12
 msgid "Drop a song to add it to the queue"
-msgstr "Húzzon ide egy dalt a várakozási sorhoz való hozzáadáshoz"
+msgstr "Húzzon ide egy dalt a lejátszási sorhoz való hozzáadáshoz"
 
 #: src/gtk/window.ui:49
 msgid ""
@@ -337,7 +337,6 @@ msgstr ""
 "alkalmazás ablakába, hogy dalokat adjon hozzá a lejátszási listához."
 
 #: src/gtk/window.ui:58
-#| msgid "Toggle Playlist"
 msgid "Restore Playlist"
 msgstr "Lejátszási lista visszaállítása"
 

@@ -52,9 +52,9 @@ checksum = "224afbd727c3d6e4b90103ece64b8d1b67fbb1973b1046c2281eed3f3803f800"
 
 [[package]]
 name = "ashpd"
-version = "0.4.0-alpha.4"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a03db93e3739203252bfe98ad0b31d4039a978c46c5673f5bf0e0c4ac2b42be"
+checksum = "31688b40eb5d739049f721d8405c33d3796b3f51f2bea84421a542dafe397e41"
 dependencies = [
  "async-std",
  "enumflags2",

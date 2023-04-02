@@ -235,11 +235,11 @@ impl Application {
         if let Some(window) = self.active_window() {
             let root = window.native().unwrap();
             let identifier = WindowIdentifier::from_native(&root).await;
-            let request = Background::builder().identifier(identifier).reason(&*i18n(
+            let request = Background::request().identifier(identifier).reason(&*i18n(
                 "Amberol needs to run in the background to play music",
             ));
 
-            match request.build().await {
+            match request.send().await.map(|r| r.response()) {
                 Ok(response) => {
                     debug!("Background request successful: {:?}", response);
                     self.imp().background_hold.replace(Some(self.hold()));

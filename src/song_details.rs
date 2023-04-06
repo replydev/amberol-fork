@@ -63,7 +63,7 @@ glib::wrapper! {
 
 impl Default for SongDetails {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 

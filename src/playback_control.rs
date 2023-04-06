@@ -96,7 +96,7 @@ glib::wrapper! {
 
 impl Default for PlaybackControl {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 

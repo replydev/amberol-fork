@@ -383,7 +383,7 @@ fn ease_out_cubic(t: f64) -> f64 {
 
 impl Default for WaveformView {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 
@@ -416,7 +416,7 @@ impl WaveformView {
                 this.seek_to_coord(gesture.start_point().unwrap().0 + offset_x);
             }),
         );
-        self.add_controller(&drag_gesture);
+        self.add_controller(drag_gesture);
 
         let motion_gesture = gtk::EventControllerMotion::new();
         motion_gesture.set_name(Some("waveform-motion"));
@@ -430,7 +430,7 @@ impl WaveformView {
             this.imp().hover_position.replace(None);
             this.queue_draw();
         }));
-        self.add_controller(&motion_gesture);
+        self.add_controller(motion_gesture);
 
         let key_controller = gtk::EventControllerKey::new();
         key_controller.set_name(Some("waveform-key"));
@@ -446,7 +446,7 @@ impl WaveformView {
                 this.emit_by_name::<()>("position-changed", &[&position]);
             }),
         );
-        self.add_controller(&key_controller);
+        self.add_controller(key_controller);
     }
 
     fn seek_to_coord(&self, pos: f64) {

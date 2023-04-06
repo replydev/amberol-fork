@@ -66,8 +66,8 @@ impl GstBackend {
     pub fn new(sender: Sender<PlaybackAction>) -> Self {
         let dispatcher = gst_player::PlayerGMainContextSignalDispatcher::new(None);
         let gst_player = gst_player::Player::new(
-            None::<&gst_player::PlayerVideoRenderer>,
-            Some(&dispatcher.upcast::<gst_player::PlayerSignalDispatcher>()),
+            None::<gst_player::PlayerVideoRenderer>,
+            Some(dispatcher.upcast::<gst_player::PlayerSignalDispatcher>()),
         );
         gst_player.set_video_track_enabled(false);
 

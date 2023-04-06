@@ -8,7 +8,7 @@ use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use rand::prelude::*;
 
 mod imp {
-    use glib::{ParamFlags, ParamSpec, ParamSpecObject, Value};
+    use glib::{ParamSpec, ParamSpecObject, Value};
     use once_cell::sync::Lazy;
 
     use super::*;
@@ -29,13 +29,9 @@ mod imp {
     impl ObjectImpl for ShuffleListModel {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecObject::new(
-                    "model",
-                    "",
-                    "",
-                    gio::ListModel::static_type(),
-                    ParamFlags::READWRITE | ParamFlags::EXPLICIT_NOTIFY,
-                )]
+                vec![ParamSpecObject::builder::<gio::ListModel>("model")
+                    .explicit_notify()
+                    .build()]
             });
 
             PROPERTIES.as_ref()

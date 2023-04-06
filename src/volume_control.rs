@@ -97,7 +97,7 @@ glib::wrapper! {
 
 impl Default for VolumeControl {
     fn default() -> Self {
-        glib::Object::new::<Self>(&[])
+        glib::Object::new()
     }
 }
 
@@ -142,7 +142,7 @@ impl VolumeControl {
             adj.set_value(d);
             gtk::Inhibit(true)
         }));
-        self.imp().volume_scale.add_controller(&controller);
+        self.imp().volume_scale.add_controller(controller);
     }
 
     pub fn volume(&self) -> f64 {

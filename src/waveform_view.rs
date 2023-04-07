@@ -284,7 +284,7 @@ mod imp {
                         let x = offset as f32;
                         let y = f32::clamp(
                             center_y as f32 - right as f32 * h as f32,
-                            1.0,
+                            0.0,
                             h as f32 / 2.0,
                         );
                         let width: f32 = 2.0;

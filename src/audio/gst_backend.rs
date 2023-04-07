@@ -4,7 +4,6 @@
 use glib::{clone, Sender};
 use gst::prelude::*;
 use gtk::glib;
-use gtk_macros::send;
 use log::{debug, error, warn};
 
 use crate::audio::{PlaybackAction, ReplayGainMode, SeekDirection};
@@ -93,13 +92,18 @@ impl GstBackend {
 
         self.gst_player
             .connect_end_of_stream(clone!(@strong self.sender as sender => move |_| {
-                send!(sender, PlaybackAction::PlayNext);
+                if let Err(e) = sender.send(PlaybackAction::PlayNext) {
+                    error!("Failed to send PlayNext: {e}");
+                }
             }));
 
         self.gst_player.connect_position_updated(
             clone!(@strong self.sender as sender => move |_, clock| {
                 if let Some(clock) = clock {
-                    send!(sender, PlaybackAction::UpdatePosition(clock.seconds()));
+                    let pos = clock.seconds();
+                    if let Err(e) = sender.send(PlaybackAction::UpdatePosition(pos)) {
+                        error!("Failed to send UpdatePosition({pos}): {e}");
+                    }
                 }
             }),
         );
@@ -111,7 +115,9 @@ impl GstBackend {
                     gst_audio::StreamVolumeFormat::Cubic,
                     player.volume(),
                 );
-                send!(sender, PlaybackAction::VolumeChanged(volume));
+                if let Err(e) = sender.send(PlaybackAction::VolumeChanged(volume)) {
+                    error!("Failed to send VolumeChanged({volume}): {e}");
+                }
             }),
         );
     }

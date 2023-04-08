@@ -281,7 +281,11 @@ mod imp {
                         }
 
                         // The block rectangle, clamped to avoid overdrawing
-                        let x = offset as f32;
+                        let x = if is_rtl {
+                            offset as f32 - bar_size as f32
+                        } else {
+                            offset as f32
+                        };
                         let y = f32::clamp(
                             center_y as f32 - right as f32 * h as f32,
                             0.0,

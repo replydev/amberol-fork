@@ -4,7 +4,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use adw::subclass::prelude::*;
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "freebsd"))]
 use ashpd::{desktop::background::Background, WindowIdentifier};
 use glib::{clone, Receiver};
 use gtk::{gio, glib, prelude::*};
@@ -173,7 +173,7 @@ impl Application {
             window.upcast()
         };
 
-        #[cfg(target_os = "linux")]
+        #[cfg(any(target_os = "linux", target_os = "freebsd"))]
         self.request_background();
 
         window.present();
@@ -230,7 +230,7 @@ impl Application {
         dialog.present();
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     async fn portal_request_background(&self) {
         if let Some(window) = self.active_window() {
             let root = window.native().unwrap();
@@ -255,7 +255,7 @@ impl Application {
         }
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     fn request_background(&self) {
         let background_play = self.imp().settings.boolean("background-play");
         if background_play {
@@ -266,6 +266,6 @@ impl Application {
         }
     }
 
-    #[cfg(not(target_os = "linux"))]
+    #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
     fn request_background(&self) {}
 }

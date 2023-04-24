@@ -119,8 +119,14 @@ impl DragOverlay {
         }
 
         let handler_id = drop_target.connect_current_drop_notify(
-            glib::clone!(@weak priv_.revealer as revealer => move |target| {
-                revealer.set_reveal_child(target.current_drop().is_some());
+            glib::clone!(@weak priv_.revealer as revealer, @weak priv_.overlay as overlay => move |target| {
+                let reveal = target.current_drop().is_some();
+                revealer.set_reveal_child(reveal);
+                if reveal {
+                    overlay.child().unwrap().add_css_class("blurred");
+                } else {
+                    overlay.child().unwrap().remove_css_class("blurred");
+                }
             }),
         );
         priv_.handler_id.replace(Some(handler_id));

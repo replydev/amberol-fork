@@ -99,6 +99,10 @@ dragoverlay {
   color: @accent_fg_color;
 }
 
+.blurred {
+  filter: blur(6px);
+}
+
 scrolledwindow undershoot.top {
   box-shadow: inset 0 1px @borders;
 }

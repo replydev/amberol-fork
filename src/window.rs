@@ -1181,9 +1181,15 @@ impl Window {
                 .playlist_view
                 .queue_length_label()
                 .set_label(&remaining_str);
-            self.imp().playlist_view.queue_length_label().show();
+            self.imp()
+                .playlist_view
+                .queue_length_label()
+                .set_visible(true);
         } else {
-            self.imp().playlist_view.queue_length_label().hide();
+            self.imp()
+                .playlist_view
+                .queue_length_label()
+                .set_visible(false);
         }
     }
 

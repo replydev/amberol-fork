@@ -78,15 +78,14 @@ mod imp {
 
         fn set_property(&self, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
-                "volume" => self.volume_scale.set_value(
-                    value
-                        .get::<f64>()
-                        .expect("Failed to get a floating point value"),
-                ),
+                "volume" => {
+                    let v = value.get::<f64>().expect("Failed to get f64 value");
+                    self.volume_scale.set_value(v);
+                }
                 "toggle-mute" => {
                     let v = value.get::<bool>().expect("Failed to get a boolean value");
                     self.obj().toggle_mute(v);
-                },
+                }
                 _ => unimplemented!(),
             }
         }

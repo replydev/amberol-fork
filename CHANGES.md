@@ -8,16 +8,24 @@ All notable changes to this project will be documented in this file.
 
 - Allow restoring the playlist from the previous session [!120]
 - Allow disabling background playback
+- Add control to quickly muting/unmuting the audio
+- Enable ashpd on FreeBSD [!130]
 - New translations
   - Belarusian
   - French
   - Korean
   - Friulan
+  - Czech
 
 ### Changed
 
 - Update the dependency to the gtk-rs bindings
+- Update the dependency to ashpd
+- Update the dependency to lofty
 - Use consistent labelling for adding single songs [#270]
+- Use consistent terms for songs and playlist [#301]
+- Improve rendering of cover art [#310]
+- Separate the volume bar from the waveform display
 - Translation updates
   - Ukrainian
   - German
@@ -35,6 +43,15 @@ All notable changes to this project will be documented in this file.
   - Indonesian
   - Occitan
   - Lithuanian
+  - Occitan
+  - Galician
+  - Finnish
+  - Basque
+  - Korean
+  - Persian
+  - Spanish
+  - Hungarian
+  - Serbian
 
 ### Fixed
 
@@ -45,6 +62,10 @@ All notable changes to this project will be documented in this file.
 - Update next track button state depending on repeat mode [!114]
 - Fix styling of the search bar [#266]
 - Stop waveform pipeline when dropping the generator [!107]
+- Change the ReplayGain menu translatable context [#281]
+- Always draw last bar in waveform view [!127]
+- Fix waveform overdrawing in RTL layout [!128]
+- Fix waveform overdrawing [!124]
 
 ### Removed
 

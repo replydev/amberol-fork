@@ -185,7 +185,7 @@
           <attribute name="target">album</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes" context="replaygain-menu">_Track</attribute>
+          <attribute name="label" translatable="yes" context="replaygain-menu">_Song</attribute>
           <attribute name="action">win.replaygain</attribute>
           <attribute name="target">track</attribute>
         </item>

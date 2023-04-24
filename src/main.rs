@@ -11,6 +11,7 @@ mod playback_control;
 mod playlist_view;
 mod queue_row;
 mod search;
+mod song_cover;
 mod song_details;
 mod sort;
 mod utils;

@@ -1,11 +1,14 @@
 // SPDX-FileCopyrightText: 2022  Emmanuele Bassi
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::{cell::RefCell, fmt, rc::Rc};
+use std::{
+    cell::RefCell,
+    fmt::{self, Display, Formatter},
+    rc::Rc,
+};
 
 use glib::{clone, Receiver, Sender};
 use gtk::glib;
-use gtk_macros::send;
 use log::{debug, error};
 
 use crate::{
@@ -57,6 +60,16 @@ pub enum RepeatMode {
 impl Default for RepeatMode {
     fn default() -> Self {
         RepeatMode::Consecutive
+    }
+}
+
+impl Display for RepeatMode {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self {
+            RepeatMode::Consecutive => write!(f, "consecutive"),
+            RepeatMode::RepeatAll => write!(f, "repeat-all"),
+            RepeatMode::RepeatOne => write!(f, "repeat-one"),
+        }
     }
 }
 
@@ -489,7 +502,9 @@ impl AudioPlayer {
     }
 
     fn present(&self) {
-        send!(self.app_sender, ApplicationAction::Present);
+        if let Err(e) = self.app_sender.send(ApplicationAction::Present) {
+            error!("Unable to send Present: {e}");
+        }
     }
 
     pub fn clear_queue(&self) {

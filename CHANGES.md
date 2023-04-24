@@ -66,6 +66,7 @@ All notable changes to this project will be documented in this file.
 - Always draw last bar in waveform view [!127]
 - Fix waveform overdrawing in RTL layout [!128]
 - Fix waveform overdrawing [!124]
+- Improve the readability of the drop overlay [#288]
 
 ### Removed
 

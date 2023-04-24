@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::subclass::prelude::*;
-use glib::{clone, ParamSpec, ParamSpecDouble, Value};
+use glib::{clone, ParamSpec, ParamSpecBoolean, ParamSpecDouble, Value};
 use gtk::{gio, glib, prelude::*, CompositeTemplate};
 use log::debug;
 use once_cell::sync::Lazy;
+use std::cell::Cell;
 
 mod imp {
     use super::*;
@@ -15,11 +16,14 @@ mod imp {
     pub struct VolumeControl {
         // Template widgets
         #[template_child]
-        pub volume_low_image: TemplateChild<gtk::Image>,
+        pub volume_low_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub volume_scale: TemplateChild<gtk::Scale>,
         #[template_child]
         pub volume_high_image: TemplateChild<gtk::Image>,
+
+        pub toggle_mute: Cell<bool>,
+        pub prev_volume: Cell<f64>,
     }
 
     #[glib::object_subclass]
@@ -34,6 +38,8 @@ mod imp {
             klass.set_layout_manager_type::<gtk::BoxLayout>();
             klass.set_css_name("volume");
             klass.set_accessible_role(gtk::AccessibleRole::Group);
+
+            klass.install_property_action("volume.toggle-mute", "toggle-mute");
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -57,11 +63,14 @@ mod imp {
 
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecDouble::builder("volume")
-                    .minimum(0.0)
-                    .maximum(1.0)
-                    .default_value(1.0)
-                    .build()]
+                vec![
+                    ParamSpecDouble::builder("volume")
+                        .minimum(0.0)
+                        .maximum(1.0)
+                        .default_value(1.0)
+                        .build(),
+                    ParamSpecBoolean::builder("toggle-mute").build(),
+                ]
             });
 
             PROPERTIES.as_ref()
@@ -74,6 +83,10 @@ mod imp {
                         .get::<f64>()
                         .expect("Failed to get a floating point value"),
                 ),
+                "toggle-mute" => {
+                    let v = value.get::<bool>().expect("Failed to get a boolean value");
+                    self.obj().toggle_mute(v);
+                },
                 _ => unimplemented!(),
             }
         }
@@ -81,6 +94,7 @@ mod imp {
         fn property(&self, _id: usize, pspec: &ParamSpec) -> Value {
             match pspec.name() {
                 "volume" => self.volume_scale.value().to_value(),
+                "toggle-mute" => self.toggle_mute.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -119,9 +133,9 @@ impl VolumeControl {
             clone!(@strong self as this => move |adj, _| {
                 let value = adj.value();
                 if value == adj.lower() {
-                    this.imp().volume_low_image.set_icon_name(Some("audio-volume-muted-symbolic"));
+                    this.imp().volume_low_button.set_icon_name("audio-volume-muted-symbolic");
                 } else {
-                    this.imp().volume_low_image.set_icon_name(Some("audio-volume-low-symbolic"));
+                    this.imp().volume_low_button.set_icon_name("audio-volume-low-symbolic");
                 }
 
                 this.notify("volume");
@@ -143,6 +157,21 @@ impl VolumeControl {
             gtk::Inhibit(true)
         }));
         self.imp().volume_scale.add_controller(controller);
+    }
+
+    fn toggle_mute(&self, muted: bool) {
+        if muted != self.imp().toggle_mute.replace(muted) {
+            if muted {
+                let prev_value = self.imp().volume_scale.value();
+                self.imp().prev_volume.replace(prev_value);
+                self.imp().volume_scale.set_value(0.0);
+            } else {
+                let prev_value = self.imp().prev_volume.get();
+                self.imp().volume_scale.set_value(prev_value);
+            }
+
+            self.notify("toggle-mute");
+        }
     }
 
     pub fn volume(&self) -> f64 {

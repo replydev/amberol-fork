@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.10.0] - 2023-04-24
+
+### Added
+
 - Allow restoring the playlist from the previous session [!120]
 - Allow disabling background playback
 - Add control to quickly muting/unmuting the audio

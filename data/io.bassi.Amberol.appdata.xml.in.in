@@ -22,16 +22,16 @@
   </description>
   <screenshots>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-2.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.10/amberol-full.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-1.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.10/amberol-compact.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-3.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.10/amberol-playlist.png</image>
     </screenshot>
     <screenshot>
-      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.7/amberol-4.png</image>
+      <image>https://www.bassi.io/~ebassi/amberol/screenshots/0.10/amberol-recolor.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">@APPLICATION_ID@.desktop</launchable>
@@ -55,6 +55,20 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.10.0" date="2023-04-24">
+      <description>
+        <p>New release, lots of small changes.</p>
+        <ul>
+          <li>Allow restoring the last playlist when starting a new session</li>
+          <li>Allow toggling the background playback</li>
+          <li>Add a quick mute/unmute button</li>
+          <li>Restructure the main UI to improve legibility of the controls</li>
+          <li>Do not add duplicate songs to the playlist</li>
+          <li>Ensure that the playlist fits on mobile form factors</li>
+          <li>And lots of bug fixes and UI improvements</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.9.2" date="2022-12-10">
       <description>
         <p>It's been a while!</p>

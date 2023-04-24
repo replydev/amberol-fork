@@ -3,7 +3,7 @@
 
 use std::cell::{Cell, RefCell};
 
-use gtk::{gdk, gio, glib, graphene, prelude::*, subclass::prelude::*};
+use gtk::{gdk, gio, glib, graphene, gsk, prelude::*, subclass::prelude::*};
 
 #[derive(Clone, Copy, Debug, glib::Enum, PartialEq)]
 #[enum_type(name = "AmberolCoverSize")]
@@ -126,7 +126,11 @@ mod imp {
 
                 snapshot.save();
                 snapshot.translate(&graphene::Point::new(x as f32, y as f32));
-                cover.snapshot(snapshot.upcast_ref::<gdk::Snapshot>(), w, h);
+                snapshot.append_scaled_texture(
+                    cover,
+                    gsk::ScalingFilter::Trilinear,
+                    &graphene::Rect::new(0.0, 0.0, w as f32, h as f32),
+                );
                 snapshot.restore();
             }
         }

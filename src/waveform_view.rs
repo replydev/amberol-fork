@@ -260,12 +260,12 @@ mod imp {
                 let mut accum = PeakPair::new(0.0, 0.0);
                 let mut offset = if is_rtl { waveform_width } else { 0.0 };
 
-                for sample in peaks {
+                for (i, sample) in peaks.iter().enumerate() {
                     current_pixel += pixels_per_sample;
                     samples_in_accum += 1;
                     accum.left += sample.left;
                     accum.right += sample.right;
-                    if current_pixel > bar_size as f64 {
+                    if current_pixel > bar_size as f64 || i == peaks.len() - 1 {
                         accum /= samples_in_accum as f64;
 
                         // Scale by half: left goes in the upper half of the

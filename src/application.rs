@@ -140,6 +140,7 @@ impl Application {
                 if background_play {
                     this.request_background();
                 } else {
+                    debug!("Dropping background hold");
                     this.imp().background_hold.replace(None);
                 }
             }),
@@ -239,7 +240,7 @@ impl Application {
                 "Amberol needs to run in the background to play music",
             ));
 
-            match request.send().await.map(|r| r.response()) {
+            match request.send().await.and_then(|r| r.response()) {
                 Ok(response) => {
                     debug!("Background request successful: {:?}", response);
                     self.imp().background_hold.replace(Some(self.hold()));

@@ -82,6 +82,13 @@ mod imp {
         pub replaygain_mode: Cell<ReplayGainMode>,
 
         pub playlist_filtermodel: RefCell<Option<gio::ListModel>>,
+
+        pub notify_playing_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub notify_position_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub notify_song_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub notify_cover_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub notify_nsongs_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub notify_current_id: RefCell<Option<glib::SignalHandlerId>>,
     }
 
     #[glib::object_subclass]
@@ -179,6 +186,12 @@ mod imp {
                 replaygain_mode: Cell::new(ReplayGainMode::default()),
                 provider: gtk::CssProvider::new(),
                 settings: utils::settings_manager(),
+                notify_playing_id: RefCell::new(None),
+                notify_position_id: RefCell::new(None),
+                notify_song_id: RefCell::new(None),
+                notify_cover_id: RefCell::new(None),
+                notify_nsongs_id: RefCell::new(None),
+                notify_current_id: RefCell::new(None),
             }
         }
     }
@@ -268,7 +281,6 @@ impl Window {
             .downcast::<crate::application::Application>()
             .unwrap()
             .player()
-            .clone()
     }
 
     fn setup_actions(&self) {
@@ -626,37 +638,45 @@ impl Window {
 
         // Use the PlayerState:playing property to control the play/pause button
         self.update_play_button();
-        state.connect_notify_local(
+        let notify_playing_id = state.connect_notify_local(
             Some("playing"),
             clone!(@weak self as win => move |_, _| {
                 win.set_playlist_selection(false);
                 win.update_play_button();
             }),
         );
+        imp.notify_playing_id.replace(Some(notify_playing_id));
+
         // Update the position labels
         self.update_position_labels();
-        state.connect_notify_local(
+        let notify_position_id = state.connect_notify_local(
             Some("position"),
             clone!(@weak self as win => move |_, _| {
                 win.update_position_labels();
             }),
         );
+        imp.notify_position_id.replace(Some(notify_position_id));
+
         // Update the UI
         self.update_song();
-        state.connect_notify_local(
+        let notify_song_id = state.connect_notify_local(
             Some("song"),
             clone!(@weak self as win => move |_, _| {
                 win.update_song();
             }),
         );
+        imp.notify_song_id.replace(Some(notify_song_id));
+
         // Update the cover, if any is available
         self.update_cover();
-        state.connect_notify_local(
+        let notify_cover_id = state.connect_notify_local(
             Some("cover"),
             clone!(@weak self as win => move |_, _| {
                 win.update_cover();
             }),
         );
+        imp.notify_cover_id.replace(Some(notify_cover_id));
+
         // Bind the song properties to the UI
         state
             .bind_property("title", &imp.song_details.get().title_label(), "label")
@@ -680,12 +700,33 @@ impl Window {
             .build();
     }
 
+    fn unbind_state(&self) {
+        let player = self.player();
+        let state = player.state();
+
+        if let Some(id) = self.imp().notify_playing_id.take() {
+            state.disconnect(id);
+        }
+
+        if let Some(id) = self.imp().notify_position_id.take() {
+            state.disconnect(id);
+        }
+
+        if let Some(id) = self.imp().notify_song_id.take() {
+            state.disconnect(id);
+        }
+
+        if let Some(id) = self.imp().notify_cover_id.take() {
+            state.disconnect(id);
+        }
+    }
+
     // Bind the Queue to the UI
     fn bind_queue(&self) {
         let player = self.player();
         let queue = player.queue();
 
-        queue.connect_notify_local(
+        let notify_nsongs_id = queue.connect_notify_local(
             Some("n-songs"),
             clone!(@weak self as win => move |queue, _| {
                 debug!("queue.n_songs() = {}", queue.n_songs());
@@ -708,13 +749,16 @@ impl Window {
                 win.update_playlist_time();
             }),
         );
+        self.imp().notify_nsongs_id.replace(Some(notify_nsongs_id));
+
         queue.connect_notify_local(
             Some("repeat-mode"),
             clone!(@weak self as win => move |queue, _| {
                 win.imp().playback_control.set_repeat_mode(queue.repeat_mode());
             }),
         );
-        queue.connect_notify_local(
+
+        let notify_current_id = queue.connect_notify_local(
             Some("current"),
             clone!(@weak self as win => move |queue, _| {
                 if queue.is_last_song() {
@@ -731,6 +775,22 @@ impl Window {
                 }
             }),
         );
+        self.imp()
+            .notify_current_id
+            .replace(Some(notify_current_id));
+    }
+
+    fn unbind_queue(&self) {
+        let player = self.player();
+        let queue = player.queue();
+
+        if let Some(id) = self.imp().notify_nsongs_id.take() {
+            queue.disconnect(id);
+        }
+
+        if let Some(id) = self.imp().notify_current_id.take() {
+            queue.disconnect(id);
+        }
     }
 
     fn connect_signals(&self) {
@@ -859,6 +919,9 @@ impl Window {
             settings
                 .set_int("window-height", height)
                 .expect("Unable to stop window-height");
+
+            window.unbind_queue();
+            window.unbind_state();
 
             glib::signal::Inhibit(false)
         });

@@ -32,6 +32,8 @@ fn main() -> glib::ExitCode {
     let mut builder = pretty_env_logger::formatted_builder();
     if APPLICATION_ID.ends_with("Devel") {
         builder.filter(Some("amberol"), LevelFilter::Debug);
+    } else {
+        builder.filter(Some("amberol"), LevelFilter::Info);
     }
     builder.init();
 

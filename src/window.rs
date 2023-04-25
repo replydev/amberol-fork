@@ -89,6 +89,7 @@ mod imp {
         pub notify_cover_id: RefCell<Option<glib::SignalHandlerId>>,
         pub notify_nsongs_id: RefCell<Option<glib::SignalHandlerId>>,
         pub notify_current_id: RefCell<Option<glib::SignalHandlerId>>,
+        pub notify_peaks_id: RefCell<Option<glib::SignalHandlerId>>,
     }
 
     #[glib::object_subclass]
@@ -192,6 +193,7 @@ mod imp {
                 notify_cover_id: RefCell::new(None),
                 notify_nsongs_id: RefCell::new(None),
                 notify_current_id: RefCell::new(None),
+                notify_peaks_id: RefCell::new(None),
             }
         }
     }
@@ -303,13 +305,25 @@ impl Window {
 
     fn setup_waveform(&self) {
         let player = self.player();
-        player.waveform_generator().connect_notify_local(
+        let peaks = player.waveform_generator().peaks();
+        self.imp().waveform_view.set_peaks(peaks);
+
+        let notify_peaks_id = player.waveform_generator().connect_notify_local(
             Some("has-peaks"),
             clone!(@weak self as win => move |gen, _| {
                 let peaks = gen.peaks();
                 win.imp().waveform_view.set_peaks(peaks);
             }),
         );
+        self.imp().notify_peaks_id.replace(Some(notify_peaks_id));
+    }
+
+    fn unbind_waveform(&self) {
+        let player = self.player();
+
+        if let Some(id) = self.imp().notify_peaks_id.take() {
+            player.waveform_generator().disconnect(id);
+        }
     }
 
     fn restore_window_state(&self) {
@@ -922,6 +936,7 @@ impl Window {
 
             window.unbind_queue();
             window.unbind_state();
+            window.unbind_waveform();
 
             glib::signal::Inhibit(false)
         });

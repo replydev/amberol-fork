@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.10.1] - 2023-04-25
+
+### Fixed
+
+- Background playback doesn't work [#314]
+
 ## [0.10.0] - 2023-04-24
 
 ### Added

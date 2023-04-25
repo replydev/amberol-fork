@@ -281,7 +281,6 @@ impl Window {
             .downcast::<crate::application::Application>()
             .unwrap()
             .player()
-            .clone()
     }
 
     fn setup_actions(&self) {

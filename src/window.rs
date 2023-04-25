@@ -1237,31 +1237,6 @@ impl Window {
                     ));
                 }
 
-                // We compute the complementary of the dominant color in the palette; then we
-                // try to find the closest color in the palette that we can use
-                let complementary = utils::complementary_color(&bg_colors[0]);
-                let mut near_color: Option<gdk::RGBA> = None;
-                let mut min_near: f32 = f32::MAX;
-                for color in bg_colors {
-                    let delta_e = utils::color_distance(&color, &complementary);
-                    if delta_e < min_near {
-                        min_near = delta_e;
-                        near_color = Some(color);
-                    }
-                }
-
-                if let Some(near_color) = near_color {
-                    css.push_str(&format!(
-                        "@define-color complementary_color {};",
-                        near_color
-                    ));
-                } else {
-                    css.push_str(&format!(
-                        "@define-color complementary_color {};",
-                        complementary
-                    ));
-                }
-
                 imp.provider.load_from_data(&css);
                 if !imp.main_stack.has_css_class("main-window") {
                     imp.main_stack.add_css_class("main-window");

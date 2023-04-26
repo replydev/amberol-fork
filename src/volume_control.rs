@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::subclass::prelude::*;
-use glib::{clone, ParamSpec, ParamSpecBoolean, ParamSpecDouble, Value};
+use glib::clone;
 use gtk::{gio, glib, prelude::*, CompositeTemplate};
 use log::debug;
-use once_cell::sync::Lazy;
 use std::cell::Cell;
 
 mod imp {
+    use glib::{subclass::Signal, ParamSpec, ParamSpecBoolean, ParamSpecDouble, Value};
+    use once_cell::sync::Lazy;
+
     use super::*;
 
     #[derive(Debug, Default, CompositeTemplate)]
@@ -97,6 +99,16 @@ mod imp {
                 _ => unimplemented!(),
             }
         }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![Signal::builder("volume-changed")
+                    .param_types([f64::static_type()])
+                    .build()]
+            });
+
+            SIGNALS.as_ref()
+        }
     }
 
     impl WidgetImpl for VolumeControl {}
@@ -136,8 +148,8 @@ impl VolumeControl {
                 } else {
                     this.imp().volume_low_button.set_icon_name("audio-volume-low-symbolic");
                 }
-
                 this.notify("volume");
+                this.emit_by_name::<()>("volume-changed", &[&value]);
             }),
         );
     }
@@ -168,7 +180,6 @@ impl VolumeControl {
                 let prev_value = self.imp().prev_volume.get();
                 self.imp().volume_scale.set_value(prev_value);
             }
-
             self.notify("toggle-mute");
         }
     }

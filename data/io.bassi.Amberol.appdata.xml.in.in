@@ -55,6 +55,16 @@
     <control>touch</control>
   </recommends>
   <releases>
+    <release version="0.10.2" date="2023-04-28">
+      <description>
+        <p>The bug fixing comes in waves</p>
+        <ul>
+          <li>More crash fixes related to the background playback</li>
+          <li>Minor UI tweaks</li>
+          <li>Translation updates</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.1" date="2023-04-25">
       <description>
         <p>Brown paper bag release!</p>

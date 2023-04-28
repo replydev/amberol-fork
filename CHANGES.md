@@ -12,6 +12,26 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.10.2] - 2023-04-28
+
+### Changed
+
+- Use a better icon for the drop overlay [!135]
+- Translation updates
+  - Galician
+  - Slovenian
+  - Hungarian
+  - Swedish
+  - Turkish
+  - Indonesian
+  - French
+  - Occitan
+
+### Fixed
+
+- Crash when adjusting volume while in background [#317]
+- Crash when adding folder after sending app to the background [#319]
+
 ## [0.10.1] - 2023-04-25
 
 ### Fixed

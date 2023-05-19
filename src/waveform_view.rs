@@ -547,6 +547,7 @@ impl WaveformView {
                         this.imp().factor.replace(None);
                         this.imp().first_frame_time.replace(None);
                         this.imp().tick_id.replace(None);
+                        this.queue_resize();
                         return glib::Continue(false);
                     } else {
                         this.imp().factor.replace(Some(delta));
@@ -558,10 +559,12 @@ impl WaveformView {
                     this.imp().peaks.replace(next_peaks);
                     this.imp().factor.replace(None);
                     this.imp().first_frame_time.replace(None);
+                    this.queue_resize();
                 } else {
                     // No peaks
                     this.imp().factor.replace(None);
                     this.imp().tick_id.replace(None);
+                    this.queue_resize();
                     return glib::Continue(false);
                 }
             } else {

@@ -1281,7 +1281,7 @@ impl Window {
     fn setup_provider(&self) {
         let imp = self.imp();
         if let Some(display) = gdk::Display::default() {
-            gtk::StyleContext::add_provider_for_display(&display, &imp.provider, 400);
+            gtk::style_context_add_provider_for_display(&display, &imp.provider, 400);
         }
     }
 

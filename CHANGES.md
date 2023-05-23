@@ -8,6 +8,14 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+### Fixed
+
+### Removed
+
+## [0.10.3] - 2023-05-23
+
+### Changed
+
 - Translation updates
   - Hebrew
   - Polish
@@ -21,8 +29,6 @@ All notable changes to this project will be documented in this file.
 - Resize the waveform view when interpolating states
 - Fix cover art scaling [#324]
 - Fix deprecation warnings at build time
-
-### Removed
 
 ## [0.10.2] - 2023-04-28
 

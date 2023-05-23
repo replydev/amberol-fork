@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Resize the waveform view when interpolating states
+- Fix cover art scaling [#324]
+- Fix deprecation warnings at build time
 
 ### Removed
 

@@ -6,6 +6,8 @@
 // - Copyright 2022 Kavan Mevada
 // Released under the terms of the LGPL 2.0 or later
 
+#![allow(deprecated)]
+
 use std::{
     cell::{Cell, RefCell},
     ops::DivAssign,

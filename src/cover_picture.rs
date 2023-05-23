@@ -115,14 +115,14 @@ mod imp {
                 let h;
                 if ratio > 1.0 {
                     w = width;
-                    h = height / ratio;
+                    h = width / ratio;
                 } else {
-                    w = width / ratio;
+                    w = height * ratio;
                     h = height;
                 }
 
-                let x = (width - w.ceil()) as i32 / 2;
-                let y = (height - h.ceil()) as i32 / 2;
+                let x = (width - w.ceil()) / 2.0;
+                let y = (height - h).floor() / 2.0;
 
                 snapshot.save();
                 snapshot.translate(&graphene::Point::new(x as f32, y as f32));

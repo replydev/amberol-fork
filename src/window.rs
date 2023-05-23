@@ -425,78 +425,50 @@ impl Window {
     }
 
     fn add_song(&self) {
-        let app = gio::Application::default()
-            .expect("Failed to retrieve application singleton")
-            .downcast::<gtk::Application>()
-            .unwrap();
-        let win = app
-            .active_window()
-            .unwrap()
-            .downcast::<gtk::Window>()
-            .unwrap();
-        let dialog = gtk::FileChooserNative::builder()
-            .accept_label(&i18n("_Add Song"))
-            .cancel_label(&i18n("_Cancel"))
-            .modal(true)
-            .title(&i18n("Open File"))
-            .action(gtk::FileChooserAction::Open)
-            .select_multiple(true)
-            .transient_for(&win)
-            .build();
+        let ctx = glib::MainContext::default();
+        ctx.spawn_local(clone!(@weak self as win => async move {
+            let filters = gio::ListStore::new(gtk::FileFilter::static_type());
+            let filter = gtk::FileFilter::new();
+            gtk::FileFilter::set_name(&filter, Some(&i18n("Audio files")));
+            filter.add_mime_type("audio/*");
+            filters.append(&filter);
 
-        let filter = gtk::FileFilter::new();
-        gtk::FileFilter::set_name(&filter, Some(&i18n("Audio files")));
-        filter.add_mime_type("audio/*");
-        dialog.add_filter(&filter);
+            let dialog = gtk::FileDialog::builder()
+                .accept_label(&i18n("_Add Song"))
+                .filters(&filters)
+                .modal(true)
+                .title(&i18n("Open File"))
+                .build();
 
-        dialog.connect_response(
-            clone!(@strong dialog, @weak self as win => move |_, response| {
-                if response == gtk::ResponseType::Accept {
-                    let files = dialog.files();
+            if let Ok(files) = dialog.open_multiple_future(Some(&win)).await {
+                if files.n_items() == 0 {
+                    win.add_toast(i18n("Unable to access files"));
+                } else {
+                    win.add_files_to_queue(&files);
+                }
+            }
+        }));
+    }
+
+    fn add_folder(&self) {
+        let ctx = glib::MainContext::default();
+        ctx.spawn_local(clone!(@weak self as win => async move {
+            let dialog = gtk::FileDialog::builder()
+                .accept_label(&i18n("_Add Folder"))
+                .modal(true)
+                .title(&i18n("Open Folder"))
+                .build();
+
+            if let Ok(res) = dialog.select_multiple_folders_future(Some(&win)).await {
+                if let Some(files) = res {
                     if files.n_items() == 0 {
                         win.add_toast(i18n("Unable to access files"));
                     } else {
                         win.add_files_to_queue(&files);
                     }
                 }
-            }),
-        );
-        dialog.show();
-    }
-
-    fn add_folder(&self) {
-        let app = gio::Application::default()
-            .expect("Failed to retrieve application singleton")
-            .downcast::<gtk::Application>()
-            .unwrap();
-        let win = app
-            .active_window()
-            .unwrap()
-            .downcast::<gtk::Window>()
-            .unwrap();
-        let dialog = gtk::FileChooserNative::builder()
-            .accept_label(&i18n("_Add Folder"))
-            .cancel_label(&i18n("_Cancel"))
-            .modal(true)
-            .title(&i18n("Open Folder"))
-            .action(gtk::FileChooserAction::SelectFolder)
-            .select_multiple(true)
-            .transient_for(&win)
-            .build();
-
-        dialog.connect_response(
-            clone!(@strong dialog, @weak self as win => move |_, response| {
-                if response == gtk::ResponseType::Accept {
-                    let files = dialog.files();
-                    if files.n_items() == 0 {
-                        win.add_toast(i18n("Unable to access folders"));
-                    } else {
-                        win.add_files_to_queue(&dialog.files());
-                    }
-                }
-            }),
-        );
-        dialog.show();
+            }
+        }));
     }
 
     fn restore_playlist(&self) {

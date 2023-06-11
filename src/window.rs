@@ -65,7 +65,7 @@ mod imp {
         #[template_child]
         pub playback_control: TemplateChild<PlaybackControl>,
         #[template_child]
-        pub queue_revealer: TemplateChild<adw::Flap>,
+        pub split_view: TemplateChild<adw::OverlaySplitView>,
         #[template_child]
         pub playlist_view: TemplateChild<PlaylistView>,
         #[template_child]
@@ -170,7 +170,7 @@ mod imp {
             Self {
                 song_details: TemplateChild::default(),
                 song_cover: TemplateChild::default(),
-                queue_revealer: TemplateChild::default(),
+                split_view: TemplateChild::default(),
                 toast_overlay: TemplateChild::default(),
                 drag_overlay: TemplateChild::default(),
                 playback_control: TemplateChild::default(),
@@ -358,7 +358,7 @@ impl Window {
 
     fn set_playlist_visible(&self, visible: bool) {
         if visible != self.imp().playlist_visible.replace(visible) {
-            self.imp().queue_revealer.set_reveal_flap(visible);
+            self.imp().split_view.set_show_sidebar(visible);
             self.notify("playlist-visible");
         }
     }
@@ -489,8 +489,6 @@ impl Window {
         self.action_set_enabled("queue.add-song", false);
         self.action_set_enabled("queue.add-folder", false);
         self.action_set_enabled("queue.clear", false);
-
-        self.set_playlist_visible(true);
 
         self.imp().playlist_view.begin_loading();
 
@@ -789,11 +787,11 @@ impl Window {
     }
 
     fn connect_signals(&self) {
-        self.imp().queue_revealer.connect_notify_local(
-            Some("folded"),
-            clone!(@weak self as win => move |flap, _| {
-                win.set_playlist_visible(flap.reveals_flap());
-                if flap.is_folded() {
+        self.imp().split_view.connect_notify_local(
+            Some("collapsed"),
+            clone!(@weak self as win => move |split_view, _| {
+                win.set_playlist_visible(split_view.shows_sidebar());
+                if split_view.is_collapsed() {
                     win.imp().playlist_view.back_button().set_visible(win.playlist_visible());
                 } else {
                     win.imp().playlist_view.back_button().set_visible(false);
@@ -801,11 +799,11 @@ impl Window {
             }),
         );
 
-        self.imp().queue_revealer.connect_notify_local(
-            Some("reveal-flap"),
-            clone!(@weak self as win => move |flap, _| {
-                win.set_playlist_visible(flap.reveals_flap());
-                if flap.is_folded() {
+        self.imp().split_view.connect_notify_local(
+            Some("show-sidebar"),
+            clone!(@weak self as win => move |split_view, _| {
+                win.set_playlist_visible(split_view.shows_sidebar());
+                if split_view.is_collapsed() {
                     win.imp().playlist_view.back_button().set_visible(win.playlist_visible());
                 } else {
                     win.imp().playlist_view.back_button().set_visible(false);

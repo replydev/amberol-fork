@@ -7,8 +7,8 @@ button.large {
 
 .main-box {
   padding: 6px;
-  margin-left: 24px;
-  margin-right: 24px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 songcover {
@@ -22,6 +22,10 @@ songcover image.card {
               0px 6px 32px rgba(0,0,0,0.1);
   border-radius: 12px;
   margin: 6px;
+}
+
+.main-window > overlay-split-view > .sidebar-pane {
+  background: transparent;
 }
 
 .main-window songcover picture.cover {
@@ -116,11 +120,7 @@ dragoverlay {
   background-color: rgba(0, 0, 0, 0.08);
 }
 
-.folded playlistview {
-  background: @window_bg_color;
-}
-
-.main-window .folded playlistview {
+.main-window > overlay-split-view > widget.background > playlistview {
   background: linear-gradient(127deg, alpha(@background_color_0, .55), alpha(@background_color_0, 0) 70.71%),
               linear-gradient(217deg, alpha(@background_color_1, .55), alpha(@background_color_1, 0) 70.71%),
               linear-gradient(336deg, alpha(@background_color_2, .55), alpha(@background_color_2, 0) 70.71%),

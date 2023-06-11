@@ -11,10 +11,10 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <property name="hexpand">true</property>
-                <property name="width-request">200</property>
                 <child>
                   <object class="GtkLabel">
                     <property name="xalign">0</property>
+                    <property name="ellipsize">end</property>
                     <property name="label" translatable="yes">Playlist</property>
                     <style>
                       <class name="heading"/>
@@ -24,6 +24,7 @@
                 <child>
                   <object class="GtkLabel" id="queue_length_label">
                     <property name="xalign">0</property>
+                    <property name="ellipsize">end</property>
                     <style>
                       <class name="caption"/>
                     </style>
@@ -106,8 +107,6 @@
                 <property name="hscrollbar-policy">never</property>
                 <property name="vscrollbar-policy">automatic</property>
                 <property name="propagate-natural-height">true</property>
-                <property name="max-content-width">320</property>
-                <property name="width-request">320</property>
                 <property name="vexpand">true</property>
                 <property name="child">
                   <object class="GtkListView" id="queue_view">

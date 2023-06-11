@@ -87,7 +87,7 @@ queuerow checkbutton.selection-mode {
 }
 
 .queue-length {
-  padding: 12px;
+  padding: 9px 12px;
 }
 
 dragoverlay {
@@ -101,10 +101,6 @@ dragoverlay {
 
 .blurred {
   filter: blur(6px);
-}
-
-scrolledwindow undershoot.top {
-  box-shadow: inset 0 1px @borders;
 }
 
 .main-window {
@@ -141,24 +137,10 @@ scrolledwindow undershoot.top {
   outline-color: alpha(currentColor, .25);
 }
 
-.main-window searchbar {
-  background: transparent;
-}
-
-.main-window searchbar > revealer > box {
-  box-shadow: inset 0 1px @borders;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
 .main-window scale highlight,
 .main-window progressbar progress {
   background: currentColor;
   color: inherit;
-}
-
-actionbar.flat > revealer > box {
-  background: none;
-  box-shadow: inset 0 1px @borders;
 }
 
 volume > scale { color: @dimmed_color; }

@@ -25,12 +25,8 @@
                           <object class="AdwToolbarView">
 
                             <child type="top">
-                              <object class="GtkHeaderBar">
-                                <child type="title">
-                                  <object class="GtkBox">
-                                    <property name="visible">false</property>
-                                  </object>
-                                </child>
+                              <object class="AdwHeaderBar">
+                                <property name="show-title">false</property>
                               </object>
                             </child>
 
@@ -103,12 +99,8 @@
 
                                 <!-- Header Bar -->
                                 <child type="top">
-                                  <object class="GtkHeaderBar">
-                                    <child type="title">
-                                      <object class="GtkBox">
-                                        <property name="visible">false</property>
-                                      </object>
-                                    </child>
+                                  <object class="AdwHeaderBar">
+                                    <property name="show-title">false</property>
                                   </object>
                                 </child>
 

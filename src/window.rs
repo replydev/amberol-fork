@@ -791,11 +791,7 @@ impl Window {
             Some("collapsed"),
             clone!(@weak self as win => move |split_view, _| {
                 win.set_playlist_visible(split_view.shows_sidebar());
-                if split_view.is_collapsed() {
-                    win.imp().playlist_view.back_button().set_visible(win.playlist_visible());
-                } else {
-                    win.imp().playlist_view.back_button().set_visible(false);
-                }
+                win.imp().playlist_view.back_button().set_visible(split_view.is_collapsed());
             }),
         );
 
@@ -803,11 +799,6 @@ impl Window {
             Some("show-sidebar"),
             clone!(@weak self as win => move |split_view, _| {
                 win.set_playlist_visible(split_view.shows_sidebar());
-                if split_view.is_collapsed() {
-                    win.imp().playlist_view.back_button().set_visible(win.playlist_visible());
-                } else {
-                    win.imp().playlist_view.back_button().set_visible(false);
-                }
             }),
         );
 

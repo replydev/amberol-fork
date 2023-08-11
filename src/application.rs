@@ -40,7 +40,7 @@ mod imp {
         type ParentType = adw::Application;
 
         fn new() -> Self {
-            let (sender, r) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+            let (sender, r) = glib::MainContext::channel(glib::Priority::DEFAULT);
             let receiver = RefCell::new(Some(r));
 
             Self {
@@ -158,13 +158,13 @@ impl Application {
         );
     }
 
-    fn process_action(&self, action: ApplicationAction) -> glib::Continue {
+    fn process_action(&self, action: ApplicationAction) -> glib::ControlFlow {
         match action {
             ApplicationAction::Present => self.present_main_window(),
             // _ => debug!("Received action {:?}", action),
         }
 
-        glib::Continue(true)
+        glib::ControlFlow::Continue
     }
 
     fn present_main_window(&self) {
@@ -202,7 +202,7 @@ impl Application {
                 let state = action.state().unwrap();
                 let action_state: bool = state.get().unwrap();
                 let background_play = !action_state;
-                action.set_state(background_play.to_variant());
+                action.set_state(&background_play.to_variant());
 
                 this.imp()
                     .settings

@@ -165,7 +165,7 @@ impl VolumeControl {
             let delta = dy * adj.step_increment();
             let d = (adj.value() - delta).clamp(adj.lower(), adj.upper());
             adj.set_value(d);
-            gtk::Inhibit(true)
+            glib::Propagation::Stop
         }));
         self.imp().volume_scale.add_controller(controller);
     }

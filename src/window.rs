@@ -300,7 +300,7 @@ impl Window {
                 let state = action.state().unwrap();
                 let action_state: bool = state.get().unwrap();
                 let enable_recoloring = !action_state;
-                action.set_state(enable_recoloring.to_variant());
+                action.set_state(&enable_recoloring.to_variant());
 
                 this.imp()
                     .settings
@@ -427,7 +427,7 @@ impl Window {
     fn add_song(&self) {
         let ctx = glib::MainContext::default();
         ctx.spawn_local(clone!(@weak self as win => async move {
-            let filters = gio::ListStore::new(gtk::FileFilter::static_type());
+            let filters = gio::ListStore::new::<gtk::FileFilter>();
             let filter = gtk::FileFilter::new();
             gtk::FileFilter::set_name(&filter, Some(&i18n("Audio files")));
             filter.add_mime_type("audio/*");
@@ -504,7 +504,7 @@ impl Window {
         let mut duplicates: u32 = 0;
 
         glib::idle_add_local(
-            clone!(@weak self as win => @default-return glib::Continue(false), move || {
+            clone!(@weak self as win => @default-return glib::ControlFlow::Break, move || {
                 files.next()
                     .map(|f| {
                         win.imp().playlist_view.update_loading(cur_file, n_files);
@@ -523,7 +523,7 @@ impl Window {
                             Err(_) => ()
                         }
                     })
-                    .map(|_| glib::Continue(true))
+                    .map(|_| glib::ControlFlow::Continue)
                     .unwrap_or_else(|| {
                         debug!("Total loading time for {} files: {} ms", n_files, now.elapsed().as_millis());
 
@@ -585,7 +585,7 @@ impl Window {
                             }
                         }
 
-                        glib::Continue(false)
+                        glib::ControlFlow::Break
                     })
             }),
         );
@@ -916,7 +916,7 @@ impl Window {
             window.unbind_state();
             window.unbind_waveform();
 
-            glib::signal::Inhibit(false)
+            glib::Propagation::Proceed
         });
 
         self.imp()
@@ -1119,7 +1119,7 @@ impl Window {
                         return false;
                     }
 
-                    let model = gio::ListStore::new(gio::File::static_type());
+                    let model = gio::ListStore::new::<gio::File>();
                     for f in file_list.files() {
                         model.append(&f);
                     }
@@ -1355,7 +1355,7 @@ impl Window {
             return;
         }
 
-        let model = gio::ListStore::new(gio::File::static_type());
+        let model = gio::ListStore::new::<gio::File>();
         for f in files {
             model.append(f);
         }

@@ -113,7 +113,7 @@ $ git clone git@gitlab.gnome.org:yourusername/amberol.git
 $ cd amberol
 ```
 
-To compile the Git version of GTK on your system, you will need to
+To compile the Git version of Amberol on your system, you will need to
 configure your build using Meson:
 
 ```sh

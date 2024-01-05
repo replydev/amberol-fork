@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/issues\n"
-"POT-Creation-Date: 2023-11-27 13:06+0000\n"
-"PO-Revision-Date: 2022-10-26 19:26+0300\n"
+"POT-Creation-Date: 2024-01-05 14:52+0000\n"
+"PO-Revision-Date: 2024-01-05 22:02+0200\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gnome.org>\n"
 "Language-Team: Greek <gnome-el-list@gnome.org>\n"
 "Language: el\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: data/io.bassi.Amberol.desktop.in.in:3
 #: data/io.bassi.Amberol.appdata.xml.in.in:6
@@ -42,9 +42,10 @@ msgid ""
 "play music available on your local system then Amberol is the music player "
 "you are looking for."
 msgstr ""
-"Το Amberol είναι ένας αναπαραγωγέας μουσικής χωρίς αυταπάτες και μεγαλοπρέπειες. Αν θέλετε "
-"απλά να ακούτε μουσική που είναι διαθέσιμη στο τοπικό σας σύστημα, τότε το "
-"Amberol είναι ο αναπαραγωγέας μουσικής που ψάχνετε."
+"Το Amberol είναι ένας αναπαραγωγέας μουσικής χωρίς αυταπάτες και "
+"μεγαλοπρέπειες. Αν θέλετε απλά να ακούτε μουσική που είναι διαθέσιμη στο "
+"τοπικό σας σύστημα, τότε το Amberol είναι ο αναπαραγωγέας μουσικής που "
+"ψάχνετε."
 
 #: data/io.bassi.Amberol.appdata.xml.in.in:14
 msgid "Current features:"
@@ -106,9 +107,6 @@ msgid "Copy song details to the clipboard"
 msgstr "Αντιγραφή λεπτομερειών τραγουδιού στο πρόχειρο"
 
 #: src/gtk/help-overlay.ui:26
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Show Shortcuts"
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Εμφάνιση συντομεύσεων"
@@ -270,7 +268,6 @@ msgid "_ReplayGain"
 msgstr "_ReplayGain"
 
 #: src/gtk/playback-control.ui:183
-#| msgid "_Album"
 msgctxt "replaygain-menu"
 msgid "_Album"
 msgstr "Ά_λμπουμ"
@@ -322,8 +319,6 @@ msgid "Remove Selected Songs"
 msgstr "Αφαίρεση επιλεγμένων τραγουδιών"
 
 #: src/gtk/window.ui:13
-#| msgctxt "shortcut window"
-#| msgid "Add a song to the playlist"
 msgid "Drop a song to add it to the playlist"
 msgstr "Αφήστε ένα τραγούδι για να το προσθέσετε στη λίστα αναπαραγωγής"
 
@@ -337,7 +332,6 @@ msgstr ""
 "λίστα αναπαραγωγής"
 
 #: src/gtk/window.ui:52
-#| msgid "Close the Playlist"
 msgid "Restore Playlist"
 msgstr "Επαναφορά λίστας αναπαραγωγής"
 
@@ -371,16 +365,14 @@ msgstr ""
 
 #: src/application.rs:241
 msgid "Amberol needs to run in the background to play music"
-msgstr "Το Amberol χρειάζεται να εκτελείται στο παρασκήνιο για να αναπαράγει μουσική"
+msgstr ""
+"Το Amberol χρειάζεται να εκτελείται στο παρασκήνιο για να αναπαράγει μουσική"
 
 #: src/playback_control.rs:118
-#, fuzzy
-#| msgid "Select All Songs"
 msgid "Repeat All Songs"
-msgstr "Επιλογή όλων των τραγουδιών"
+msgstr "Επανάληψη όλων των τραγουδιών"
 
 #: src/playback_control.rs:122
-#| msgid "Repeat the Current Track"
 msgid "Repeat the Current Song"
 msgstr "Επανάληψη του τρέχοντος τραγουδιού"
 
@@ -424,6 +416,9 @@ msgstr "Προστέθηκε νέο τραγούδι"
 msgid "Play"
 msgstr "Aναπαραγωγή"
 
+#. Translators: the `{}` must be left unmodified;
+#. it will be expanded to the number of songs added
+#. to the playlist
 #: src/window.rs:577
 msgid "Added one song"
 msgid_plural "Added {} songs"
@@ -443,8 +438,8 @@ msgstr[1] "{} λεπτά"
 #: src/window.rs:1223
 msgid "{hours} hour {minutes} remaining"
 msgid_plural "{hours} hours {minutes} remaining"
-msgstr[0] "Απομένει {} ώρα και {} λεπτά"
-msgstr[1] "Απομένουν {} ώρες και {} λεπτά"
+msgstr[0] "Απομένει {hours} ώρα και {minutes} λεπτά"
+msgstr[1] "Απομένουν {hours} ώρες και {minutes} λεπτά"
 
 #. Translators: the '{}' must be left unmodified, and
 #. it will be replaced by the number of minutes remaining

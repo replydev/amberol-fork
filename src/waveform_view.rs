@@ -129,7 +129,7 @@ mod imp {
 
     impl WidgetImpl for WaveformView {
         fn focus(&self, direction: gtk::DirectionType) -> bool {
-            debug!("WaveformView::focus({})", direction);
+            debug!("WaveformView::focus({:?})", direction);
             let widget = self.obj();
             if !widget.is_focus() {
                 widget.grab_focus();

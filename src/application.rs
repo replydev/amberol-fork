@@ -6,7 +6,8 @@ use std::{cell::RefCell, rc::Rc};
 use adw::subclass::prelude::*;
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
 use ashpd::{desktop::background::Background, WindowIdentifier};
-use glib::{clone, Receiver};
+use async_channel::Receiver;
+use glib::clone;
 use gtk::{gio, glib, prelude::*};
 use log::{debug, warn};
 
@@ -40,7 +41,7 @@ mod imp {
         type ParentType = adw::Application;
 
         fn new() -> Self {
-            let (sender, r) = glib::MainContext::channel(glib::Priority::DEFAULT);
+            let (sender, r) = async_channel::unbounded();
             let receiver = RefCell::new(Some(r));
 
             Self {
@@ -152,10 +153,15 @@ impl Application {
 
     fn setup_channel(&self) {
         let receiver = self.imp().receiver.borrow_mut().take().unwrap();
-        receiver.attach(
-            None,
-            clone!(@strong self as this => move |action| this.process_action(action)),
-        );
+        glib::MainContext::default().spawn_local(clone!(@strong self as this => async move {
+            use futures::prelude::*;
+
+            let mut receiver = std::pin::pin!(receiver);
+
+            while let Some(action) = receiver.next().await {
+                this.process_action(action);
+            }
+        }));
     }
 
     fn process_action(&self, action: ApplicationAction) -> glib::ControlFlow {

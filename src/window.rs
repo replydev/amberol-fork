@@ -8,7 +8,7 @@ use std::{
 };
 
 use adw::subclass::prelude::*;
-use glib::{clone, closure_local, FromVariant};
+use glib::{clone, closure_local};
 use gtk::{gdk, gio, glib, prelude::*, CompositeTemplate};
 use log::debug;
 
@@ -152,14 +152,18 @@ mod imp {
             klass.install_property_action("queue.search", "playlist-search");
             klass.install_property_action("win.replaygain", "replaygain-mode");
 
-            klass.install_action("win.skip-to", Some("u"), move |win, _, param| {
-                if let Some(pos) = param.and_then(u32::from_variant) {
-                    if let Some(player) = win.player() {
-                        player.skip_to(pos);
-                        player.play();
+            klass.install_action(
+                "win.skip-to",
+                Some(glib::VariantTy::UINT32),
+                move |win, _, param| {
+                    if let Some(pos) = param.and_then(u32::from_variant) {
+                        if let Some(player) = win.player() {
+                            player.skip_to(pos);
+                            player.play();
+                        }
                     }
-                }
-            });
+                },
+            );
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -261,7 +265,7 @@ glib::wrapper! {
 }
 
 impl Window {
-    pub fn new<P: glib::IsA<gtk::Application>>(application: &P) -> Self {
+    pub fn new<P: IsA<gtk::Application>>(application: &P) -> Self {
         let win = glib::Object::builder::<Window>()
             .property("application", application)
             .build();
@@ -459,13 +463,11 @@ impl Window {
                 .title(&i18n("Open Folder"))
                 .build();
 
-            if let Ok(res) = dialog.select_multiple_folders_future(Some(&win)).await {
-                if let Some(files) = res {
-                    if files.n_items() == 0 {
-                        win.add_toast(i18n("Unable to access files"));
-                    } else {
-                        win.add_files_to_queue(&files);
-                    }
+            if let Ok(files) = dialog.select_multiple_folders_future(Some(&win)).await {
+                if files.n_items() == 0 {
+                    win.add_toast(i18n("Unable to access files"));
+                } else {
+                    win.add_files_to_queue(&files);
                 }
             }
         }));

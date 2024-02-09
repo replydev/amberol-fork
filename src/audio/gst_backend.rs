@@ -183,9 +183,9 @@ impl GstBackend {
     }
 
     pub fn set_replaygain(&self, replaygain: ReplayGainMode) {
-        self.replaygain
-            .as_ref()
-            .map(|r| r.set_mode(self.gst_player.pipeline(), replaygain));
+        if let Some(ref r) = self.replaygain {
+            r.set_mode(self.gst_player.pipeline(), replaygain);
+        }
     }
 
     pub fn replaygain_available(&self) -> bool {

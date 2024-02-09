@@ -117,9 +117,9 @@ glib::wrapper! {
 impl Default for Application {
     fn default() -> Self {
         glib::Object::builder::<Application>()
-            .property("application-id", &APPLICATION_ID)
+            .property("application-id", APPLICATION_ID)
             .property("flags", gio::ApplicationFlags::HANDLES_OPEN)
-            .property("resource-base-path", &"/io/bassi/Amberol")
+            .property("resource-base-path", "/io/bassi/Amberol")
             .build()
     }
 }
@@ -232,7 +232,7 @@ impl Application {
             .issue_url("https://gitlab.gnome.org/World/amberol/-/issues/new")
             .license_type(gtk::License::Gpl30)
             // Translators: Replace "translator-credits" with your names, one name per line
-            .translator_credits(&i18n("translator-credits"))
+            .translator_credits(i18n("translator-credits"))
             .build();
 
         dialog.present();

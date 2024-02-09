@@ -37,31 +37,21 @@ pub enum PlaybackAction {
     Raise,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Default)]
 pub enum PlaybackState {
+    #[default]
     Stopped,
     Playing,
     Paused,
 }
 
-impl Default for PlaybackState {
-    fn default() -> Self {
-        PlaybackState::Stopped
-    }
-}
-
-#[derive(Clone, Copy, Debug, glib::Enum, PartialEq)]
+#[derive(Clone, Copy, Debug, glib::Enum, PartialEq, Default)]
 #[enum_type(name = "AmberolRepeatMode")]
 pub enum RepeatMode {
+    #[default]
     Consecutive,
     RepeatAll,
     RepeatOne,
-}
-
-impl Default for RepeatMode {
-    fn default() -> Self {
-        RepeatMode::Consecutive
-    }
 }
 
 impl Display for RepeatMode {

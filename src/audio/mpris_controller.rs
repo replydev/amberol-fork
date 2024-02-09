@@ -152,7 +152,7 @@ impl MprisController {
             // the cover art, instead of requiring this ridiculous
             // charade
             if let Some(cache) = song.cover_cache() {
-                let file = gio::File::for_path(&cache);
+                let file = gio::File::for_path(cache);
                 match file.query_info(
                     "standard::type",
                     gio::FileQueryInfoFlags::NONE,

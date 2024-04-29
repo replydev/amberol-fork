@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amberol main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/amberol/-/issues/\n"
-"POT-Creation-Date: 2024-03-22 07:53+0000\n"
-"PO-Revision-Date: 2024-03-25 19:15+0100\n"
+"POT-Creation-Date: 2024-03-25 22:32+0000\n"
+"PO-Revision-Date: 2024-04-29 21:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: Norwegian Bokmål <nb@li.org>\n"
 "Language: nb\n"
@@ -172,12 +172,12 @@ msgstr "Neste låt"
 #: src/gtk/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Seek backwards in the current song"
-msgstr "Spol fremover"
+msgstr "Spol tilbake"
 
 #: src/gtk/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Seek forward in the current song"
-msgstr "Spol tilbake"
+msgstr "Spol fremover"
 
 #: src/gtk/playback-control.ui:21
 msgid "Play the Previous Song"

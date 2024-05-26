@@ -11,13 +11,9 @@ There are many ways to contribute, from improving the documentation,
 submitting bug reports and feature requests, localizing the user interface, or
 writing code which can be incorporated into Amberol itself.
 
-The issue tracker is meant to be used for actionable issues only. Please,
-don't use the issue tracker for support questions. Feel free to use the
-[GNOME Discourse forum](https://discourse.gnome.org) to ask your questions.
-
 ## How to report bugs
 
-Issues should only be reported [on the project page](https://gitlab.gnome.org/World/Amberol/issues/).
+Issues should only be reported [on the project page](https://github.com/replydev/amberol-fork/issues).
 
 ### Bug reports
 
@@ -97,20 +93,12 @@ as it knows how to download and build all the dependencies necessary.
 
 ### Getting started
 
-You should start by forking the Amberol repository from the GitLab web UI;
-then you can select *Clone Repository* from GNOME Builder and use your
-fork's URL as the repository URL.
-
-GNOME Builder will find all the dependencies and download them for you.
-
-----
-
-If you want to use another development environment, you will need to clone
+You will need to clone
 the repository manually; make sure to have an account on GNOME's GitLab
 instance, and that you have an SSH key associated to that account:
 
 ```sh
-$ git clone git@ssh.gitlab.gnome.org:yourusername/amberol.git
+$ git clone https://github.com/replydev/amberol-fork.git
 $ cd amberol
 ```
 
@@ -144,11 +132,6 @@ $ git switch -C your-branch
 Once you've finished working on the bug fix or feature, push the branch
 to your Git repository and open a new merge request, to let the Amberol
 maintainers review your contribution.
-
-Remember that the Amberol is maintained by volunteers, so it might take a
-little while to get reviews or feedback. Don't be discouraged, and feel
-free to join the `#amberol:gnome.org` channel on Matrix for any issue you
-may find.
 
 ### Coding style
 

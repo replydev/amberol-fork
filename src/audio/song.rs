@@ -319,10 +319,18 @@ impl Song {
     }
 
     pub fn title(&self) -> String {
-        match self.imp().data.borrow().title() {
-            Some(title) => title.to_string(),
-            None => i18n("Unknown title"),
-        }
+        let data_reference = self.imp().data.borrow();
+
+        data_reference
+            .title()
+            .map(|title| title.to_string())
+            .or_else(|| {
+                data_reference
+                    .file()
+                    .basename()
+                    .map(|basename| basename.to_string_lossy().to_string())
+            })
+            .unwrap_or(i18n("Unknown title"))
     }
 
     pub fn album(&self) -> String {

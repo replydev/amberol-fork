@@ -1,0 +1,28 @@
+name: Build
+on:
+  pull_request:
+
+jobs:
+  lints:
+    name: Lints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      # Cache dependencies
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: lint-ci
+      
+      - run: echo -e "" > src/config.rs
+
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
+
+      - name: Run cargo clippy
+        run: cargo clippy -- -D warnings

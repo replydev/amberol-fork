@@ -3,6 +3,9 @@ Amberol
 
 ![Application icon](./data/icons/hicolor/scalable/apps/io.bassi.Amberol.svg)
 
+This is a fork of the [main Amberol](https://gitlab.gnome.org/World/amberol) project which includes some patches to improve user experience.
+All credits to the original creator.
+
 A small and simple sound and music player that is well integrated with GNOME.
 
 Amberol aspires to be as small, unintrusive, and simple as possible. It does

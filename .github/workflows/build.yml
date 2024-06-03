@@ -1,0 +1,39 @@
+name: Build
+on:
+  pull_request:
+
+jobs:
+  lints:
+    name: Lints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      # Cache dependencies
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: lint-ci
+      
+      - run: echo -e "" > src/config.rs
+
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
+
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-46
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: palette.flatpak
+        manifest-path: io.replydev.Amberol.json
+        cache-key: flatpak-builder-${{ github.sha }}
